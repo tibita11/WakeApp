@@ -1,0 +1,615 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A59EEE6A2A216A1200C60128 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE692A216A1200C60128 /* AppDelegate.swift */; };
+		A59EEE6C2A216A1200C60128 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE6B2A216A1200C60128 /* SceneDelegate.swift */; };
+		A59EEE6E2A216A1200C60128 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE6D2A216A1200C60128 /* ViewController.swift */; };
+		A59EEE712A216A1200C60128 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A59EEE6F2A216A1200C60128 /* Main.storyboard */; };
+		A59EEE732A216A1300C60128 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A59EEE722A216A1300C60128 /* Assets.xcassets */; };
+		A59EEE762A216A1300C60128 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A59EEE742A216A1300C60128 /* LaunchScreen.storyboard */; };
+		A59EEE812A216A1300C60128 /* WakeAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE802A216A1300C60128 /* WakeAppTests.swift */; };
+		A59EEE8B2A216A1300C60128 /* WakeAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE8A2A216A1300C60128 /* WakeAppUITests.swift */; };
+		A59EEE8D2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE8C2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A59EEE7D2A216A1300C60128 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A59EEE5E2A216A1200C60128 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A59EEE652A216A1200C60128;
+			remoteInfo = WakeApp;
+		};
+		A59EEE872A216A1300C60128 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A59EEE5E2A216A1200C60128 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A59EEE652A216A1200C60128;
+			remoteInfo = WakeApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A59EEE662A216A1200C60128 /* WakeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WakeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A59EEE692A216A1200C60128 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A59EEE6B2A216A1200C60128 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		A59EEE6D2A216A1200C60128 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A59EEE702A216A1200C60128 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A59EEE722A216A1300C60128 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A59EEE752A216A1300C60128 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A59EEE772A216A1300C60128 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A59EEE7C2A216A1300C60128 /* WakeAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WakeAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A59EEE802A216A1300C60128 /* WakeAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeAppTests.swift; sourceTree = "<group>"; };
+		A59EEE862A216A1300C60128 /* WakeAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WakeAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A59EEE8A2A216A1300C60128 /* WakeAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeAppUITests.swift; sourceTree = "<group>"; };
+		A59EEE8C2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A59EEE632A216A1200C60128 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A59EEE792A216A1300C60128 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A59EEE832A216A1300C60128 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A59EEE5D2A216A1200C60128 = {
+			isa = PBXGroup;
+			children = (
+				A59EEE682A216A1200C60128 /* WakeApp */,
+				A59EEE7F2A216A1300C60128 /* WakeAppTests */,
+				A59EEE892A216A1300C60128 /* WakeAppUITests */,
+				A59EEE672A216A1200C60128 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A59EEE672A216A1200C60128 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A59EEE662A216A1200C60128 /* WakeApp.app */,
+				A59EEE7C2A216A1300C60128 /* WakeAppTests.xctest */,
+				A59EEE862A216A1300C60128 /* WakeAppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A59EEE682A216A1200C60128 /* WakeApp */ = {
+			isa = PBXGroup;
+			children = (
+				A59EEE692A216A1200C60128 /* AppDelegate.swift */,
+				A59EEE6B2A216A1200C60128 /* SceneDelegate.swift */,
+				A59EEE6D2A216A1200C60128 /* ViewController.swift */,
+				A59EEE6F2A216A1200C60128 /* Main.storyboard */,
+				A59EEE722A216A1300C60128 /* Assets.xcassets */,
+				A59EEE742A216A1300C60128 /* LaunchScreen.storyboard */,
+				A59EEE772A216A1300C60128 /* Info.plist */,
+			);
+			path = WakeApp;
+			sourceTree = "<group>";
+		};
+		A59EEE7F2A216A1300C60128 /* WakeAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				A59EEE802A216A1300C60128 /* WakeAppTests.swift */,
+			);
+			path = WakeAppTests;
+			sourceTree = "<group>";
+		};
+		A59EEE892A216A1300C60128 /* WakeAppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				A59EEE8A2A216A1300C60128 /* WakeAppUITests.swift */,
+				A59EEE8C2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift */,
+			);
+			path = WakeAppUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A59EEE652A216A1200C60128 /* WakeApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A59EEE902A216A1300C60128 /* Build configuration list for PBXNativeTarget "WakeApp" */;
+			buildPhases = (
+				A59EEE622A216A1200C60128 /* Sources */,
+				A59EEE632A216A1200C60128 /* Frameworks */,
+				A59EEE642A216A1200C60128 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WakeApp;
+			productName = WakeApp;
+			productReference = A59EEE662A216A1200C60128 /* WakeApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A59EEE7B2A216A1300C60128 /* WakeAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A59EEE932A216A1300C60128 /* Build configuration list for PBXNativeTarget "WakeAppTests" */;
+			buildPhases = (
+				A59EEE782A216A1300C60128 /* Sources */,
+				A59EEE792A216A1300C60128 /* Frameworks */,
+				A59EEE7A2A216A1300C60128 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A59EEE7E2A216A1300C60128 /* PBXTargetDependency */,
+			);
+			name = WakeAppTests;
+			productName = WakeAppTests;
+			productReference = A59EEE7C2A216A1300C60128 /* WakeAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A59EEE852A216A1300C60128 /* WakeAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A59EEE962A216A1300C60128 /* Build configuration list for PBXNativeTarget "WakeAppUITests" */;
+			buildPhases = (
+				A59EEE822A216A1300C60128 /* Sources */,
+				A59EEE832A216A1300C60128 /* Frameworks */,
+				A59EEE842A216A1300C60128 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A59EEE882A216A1300C60128 /* PBXTargetDependency */,
+			);
+			name = WakeAppUITests;
+			productName = WakeAppUITests;
+			productReference = A59EEE862A216A1300C60128 /* WakeAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A59EEE5E2A216A1200C60128 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					A59EEE652A216A1200C60128 = {
+						CreatedOnToolsVersion = 14.3;
+					};
+					A59EEE7B2A216A1300C60128 = {
+						CreatedOnToolsVersion = 14.3;
+						TestTargetID = A59EEE652A216A1200C60128;
+					};
+					A59EEE852A216A1300C60128 = {
+						CreatedOnToolsVersion = 14.3;
+						TestTargetID = A59EEE652A216A1200C60128;
+					};
+				};
+			};
+			buildConfigurationList = A59EEE612A216A1200C60128 /* Build configuration list for PBXProject "WakeApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A59EEE5D2A216A1200C60128;
+			productRefGroup = A59EEE672A216A1200C60128 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A59EEE652A216A1200C60128 /* WakeApp */,
+				A59EEE7B2A216A1300C60128 /* WakeAppTests */,
+				A59EEE852A216A1300C60128 /* WakeAppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A59EEE642A216A1200C60128 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A59EEE762A216A1300C60128 /* LaunchScreen.storyboard in Resources */,
+				A59EEE732A216A1300C60128 /* Assets.xcassets in Resources */,
+				A59EEE712A216A1200C60128 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A59EEE7A2A216A1300C60128 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A59EEE842A216A1300C60128 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A59EEE622A216A1200C60128 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A59EEE6E2A216A1200C60128 /* ViewController.swift in Sources */,
+				A59EEE6A2A216A1200C60128 /* AppDelegate.swift in Sources */,
+				A59EEE6C2A216A1200C60128 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A59EEE782A216A1300C60128 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A59EEE812A216A1300C60128 /* WakeAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A59EEE822A216A1300C60128 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A59EEE8D2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift in Sources */,
+				A59EEE8B2A216A1300C60128 /* WakeAppUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A59EEE7E2A216A1300C60128 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A59EEE652A216A1200C60128 /* WakeApp */;
+			targetProxy = A59EEE7D2A216A1300C60128 /* PBXContainerItemProxy */;
+		};
+		A59EEE882A216A1300C60128 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A59EEE652A216A1200C60128 /* WakeApp */;
+			targetProxy = A59EEE872A216A1300C60128 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A59EEE6F2A216A1200C60128 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A59EEE702A216A1200C60128 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		A59EEE742A216A1300C60128 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A59EEE752A216A1300C60128 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A59EEE8E2A216A1300C60128 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A59EEE8F2A216A1300C60128 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A59EEE912A216A1300C60128 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RYNT79DTV4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WakeApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tibita0811.WakeApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		A59EEE922A216A1300C60128 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RYNT79DTV4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WakeApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tibita0811.WakeApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		A59EEE942A216A1300C60128 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RYNT79DTV4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tibita0811.WakeAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WakeApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WakeApp";
+			};
+			name = Debug;
+		};
+		A59EEE952A216A1300C60128 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RYNT79DTV4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tibita0811.WakeAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WakeApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WakeApp";
+			};
+			name = Release;
+		};
+		A59EEE972A216A1300C60128 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RYNT79DTV4;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tibita0811.WakeAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WakeApp;
+			};
+			name = Debug;
+		};
+		A59EEE982A216A1300C60128 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RYNT79DTV4;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gmail.tibita0811.WakeAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WakeApp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A59EEE612A216A1200C60128 /* Build configuration list for PBXProject "WakeApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A59EEE8E2A216A1300C60128 /* Debug */,
+				A59EEE8F2A216A1300C60128 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A59EEE902A216A1300C60128 /* Build configuration list for PBXNativeTarget "WakeApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A59EEE912A216A1300C60128 /* Debug */,
+				A59EEE922A216A1300C60128 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A59EEE932A216A1300C60128 /* Build configuration list for PBXNativeTarget "WakeAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A59EEE942A216A1300C60128 /* Debug */,
+				A59EEE952A216A1300C60128 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A59EEE962A216A1300C60128 /* Build configuration list for PBXNativeTarget "WakeAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A59EEE972A216A1300C60128 /* Debug */,
+				A59EEE982A216A1300C60128 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A59EEE5E2A216A1200C60128 /* Project object */;
+}
