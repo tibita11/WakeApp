@@ -24,10 +24,22 @@ class NewAccountRegistrationViewController: UIViewController {
             appleRegistrationoButton.layer.cornerRadius = Const.LargeBlueButtonCorner
         }
     }
+    private let viewModel = NewAccountRegistrationViewModel()
+    
+    
+    // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
     }
+    
+    
+    // MARK: - Action
+    
+    @IBAction func tapGoogleRegistrationButton(_ sender: Any) {
+        viewModel.googleSignIn(withPresenting: self)
+    }
+    
 
 }

@@ -7,12 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		51D703187932288746AEAEDE /* Pods_WakeApp_WakeAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0F249E367FA7C50AB45CD73 /* Pods_WakeApp_WakeAppUITests.framework */; };
+		675FC3F0E729F6EE08FF0331 /* Pods_WakeAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CE85A533294DAC88DD51D73 /* Pods_WakeAppTests.framework */; };
+		9FB70C7235AC381C3AF02C11 /* Pods_WakeApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3973B1E69132F0C9E7E4E424 /* Pods_WakeApp.framework */; };
 		A50B9E4E2A2424230051C78C /* NewAccountRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50B9E4C2A2424230051C78C /* NewAccountRegistrationViewController.swift */; };
 		A50B9E4F2A2424230051C78C /* NewAccountRegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A50B9E4D2A2424230051C78C /* NewAccountRegistrationViewController.xib */; };
 		A512D5012A22EFD70034D4D9 /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A512D5002A22EFD70034D4D9 /* MainPageViewController.swift */; };
 		A512D5042A22F0910034D4D9 /* IntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A512D5022A22F0910034D4D9 /* IntroductionViewController.swift */; };
 		A512D5052A22F0910034D4D9 /* IntroductionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A512D5032A22F0910034D4D9 /* IntroductionViewController.xib */; };
 		A512D5082A2391DA0034D4D9 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = A512D5072A2391DA0034D4D9 /* Const.swift */; };
+		A555A76F2A249FF000B09B03 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A555A76E2A249FF000B09B03 /* GoogleService-Info.plist */; };
+		A555A7712A24A20B00B09B03 /* NewAccountRegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555A7702A24A20B00B09B03 /* NewAccountRegistrationViewModel.swift */; };
+		A555A7732A24ECD300B09B03 /* GoogleAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555A7722A24ECD300B09B03 /* GoogleAuthenticator.swift */; };
 		A59EEE6A2A216A1200C60128 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE692A216A1200C60128 /* AppDelegate.swift */; };
 		A59EEE6C2A216A1200C60128 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE6B2A216A1200C60128 /* SceneDelegate.swift */; };
 		A59EEE732A216A1300C60128 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A59EEE722A216A1300C60128 /* Assets.xcassets */; };
@@ -42,12 +48,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0682733A6EB724E1F50C4E35 /* Pods-WakeApp-WakeAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WakeApp-WakeAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-WakeApp-WakeAppUITests/Pods-WakeApp-WakeAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		19A428935FECE9E1423C2B30 /* Pods-WakeAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WakeAppTests.debug.xcconfig"; path = "Target Support Files/Pods-WakeAppTests/Pods-WakeAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		1CE85A533294DAC88DD51D73 /* Pods_WakeAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WakeAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3973B1E69132F0C9E7E4E424 /* Pods_WakeApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WakeApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E2CCC5A3A517023F6F8F367 /* Pods-WakeApp-WakeAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WakeApp-WakeAppUITests.release.xcconfig"; path = "Target Support Files/Pods-WakeApp-WakeAppUITests/Pods-WakeApp-WakeAppUITests.release.xcconfig"; sourceTree = "<group>"; };
+		87622F421D99924B61D747F5 /* Pods-WakeApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WakeApp.release.xcconfig"; path = "Target Support Files/Pods-WakeApp/Pods-WakeApp.release.xcconfig"; sourceTree = "<group>"; };
+		A37F142BA6A0EFBDDA29BA44 /* Pods-WakeAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WakeAppTests.release.xcconfig"; path = "Target Support Files/Pods-WakeAppTests/Pods-WakeAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		A50B9E4C2A2424230051C78C /* NewAccountRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAccountRegistrationViewController.swift; sourceTree = "<group>"; };
 		A50B9E4D2A2424230051C78C /* NewAccountRegistrationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewAccountRegistrationViewController.xib; sourceTree = "<group>"; };
 		A512D5002A22EFD70034D4D9 /* MainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
 		A512D5022A22F0910034D4D9 /* IntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewController.swift; sourceTree = "<group>"; };
 		A512D5032A22F0910034D4D9 /* IntroductionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IntroductionViewController.xib; sourceTree = "<group>"; };
 		A512D5072A2391DA0034D4D9 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
+		A555A76E2A249FF000B09B03 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A555A7702A24A20B00B09B03 /* NewAccountRegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAccountRegistrationViewModel.swift; sourceTree = "<group>"; };
+		A555A7722A24ECD300B09B03 /* GoogleAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthenticator.swift; sourceTree = "<group>"; };
 		A59EEE662A216A1200C60128 /* WakeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WakeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A59EEE692A216A1200C60128 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A59EEE6B2A216A1200C60128 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +77,8 @@
 		A59EEE8C2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		A59EEE9E2A21867000C60128 /* StartingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingViewController.swift; sourceTree = "<group>"; };
 		A59EEE9F2A21867000C60128 /* StartingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartingViewController.xib; sourceTree = "<group>"; };
+		C0F249E367FA7C50AB45CD73 /* Pods_WakeApp_WakeAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WakeApp_WakeAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F088D3925853C70B8AD02063 /* Pods-WakeApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WakeApp.debug.xcconfig"; path = "Target Support Files/Pods-WakeApp/Pods-WakeApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FB70C7235AC381C3AF02C11 /* Pods_WakeApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				675FC3F0E729F6EE08FF0331 /* Pods_WakeAppTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,12 +102,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51D703187932288746AEAEDE /* Pods_WakeApp_WakeAppUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		117FB9A632A5ACC9C9C6A82E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3973B1E69132F0C9E7E4E424 /* Pods_WakeApp.framework */,
+				C0F249E367FA7C50AB45CD73 /* Pods_WakeApp_WakeAppUITests.framework */,
+				1CE85A533294DAC88DD51D73 /* Pods_WakeAppTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		16EB89C2A6CC2F3B2087A2E1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F088D3925853C70B8AD02063 /* Pods-WakeApp.debug.xcconfig */,
+				87622F421D99924B61D747F5 /* Pods-WakeApp.release.xcconfig */,
+				0682733A6EB724E1F50C4E35 /* Pods-WakeApp-WakeAppUITests.debug.xcconfig */,
+				6E2CCC5A3A517023F6F8F367 /* Pods-WakeApp-WakeAppUITests.release.xcconfig */,
+				19A428935FECE9E1423C2B30 /* Pods-WakeAppTests.debug.xcconfig */,
+				A37F142BA6A0EFBDDA29BA44 /* Pods-WakeAppTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		A512D5062A2391B60034D4D9 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +147,8 @@
 				A59EEE7F2A216A1300C60128 /* WakeAppTests */,
 				A59EEE892A216A1300C60128 /* WakeAppUITests */,
 				A59EEE672A216A1200C60128 /* Products */,
+				16EB89C2A6CC2F3B2087A2E1 /* Pods */,
+				117FB9A632A5ACC9C9C6A82E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -125,6 +171,7 @@
 				A59EEE722A216A1300C60128 /* Assets.xcassets */,
 				A59EEE742A216A1300C60128 /* LaunchScreen.storyboard */,
 				A59EEE772A216A1300C60128 /* Info.plist */,
+				A555A76E2A249FF000B09B03 /* GoogleService-Info.plist */,
 			);
 			path = WakeApp;
 			sourceTree = "<group>";
@@ -168,6 +215,7 @@
 		A59EEE9B2A21863100C60128 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A555A7722A24ECD300B09B03 /* GoogleAuthenticator.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -175,6 +223,7 @@
 		A59EEE9C2A21864900C60128 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				A555A7702A24A20B00B09B03 /* NewAccountRegistrationViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -200,9 +249,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A59EEE902A216A1300C60128 /* Build configuration list for PBXNativeTarget "WakeApp" */;
 			buildPhases = (
+				514CD5416430AA07E457E6E4 /* [CP] Check Pods Manifest.lock */,
 				A59EEE622A216A1200C60128 /* Sources */,
 				A59EEE632A216A1200C60128 /* Frameworks */,
 				A59EEE642A216A1200C60128 /* Resources */,
+				EA9084CD9BE7F0046D9386A9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -217,6 +268,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A59EEE932A216A1300C60128 /* Build configuration list for PBXNativeTarget "WakeAppTests" */;
 			buildPhases = (
+				0CF225A22ACFAF84042DB36B /* [CP] Check Pods Manifest.lock */,
 				A59EEE782A216A1300C60128 /* Sources */,
 				A59EEE792A216A1300C60128 /* Frameworks */,
 				A59EEE7A2A216A1300C60128 /* Resources */,
@@ -235,9 +287,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A59EEE962A216A1300C60128 /* Build configuration list for PBXNativeTarget "WakeAppUITests" */;
 			buildPhases = (
+				D5AB7EA1BDD317B77120C080 /* [CP] Check Pods Manifest.lock */,
 				A59EEE822A216A1300C60128 /* Sources */,
 				A59EEE832A216A1300C60128 /* Frameworks */,
 				A59EEE842A216A1300C60128 /* Resources */,
+				C23094D4AA30B090C9422A2C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -297,6 +351,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A555A76F2A249FF000B09B03 /* GoogleService-Info.plist in Resources */,
 				A59EEE762A216A1300C60128 /* LaunchScreen.storyboard in Resources */,
 				A59EEE732A216A1300C60128 /* Assets.xcassets in Resources */,
 				A50B9E4F2A2424230051C78C /* NewAccountRegistrationViewController.xib in Resources */,
@@ -321,6 +376,109 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0CF225A22ACFAF84042DB36B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WakeAppTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		514CD5416430AA07E457E6E4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WakeApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C23094D4AA30B090C9422A2C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WakeApp-WakeAppUITests/Pods-WakeApp-WakeAppUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WakeApp-WakeAppUITests/Pods-WakeApp-WakeAppUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WakeApp-WakeAppUITests/Pods-WakeApp-WakeAppUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D5AB7EA1BDD317B77120C080 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WakeApp-WakeAppUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EA9084CD9BE7F0046D9386A9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WakeApp/Pods-WakeApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WakeApp/Pods-WakeApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WakeApp/Pods-WakeApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A59EEE622A216A1200C60128 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -331,7 +489,9 @@
 				A59EEEA02A21867000C60128 /* StartingViewController.swift in Sources */,
 				A512D5012A22EFD70034D4D9 /* MainPageViewController.swift in Sources */,
 				A59EEE6C2A216A1200C60128 /* SceneDelegate.swift in Sources */,
+				A555A7732A24ECD300B09B03 /* GoogleAuthenticator.swift in Sources */,
 				A50B9E4E2A2424230051C78C /* NewAccountRegistrationViewController.swift in Sources */,
+				A555A7712A24A20B00B09B03 /* NewAccountRegistrationViewModel.swift in Sources */,
 				A512D5082A2391DA0034D4D9 /* Const.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -496,6 +656,7 @@
 		};
 		A59EEE912A216A1300C60128 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F088D3925853C70B8AD02063 /* Pods-WakeApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -527,6 +688,7 @@
 		};
 		A59EEE922A216A1300C60128 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87622F421D99924B61D747F5 /* Pods-WakeApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -558,6 +720,7 @@
 		};
 		A59EEE942A216A1300C60128 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 19A428935FECE9E1423C2B30 /* Pods-WakeAppTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -578,6 +741,7 @@
 		};
 		A59EEE952A216A1300C60128 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A37F142BA6A0EFBDDA29BA44 /* Pods-WakeAppTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -598,6 +762,7 @@
 		};
 		A59EEE972A216A1300C60128 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0682733A6EB724E1F50C4E35 /* Pods-WakeApp-WakeAppUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -616,6 +781,7 @@
 		};
 		A59EEE982A216A1300C60128 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E2CCC5A3A517023F6F8F367 /* Pods-WakeApp-WakeAppUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

@@ -34,3 +34,5 @@ DerivedData/
 # fastlane/Preview.html
 # fastlane/screenshots/**/*.png
 # fastlane/test_output
+
+WakeApp/GoogleService-Info.plist

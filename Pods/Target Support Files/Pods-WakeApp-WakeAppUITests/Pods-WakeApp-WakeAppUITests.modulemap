@@ -1,0 +1,6 @@
+framework module Pods_WakeApp_WakeAppUITests {
+  umbrella header "Pods-WakeApp-WakeAppUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -121,6 +121,9 @@
                                             <state key="normal" title="Googleで登録">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
+                                            <connections>
+                                                <action selector="tapGoogleRegistrationButton:" destination="-1" eventType="touchUpInside" id="7yy-nb-5ov"/>
+                                            </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EZP-6P-83q">
                                             <rect key="frame" x="15" y="182.33333333333331" width="280" height="48"/>
