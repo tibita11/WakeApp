@@ -44,4 +44,11 @@ class StartingViewController: UIViewController {
         mainPageVC.didMove(toParent: self)
     }
     
+    @IBAction func tapNewRegistrationButton(_ sender: Any) {
+        // 登録画面へ遷移
+        let newAccoutRegistrationVC = NewAccountRegistrationViewController()
+        self.navigationController?.pushViewController(newAccoutRegistrationVC, animated: true)
+    }
+    
+    
 }

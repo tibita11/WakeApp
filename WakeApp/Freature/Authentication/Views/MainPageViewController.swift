@@ -47,7 +47,7 @@ class MainPageViewController: UIPageViewController {
     
     /// UIPageControlの設定
     func setUpPageControl() {
-        pageControl = UIPageControl(frame: CGRect(x: 0, y: self.view.bounds.height - 100, width: self.view.bounds.width, height: 100))
+        pageControl = UIPageControl(frame: CGRect(x: 0, y: self.view.bounds.height - 50, width: self.view.bounds.width, height: 50))
         pageControl.numberOfPages = controllers.count
         pageControl.pageIndicatorTintColor = .systemGray6
         pageControl.currentPageIndicatorTintColor = Const.mainBlueColor

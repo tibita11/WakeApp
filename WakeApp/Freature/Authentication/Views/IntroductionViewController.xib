@@ -22,13 +22,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="blA-M3-hET">
-                    <rect key="frame" x="0.0" y="59" width="393" height="207"/>
+                    <rect key="frame" x="0.0" y="59" width="393" height="257"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="z4Z-Yg-wXT">
-                            <rect key="frame" x="96.666666666666686" y="0.0" width="200" height="157"/>
+                            <rect key="frame" x="96.666666666666686" y="0.0" width="200" height="207"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cWL-nF-P6Q">
-                            <rect key="frame" x="171.66666666666666" y="187" width="50" height="20"/>
+                            <rect key="frame" x="171.66666666666666" y="237" width="50" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="N58-d8-90O"/>
                             </constraints>
@@ -42,7 +42,7 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="blA-M3-hET" secondAttribute="bottom" constant="100" id="0rT-ik-q71"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="blA-M3-hET" secondAttribute="bottom" constant="50" id="0rT-ik-q71"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="blA-M3-hET" secondAttribute="trailing" id="6Kq-3L-793"/>
                 <constraint firstItem="blA-M3-hET" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Fr2-p3-RY2"/>
                 <constraint firstItem="blA-M3-hET" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="NwT-uS-JTy"/>

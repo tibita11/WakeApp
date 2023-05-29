@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A50B9E4E2A2424230051C78C /* NewAccountRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50B9E4C2A2424230051C78C /* NewAccountRegistrationViewController.swift */; };
+		A50B9E4F2A2424230051C78C /* NewAccountRegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A50B9E4D2A2424230051C78C /* NewAccountRegistrationViewController.xib */; };
 		A512D5012A22EFD70034D4D9 /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A512D5002A22EFD70034D4D9 /* MainPageViewController.swift */; };
 		A512D5042A22F0910034D4D9 /* IntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A512D5022A22F0910034D4D9 /* IntroductionViewController.swift */; };
 		A512D5052A22F0910034D4D9 /* IntroductionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A512D5032A22F0910034D4D9 /* IntroductionViewController.xib */; };
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A50B9E4C2A2424230051C78C /* NewAccountRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAccountRegistrationViewController.swift; sourceTree = "<group>"; };
+		A50B9E4D2A2424230051C78C /* NewAccountRegistrationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewAccountRegistrationViewController.xib; sourceTree = "<group>"; };
 		A512D5002A22EFD70034D4D9 /* MainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
 		A512D5022A22F0910034D4D9 /* IntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewController.swift; sourceTree = "<group>"; };
 		A512D5032A22F0910034D4D9 /* IntroductionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IntroductionViewController.xib; sourceTree = "<group>"; };
@@ -183,6 +187,8 @@
 				A512D5002A22EFD70034D4D9 /* MainPageViewController.swift */,
 				A512D5022A22F0910034D4D9 /* IntroductionViewController.swift */,
 				A512D5032A22F0910034D4D9 /* IntroductionViewController.xib */,
+				A50B9E4C2A2424230051C78C /* NewAccountRegistrationViewController.swift */,
+				A50B9E4D2A2424230051C78C /* NewAccountRegistrationViewController.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -293,6 +299,7 @@
 			files = (
 				A59EEE762A216A1300C60128 /* LaunchScreen.storyboard in Resources */,
 				A59EEE732A216A1300C60128 /* Assets.xcassets in Resources */,
+				A50B9E4F2A2424230051C78C /* NewAccountRegistrationViewController.xib in Resources */,
 				A59EEEA12A21867000C60128 /* StartingViewController.xib in Resources */,
 				A512D5052A22F0910034D4D9 /* IntroductionViewController.xib in Resources */,
 			);
@@ -324,6 +331,7 @@
 				A59EEEA02A21867000C60128 /* StartingViewController.swift in Sources */,
 				A512D5012A22EFD70034D4D9 /* MainPageViewController.swift in Sources */,
 				A59EEE6C2A216A1200C60128 /* SceneDelegate.swift in Sources */,
+				A50B9E4E2A2424230051C78C /* NewAccountRegistrationViewController.swift in Sources */,
 				A512D5082A2391DA0034D4D9 /* Const.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
