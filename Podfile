@@ -7,6 +7,8 @@ target 'WakeApp' do
   
   pod 'FirebaseAuth'
   pod 'GoogleSignIn'
+  pod 'RxSwift'
+  pod 'RxCocoa'
 
   # Pods for WakeApp
 

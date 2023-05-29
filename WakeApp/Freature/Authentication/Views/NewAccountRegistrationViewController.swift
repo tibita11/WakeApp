@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class NewAccountRegistrationViewController: UIViewController {
 
@@ -25,13 +27,15 @@ class NewAccountRegistrationViewController: UIViewController {
         }
     }
     private let viewModel = NewAccountRegistrationViewModel()
+    private let disposeBag = DisposeBag()
     
     
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        setUp()
     }
     
     
@@ -41,5 +45,13 @@ class NewAccountRegistrationViewController: UIViewController {
         viewModel.googleSignIn(withPresenting: self)
     }
     
+    private func setUp() {
+        // エラーアラート表示
+        viewModel.output.errorAlertDriver
+            .drive(onNext: { [weak self] alert in
+                self?.present(alert, animated: true)
+            })
+            .disposed(by: disposeBag)
+    }
 
 }

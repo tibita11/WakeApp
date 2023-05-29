@@ -40,10 +40,18 @@ PODS:
     - GTMSessionFetcher/Core (< 4.0, >= 1.5)
   - GTMSessionFetcher/Core (3.1.0)
   - PromisesObjC (2.1.1)
+  - RxCocoa (6.5.0):
+    - RxRelay (= 6.5.0)
+    - RxSwift (= 6.5.0)
+  - RxRelay (6.5.0):
+    - RxSwift (= 6.5.0)
+  - RxSwift (6.5.0)
 
 DEPENDENCIES:
   - FirebaseAuth
   - GoogleSignIn
+  - RxCocoa
+  - RxSwift
 
 SPEC REPOS:
   trunk:
@@ -56,6 +64,9 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - PromisesObjC
+    - RxCocoa
+    - RxRelay
+    - RxSwift
 
 SPEC CHECKSUMS:
   AppAuth: e48b432bb4ba88b10cb2bcc50d7f3af21e78b9c2
@@ -67,7 +78,10 @@ SPEC CHECKSUMS:
   GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
   GTMSessionFetcher: c9e714f7eec91a55641e2bab9f45fd83a219b882
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
+  RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
+  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
 
-PODFILE CHECKSUM: f7a560f7e68f3fb6bf1f9ab987c5f59347bc81e9
+PODFILE CHECKSUM: 5c38d5b45653cc7cbe06e5faf77bb807d8eb0fbb
 
 COCOAPODS: 1.11.3
