@@ -36,3 +36,10 @@ DerivedData/
 # fastlane/test_output
 
 WakeApp/GoogleService-Info.plist
+firebase.json
+firestore-debug.log
+firestore.indexes.json
+firestore.rules
+storage.rules
+ui-debug.log
+.firebaserc

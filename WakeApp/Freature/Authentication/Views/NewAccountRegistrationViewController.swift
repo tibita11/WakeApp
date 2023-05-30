@@ -45,6 +45,11 @@ class NewAccountRegistrationViewController: UIViewController {
         viewModel.googleSignIn(withPresenting: self)
     }
     
+    @IBAction func tapAppleRegistrationButton(_ sender: Any) {
+        viewModel.appleSignIn(withPresenting: self)
+    }
+    
+    
     private func setUp() {
         // エラーアラート表示
         viewModel.output.errorAlertDriver
