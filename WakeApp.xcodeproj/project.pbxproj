@@ -29,6 +29,7 @@
 		A59EEE8D2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE8C2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift */; };
 		A59EEEA02A21867000C60128 /* StartingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE9E2A21867000C60128 /* StartingViewController.swift */; };
 		A59EEEA12A21867000C60128 /* StartingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A59EEE9F2A21867000C60128 /* StartingViewController.xib */; };
+		A5E839F42A2721B8002D21FA /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E839F32A2721B8002D21FA /* Validation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		A59EEE8C2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		A59EEE9E2A21867000C60128 /* StartingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingViewController.swift; sourceTree = "<group>"; };
 		A59EEE9F2A21867000C60128 /* StartingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartingViewController.xib; sourceTree = "<group>"; };
+		A5E839F32A2721B8002D21FA /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		C0F249E367FA7C50AB45CD73 /* Pods_WakeApp_WakeAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WakeApp_WakeAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F088D3925853C70B8AD02063 /* Pods-WakeApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WakeApp.debug.xcconfig"; path = "Target Support Files/Pods-WakeApp/Pods-WakeApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -221,6 +223,7 @@
 			children = (
 				A555A7722A24ECD300B09B03 /* GoogleAuthenticator.swift */,
 				A57213802A25E4DA001E5F81 /* AppleAuthenticator.swift */,
+				A5E839F32A2721B8002D21FA /* Validation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -491,6 +494,7 @@
 			files = (
 				A59EEE6A2A216A1200C60128 /* AppDelegate.swift in Sources */,
 				A512D5042A22F0910034D4D9 /* IntroductionViewController.swift in Sources */,
+				A5E839F42A2721B8002D21FA /* Validation.swift in Sources */,
 				A59EEEA02A21867000C60128 /* StartingViewController.swift in Sources */,
 				A512D5012A22EFD70034D4D9 /* MainPageViewController.swift in Sources */,
 				A59EEE6C2A216A1200C60128 /* SceneDelegate.swift in Sources */,

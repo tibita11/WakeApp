@@ -28,6 +28,10 @@ class NewAccountRegistrationViewController: UIViewController {
             appleRegistrationButton.layer.cornerRadius = Const.LargeBlueButtonCorner
         }
     }
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var emailValidationLabel: UILabel!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var passwordValidationLabel: UILabel!
     private let viewModel = NewAccountRegistrationViewModel()
     private let disposeBag = DisposeBag()
     /// サインアップボタンとセットするアイコンを紐付け
@@ -60,10 +64,31 @@ class NewAccountRegistrationViewController: UIViewController {
     
     private func setUp() {
         setUpButtonIcon()
+        // viewModel設定
+        let input = NewAccountRegistrationViewModelInput(emailTextFieldObserver: emailTextField.rx.text.asObservable(),
+                                                         passwordTextFieldObserver: passwordTextField.rx.text.asObservable())
+        viewModel.setUp(input: input)
         // エラーアラート表示
         viewModel.output.errorAlertDriver
             .drive(onNext: { [weak self] alert in
                 self?.present(alert, animated: true)
+            })
+            .disposed(by: disposeBag)
+        // テキストとバインド
+        viewModel.output.emailValidationDriver
+            .skip(2)
+            .drive(emailValidationLabel.rx.text)
+            .disposed(by: disposeBag)
+        // テキストとバインド
+        viewModel.output.passwordValidationDriver
+            .skip(2)
+            .drive(passwordValidationLabel.rx.text)
+            .disposed(by: disposeBag)
+        // 登録ボタンの色、状態を変更する
+        viewModel.output.newRegistrationButtonDriver
+            .drive(onNext: { [weak self] (bool, color) in
+                self?.newRegistrationButton.isEnabled = bool
+                self?.newRegistrationButton.backgroundColor = color
             })
             .disposed(by: disposeBag)
     }
