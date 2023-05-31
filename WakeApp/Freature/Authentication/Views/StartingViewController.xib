@@ -44,14 +44,14 @@
                             </subviews>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="FgK-IO-jEa">
-                            <rect key="frame" x="26.666666666666657" y="100" width="280" height="433"/>
+                            <rect key="frame" x="26.666666666666657" y="100" width="280" height="441"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zPT-FW-eJm">
-                                    <rect key="frame" x="20" y="0.0" width="240" height="153"/>
+                                    <rect key="frame" x="20" y="0.0" width="240" height="161"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9fG-bt-jbs">
-                                    <rect key="frame" x="0.0" y="153" width="280" height="280"/>
+                                    <rect key="frame" x="0.0" y="161" width="280" height="280"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="280" id="mbs-81-rZD"/>
@@ -61,14 +61,14 @@
                             </subviews>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="CBx-Sf-dof">
-                            <rect key="frame" x="26.666666666666657" y="563" width="280" height="116"/>
+                            <rect key="frame" x="26.666666666666657" y="571" width="280" height="108"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wtC-sl-IYc">
-                                    <rect key="frame" x="0.0" y="0.0" width="280" height="48"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="280" height="44"/>
                                     <color key="backgroundColor" red="0.074509803921568626" green="0.18431372549019609" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="280" id="Upm-Vv-xcq"/>
-                                        <constraint firstAttribute="height" constant="48" id="jmD-hD-JqN"/>
+                                        <constraint firstAttribute="height" constant="44" id="jmD-hD-JqN"/>
                                     </constraints>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal" title="新規登録">
@@ -79,11 +79,11 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VDa-H0-Ifv">
-                                    <rect key="frame" x="0.0" y="68" width="280" height="48"/>
+                                    <rect key="frame" x="0.0" y="64" width="280" height="44"/>
                                     <color key="backgroundColor" red="0.074509803920000006" green="0.1843137255" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="280" id="0NJ-mV-LFF"/>
-                                        <constraint firstAttribute="height" constant="48" id="GYc-Dh-q2Y"/>
+                                        <constraint firstAttribute="height" constant="44" id="GYc-Dh-q2Y"/>
                                     </constraints>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal" title="ログイン">
