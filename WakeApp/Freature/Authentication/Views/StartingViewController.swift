@@ -14,9 +14,9 @@ class StartingViewController: UIViewController {
             newRegistrationButton.layer.cornerRadius = Const.LargeBlueButtonCorner
         }
     }
-    @IBOutlet weak var roginButton: UIButton! {
+    @IBOutlet weak var signInButton: UIButton! {
         didSet {
-            roginButton.layer.cornerRadius = Const.LargeBlueButtonCorner
+            signInButton.layer.cornerRadius = Const.LargeBlueButtonCorner
         }
     }
     /// StartingPageViewControllerを載せるView
@@ -46,9 +46,16 @@ class StartingViewController: UIViewController {
     
     @IBAction func tapNewRegistrationButton(_ sender: Any) {
         // 登録画面へ遷移
-        let newAccoutRegistrationVC = NewAccountRegistrationViewController()
-        self.navigationController?.pushViewController(newAccoutRegistrationVC, animated: true)
+        let accoutRegistrationVC = AccountRegistrationViewController(status: .newAccount)
+        self.navigationController?.pushViewController(accoutRegistrationVC, animated: true)
     }
+    
+    @IBAction func tapSignInButton(_ sender: Any) {
+        // サインイン画面へ遷移
+        let accoutRegistrationVC = AccountRegistrationViewController(status: .existingAccount)
+        self.navigationController?.pushViewController(accoutRegistrationVC, animated: true)
+    }
+    
     
     
 }

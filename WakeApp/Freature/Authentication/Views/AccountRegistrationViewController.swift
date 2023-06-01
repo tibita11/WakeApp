@@ -9,11 +9,23 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class NewAccountRegistrationViewController: UIViewController {
+class AccountRegistrationViewController: UIViewController {
 
-    @IBOutlet weak var newRegistrationButton: UIButton! {
+    @IBOutlet weak var titleLabel: UILabel! {
         didSet {
-            newRegistrationButton.layer.cornerRadius = Const.LargeBlueButtonCorner
+            titleLabel.text = self.registrationStatus.title
+        }
+    }
+    @IBOutlet weak var registrationButton: UIButton! {
+        didSet {
+            registrationButton.layer.cornerRadius = Const.LargeBlueButtonCorner
+            // 新規とサインインで処理を分ける
+            registrationButton.setTitle(self.registrationStatus.title, for: .normal)
+            if self.registrationStatus == .newAccount {
+                registrationButton.addTarget(self, action: #selector(tapNewRegistrationButton), for: .touchUpInside)
+            } else {
+                registrationButton.addTarget(self, action: #selector(tapSignInButton), for: .touchUpInside)
+            }
         }
     }
     @IBOutlet weak var googleRegistrationButton: UIButton! {
@@ -21,17 +33,29 @@ class NewAccountRegistrationViewController: UIViewController {
             googleRegistrationButton.layer.cornerRadius = Const.LargeBlueButtonCorner
             googleRegistrationButton.layer.borderColor = UIColor.black.cgColor
             googleRegistrationButton.layer.borderWidth = 1.0
+            // 新規とサインインで処理を分ける
+            let title = self.registrationStatus == .newAccount ? "サインアップ" : "サインイン"
+            googleRegistrationButton.setTitle("Googleで\(title)", for: .normal)
         }
     }
     @IBOutlet weak var appleRegistrationButton: UIButton! {
         didSet {
             appleRegistrationButton.layer.cornerRadius = Const.LargeBlueButtonCorner
+            // 新規とサインインで処理を分ける
+            let title = self.registrationStatus == .newAccount ? "サインアップ" : "サインイン"
+            appleRegistrationButton.setTitle("Appleで\(title)", for: .normal)
         }
     }
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var emailValidationLabel: UILabel!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var passwordValidationLabel: UILabel!
+    @IBOutlet weak var agreementStackView: UIStackView! {
+        didSet {
+            // サインインの場合表示しない
+            agreementStackView.isHidden = self.registrationStatus == .existingAccount
+        }
+    }
     private let viewModel = NewAccountRegistrationViewModel()
     private let disposeBag = DisposeBag()
     /// サインアップボタンとセットするアイコンを紐付け
@@ -46,9 +70,20 @@ class NewAccountRegistrationViewController: UIViewController {
         let loadingView = LoadingView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
         return loadingView
     }()
+    /// 新規とサインインで処理を分けるため、値を保持する
+    private let registrationStatus: RegistrationStatus
     
     
     // MARK: - View Life Cycle
+    
+    init(status: RegistrationStatus) {
+        self.registrationStatus = status
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,11 +94,15 @@ class NewAccountRegistrationViewController: UIViewController {
     
     // MARK: - Action
     
-    @IBAction func tapNewRegistrationButton(_ sender: Any) {
+    @objc func tapNewRegistrationButton() {
         guard let email = emailTextField.text, let password = passwordTextField.text else {
             return
         }
         viewModel.createUser(email: email, password: password)
+    }
+    
+    @objc func tapSignInButton() {
+        print("サインインタップ")
     }
     
     @IBAction func tapGoogleRegistrationButton(_ sender: Any) {
@@ -99,8 +138,8 @@ class NewAccountRegistrationViewController: UIViewController {
         // 登録ボタンの色、状態を変更する
         viewModel.output.newRegistrationButtonDriver
             .drive(onNext: { [weak self] (bool, color) in
-                self?.newRegistrationButton.isEnabled = bool
-                self?.newRegistrationButton.backgroundColor = color
+                self?.registrationButton.isEnabled = bool
+                self?.registrationButton.backgroundColor = color
             })
             .disposed(by: disposeBag)
         // 遷移処理を実行する
@@ -147,4 +186,21 @@ class NewAccountRegistrationViewController: UIViewController {
         view.endEditing(true)
     }
 
+}
+
+
+// MARK: - RegistrationStatus
+
+enum RegistrationStatus {
+    case newAccount
+    case existingAccount
+    
+    var title: String {
+        switch self {
+        case .newAccount:
+            return "新規登録"
+        case .existingAccount:
+            return "サインイン"
+        }
+    }
 }

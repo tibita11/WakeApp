@@ -13,7 +13,7 @@
             <connections>
                 <outlet property="baseView" destination="9fG-bt-jbs" id="QUa-kI-5an"/>
                 <outlet property="newRegistrationButton" destination="wtC-sl-IYc" id="PM1-qX-zTV"/>
-                <outlet property="roginButton" destination="VDa-H0-Ifv" id="m3v-6f-N2o"/>
+                <outlet property="signInButton" destination="VDa-H0-Ifv" id="WgR-FZ-OT6"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -86,9 +86,12 @@
                                         <constraint firstAttribute="height" constant="44" id="GYc-Dh-q2Y"/>
                                     </constraints>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                    <state key="normal" title="ログイン">
+                                    <state key="normal" title="サインイン">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </state>
+                                    <connections>
+                                        <action selector="tapSignInButton:" destination="-1" eventType="touchUpInside" id="uyr-ag-OFp"/>
+                                    </connections>
                                 </button>
                             </subviews>
                         </stackView>

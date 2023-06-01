@@ -9,15 +9,17 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewAccountRegistrationViewController" customModule="WakeApp" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AccountRegistrationViewController" customModule="WakeApp" customModuleProvider="target">
             <connections>
+                <outlet property="agreementStackView" destination="jsQ-xz-If8" id="rQo-3b-RbA"/>
                 <outlet property="appleRegistrationButton" destination="hbj-RM-Ebn" id="xNB-bs-LcB"/>
                 <outlet property="emailTextField" destination="8Of-DJ-L5n" id="2Qc-Q1-Gf6"/>
                 <outlet property="emailValidationLabel" destination="nFX-sn-38M" id="mP2-jD-IP3"/>
                 <outlet property="googleRegistrationButton" destination="Bas-mn-oCl" id="9vC-mi-CMW"/>
-                <outlet property="newRegistrationButton" destination="vN2-yF-wHw" id="AwY-rS-1xg"/>
                 <outlet property="passwordTextField" destination="6Xk-Mt-s9E" id="yPx-0r-sey"/>
                 <outlet property="passwordValidationLabel" destination="Deu-uX-lzi" id="UeN-mL-aK0"/>
+                <outlet property="registrationButton" destination="vN2-yF-wHw" id="eD0-Az-4s9"/>
+                <outlet property="titleLabel" destination="whg-XL-wO7" id="MrV-mc-9S8"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -96,9 +98,6 @@
                                             <state key="normal" title="新規登録">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
-                                            <connections>
-                                                <action selector="tapNewRegistrationButton:" destination="-1" eventType="touchUpInside" id="P1U-IT-wf8"/>
-                                            </connections>
                                         </button>
                                     </subviews>
                                 </stackView>

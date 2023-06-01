@@ -10,8 +10,8 @@
 		51D703187932288746AEAEDE /* Pods_WakeApp_WakeAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0F249E367FA7C50AB45CD73 /* Pods_WakeApp_WakeAppUITests.framework */; };
 		675FC3F0E729F6EE08FF0331 /* Pods_WakeAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CE85A533294DAC88DD51D73 /* Pods_WakeAppTests.framework */; };
 		9FB70C7235AC381C3AF02C11 /* Pods_WakeApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3973B1E69132F0C9E7E4E424 /* Pods_WakeApp.framework */; };
-		A50B9E4E2A2424230051C78C /* NewAccountRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50B9E4C2A2424230051C78C /* NewAccountRegistrationViewController.swift */; };
-		A50B9E4F2A2424230051C78C /* NewAccountRegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A50B9E4D2A2424230051C78C /* NewAccountRegistrationViewController.xib */; };
+		A50B9E4E2A2424230051C78C /* AccountRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50B9E4C2A2424230051C78C /* AccountRegistrationViewController.swift */; };
+		A50B9E4F2A2424230051C78C /* AccountRegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A50B9E4D2A2424230051C78C /* AccountRegistrationViewController.xib */; };
 		A512D5012A22EFD70034D4D9 /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A512D5002A22EFD70034D4D9 /* MainPageViewController.swift */; };
 		A512D5042A22F0910034D4D9 /* IntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A512D5022A22F0910034D4D9 /* IntroductionViewController.swift */; };
 		A512D5052A22F0910034D4D9 /* IntroductionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A512D5032A22F0910034D4D9 /* IntroductionViewController.xib */; };
@@ -62,8 +62,8 @@
 		6E2CCC5A3A517023F6F8F367 /* Pods-WakeApp-WakeAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WakeApp-WakeAppUITests.release.xcconfig"; path = "Target Support Files/Pods-WakeApp-WakeAppUITests/Pods-WakeApp-WakeAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		87622F421D99924B61D747F5 /* Pods-WakeApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WakeApp.release.xcconfig"; path = "Target Support Files/Pods-WakeApp/Pods-WakeApp.release.xcconfig"; sourceTree = "<group>"; };
 		A37F142BA6A0EFBDDA29BA44 /* Pods-WakeAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WakeAppTests.release.xcconfig"; path = "Target Support Files/Pods-WakeAppTests/Pods-WakeAppTests.release.xcconfig"; sourceTree = "<group>"; };
-		A50B9E4C2A2424230051C78C /* NewAccountRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAccountRegistrationViewController.swift; sourceTree = "<group>"; };
-		A50B9E4D2A2424230051C78C /* NewAccountRegistrationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewAccountRegistrationViewController.xib; sourceTree = "<group>"; };
+		A50B9E4C2A2424230051C78C /* AccountRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRegistrationViewController.swift; sourceTree = "<group>"; };
+		A50B9E4D2A2424230051C78C /* AccountRegistrationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountRegistrationViewController.xib; sourceTree = "<group>"; };
 		A512D5002A22EFD70034D4D9 /* MainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
 		A512D5022A22F0910034D4D9 /* IntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewController.swift; sourceTree = "<group>"; };
 		A512D5032A22F0910034D4D9 /* IntroductionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IntroductionViewController.xib; sourceTree = "<group>"; };
@@ -255,8 +255,8 @@
 				A512D5002A22EFD70034D4D9 /* MainPageViewController.swift */,
 				A512D5022A22F0910034D4D9 /* IntroductionViewController.swift */,
 				A512D5032A22F0910034D4D9 /* IntroductionViewController.xib */,
-				A50B9E4C2A2424230051C78C /* NewAccountRegistrationViewController.swift */,
-				A50B9E4D2A2424230051C78C /* NewAccountRegistrationViewController.xib */,
+				A50B9E4C2A2424230051C78C /* AccountRegistrationViewController.swift */,
+				A50B9E4D2A2424230051C78C /* AccountRegistrationViewController.xib */,
 				A58BB0CC2A282AEB00C834A3 /* OutgoingEmailViewController.swift */,
 				A58BB0CD2A282AEB00C834A3 /* OutgoingEmailViewController.xib */,
 				A58BB0D22A2839F400C834A3 /* LoadingView.swift */,
@@ -379,7 +379,7 @@
 				A59EEE762A216A1300C60128 /* LaunchScreen.storyboard in Resources */,
 				A59EEE732A216A1300C60128 /* Assets.xcassets in Resources */,
 				A58BB0D12A2839E200C834A3 /* LoadingView.xib in Resources */,
-				A50B9E4F2A2424230051C78C /* NewAccountRegistrationViewController.xib in Resources */,
+				A50B9E4F2A2424230051C78C /* AccountRegistrationViewController.xib in Resources */,
 				A59EEEA12A21867000C60128 /* StartingViewController.xib in Resources */,
 				A512D5052A22F0910034D4D9 /* IntroductionViewController.xib in Resources */,
 			);
@@ -517,7 +517,7 @@
 				A512D5012A22EFD70034D4D9 /* MainPageViewController.swift in Sources */,
 				A59EEE6C2A216A1200C60128 /* SceneDelegate.swift in Sources */,
 				A555A7732A24ECD300B09B03 /* GoogleAuthenticator.swift in Sources */,
-				A50B9E4E2A2424230051C78C /* NewAccountRegistrationViewController.swift in Sources */,
+				A50B9E4E2A2424230051C78C /* AccountRegistrationViewController.swift in Sources */,
 				A58BB0CE2A282AEB00C834A3 /* OutgoingEmailViewController.swift in Sources */,
 				A58BB0D32A2839F400C834A3 /* LoadingView.swift in Sources */,
 				A555A7712A24A20B00B09B03 /* NewAccountRegistrationViewModel.swift in Sources */,
