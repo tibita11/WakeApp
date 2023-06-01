@@ -9,13 +9,14 @@ import UIKit
 import RxSwift
 import RxCocoa
 import AuthenticationServices
+import FirebaseAuth
 
-struct NewAccountRegistrationViewModelInput {
+struct AccountRegistrationViewModelInput {
     let emailTextFieldObserver: Observable<String?>
     let passwordTextFieldObserver: Observable<String?>
 }
 
-protocol NewAccountRegistrationViewModelOutput {
+protocol AccountRegistrationViewModelOutput {
     var errorAlertDriver: Driver<UIAlertController> { get }
     var emailValidationDriver: Driver<String> { get }
     var passwordValidationDriver: Driver<String> { get }
@@ -24,13 +25,13 @@ protocol NewAccountRegistrationViewModelOutput {
     var loadingDriver: Driver<Bool> { get }
 }
 
-protocol NewAccountRegistrationViewModelType {
-    var output: NewAccountRegistrationViewModelOutput! { get }
-    func setUp(input: NewAccountRegistrationViewModelInput)
+protocol AccountRegistrationViewModelType {
+    var output: AccountRegistrationViewModelOutput! { get }
+    func setUp(input: AccountRegistrationViewModelInput)
 }
 
-class NewAccountRegistrationViewModel: NSObject ,NewAccountRegistrationViewModelType {
-    var output: NewAccountRegistrationViewModelOutput! { self }
+class AccountRegistrationViewModel: NSObject ,AccountRegistrationViewModelType {
+    var output: AccountRegistrationViewModelOutput! { self }
     private let errorAlertPublishRelay = PublishRelay<UIAlertController>()
     private lazy var appleAuthenticator: AppleAuthenticator = {
         let appleAuthenticator = AppleAuthenticator()
@@ -45,7 +46,7 @@ class NewAccountRegistrationViewModel: NSObject ,NewAccountRegistrationViewModel
     private let transitionRelay = PublishRelay<UIViewController>()
     private let loadingRelay = PublishRelay<Bool>()
     
-    func setUp(input: NewAccountRegistrationViewModelInput) {
+    func setUp(input: AccountRegistrationViewModelInput) {
         // Emailバリデーションチェック
         input.emailTextFieldObserver
             .subscribe(onNext: { [weak self] email in
@@ -91,10 +92,15 @@ class NewAccountRegistrationViewModel: NSObject ,NewAccountRegistrationViewModel
         Task {
             do {
                 try await GoogleAuthenticator().googleSignIn(withPresenting: withPresenting)
+                // 画面遷移
+                let accountSettingsVC = await AccountSettingsViewController()
+                transitionRelay.accept(accountSettingsVC)
             } catch (let error) {
                 // アラート表示
-                let errorAlert = createErrorAlert(message: error.localizedDescription)
-                errorAlertPublishRelay.accept(errorAlert)
+                await MainActor.run {
+                    let errorAlert = createErrorAlert(message: error.localizedDescription)
+                    errorAlertPublishRelay.accept(errorAlert)
+                }
             }
         }
     }
@@ -118,7 +124,8 @@ class NewAccountRegistrationViewModel: NSObject ,NewAccountRegistrationViewModel
         Task {
             do {
                 loadingRelay.accept(true)
-                try await DataStorage().createUser(email: email, password: password)
+                try await Auth.auth().createUser(withEmail: email, password: password)
+                try await Auth.auth().currentUser?.sendEmailVerification()
                 loadingRelay.accept(false)
                 // 送信画面へ遷移
                 let outgoingEmailVC = await OutgoingEmailViewController()
@@ -126,17 +133,73 @@ class NewAccountRegistrationViewModel: NSObject ,NewAccountRegistrationViewModel
             } catch(let error) {
                 loadingRelay.accept(false)
                 // アラート表示
-                let errorAlert = createErrorAlert(message: error.localizedDescription)
-                errorAlertPublishRelay.accept(errorAlert)
+                await MainActor.run {
+                    let errorAlert = createErrorAlert(message: error.localizedDescription)
+                    errorAlertPublishRelay.accept(errorAlert)
+                }
             }
         }
+    }
+    
+    func signIn(email: String, password: String) {
+        Task {
+            do {
+                let result = try await Auth.auth().signIn(withEmail: email, password: password)
+                if result.user.isEmailVerified {
+                    // 画面遷移
+                    let accountSettingsVC = await AccountSettingsViewController()
+                    transitionRelay.accept(accountSettingsVC)
+                } else {
+                    // 認証メール送信を促すアラートを表示
+                    await MainActor.run {
+                        let alertController = createEmailVerificationAlert(email: email)
+                        errorAlertPublishRelay.accept(alertController)
+                    }
+                }
+            } catch(let error) {
+                // アラート表示
+                await MainActor.run {
+                    let errorAlert = createErrorAlert(message: error.localizedDescription)
+                    errorAlertPublishRelay.accept(errorAlert)
+                }
+            }
+        }
+    }
+    
+    /// メール認証が未完了の場合に表示するアラート
+    /// - Parameter email: サインインに使用したメールアドレス
+    private func createEmailVerificationAlert(email: String) -> UIAlertController {
+        let alertController = UIAlertController(title: nil,
+                                                message: "メール認証が完了していません。\n\(email)に認証メールを送信してよろしいですか？",
+                                                preferredStyle: .alert)
+        let noAction = UIAlertAction(title: "いいえ", style: .cancel)
+        let yesAction = UIAlertAction(title: "送信", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            Task {
+                do {
+                    try await Auth.auth().currentUser?.sendEmailVerification()
+                    // 送信画面へ遷移
+                    let outgoingEmailVC = await OutgoingEmailViewController()
+                    self.transitionRelay.accept(outgoingEmailVC)
+                } catch(let error) {
+                    // アラート表示
+                    await MainActor.run {
+                        let errorAlert = self.createErrorAlert(message: error.localizedDescription)
+                        self.errorAlertPublishRelay.accept(errorAlert)
+                    }
+                }
+            }
+        }
+        alertController.addAction(noAction)
+        alertController.addAction(yesAction)
+        return alertController
     }
 }
 
 
 // MARK: - NewAccountRegistrationViewModelOutput
 
-extension NewAccountRegistrationViewModel: NewAccountRegistrationViewModelOutput {
+extension AccountRegistrationViewModel: AccountRegistrationViewModelOutput {
     var errorAlertDriver: Driver<UIAlertController> {
         errorAlertPublishRelay.asDriver(onErrorDriveWith: .empty())
     }
@@ -166,16 +229,21 @@ extension NewAccountRegistrationViewModel: NewAccountRegistrationViewModelOutput
 
 // MARK: - ASAuthorizationControllerDelegate
 
-extension NewAccountRegistrationViewModel: ASAuthorizationControllerDelegate {
+extension AccountRegistrationViewModel: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         // Appleサインイン実行
         Task {
             do {
                 try await appleAuthenticator.appleSignIn(authorization: authorization)
+                // 画面遷移
+                let accountSettingsVC = await AccountSettingsViewController()
+                transitionRelay.accept(accountSettingsVC)
             } catch (let error) {
                 // アラート表示
-                let errorAlert = createErrorAlert(message: error.localizedDescription)
-                errorAlertPublishRelay.accept(errorAlert)
+                await MainActor.run {
+                    let errorAlert = createErrorAlert(message: error.localizedDescription)
+                    errorAlertPublishRelay.accept(errorAlert)
+                }
             }
         }
     }
@@ -190,7 +258,7 @@ extension NewAccountRegistrationViewModel: ASAuthorizationControllerDelegate {
 
 // MARK: - ASAuthorizationControllerPresentationContextProviding
 
-extension NewAccountRegistrationViewModel: ASAuthorizationControllerPresentationContextProviding {
+extension AccountRegistrationViewModel: ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         // Apple認証画面表示
         return viewController!.view.window!

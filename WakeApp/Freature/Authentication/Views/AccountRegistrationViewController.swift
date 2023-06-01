@@ -56,7 +56,7 @@ class AccountRegistrationViewController: UIViewController {
             agreementStackView.isHidden = self.registrationStatus == .existingAccount
         }
     }
-    private let viewModel = NewAccountRegistrationViewModel()
+    private let viewModel = AccountRegistrationViewModel()
     private let disposeBag = DisposeBag()
     /// サインアップボタンとセットするアイコンを紐付け
     private lazy var iconArray: [(iconName: String, setButton: UIButton)] = {
@@ -102,7 +102,10 @@ class AccountRegistrationViewController: UIViewController {
     }
     
     @objc func tapSignInButton() {
-        print("サインインタップ")
+        guard let email = emailTextField.text, let password = passwordTextField.text else {
+            return
+        }
+        viewModel.signIn(email: email, password: password)
     }
     
     @IBAction func tapGoogleRegistrationButton(_ sender: Any) {
@@ -116,7 +119,7 @@ class AccountRegistrationViewController: UIViewController {
     private func setUp() {
         setUpButtonIcon()
         // viewModel設定
-        let input = NewAccountRegistrationViewModelInput(emailTextFieldObserver: emailTextField.rx.text.asObservable(),
+        let input = AccountRegistrationViewModelInput(emailTextFieldObserver: emailTextField.rx.text.asObservable(),
                                                          passwordTextFieldObserver: passwordTextField.rx.text.asObservable())
         viewModel.setUp(input: input)
         // エラーアラート表示
