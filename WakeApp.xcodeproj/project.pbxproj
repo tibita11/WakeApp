@@ -20,6 +20,11 @@
 		A555A7712A24A20B00B09B03 /* NewAccountRegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555A7702A24A20B00B09B03 /* NewAccountRegistrationViewModel.swift */; };
 		A555A7732A24ECD300B09B03 /* GoogleAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555A7722A24ECD300B09B03 /* GoogleAuthenticator.swift */; };
 		A57213812A25E4DA001E5F81 /* AppleAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57213802A25E4DA001E5F81 /* AppleAuthenticator.swift */; };
+		A58BB0CB2A28225000C834A3 /* DataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58BB0CA2A28225000C834A3 /* DataStorage.swift */; };
+		A58BB0CE2A282AEB00C834A3 /* OutgoingEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58BB0CC2A282AEB00C834A3 /* OutgoingEmailViewController.swift */; };
+		A58BB0CF2A282AEB00C834A3 /* OutgoingEmailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A58BB0CD2A282AEB00C834A3 /* OutgoingEmailViewController.xib */; };
+		A58BB0D12A2839E200C834A3 /* LoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A58BB0D02A2839E200C834A3 /* LoadingView.xib */; };
+		A58BB0D32A2839F400C834A3 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58BB0D22A2839F400C834A3 /* LoadingView.swift */; };
 		A59EEE6A2A216A1200C60128 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE692A216A1200C60128 /* AppDelegate.swift */; };
 		A59EEE6C2A216A1200C60128 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE6B2A216A1200C60128 /* SceneDelegate.swift */; };
 		A59EEE732A216A1300C60128 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A59EEE722A216A1300C60128 /* Assets.xcassets */; };
@@ -68,6 +73,11 @@
 		A555A7722A24ECD300B09B03 /* GoogleAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthenticator.swift; sourceTree = "<group>"; };
 		A572137F2A25DD8E001E5F81 /* WakeApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WakeApp.entitlements; sourceTree = "<group>"; };
 		A57213802A25E4DA001E5F81 /* AppleAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuthenticator.swift; sourceTree = "<group>"; };
+		A58BB0CA2A28225000C834A3 /* DataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorage.swift; sourceTree = "<group>"; };
+		A58BB0CC2A282AEB00C834A3 /* OutgoingEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingEmailViewController.swift; sourceTree = "<group>"; };
+		A58BB0CD2A282AEB00C834A3 /* OutgoingEmailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OutgoingEmailViewController.xib; sourceTree = "<group>"; };
+		A58BB0D02A2839E200C834A3 /* LoadingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingView.xib; sourceTree = "<group>"; };
+		A58BB0D22A2839F400C834A3 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		A59EEE662A216A1200C60128 /* WakeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WakeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A59EEE692A216A1200C60128 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A59EEE6B2A216A1200C60128 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -141,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				A512D5072A2391DA0034D4D9 /* Const.swift */,
+				A58BB0CA2A28225000C834A3 /* DataStorage.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -246,6 +257,10 @@
 				A512D5032A22F0910034D4D9 /* IntroductionViewController.xib */,
 				A50B9E4C2A2424230051C78C /* NewAccountRegistrationViewController.swift */,
 				A50B9E4D2A2424230051C78C /* NewAccountRegistrationViewController.xib */,
+				A58BB0CC2A282AEB00C834A3 /* OutgoingEmailViewController.swift */,
+				A58BB0CD2A282AEB00C834A3 /* OutgoingEmailViewController.xib */,
+				A58BB0D22A2839F400C834A3 /* LoadingView.swift */,
+				A58BB0D02A2839E200C834A3 /* LoadingView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -359,9 +374,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A58BB0CF2A282AEB00C834A3 /* OutgoingEmailViewController.xib in Resources */,
 				A555A76F2A249FF000B09B03 /* GoogleService-Info.plist in Resources */,
 				A59EEE762A216A1300C60128 /* LaunchScreen.storyboard in Resources */,
 				A59EEE732A216A1300C60128 /* Assets.xcassets in Resources */,
+				A58BB0D12A2839E200C834A3 /* LoadingView.xib in Resources */,
 				A50B9E4F2A2424230051C78C /* NewAccountRegistrationViewController.xib in Resources */,
 				A59EEEA12A21867000C60128 /* StartingViewController.xib in Resources */,
 				A512D5052A22F0910034D4D9 /* IntroductionViewController.xib in Resources */,
@@ -495,11 +512,14 @@
 				A59EEE6A2A216A1200C60128 /* AppDelegate.swift in Sources */,
 				A512D5042A22F0910034D4D9 /* IntroductionViewController.swift in Sources */,
 				A5E839F42A2721B8002D21FA /* Validation.swift in Sources */,
+				A58BB0CB2A28225000C834A3 /* DataStorage.swift in Sources */,
 				A59EEEA02A21867000C60128 /* StartingViewController.swift in Sources */,
 				A512D5012A22EFD70034D4D9 /* MainPageViewController.swift in Sources */,
 				A59EEE6C2A216A1200C60128 /* SceneDelegate.swift in Sources */,
 				A555A7732A24ECD300B09B03 /* GoogleAuthenticator.swift in Sources */,
 				A50B9E4E2A2424230051C78C /* NewAccountRegistrationViewController.swift in Sources */,
+				A58BB0CE2A282AEB00C834A3 /* OutgoingEmailViewController.swift in Sources */,
+				A58BB0D32A2839F400C834A3 /* LoadingView.swift in Sources */,
 				A555A7712A24A20B00B09B03 /* NewAccountRegistrationViewModel.swift in Sources */,
 				A57213812A25E4DA001E5F81 /* AppleAuthenticator.swift in Sources */,
 				A512D5082A2391DA0034D4D9 /* Const.swift in Sources */,

@@ -20,6 +20,8 @@ protocol NewAccountRegistrationViewModelOutput {
     var emailValidationDriver: Driver<String> { get }
     var passwordValidationDriver: Driver<String> { get }
     var newRegistrationButtonDriver: Driver<(Bool, UIColor)> { get }
+    var transitionDriver: Driver<UIViewController> { get }
+    var loadingDriver: Driver<Bool> { get }
 }
 
 protocol NewAccountRegistrationViewModelType {
@@ -37,9 +39,11 @@ class NewAccountRegistrationViewModel: NSObject ,NewAccountRegistrationViewModel
     /// Apple認証画面を表示するために必要
     weak var viewController: UIViewController?
     private let disposeBag = DisposeBag()
-    private let emailValidationaBehavior = BehaviorRelay(value: "入力してください。")
-    private let passwordValidationaBehavior = BehaviorRelay(value: "入力してください。")
-    private let newRegistrationButtonPublish = PublishRelay<(Bool, UIColor)>()
+    private let emailValidationRelay = BehaviorRelay(value: "入力してください。")
+    private let passwordValidationRelay = BehaviorRelay(value: "入力してください。")
+    private let newRegistrationButtonRelay = PublishRelay<(Bool, UIColor)>()
+    private let transitionRelay = PublishRelay<UIViewController>()
+    private let loadingRelay = PublishRelay<Bool>()
     
     func setUp(input: NewAccountRegistrationViewModelInput) {
         // Emailバリデーションチェック
@@ -50,9 +54,9 @@ class NewAccountRegistrationViewModel: NSObject ,NewAccountRegistrationViewModel
                 let result = EmailValidator(value: email).validate()
                 switch result {
                 case .valid:
-                    self.emailValidationaBehavior.accept("")
+                    self.emailValidationRelay.accept("")
                 case .invalid(let error):
-                    self.emailValidationaBehavior.accept(error.localizedDescription)
+                    self.emailValidationRelay.accept(error.localizedDescription)
                 }
                 self.checkButtonIsAvailable()
             })
@@ -65,9 +69,9 @@ class NewAccountRegistrationViewModel: NSObject ,NewAccountRegistrationViewModel
                 let result = PasswordValidator(value: password).validate()
                 switch result {
                 case .valid:
-                    self.passwordValidationaBehavior.accept("")
+                    self.passwordValidationRelay.accept("")
                 case .invalid(let error):
-                    self.passwordValidationaBehavior.accept(error.localizedDescription)
+                    self.passwordValidationRelay.accept(error.localizedDescription)
                 }
                 self.checkButtonIsAvailable()
             })
@@ -76,10 +80,10 @@ class NewAccountRegistrationViewModel: NSObject ,NewAccountRegistrationViewModel
     
     /// バリデーションが全てOKの場合にボタンを有効にする
     private func checkButtonIsAvailable() {
-        if emailValidationaBehavior.value == "" && passwordValidationaBehavior.value == "" {
-            newRegistrationButtonPublish.accept((true, Const.mainBlueColor))
+        if emailValidationRelay.value == "" && passwordValidationRelay.value == "" {
+            newRegistrationButtonRelay.accept((true, Const.mainBlueColor))
         } else {
-            newRegistrationButtonPublish.accept((false, UIColor.systemGray2))
+            newRegistrationButtonRelay.accept((false, UIColor.systemGray2))
         }
     }
     
@@ -109,6 +113,24 @@ class NewAccountRegistrationViewModel: NSObject ,NewAccountRegistrationViewModel
         controller.presentationContextProvider = self
         controller.performRequests()
     }
+    
+    func createUser(email: String, password: String) {
+        Task {
+            do {
+                loadingRelay.accept(true)
+                try await DataStorage().createUser(email: email, password: password)
+                loadingRelay.accept(false)
+                // 送信画面へ遷移
+                let outgoingEmailVC = await OutgoingEmailViewController()
+                transitionRelay.accept(outgoingEmailVC)
+            } catch(let error) {
+                loadingRelay.accept(false)
+                // アラート表示
+                let errorAlert = createErrorAlert(message: error.localizedDescription)
+                errorAlertPublishRelay.accept(errorAlert)
+            }
+        }
+    }
 }
 
 
@@ -120,17 +142,24 @@ extension NewAccountRegistrationViewModel: NewAccountRegistrationViewModelOutput
     }
     
     var emailValidationDriver: Driver<String> {
-        emailValidationaBehavior.asDriver(onErrorDriveWith: .empty())
+        emailValidationRelay.asDriver(onErrorDriveWith: .empty())
     }
     
     var passwordValidationDriver: Driver<String> {
-        passwordValidationaBehavior.asDriver(onErrorDriveWith: .empty())
+        passwordValidationRelay.asDriver(onErrorDriveWith: .empty())
     }
     
     var newRegistrationButtonDriver: Driver<(Bool, UIColor)> {
-        newRegistrationButtonPublish.asDriver(onErrorDriveWith: .empty())
+        newRegistrationButtonRelay.asDriver(onErrorDriveWith: .empty())
     }
     
+    var transitionDriver: Driver<UIViewController> {
+        transitionRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var loadingDriver: Driver<Bool> {
+        loadingRelay.asDriver(onErrorJustReturn: false)
+    }
     
 }
 

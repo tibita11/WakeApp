@@ -41,6 +41,11 @@ class NewAccountRegistrationViewController: UIViewController {
         ("GoogleIcon", googleRegistrationButton!)]
         return iconArray
     }()
+    /// ユーザー作成時に表示するView
+    private lazy var loadingView: LoadingView = {
+        let loadingView = LoadingView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
+        return loadingView
+    }()
     
     
     // MARK: - View Life Cycle
@@ -53,6 +58,13 @@ class NewAccountRegistrationViewController: UIViewController {
     
     
     // MARK: - Action
+    
+    @IBAction func tapNewRegistrationButton(_ sender: Any) {
+        guard let email = emailTextField.text, let password = passwordTextField.text else {
+            return
+        }
+        viewModel.createUser(email: email, password: password)
+    }
     
     @IBAction func tapGoogleRegistrationButton(_ sender: Any) {
         viewModel.googleSignIn(withPresenting: self)
@@ -91,6 +103,18 @@ class NewAccountRegistrationViewController: UIViewController {
                 self?.newRegistrationButton.backgroundColor = color
             })
             .disposed(by: disposeBag)
+        // 遷移処理を実行する
+        viewModel.output.transitionDriver
+            .drive(onNext: { [weak self] viewController in
+                self?.navigationController?.pushViewController(viewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+        // ローディング画面表示
+        viewModel.output.loadingDriver
+            .drive(onNext: { [weak self] bool in
+                self?.changeLoading(bool: bool)
+            })
+            .disposed(by: disposeBag)
     }
     
     /// サインアップボタンにアイコンをセットする
@@ -103,6 +127,24 @@ class NewAccountRegistrationViewController: UIViewController {
             imageView.layer.masksToBounds = true
             $0.setButton.addSubview(imageView)
         }
+    }
+    
+    /// ローディング画面の表示非表示を切り替える
+    private func changeLoading(bool: Bool) {
+        if bool {
+            navigationController?.isNavigationBarHidden = true
+            view.endEditing(true)
+            loadingView.indicatorView.startAnimating()
+            view.addSubview(loadingView)
+        } else {
+            navigationController?.isNavigationBarHidden = false
+            loadingView.indicatorView.stopAnimating()
+            loadingView.removeFromSuperview()
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 
 }

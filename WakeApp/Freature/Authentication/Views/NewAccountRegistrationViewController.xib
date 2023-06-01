@@ -96,6 +96,9 @@
                                             <state key="normal" title="新規登録">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
+                                            <connections>
+                                                <action selector="tapNewRegistrationButton:" destination="-1" eventType="touchUpInside" id="P1U-IT-wf8"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                 </stackView>
