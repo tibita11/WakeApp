@@ -125,6 +125,7 @@ class AccountRegistrationViewModel: NSObject ,AccountRegistrationViewModelType {
             do {
                 loadingRelay.accept(true)
                 try await Auth.auth().createUser(withEmail: email, password: password)
+                Auth.auth().languageCode = "ja_JP"
                 try await Auth.auth().currentUser?.sendEmailVerification()
                 loadingRelay.accept(false)
                 // 送信画面へ遷移

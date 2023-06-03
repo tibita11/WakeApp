@@ -43,3 +43,5 @@ firestore.rules
 storage.rules
 ui-debug.log
 .firebaserc
+.firebase/hosting.cHVibGlj.cache
+public/*

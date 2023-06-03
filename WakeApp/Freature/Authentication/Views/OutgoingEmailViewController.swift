@@ -18,11 +18,29 @@ class OutgoingEmailViewController: UIViewController {
             baseView.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
         }
     }
+    @IBOutlet weak var signInButton: UIButton! {
+        didSet {
+            signInButton.layer.cornerRadius = Const.LargeBlueButtonCorner
+        }
+    }
+    
+    
+    // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // NavigationBar非表示
         navigationController?.isNavigationBarHidden = true
+    }
+    
+    
+    // MARK: - Action
+    
+    @IBAction func tapSignInButton(_ sender: Any) {
+        let startingVC = StartingViewController()
+        let accountRegistrationVC = AccountRegistrationViewController(status: .existingAccount)
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.viewControllers = [startingVC, accountRegistrationVC]
     }
     
 }
