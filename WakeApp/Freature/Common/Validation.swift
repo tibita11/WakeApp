@@ -109,3 +109,13 @@ struct PasswordValidator: Validator {
                             LessThen12CharactersValidation(value: value)]
     }
 }
+
+/// UserNameバリデーションチェックに使用する
+struct UserNameValidator: Validator {
+    var validations: [Validation]
+    init(value: String) {
+        // バリデーションチェックを増やしたい場合に追加する
+        self.validations = [EmptyValidation(value: value),
+                            BlankValidation(value: value)]
+    }
+}

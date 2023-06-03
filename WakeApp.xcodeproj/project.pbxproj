@@ -16,6 +16,7 @@
 		A512D5042A22F0910034D4D9 /* IntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A512D5022A22F0910034D4D9 /* IntroductionViewController.swift */; };
 		A512D5052A22F0910034D4D9 /* IntroductionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A512D5032A22F0910034D4D9 /* IntroductionViewController.xib */; };
 		A512D5082A2391DA0034D4D9 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = A512D5072A2391DA0034D4D9 /* Const.swift */; };
+		A53468F52A2AE4F10097A9EB /* AccountSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53468F42A2AE4F10097A9EB /* AccountSettingsViewModel.swift */; };
 		A555A76F2A249FF000B09B03 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A555A76E2A249FF000B09B03 /* GoogleService-Info.plist */; };
 		A555A7712A24A20B00B09B03 /* AccountRegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555A7702A24A20B00B09B03 /* AccountRegistrationViewModel.swift */; };
 		A555A7732A24ECD300B09B03 /* GoogleAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555A7722A24ECD300B09B03 /* GoogleAuthenticator.swift */; };
@@ -70,6 +71,7 @@
 		A512D5022A22F0910034D4D9 /* IntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewController.swift; sourceTree = "<group>"; };
 		A512D5032A22F0910034D4D9 /* IntroductionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IntroductionViewController.xib; sourceTree = "<group>"; };
 		A512D5072A2391DA0034D4D9 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
+		A53468F42A2AE4F10097A9EB /* AccountSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingsViewModel.swift; sourceTree = "<group>"; };
 		A555A76E2A249FF000B09B03 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A555A7702A24A20B00B09B03 /* AccountRegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRegistrationViewModel.swift; sourceTree = "<group>"; };
 		A555A7722A24ECD300B09B03 /* GoogleAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthenticator.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			children = (
 				A512D5072A2391DA0034D4D9 /* Const.swift */,
 				A58BB0CA2A28225000C834A3 /* DataStorage.swift */,
+				A5E839F32A2721B8002D21FA /* Validation.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 		A58BB0DA2A289CDF00C834A3 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				A53468F42A2AE4F10097A9EB /* AccountSettingsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -272,7 +276,6 @@
 			children = (
 				A555A7722A24ECD300B09B03 /* GoogleAuthenticator.swift */,
 				A57213802A25E4DA001E5F81 /* AppleAuthenticator.swift */,
-				A5E839F32A2721B8002D21FA /* Validation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -551,6 +554,7 @@
 				A59EEE6A2A216A1200C60128 /* AppDelegate.swift in Sources */,
 				A512D5042A22F0910034D4D9 /* IntroductionViewController.swift in Sources */,
 				A58BB0DE2A289D7700C834A3 /* AccountSettingsViewController.swift in Sources */,
+				A53468F52A2AE4F10097A9EB /* AccountSettingsViewModel.swift in Sources */,
 				A5E839F42A2721B8002D21FA /* Validation.swift in Sources */,
 				A58BB0CB2A28225000C834A3 /* DataStorage.swift in Sources */,
 				A59EEEA02A21867000C60128 /* StartingViewController.swift in Sources */,
