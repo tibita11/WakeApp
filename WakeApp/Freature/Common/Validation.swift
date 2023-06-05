@@ -46,7 +46,7 @@ enum ValidationError: LocalizedError {
 struct EmptyValidation: Validation {
     var value: String
     func validate() -> ValidationResult {
-        if value.isEmpty {
+        if value.trimmingCharacters(in: .whitespaces).isEmpty {
             return ValidationResult.invalid(ValidationError.emptyError)
         }
         return ValidationResult.valid
@@ -115,7 +115,6 @@ struct UserNameValidator: Validator {
     var validations: [Validation]
     init(value: String) {
         // バリデーションチェックを増やしたい場合に追加する
-        self.validations = [EmptyValidation(value: value),
-                            BlankValidation(value: value)]
+        self.validations = [EmptyValidation(value: value)]
     }
 }
