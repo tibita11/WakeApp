@@ -20,8 +20,15 @@ final class AuthenticationTests: XCTestCase {
 
     func testEmailValidator() {
         XCTContext.runActivity(named: "空欄の場合") { _ in
-            let result = EmailValidator(value: "").validate()
-            XCTAssertFalse(result.isValid)
+            XCTContext.runActivity(named: "値がない場合") { _ in
+                let result = EmailValidator(value: "").validate()
+                XCTAssertFalse(result.isValid)
+            }
+            
+            XCTContext.runActivity(named: "空白だけの場合") { _ in
+                let result = EmailValidator(value: "   ").validate()
+                XCTAssertFalse(result.isValid)
+            }
         }
         
         XCTContext.runActivity(named: "空白の場合") { _ in
@@ -44,8 +51,15 @@ final class AuthenticationTests: XCTestCase {
     
     func testPasswordValidator() {
         XCTContext.runActivity(named: "空欄の場合") { _ in
-            let result = PasswordValidator(value: "").validate()
-            XCTAssertFalse(result.isValid)
+            XCTContext.runActivity(named: "値がない場合") { _ in
+                let result = PasswordValidator(value: "").validate()
+                XCTAssertFalse(result.isValid)
+            }
+            
+            XCTContext.runActivity(named: "空白だけの場合") { _ in
+                let result = PasswordValidator(value: "   ").validate()
+                XCTAssertFalse(result.isValid)
+            }
         }
         
         XCTContext.runActivity(named: "空白の場合") { _ in
@@ -69,6 +83,20 @@ final class AuthenticationTests: XCTestCase {
             XCTAssertTrue(result.isValid)
         }
         
+    }
+    
+    func testUserNameValidator() {
+        XCTContext.runActivity(named: "空欄の場合") { _ in
+            XCTContext.runActivity(named: "値がない場合") { _ in
+                let result = UserNameValidator(value: "").validate()
+                XCTAssertFalse(result.isValid)
+            }
+            
+            XCTContext.runActivity(named: "空白だけの場合") { _ in
+                let result = UserNameValidator(value: "   ").validate()
+                XCTAssertFalse(result.isValid)
+            }
+        }
     }
 
     func testPerformanceExample() throws {
