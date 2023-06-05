@@ -6,8 +6,16 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 class DataStorage {
+    /// コレクション名
+    private let users = "Users"
     
+    /// uidのDocumentが存在しているかを確認する
+    func checkDocument(uid: String) async throws -> Bool {
+        let document = try await Firestore.firestore().collection(users).document(uid).getDocument()
+        return document.exists
+    }
     
 }

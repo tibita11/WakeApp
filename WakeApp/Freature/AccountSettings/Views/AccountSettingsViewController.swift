@@ -41,7 +41,8 @@ class AccountSettingsViewController: UIViewController {
     private func setUp() {
         setUpDatePicker()
         // ViewModel設定
-        let input = AccountSettingsViewModelInput(userNameTextFieldObserver: userNameTextField.rx.text.asObservable(), datePickerObserver: datePicker.rx.controlEvent(.valueChanged).map {[weak self] in self?.datePicker.date })
+        let input = AccountSettingsViewModelInput(userNameTextFieldObserver: userNameTextField.rx.text.asObservable(),
+                                                  datePickerObserver: datePicker.rx.controlEvent(.valueChanged).map {[weak self] in self?.datePicker.date })
         viewModel.setUp(input: input)
         // バリデーション結果を反映
         viewModel.output.userNameValidationDriver

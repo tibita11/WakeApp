@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -18,13 +19,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         
+        var rootVC: UIViewController = StartingViewController()
+        // 遷移先を判別する
+        if let user = Auth.auth().currentUser, user.isEmailVerified {
+            Task {
+                do {
+                    if try await DataStorage().checkDocument(uid: user.uid) {
+                        // ログイン後の画面に遷移
+                        rootVC = RecordViewController()
+                    }
+                } catch(let error) {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.makeKeyAndVisible()
             
-            let startingVC = StartingViewController()
-            let rootViewController = UINavigationController(rootViewController: startingVC)
-            window.rootViewController = rootViewController
+            let navigationController = UINavigationController(rootViewController: rootVC)
+            window.rootViewController = navigationController
             
             self.window = window
         }
