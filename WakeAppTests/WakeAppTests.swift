@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import FirebaseStorage
 @testable import WakeApp
 
 final class AuthenticationTests: XCTestCase {
@@ -106,4 +107,37 @@ final class AuthenticationTests: XCTestCase {
         }
     }
 
+}
+
+
+// MARK: - AccountSettingsTests
+
+final class AccountSettingsTests: XCTestCase {
+    
+    override class func setUp() {
+        Storage.storage().useEmulator(withHost: "localhost", port: 9199)
+        super.setUp()
+    }
+    
+    func testGetDefaultProfileImages_URLを取得できること() { 
+        let expectation = XCTestExpectation(description: "GetImageUrl")
+        // テストデータ
+        let imageRef = Storage.storage().reference().child("Image").child("swift.png")
+        let imageData = UIImage(systemName: "swift")!.pngData()
+        
+        Task {
+            do {
+                // テストデータ保存
+                let metaData = try await imageRef.putDataAsync(imageData!)
+                XCTAssertNotNil(metaData)
+                // URL取得
+                let url = try await DataStorage().getDefaultProfileImages(names: ["swift.png"])
+                XCTAssert(url.count > 0)
+                expectation.fulfill()
+            } catch (let error) {
+                XCTFail(error.localizedDescription)
+            }
+        }
+        wait(for: [expectation], timeout: 30)
+    }
 }
