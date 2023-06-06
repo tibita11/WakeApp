@@ -12,4 +12,6 @@ class Const {
     static let LargeBlueButtonCorner = 20.0
     /// プロフィール画像選択の際に使用する
     static let defaultProfileImageNames = ["diving.png", "icecream.png", "jump.png", "kid.png", "summer.png", "watermelon.png"]
+    /// アイコン画像を取得する際に使用する
+    static let iconImageName = ["appstore.png"]
 }

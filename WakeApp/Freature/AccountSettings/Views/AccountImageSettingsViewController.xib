@@ -12,7 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AccountImageSettingsViewController" customModule="WakeApp" customModuleProvider="target">
             <connections>
                 <outlet property="createButton" destination="w4t-de-svF" id="gLq-YM-PHN"/>
-                <outlet property="imageChangeButton" destination="u3M-7i-xc9" id="mYy-UK-jRa"/>
+                <outlet property="profileImageView" destination="vfP-Yd-5yb" id="Fsj-md-bHs"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outletCollection property="defaultImageViews" destination="eL0-0D-uKh" collectionClass="NSMutableArray" id="mDL-Xf-iHS"/>
                 <outletCollection property="defaultImageViews" destination="BEv-YZ-pjc" collectionClass="NSMutableArray" id="Acx-RD-zor"/>
@@ -36,15 +36,13 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u3M-7i-xc9">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vfP-Yd-5yb">
                             <rect key="frame" x="80" y="68.666666666666657" width="130" height="130"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="130" id="B44-l4-YxJ"/>
-                                <constraint firstAttribute="height" constant="130" id="Mri-46-kNW"/>
+                                <constraint firstAttribute="height" constant="130" id="E1X-JT-hiN"/>
+                                <constraint firstAttribute="width" constant="130" id="i6u-gf-w6l"/>
                             </constraints>
-                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                        </button>
+                        </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="以下の画像からも選択可能です。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3JP-55-dba">
                             <rect key="frame" x="22.333333333333343" y="238.66666666666669" width="245.00000000000003" height="19.333333333333314"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
