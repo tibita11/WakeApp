@@ -7,10 +7,12 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseStorage
 
 class DataStorage {
     /// コレクション名
     private let users = "Users"
+    private let image = "Image"
     
     /// uidのDocumentが存在しているかを確認する
     func checkDocument(uid: String) async throws -> Bool {
@@ -18,4 +20,19 @@ class DataStorage {
         return document.exists
     }
     
+    /// ImageNameからURLを取得する
+    func getDefaultProfileImages(names: [String]) async throws -> [URL] {
+        let imageRef = Storage.storage().reference().child(image)
+        
+        return try await withThrowingTaskGroup(of: URL.self, body: { group in
+            for name in names {
+                group.addTask {
+                    try await imageRef.child(name).downloadURL()
+                }
+            }
+            return try await group.reduce(into: [], { partialResult, url in
+                partialResult.append(url)
+            })
+        })
+    }
 }

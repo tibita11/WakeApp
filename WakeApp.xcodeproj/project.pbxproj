@@ -37,6 +37,7 @@
 		A59EEE8D2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE8C2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift */; };
 		A59EEEA02A21867000C60128 /* StartingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE9E2A21867000C60128 /* StartingViewController.swift */; };
 		A59EEEA12A21867000C60128 /* StartingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A59EEE9F2A21867000C60128 /* StartingViewController.xib */; };
+		A5CFBD9C2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */; };
 		A5E45C822A2D7C5F004EC86B /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E45C802A2D7C5F004EC86B /* RecordViewController.swift */; };
 		A5E45C832A2D7C5F004EC86B /* RecordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5E45C812A2D7C5F004EC86B /* RecordViewController.xib */; };
 		A5E45C862A2DA891004EC86B /* AccountImageSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E45C842A2DA891004EC86B /* AccountImageSettingsViewController.swift */; };
@@ -101,6 +102,7 @@
 		A59EEE8C2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		A59EEE9E2A21867000C60128 /* StartingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingViewController.swift; sourceTree = "<group>"; };
 		A59EEE9F2A21867000C60128 /* StartingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartingViewController.xib; sourceTree = "<group>"; };
+		A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountImageSettingsViewModel.swift; sourceTree = "<group>"; };
 		A5E45C802A2D7C5F004EC86B /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		A5E45C812A2D7C5F004EC86B /* RecordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecordViewController.xib; sourceTree = "<group>"; };
 		A5E45C842A2DA891004EC86B /* AccountImageSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountImageSettingsViewController.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				A53468F42A2AE4F10097A9EB /* AccountSettingsViewModel.swift */,
+				A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -609,6 +612,7 @@
 				A59EEE6C2A216A1200C60128 /* SceneDelegate.swift in Sources */,
 				A5E45C822A2D7C5F004EC86B /* RecordViewController.swift in Sources */,
 				A555A7732A24ECD300B09B03 /* GoogleAuthenticator.swift in Sources */,
+				A5CFBD9C2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift in Sources */,
 				A50B9E4E2A2424230051C78C /* AccountRegistrationViewController.swift in Sources */,
 				A58BB0CE2A282AEB00C834A3 /* OutgoingEmailViewController.swift in Sources */,
 				A58BB0D32A2839F400C834A3 /* LoadingView.swift in Sources */,

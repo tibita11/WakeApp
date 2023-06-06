@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import Kingfisher
+import RxSwift
+import RxCocoa
 
 class AccountImageSettingsViewController: UIViewController {
 
@@ -16,10 +19,10 @@ class AccountImageSettingsViewController: UIViewController {
             imageChangeButton.layer.cornerRadius = imageChangeButton.bounds.width / 2
         }
     }
-    @IBOutlet var defaultImages: [UIButton]! {
+    @IBOutlet var defaultImageViews: [UIImageView]! {
         didSet {
-            for number in 0..<defaultImages.count {
-                defaultImages[number].layer.cornerRadius = defaultImages[number].bounds.width / 2
+            defaultImageViews.forEach {
+                $0.layer.cornerRadius = $0.bounds.width / 2
             }
         }
     }
@@ -28,10 +31,33 @@ class AccountImageSettingsViewController: UIViewController {
             createButton.layer.cornerRadius = Const.LargeBlueButtonCorner
         }
     }
+    private let viewModel = AccountImageSettingsViewModel()
+    private let disposeBag = DisposeBag()
+    
+    
+    // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        setUp()
     }
+    
+    
+    // MARK: - Action
+    private func setUp() {
+        // viewModel設定
+        viewModel.setUpDefaultImage()
+        // デフォルト画像を表示
+        viewModel.output.defaultImageUrlsDriver
+            .drive(onNext: { [weak self] defaultImageUrls in
+                guard let self else { return }
+                for number in 0..<defaultImageUrls.count {
+                    defaultImageViews[number].kf.setImage(with: defaultImageUrls[number])
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
 
 }

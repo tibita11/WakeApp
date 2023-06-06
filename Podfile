@@ -10,6 +10,8 @@ target 'WakeApp' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'FirebaseFirestore'
+  pod 'FirebaseStorage'
+  pod 'Kingfisher'
 
   # Pods for WakeApp
 
