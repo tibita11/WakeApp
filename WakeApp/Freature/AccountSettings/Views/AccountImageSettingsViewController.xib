@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AccountImageSettingsViewController" customModule="WakeApp" customModuleProvider="target">
             <connections>
                 <outlet property="createButton" destination="w4t-de-svF" id="gLq-YM-PHN"/>
+                <outlet property="selectedImageBaseView" destination="kwr-Rf-94K" id="XQP-6I-4vf"/>
                 <outlet property="selectedImageView" destination="vfP-Yd-5yb" id="UM4-Os-6kd"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outletCollection property="defaultImageViews" destination="eL0-0D-uKh" collectionClass="NSMutableArray" id="mDL-Xf-iHS"/>
@@ -42,13 +43,23 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vfP-Yd-5yb">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kwr-Rf-94K">
                             <rect key="frame" x="80" y="68.666666666666657" width="130" height="130"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vfP-Yd-5yb">
+                                    <rect key="frame" x="0.0" y="0.0" width="130" height="130"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="130" id="E1X-JT-hiN"/>
-                                <constraint firstAttribute="width" constant="130" id="i6u-gf-w6l"/>
+                                <constraint firstItem="vfP-Yd-5yb" firstAttribute="top" secondItem="kwr-Rf-94K" secondAttribute="top" id="4jv-22-7N9"/>
+                                <constraint firstAttribute="width" constant="130" id="Ovd-wJ-OKm"/>
+                                <constraint firstItem="vfP-Yd-5yb" firstAttribute="leading" secondItem="kwr-Rf-94K" secondAttribute="leading" id="Vge-qM-eCQ"/>
+                                <constraint firstAttribute="bottom" secondItem="vfP-Yd-5yb" secondAttribute="bottom" id="Zbz-a4-fA0"/>
+                                <constraint firstAttribute="height" constant="130" id="iH0-l0-Spp"/>
+                                <constraint firstAttribute="trailing" secondItem="vfP-Yd-5yb" secondAttribute="trailing" id="uNK-hy-sc6"/>
                             </constraints>
-                        </imageView>
+                        </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="以下の画像からも選択可能です。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3JP-55-dba">
                             <rect key="frame" x="22.333333333333343" y="238.66666666666669" width="245.00000000000003" height="19.333333333333314"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -67,7 +78,7 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eL0-0D-uKh">
                                                     <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EZH-Jc-1mq">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EZH-Jc-1mq">
                                                     <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 </button>

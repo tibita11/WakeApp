@@ -19,6 +19,7 @@ class AccountImageSettingsViewController: UIViewController {
             selectedImageView.layer.cornerRadius = selectedImageView.bounds.width / 2
         }
     }
+    @IBOutlet weak var selectedImageBaseView: UIView!
     @IBOutlet var defaultImageViews: [UIImageView]! {
         didSet {
             defaultImageViews.forEach {
@@ -43,6 +44,7 @@ class AccountImageSettingsViewController: UIViewController {
     }
     private let viewModel = AccountImageSettingsViewModel()
     private let disposeBag = DisposeBag()
+    private let imageChangeButton = UIButton()
     
     
     // MARK: - View Life Cycle
@@ -57,6 +59,7 @@ class AccountImageSettingsViewController: UIViewController {
     // MARK: - Action
     
     private func setUp() {
+        setUpImageChangeButton()
         // デフォルト画像を表示
         viewModel.output.defaultImageUrlsDriver
             .drive(onNext: { [weak self] defaultImageUrls in
@@ -80,6 +83,27 @@ class AccountImageSettingsViewController: UIViewController {
     
     @objc func tapDefaultImageButton(sender: UIButton) {
         viewModel.selectDefaultImage(index: sender.tag)
+    }
+    
+    /// 円形のボタンをselectedImageView上に配置する
+    private func setUpImageChangeButton() {
+        // 対角線の長さ
+        let ImageDiagonal = selectedImageView.bounds.width * 1.41
+        // 頂点から線上までの距離
+        let lineLength = (ImageDiagonal - selectedImageView.bounds.width) / 2
+        // 対角線の長さ
+        let ButtonDiagonal = lineLength * 2
+        // 高さ
+        let height = ButtonDiagonal / 1.41
+        imageChangeButton.frame = CGRect(x: selectedImageView.bounds.width - height,
+                                         y: 0,
+                                         width: height,
+                                         height: height)
+        imageChangeButton.layer.cornerRadius = imageChangeButton.bounds.width / 2
+        imageChangeButton.setImage(UIImage(systemName: "photo.on.rectangle.angled"), for: .normal)
+        imageChangeButton.tintColor = .white
+        imageChangeButton.backgroundColor = Const.mainBlueColor
+        selectedImageBaseView.addSubview(imageChangeButton)
     }
     
 
