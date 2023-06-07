@@ -31,6 +31,16 @@ class AccountImageSettingsViewController: UIViewController {
             createButton.layer.cornerRadius = Const.LargeBlueButtonCorner
         }
     }
+    @IBOutlet var defaultImageButtons: [UIButton]! {
+        didSet {
+            var number = 0
+            defaultImageButtons.forEach {
+                $0.addTarget(self, action: #selector(tapDefaultImageButton), for: .touchUpInside)
+                $0.tag = number
+                number += 1
+            }
+        }
+    }
     private let viewModel = AccountImageSettingsViewModel()
     private let disposeBag = DisposeBag()
     
@@ -66,6 +76,10 @@ class AccountImageSettingsViewController: UIViewController {
         // 画像取得
         viewModel.setUpDefaultImage()
         viewModel.setUpIconImage()
+    }
+    
+    @objc func tapDefaultImageButton(sender: UIButton) {
+
     }
     
 
