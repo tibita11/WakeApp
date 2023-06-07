@@ -12,7 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AccountImageSettingsViewController" customModule="WakeApp" customModuleProvider="target">
             <connections>
                 <outlet property="createButton" destination="w4t-de-svF" id="gLq-YM-PHN"/>
-                <outlet property="profileImageView" destination="vfP-Yd-5yb" id="Fsj-md-bHs"/>
+                <outlet property="selectedImageView" destination="vfP-Yd-5yb" id="UM4-Os-6kd"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outletCollection property="defaultImageViews" destination="eL0-0D-uKh" collectionClass="NSMutableArray" id="mDL-Xf-iHS"/>
                 <outletCollection property="defaultImageViews" destination="Ox5-ne-87O" collectionClass="NSMutableArray" id="fda-Ok-vbo"/>

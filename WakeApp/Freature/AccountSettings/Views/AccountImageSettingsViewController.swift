@@ -12,11 +12,11 @@ import RxCocoa
 
 class AccountImageSettingsViewController: UIViewController {
     
-    @IBOutlet weak var profileImageView: UIImageView! {
+    @IBOutlet weak var selectedImageView: UIImageView! {
         didSet {
-            profileImageView.layer.borderColor = UIColor.systemGray2.cgColor
-            profileImageView.layer.borderWidth = 1.0
-            profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
+            selectedImageView.layer.borderColor = UIColor.systemGray2.cgColor
+            selectedImageView.layer.borderWidth = 1.0
+            selectedImageView.layer.cornerRadius = selectedImageView.bounds.width / 2
         }
     }
     @IBOutlet var defaultImageViews: [UIImageView]! {
@@ -66,20 +66,20 @@ class AccountImageSettingsViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
-        // アイコン画像を表示
-        viewModel.output.iconImageUrlDriver
-            .drive(onNext: { [weak self] iconImageUrl in
+        // 選択した画像を表示
+        viewModel.output.selectedImageUrlDriver
+            .drive(onNext: { [weak self] url in
                 guard let self else { return }
-                profileImageView.kf.setImage(with: iconImageUrl.first)
+                selectedImageView.kf.setImage(with: url)
             })
             .disposed(by: disposeBag)
         // 画像取得
-        viewModel.setUpDefaultImage()
-        viewModel.setUpIconImage()
+        viewModel.setDefaultImage()
+        viewModel.setIconImage()
     }
     
     @objc func tapDefaultImageButton(sender: UIButton) {
-
+        viewModel.selectDefaultImage(index: sender.tag)
     }
     
 

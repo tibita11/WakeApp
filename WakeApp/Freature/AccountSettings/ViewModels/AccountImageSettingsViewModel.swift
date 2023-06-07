@@ -11,7 +11,7 @@ import RxCocoa
 
 protocol AccountImageSettingsViewModelOutput {
     var defaultImageUrlsDriver: Driver<[URL]> { get }
-    var iconImageUrlDriver: Driver<[URL]> { get }
+    var selectedImageUrlDriver: Driver<URL> { get }
 }
 
 protocol AccountImageSettingsViewModelType {
@@ -20,13 +20,21 @@ protocol AccountImageSettingsViewModelType {
 
 class AccountImageSettingsViewModel: AccountImageSettingsViewModelType {
     var output: AccountImageSettingsViewModelOutput! { self }
+    private let dataStorage = DataStorage()
+    private var selectedImageUrl: URL? = nil {
+        didSet {
+            // セットされた場合にUIに反映
+            guard let selectedImageUrl else { return }
+            selectedImageUrlRelay.accept(selectedImageUrl)
+        }
+    }
     private let defaultImageUrlsRelay = BehaviorRelay<[URL]>(value: [])
-    private let iconImageUrlRelay = BehaviorRelay<[URL]>(value: [])
+    private let selectedImageUrlRelay = PublishRelay<URL>()
     
-    func setUpDefaultImage() {
+    func setDefaultImage() {
         Task {
             do {
-                let defaultImageUrls = try await DataStorage().getDefaultProfileImages(names: Const.defaultProfileImageNames)
+                let defaultImageUrls = try await dataStorage.getDefaultProfileImages(names: Const.defaultProfileImageNames)
                 defaultImageUrlsRelay.accept(defaultImageUrls)
             } catch (let error) {
                 print("URL取得失敗: \(error.localizedDescription)")
@@ -34,15 +42,23 @@ class AccountImageSettingsViewModel: AccountImageSettingsViewModelType {
         }
     }
     
-    func setUpIconImage() {
+    /// 選択画像が存在しない場合はアイコンを表示する
+    func setIconImage() {
         Task {
             do {
-                let iconImageUrl = try await DataStorage().getDefaultProfileImages(names: Const.iconImageName)
-                iconImageUrlRelay.accept(iconImageUrl)
+                let iconImageUrl = try await dataStorage.getDefaultProfileImages(names: Const.iconImageName)
+                selectedImageUrl = iconImageUrl.first
             } catch (let error) {
                 print("URL取得失敗: \(error.localizedDescription)")
             }
         }
+    }
+    
+    /// 選択した画像はselectedImageViewに表示される
+    func selectDefaultImage(index: Int) {
+        let urls = defaultImageUrlsRelay.value
+        let url = urls[index]
+        selectedImageUrl = url
     }
     
 }
@@ -55,8 +71,8 @@ extension AccountImageSettingsViewModel: AccountImageSettingsViewModelOutput {
         defaultImageUrlsRelay.asDriver()
     }
     
-    var iconImageUrlDriver: Driver<[URL]> {
-        iconImageUrlRelay.asDriver()
+    var selectedImageUrlDriver: Driver<URL> {
+        selectedImageUrlRelay.asDriver(onErrorDriveWith: .empty())
     }
     
 }
