@@ -119,11 +119,13 @@ final class AccountSettingsTests: XCTestCase {
         super.setUp()
     }
     
-    func testGetDefaultProfileImages_URLを取得できること() { 
+    func testGetDefaultProfileImages_URLを取得できること() {
+        let dataStorage = DataStorage()
         let expectation = XCTestExpectation(description: "GetImageUrl")
         // テストデータ
-        let imageRef = Storage.storage().reference().child("Image").child("swift.png")
-        let imageData = UIImage(systemName: "swift")!.pngData()
+        let imageRef = dataStorage.getDefaultImageFileRef().child("TestImage.png")
+        let imageData = UIImage(named: "TestImage")!.pngData()
+        XCTAssertNotNil(imageData)
         
         Task {
             do {
@@ -131,7 +133,7 @@ final class AccountSettingsTests: XCTestCase {
                 let metaData = try await imageRef.putDataAsync(imageData!)
                 XCTAssertNotNil(metaData)
                 // URL取得
-                let url = try await DataStorage().getDefaultProfileImages(names: ["swift.png"])
+                let url = try await dataStorage.getDefaultProfileImages(names: ["TestImage.png"])
                 XCTAssert(url.count > 0)
                 expectation.fulfill()
             } catch (let error) {

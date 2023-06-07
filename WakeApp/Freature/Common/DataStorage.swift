@@ -20,9 +20,14 @@ class DataStorage {
         return document.exists
     }
     
+    /// デフォルト画像格納場所への参照
+    func getDefaultImageFileRef() -> StorageReference {
+        return Storage.storage().reference().child(image)
+    }
+    
     /// ImageNameからURLを取得する
     func getDefaultProfileImages(names: [String]) async throws -> [URL] {
-        let imageRef = Storage.storage().reference().child(image)
+        let imageRef = getDefaultImageFileRef()
         
         return try await withThrowingTaskGroup(of: URL.self, body: { group in
             for name in names {
