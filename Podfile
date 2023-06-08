@@ -6,11 +6,11 @@ target 'WakeApp' do
   use_frameworks!
   
   pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
+  pod 'FirebaseStorage'
   pod 'GoogleSignIn'
   pod 'RxSwift'
   pod 'RxCocoa'
-  pod 'FirebaseFirestore'
-  pod 'FirebaseStorage'
   pod 'Kingfisher'
   pod 'CropViewController'
 

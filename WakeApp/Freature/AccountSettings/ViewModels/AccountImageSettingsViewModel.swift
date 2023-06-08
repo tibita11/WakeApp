@@ -106,8 +106,13 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
             picker.delegate = self
             presentationRelay.accept(picker)
         }
+        let deleteAction = UIAlertAction(title: "画像を削除", style: .destructive) { [weak self] _ in
+            guard let self else { return }
+            setIconImage()
+        }
         let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel)
         alertController.addAction(albumAction)
+        alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
         return alertController
     }
