@@ -12,6 +12,7 @@ target 'WakeApp' do
   pod 'FirebaseFirestore'
   pod 'FirebaseStorage'
   pod 'Kingfisher'
+  pod 'CropViewController'
 
   # Pods for WakeApp
 

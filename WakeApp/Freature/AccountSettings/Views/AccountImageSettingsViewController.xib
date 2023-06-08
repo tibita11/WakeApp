@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AccountImageSettingsViewController" customModule="WakeApp" customModuleProvider="target">
             <connections>
                 <outlet property="createButton" destination="w4t-de-svF" id="gLq-YM-PHN"/>
+                <outlet property="imageChangeLargeButton" destination="V1D-Vl-Jp1" id="PbF-sN-1C2"/>
                 <outlet property="selectedImageBaseView" destination="kwr-Rf-94K" id="XQP-6I-4vf"/>
                 <outlet property="selectedImageView" destination="vfP-Yd-5yb" id="UM4-Os-6kd"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -49,15 +50,23 @@
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vfP-Yd-5yb">
                                     <rect key="frame" x="0.0" y="0.0" width="130" height="130"/>
                                 </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V1D-Vl-Jp1">
+                                    <rect key="frame" x="0.0" y="0.0" width="130" height="130"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstItem="vfP-Yd-5yb" firstAttribute="top" secondItem="kwr-Rf-94K" secondAttribute="top" id="4jv-22-7N9"/>
                                 <constraint firstAttribute="width" constant="130" id="Ovd-wJ-OKm"/>
                                 <constraint firstItem="vfP-Yd-5yb" firstAttribute="leading" secondItem="kwr-Rf-94K" secondAttribute="leading" id="Vge-qM-eCQ"/>
+                                <constraint firstItem="V1D-Vl-Jp1" firstAttribute="leading" secondItem="kwr-Rf-94K" secondAttribute="leading" id="Vul-Yc-mmN"/>
                                 <constraint firstAttribute="bottom" secondItem="vfP-Yd-5yb" secondAttribute="bottom" id="Zbz-a4-fA0"/>
                                 <constraint firstAttribute="height" constant="130" id="iH0-l0-Spp"/>
+                                <constraint firstAttribute="trailing" secondItem="V1D-Vl-Jp1" secondAttribute="trailing" id="kll-WY-3rT"/>
+                                <constraint firstAttribute="bottom" secondItem="V1D-Vl-Jp1" secondAttribute="bottom" id="nJE-KX-1r6"/>
                                 <constraint firstAttribute="trailing" secondItem="vfP-Yd-5yb" secondAttribute="trailing" id="uNK-hy-sc6"/>
+                                <constraint firstItem="V1D-Vl-Jp1" firstAttribute="top" secondItem="kwr-Rf-94K" secondAttribute="top" id="xIh-sV-MFR"/>
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="以下の画像からも選択可能です。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3JP-55-dba">
