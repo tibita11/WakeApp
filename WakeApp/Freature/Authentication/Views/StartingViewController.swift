@@ -9,18 +9,20 @@ import UIKit
 
 class StartingViewController: UIViewController {
 
-    @IBOutlet weak var newRegistrationButton: UIButton! {
+    @IBOutlet private weak var newRegistrationButton: UIButton! {
         didSet {
+            newRegistrationButton.backgroundColor = Const.mainBlueColor
             newRegistrationButton.layer.cornerRadius = Const.LargeBlueButtonCorner
         }
     }
-    @IBOutlet weak var signInButton: UIButton! {
+    @IBOutlet private weak var signInButton: UIButton! {
         didSet {
+            signInButton.backgroundColor = Const.mainBlueColor
             signInButton.layer.cornerRadius = Const.LargeBlueButtonCorner
         }
     }
-    /// StartingPageViewControllerを載せるView
-    @IBOutlet weak var baseView: UIView!
+    /// 紹介ページをスライドで表示する
+    @IBOutlet private weak var introductionPageViewContainer: UIView!
     
     
     // MARK: - View Life Cycle
@@ -35,23 +37,20 @@ class StartingViewController: UIViewController {
     // MARK: - Action
     
     private func setUp() {
-        // 画面中央にPageViewControllerを配置する
         let mainPageVC = MainPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         addChild(mainPageVC)
-        mainPageVC.view.frame = baseView.bounds
+        mainPageVC.view.frame = introductionPageViewContainer.bounds
         mainPageVC.setUpPageControl()
-        baseView.addSubview(mainPageVC.view)
+        introductionPageViewContainer.addSubview(mainPageVC.view)
         mainPageVC.didMove(toParent: self)
     }
     
     @IBAction func tapNewRegistrationButton(_ sender: Any) {
-        // 登録画面へ遷移
         let accoutRegistrationVC = AccountRegistrationViewController(status: .newAccount)
         self.navigationController?.pushViewController(accoutRegistrationVC, animated: true)
     }
     
     @IBAction func tapSignInButton(_ sender: Any) {
-        // サインイン画面へ遷移
         let accoutRegistrationVC = AccountRegistrationViewController(status: .existingAccount)
         self.navigationController?.pushViewController(accoutRegistrationVC, animated: true)
     }
