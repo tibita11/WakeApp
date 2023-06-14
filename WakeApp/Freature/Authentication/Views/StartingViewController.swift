@@ -39,9 +39,15 @@ class StartingViewController: UIViewController {
     private func setUp() {
         let mainPageVC = MainPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         addChild(mainPageVC)
-        mainPageVC.view.frame = introductionPageViewContainer.bounds
-        mainPageVC.setUpPageControl()
+        mainPageVC.view.translatesAutoresizingMaskIntoConstraints = false
         introductionPageViewContainer.addSubview(mainPageVC.view)
+
+        NSLayoutConstraint.activate([
+            mainPageVC.view.topAnchor.constraint(equalTo: introductionPageViewContainer.topAnchor),
+            mainPageVC.view.leadingAnchor.constraint(equalTo: introductionPageViewContainer.leadingAnchor),
+            mainPageVC.view.trailingAnchor.constraint(equalTo: introductionPageViewContainer.trailingAnchor),
+            mainPageVC.view.bottomAnchor.constraint(equalTo: introductionPageViewContainer.bottomAnchor)
+        ])
         mainPageVC.didMove(toParent: self)
     }
     

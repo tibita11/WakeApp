@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StartingViewController" customModule="WakeApp" customModuleProvider="target">
             <connections>
-                <outlet property="introductionPageViewContainer" destination="9fG-bt-jbs" id="u6C-zm-ute"/>
+                <outlet property="introductionPageViewContainer" destination="Jlz-YX-Zzs" id="usZ-h7-zLi"/>
                 <outlet property="newRegistrationButton" destination="wtC-sl-IYc" id="PM1-qX-zTV"/>
                 <outlet property="signInButton" destination="VDa-H0-Ifv" id="WgR-FZ-OT6"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -43,23 +43,10 @@
                                 </imageView>
                             </subviews>
                         </stackView>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="FgK-IO-jEa">
-                            <rect key="frame" x="26.666666666666657" y="100" width="280" height="441"/>
-                            <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zPT-FW-eJm">
-                                    <rect key="frame" x="20" y="0.0" width="240" height="161"/>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9fG-bt-jbs">
-                                    <rect key="frame" x="0.0" y="161" width="280" height="280"/>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="280" id="mbs-81-rZD"/>
-                                        <constraint firstAttribute="height" constant="280" id="tam-QB-8il"/>
-                                    </constraints>
-                                </view>
-                            </subviews>
-                        </stackView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jlz-YX-Zzs">
+                            <rect key="frame" x="0.0" y="100" width="333" height="441"/>
+                            <color key="backgroundColor" systemColor="systemBlueColor"/>
+                        </view>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="CBx-Sf-dof">
                             <rect key="frame" x="26.666666666666657" y="571" width="280" height="108"/>
                             <subviews>
@@ -96,6 +83,10 @@
                             </subviews>
                         </stackView>
                     </subviews>
+                    <constraints>
+                        <constraint firstItem="Jlz-YX-Zzs" firstAttribute="leading" secondItem="tZe-FA-UJd" secondAttribute="leading" id="0AK-DI-shB"/>
+                        <constraint firstAttribute="trailing" secondItem="Jlz-YX-Zzs" secondAttribute="trailing" id="1yx-Nf-HBE"/>
+                    </constraints>
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
@@ -113,6 +104,9 @@
         <image name="WAKE" width="1024" height="1024"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

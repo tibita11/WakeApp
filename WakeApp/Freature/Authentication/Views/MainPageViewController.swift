@@ -8,8 +8,13 @@
 import UIKit
 
 class MainPageViewController: UIPageViewController {
+    private let pageData: [(imageName: String, title: String)] = [
+        ("StartingPage1", "1. 努力の方向性を定める"),
+        ("StartingPage2", "2. 今やるべきことだけに熱中する"),
+        ("StartingPage3", "3. 達成した目標を経験として積む")
+    ]
     private var controllers = [UIViewController]()
-    private var pageControl: UIPageControl!
+    private var pageControl = UIPageControl()
     
     
     // MARK: - View Life Cycle
@@ -18,41 +23,36 @@ class MainPageViewController: UIPageViewController {
         super.viewDidLoad()
 
         setUpPageViewController()
+        setUpPageControl()
     }
     
     
     // MARK: - Action
     
-    /// PageViewControllerの設定
     private func setUpPageViewController() {
-        for number in 1...3 {
-            var introductionPage: IntroductionPage!
-            switch number {
-            case 1:
-                introductionPage = IntroductionPage.page1
-            case 2:
-                introductionPage = IntroductionPage.page2
-            case 3:
-                introductionPage = IntroductionPage.page3
-            default:
-                break
-            }
-            let introduction = IntroductionViewController(image: UIImage(named: introductionPage.getImageName())!, title: introductionPage.getTitle())
-            controllers.append(introduction)
+        pageData.forEach {
+            let introductionVC = IntroductionViewController(image: UIImage(named: $0.imageName)!, title: $0.title)
+            controllers.append(introductionVC)
         }
         setViewControllers([controllers[0]], direction: .forward, animated: true)
         self.dataSource = self
         self.delegate = self
     }
     
-    /// UIPageControlの設定
     func setUpPageControl() {
-        pageControl = UIPageControl(frame: CGRect(x: 0, y: self.view.bounds.height - 50, width: self.view.bounds.width, height: 50))
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
         pageControl.numberOfPages = controllers.count
         pageControl.pageIndicatorTintColor = .systemGray6
         pageControl.currentPageIndicatorTintColor = Const.mainBlueColor
         pageControl.isUserInteractionEnabled = false
-        self.view.addSubview(pageControl)
+        view.addSubview(pageControl)
+        
+        NSLayoutConstraint.activate([
+            pageControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pageControl.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            pageControl.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
     
 }
@@ -85,37 +85,6 @@ extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewCont
                 return
             }
             pageControl.currentPage = index
-        }
-    }
-}
-
-
-// MARK: - IntroductionPage
-
-enum IntroductionPage {
-    case page1
-    case page2
-    case page3
-    
-    func getTitle() -> String {
-        switch self {
-        case .page1:
-            return "1. 努力の方向性を定める"
-        case .page2:
-            return "2. 今やるべきことだけに熱中する"
-        case .page3:
-            return "3. 達成した目標を経験として積む"
-        }
-    }
-    
-    func getImageName() -> String {
-        switch self {
-        case .page1:
-            return "StartingPage1"
-        case .page2:
-            return "StartingPage2"
-        case .page3:
-            return "StartingPage3"
         }
     }
 }
