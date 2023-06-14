@@ -14,7 +14,6 @@ class MainPageViewController: UIPageViewController {
         ("StartingPage3", "3. 達成した目標を経験として積む")
     ]
     private var controllers = [UIViewController]()
-    private var pageControl = UIPageControl()
     
     
     // MARK: - View Life Cycle
@@ -23,7 +22,8 @@ class MainPageViewController: UIPageViewController {
         super.viewDidLoad()
 
         setUpPageViewController()
-        setUpPageControl()
+        UIPageControl.appearance().pageIndicatorTintColor = .systemGray6
+        UIPageControl.appearance().currentPageIndicatorTintColor = Const.mainBlueColor
     }
     
     
@@ -37,22 +37,6 @@ class MainPageViewController: UIPageViewController {
         setViewControllers([controllers[0]], direction: .forward, animated: true)
         self.dataSource = self
         self.delegate = self
-    }
-    
-    func setUpPageControl() {
-        pageControl.translatesAutoresizingMaskIntoConstraints = false
-        pageControl.numberOfPages = controllers.count
-        pageControl.pageIndicatorTintColor = .systemGray6
-        pageControl.currentPageIndicatorTintColor = Const.mainBlueColor
-        pageControl.isUserInteractionEnabled = false
-        view.addSubview(pageControl)
-        
-        NSLayoutConstraint.activate([
-            pageControl.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            pageControl.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            pageControl.heightAnchor.constraint(equalToConstant: 50)
-        ])
     }
     
 }
@@ -77,14 +61,11 @@ extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewCont
         return nil
     }
     
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        // ページ数を可視化
-        if completed {
-            guard let currentPageVC = pageViewController.viewControllers?.first,
-                  let index = controllers.firstIndex(of: currentPageVC) else {
-                return
-            }
-            pageControl.currentPage = index
-        }
+    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+        controllers.count
+    }
+
+    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+        0
     }
 }
