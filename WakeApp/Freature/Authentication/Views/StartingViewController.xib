@@ -57,6 +57,7 @@
                                         <constraint firstAttribute="width" constant="280" id="Upm-Vv-xcq"/>
                                         <constraint firstAttribute="height" constant="44" id="jmD-hD-JqN"/>
                                     </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal" title="新規登録">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -72,6 +73,7 @@
                                         <constraint firstAttribute="width" constant="280" id="0NJ-mV-LFF"/>
                                         <constraint firstAttribute="height" constant="44" id="GYc-Dh-q2Y"/>
                                     </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal" title="サインイン">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

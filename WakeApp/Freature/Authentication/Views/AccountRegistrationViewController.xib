@@ -13,9 +13,13 @@
             <connections>
                 <outlet property="agreementStackView" destination="jsQ-xz-If8" id="rQo-3b-RbA"/>
                 <outlet property="appleRegistrationButton" destination="hbj-RM-Ebn" id="xNB-bs-LcB"/>
+                <outlet property="appleRegistrationButtonContainerView" destination="sFV-lM-4W2" id="cXv-gR-WD1"/>
+                <outlet property="appleRegistrationButtonLabel" destination="jEC-fm-K7a" id="WAW-Oa-QgV"/>
                 <outlet property="emailTextField" destination="8Of-DJ-L5n" id="2Qc-Q1-Gf6"/>
                 <outlet property="emailValidationLabel" destination="nFX-sn-38M" id="mP2-jD-IP3"/>
                 <outlet property="googleRegistrationButton" destination="Bas-mn-oCl" id="9vC-mi-CMW"/>
+                <outlet property="googleRegistrationButtonContainerView" destination="4xj-bM-r2N" id="fc4-0U-WJx"/>
+                <outlet property="googleRegistrationButtonLabel" destination="A51-tl-xAl" id="iSo-Pc-f2B"/>
                 <outlet property="passwordTextField" destination="6Xk-Mt-s9E" id="yPx-0r-sey"/>
                 <outlet property="passwordValidationLabel" destination="Deu-uX-lzi" id="UeN-mL-aK0"/>
                 <outlet property="registrationButton" destination="vN2-yF-wHw" id="eD0-Az-4s9"/>
@@ -94,6 +98,7 @@
                                                 <constraint firstAttribute="width" constant="280" id="GWx-Kt-l0z"/>
                                                 <constraint firstAttribute="height" constant="44" id="bWO-Qj-rwg"/>
                                             </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                             <state key="normal" title="新規登録">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -104,20 +109,20 @@
                             </subviews>
                         </stackView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jL3-OY-HBq">
-                            <rect key="frame" x="35" y="262.66666666666669" width="240" height="128"/>
+                            <rect key="frame" x="35" y="262.66666666666669" width="240" height="51.666666666666686"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Rfe-bx-0oi">
-                            <rect key="frame" x="0.0" y="390.66666666666674" width="310" height="308.33333333333326"/>
+                            <rect key="frame" x="0.0" y="314.33333333333326" width="310" height="384.66666666666674"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="frO-ke-rDS">
-                                    <rect key="frame" x="0.0" y="0.0" width="310" height="224.33333333333334"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="310" height="300.66666666666669"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="gKX-il-eRh">
-                                            <rect key="frame" x="0.0" y="0.0" width="310" height="76.333333333333329"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="152.66666666666666"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yp0-cF-BrA">
-                                                    <rect key="frame" x="0.0" y="37.333333333333314" width="100" height="1.6666666666666643"/>
+                                                    <rect key="frame" x="0.0" y="75.666666666666686" width="100" height="1.3333333333333286"/>
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1.5" id="YZB-BR-4Aj"/>
@@ -125,7 +130,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="または" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IgW-8w-AIF">
-                                                    <rect key="frame" x="130" y="28.333333333333314" width="50" height="20"/>
+                                                    <rect key="frame" x="130" y="66.333333333333371" width="50" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="8ic-CG-umw"/>
                                                         <constraint firstAttribute="height" constant="20" id="fBR-9e-pDn"/>
@@ -135,7 +140,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RCU-0y-7Rd">
-                                                    <rect key="frame" x="210" y="37.333333333333314" width="100" height="1.6666666666666643"/>
+                                                    <rect key="frame" x="210" y="75.666666666666686" width="100" height="1.3333333333333286"/>
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1.5" id="Jd3-sX-bML"/>
@@ -144,39 +149,96 @@
                                                 </view>
                                             </subviews>
                                         </stackView>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bas-mn-oCl">
-                                            <rect key="frame" x="15" y="106.33333333333331" width="280" height="44"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4xj-bM-r2N">
+                                            <rect key="frame" x="15" y="182.66666666666669" width="280" height="44"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Googleでサインアップ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A51-tl-xAl">
+                                                    <rect key="frame" x="52" y="11.999999999999998" width="176" height="20.333333333333329"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GoogleIcon" translatesAutoresizingMaskIntoConstraints="NO" id="env-Qj-m6f">
+                                                    <rect key="frame" x="5" y="0.0" width="44" height="44"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="env-Qj-m6f" secondAttribute="height" multiplier="1:1" id="gxQ-fa-LIY"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bas-mn-oCl">
+                                                    <rect key="frame" x="0.0" y="0.0" width="280" height="44"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <state key="normal" title="Googleでサインアップ" image="google.png">
+                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
+                                                    <buttonConfiguration key="configuration" style="plain"/>
+                                                    <connections>
+                                                        <action selector="tapGoogleRegistrationButton:" destination="-1" eventType="touchUpInside" id="vSn-Xe-dVk"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="44" id="DwV-LJ-Zl8"/>
-                                                <constraint firstAttribute="width" constant="280" id="KoJ-Ee-Vrm"/>
+                                                <constraint firstAttribute="trailing" secondItem="Bas-mn-oCl" secondAttribute="trailing" id="6fF-J6-4Vm"/>
+                                                <constraint firstAttribute="height" constant="44" id="7BR-Pd-2h8"/>
+                                                <constraint firstItem="A51-tl-xAl" firstAttribute="centerY" secondItem="4xj-bM-r2N" secondAttribute="centerY" id="8pf-ZK-PEG"/>
+                                                <constraint firstItem="env-Qj-m6f" firstAttribute="leading" secondItem="4xj-bM-r2N" secondAttribute="leading" constant="5" id="ImW-Xz-3xH"/>
+                                                <constraint firstAttribute="bottom" secondItem="env-Qj-m6f" secondAttribute="bottom" id="PVU-da-lMK"/>
+                                                <constraint firstItem="env-Qj-m6f" firstAttribute="top" secondItem="4xj-bM-r2N" secondAttribute="top" id="Rwb-y1-lvQ"/>
+                                                <constraint firstItem="A51-tl-xAl" firstAttribute="centerX" secondItem="4xj-bM-r2N" secondAttribute="centerX" id="WlY-dC-aLk"/>
+                                                <constraint firstAttribute="width" constant="280" id="Yh6-42-GdC"/>
+                                                <constraint firstItem="Bas-mn-oCl" firstAttribute="leading" secondItem="4xj-bM-r2N" secondAttribute="leading" id="jab-lo-JVi"/>
+                                                <constraint firstItem="Bas-mn-oCl" firstAttribute="top" secondItem="4xj-bM-r2N" secondAttribute="top" id="rWp-KY-Otf"/>
+                                                <constraint firstAttribute="bottom" secondItem="Bas-mn-oCl" secondAttribute="bottom" id="yZL-Ps-XpD"/>
                                             </constraints>
-                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                            <state key="normal" title="Googleでサインアップ">
-                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="tapGoogleRegistrationButton:" destination="-1" eventType="touchUpInside" id="vSn-Xe-dVk"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hbj-RM-Ebn">
-                                            <rect key="frame" x="15" y="180.33333333333331" width="280" height="44"/>
+                                        </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sFV-lM-4W2">
+                                            <rect key="frame" x="15" y="256.66666666666669" width="280" height="44"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Appleでサインアップ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jEC-fm-K7a">
+                                                    <rect key="frame" x="61.666666666666671" y="12.333333333333369" width="156.33333333333331" height="19.333333333333329"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppleIcon" translatesAutoresizingMaskIntoConstraints="NO" id="C1C-V8-EVv">
+                                                    <rect key="frame" x="5" y="0.0" width="44" height="44"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="C1C-V8-EVv" secondAttribute="height" multiplier="1:1" id="VO3-dP-0kd"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hbj-RM-Ebn">
+                                                    <rect key="frame" x="0.0" y="0.0" width="280" height="44"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <state key="normal" title="Appleでサインアップ">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
+                                                    <buttonConfiguration key="configuration" style="plain"/>
+                                                    <connections>
+                                                        <action selector="tapAppleRegistrationButton:" destination="-1" eventType="touchUpInside" id="cXb-8F-R9U"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="280" id="iYN-RW-AEf"/>
-                                                <constraint firstAttribute="height" constant="44" id="kHE-K2-Cd4"/>
+                                                <constraint firstAttribute="trailing" secondItem="hbj-RM-Ebn" secondAttribute="trailing" id="4BK-Ev-zQJ"/>
+                                                <constraint firstItem="jEC-fm-K7a" firstAttribute="centerX" secondItem="sFV-lM-4W2" secondAttribute="centerX" id="Eww-ph-l0U"/>
+                                                <constraint firstAttribute="bottom" secondItem="C1C-V8-EVv" secondAttribute="bottom" id="H06-eZ-9TV"/>
+                                                <constraint firstAttribute="bottom" secondItem="hbj-RM-Ebn" secondAttribute="bottom" id="IMw-v0-Ypu"/>
+                                                <constraint firstItem="hbj-RM-Ebn" firstAttribute="leading" secondItem="sFV-lM-4W2" secondAttribute="leading" id="J4j-rw-yUu"/>
+                                                <constraint firstAttribute="width" constant="280" id="ORd-wc-If4"/>
+                                                <constraint firstItem="C1C-V8-EVv" firstAttribute="leading" secondItem="sFV-lM-4W2" secondAttribute="leading" constant="5" id="Q8v-dz-9bU"/>
+                                                <constraint firstAttribute="height" constant="44" id="dGz-LR-w1R"/>
+                                                <constraint firstItem="hbj-RM-Ebn" firstAttribute="top" secondItem="sFV-lM-4W2" secondAttribute="top" id="gHD-0j-iMa"/>
+                                                <constraint firstItem="jEC-fm-K7a" firstAttribute="centerY" secondItem="sFV-lM-4W2" secondAttribute="centerY" id="rS8-Pf-NWd"/>
+                                                <constraint firstItem="C1C-V8-EVv" firstAttribute="top" secondItem="sFV-lM-4W2" secondAttribute="top" id="trd-QJ-nYz"/>
                                             </constraints>
-                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                            <state key="normal" title="Appleでサインアップ">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="tapAppleRegistrationButton:" destination="-1" eventType="touchUpInside" id="cXb-8F-R9U"/>
-                                            </connections>
-                                        </button>
+                                        </view>
                                     </subviews>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="jsQ-xz-If8">
-                                    <rect key="frame" x="0.0" y="254.33333333333331" width="310" height="54"/>
+                                    <rect key="frame" x="0.0" y="330.66666666666669" width="310" height="54"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qZP-ne-bg7">
                                             <rect key="frame" x="25.666666666666657" y="0.0" width="258.66666666666674" height="27"/>
@@ -241,6 +303,9 @@
         </view>
     </objects>
     <resources>
+        <image name="AppleIcon" width="31" height="44"/>
+        <image name="GoogleIcon" width="46" height="46"/>
+        <image name="google.png" width="18" height="18"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

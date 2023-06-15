@@ -19,33 +19,46 @@ class AccountRegistrationViewController: UIViewController {
     @IBOutlet weak var registrationButton: UIButton! {
         didSet {
             registrationButton.layer.cornerRadius = Const.LargeBlueButtonCorner
-            // 新規とサインインで処理を分ける
             registrationButton.setTitle(self.registrationStatus.title, for: .normal)
-            if self.registrationStatus == .newAccount {
-                registrationButton.addTarget(self, action: #selector(tapNewRegistrationButton), for: .touchUpInside)
-            } else {
-                registrationButton.addTarget(self, action: #selector(tapSignInButton), for: .touchUpInside)
+            // 新規とサインインで処理を分ける
+            switch registrationStatus {
+            case .newAccount:
+                registrationButton.addTarget(self,
+                                             action: #selector(tapRegistrationButton),
+                                             for: .touchUpInside)
+            case .existingAccount:
+                registrationButton.addTarget(self,
+                                             action: #selector(tapSignInButton),
+                                             for: .touchUpInside)
             }
         }
     }
-    @IBOutlet weak var googleRegistrationButton: UIButton! {
+    @IBOutlet weak var googleRegistrationButtonContainerView: UIView! {
         didSet {
-            googleRegistrationButton.layer.cornerRadius = Const.LargeBlueButtonCorner
-            googleRegistrationButton.layer.borderColor = UIColor.black.cgColor
-            googleRegistrationButton.layer.borderWidth = 1.0
-            // 新規とサインインで処理を分ける
-            let title = self.registrationStatus == .newAccount ? "サインアップ" : "サインイン"
-            googleRegistrationButton.setTitle("Googleで\(title)", for: .normal)
+            googleRegistrationButtonContainerView.layer.cornerRadius = Const.LargeBlueButtonCorner
+            googleRegistrationButtonContainerView.layer.masksToBounds = true
+            googleRegistrationButtonContainerView.layer.borderColor = UIColor.black.cgColor
+            googleRegistrationButtonContainerView.layer.borderWidth = 1.0
         }
     }
-    @IBOutlet weak var appleRegistrationButton: UIButton! {
+    @IBOutlet weak var googleRegistrationButtonLabel: UILabel! {
         didSet {
-            appleRegistrationButton.layer.cornerRadius = Const.LargeBlueButtonCorner
-            // 新規とサインインで処理を分ける
-            let title = self.registrationStatus == .newAccount ? "サインアップ" : "サインイン"
-            appleRegistrationButton.setTitle("Appleで\(title)", for: .normal)
+            googleRegistrationButtonLabel.text = "Googleで\(self.registrationStatus.authenticationButtonTitle)"
         }
     }
+    @IBOutlet weak var appleRegistrationButtonContainerView: UIView! {
+        didSet {
+            appleRegistrationButtonContainerView.layer.cornerRadius = Const.LargeBlueButtonCorner
+            appleRegistrationButtonContainerView.layer.masksToBounds = true
+        }
+    }
+    @IBOutlet weak var appleRegistrationButtonLabel: UILabel! {
+        didSet {
+            appleRegistrationButtonLabel.text = "Appleで\(self.registrationStatus.authenticationButtonTitle)"
+        }
+    }
+    @IBOutlet weak var googleRegistrationButton: UIButton!
+    @IBOutlet weak var appleRegistrationButton: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var emailValidationLabel: UILabel!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -58,14 +71,7 @@ class AccountRegistrationViewController: UIViewController {
     }
     private let viewModel = AccountRegistrationViewModel()
     private let disposeBag = DisposeBag()
-    /// サインアップボタンとセットするアイコンを紐付け
-    private lazy var iconArray: [(iconName: String, setButton: UIButton)] = {
-       let iconArray = [
-        ("AppleIcon", appleRegistrationButton!),
-        ("GoogleIcon", googleRegistrationButton!)]
-        return iconArray
-    }()
-    /// ユーザー作成時に表示するView
+    /// DB処理中に表示する
     private lazy var loadingView: LoadingView = {
         let loadingView = LoadingView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
         return loadingView
@@ -94,7 +100,7 @@ class AccountRegistrationViewController: UIViewController {
     
     // MARK: - Action
     
-    @objc func tapNewRegistrationButton() {
+    @objc func tapRegistrationButton() {
         guard let email = emailTextField.text, let password = passwordTextField.text else {
             return
         }
@@ -117,7 +123,6 @@ class AccountRegistrationViewController: UIViewController {
     }
     
     private func setUp() {
-        setUpButtonIcon()
         // viewModel設定
         let input = AccountRegistrationViewModelInput(emailTextFieldObserver: emailTextField.rx.text.asObservable(),
                                                          passwordTextFieldObserver: passwordTextField.rx.text.asObservable())
@@ -128,12 +133,12 @@ class AccountRegistrationViewController: UIViewController {
                 self?.present(alert, animated: true)
             })
             .disposed(by: disposeBag)
-        // テキストとバインド
+        
         viewModel.output.emailValidationDriver
             .skip(2)
             .drive(emailValidationLabel.rx.text)
             .disposed(by: disposeBag)
-        // テキストとバインド
+        
         viewModel.output.passwordValidationDriver
             .skip(2)
             .drive(passwordValidationLabel.rx.text)
@@ -157,18 +162,6 @@ class AccountRegistrationViewController: UIViewController {
                 self?.changeLoading(bool: bool)
             })
             .disposed(by: disposeBag)
-    }
-    
-    /// サインアップボタンにアイコンをセットする
-    private func setUpButtonIcon() {
-        iconArray.forEach {
-            let image = UIImage(named: $0.iconName)
-            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
-            imageView.image = image
-            imageView.layer.cornerRadius = imageView.bounds.width / 2
-            imageView.layer.masksToBounds = true
-            $0.setButton.addSubview(imageView)
-        }
     }
     
     /// ローディング画面の表示非表示を切り替える
@@ -206,4 +199,14 @@ enum RegistrationStatus {
             return "サインイン"
         }
     }
+    
+    var authenticationButtonTitle: String {
+        switch self {
+        case .newAccount:
+            return "サインアップ"
+        case .existingAccount:
+            return "サインイン"
+        }
+    }
+    
 }
