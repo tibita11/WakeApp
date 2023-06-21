@@ -40,24 +40,28 @@ class AccountSettingsViewController: UIViewController {
     
     private func setUp() {
         setUpDatePicker()
+        
         // ViewModel設定
         let input = AccountSettingsViewModelInput(userNameTextFieldObserver: userNameTextField.rx.text.asObservable(),
-                                                  datePickerObserver: datePicker.rx.controlEvent(.valueChanged).map {[weak self] in self?.datePicker.date })
+                                                  datePickerObserver: datePicker.rx.controlEvent(.valueChanged).map { [weak self] in self?.datePicker.date })
         viewModel.setUp(input: input)
+        
         // バリデーション結果を反映
         viewModel.output.userNameValidationDriver
-            .drive(onNext: { [weak self] error in
+            .drive(userNameValidationLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // ボタンの状態と色をバリデーションから判断
+        viewModel.output.nextButtonDriver
+            .drive(onNext: { [weak self] bool, color in
                 guard let self else { return }
-                let status: (text: String, isEnabled: Bool, color: UIColor) =
-                    error == "" ? ("", true, Const.mainBlueColor) : (error, false, UIColor.systemGray2)
-                userNameValidationLabel.text = status.text
-                // ボタンの状態、色
-                nextButton.isEnabled = status.1
-                nextButton.backgroundColor = status.2
+                nextButton.isEnabled = bool
+                nextButton.backgroundColor = color
             })
             .disposed(by: disposeBag)
+        
         // textに日付を表示
-        viewModel.output.birthdayTextFieldDriver
+        viewModel.output.birthdayTextDriver
             .drive(birthdayTextField.rx.text)
             .disposed(by: disposeBag)
         
@@ -70,9 +74,11 @@ class AccountSettingsViewController: UIViewController {
         let clearButton = UIBarButtonItem(title: "クリア", style: .plain, target: self, action: #selector(tapClearButton))
         toolBar.items = [clearButton, spaceItem, doneButton]
         toolBar.sizeToFit()
+        
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.datePickerMode = .date
         datePicker.locale = Locale(identifier: "ja_JP")
+        
         birthdayTextField.inputView = datePicker
         birthdayTextField.inputAccessoryView = toolBar
     }
