@@ -17,12 +17,14 @@ struct AccountRegistrationViewModelInput {
 }
 
 protocol AccountRegistrationViewModelOutput {
-    var errorAlertDriver: Driver<UIAlertController> { get }
     var emailValidationDriver: Driver<String> { get }
     var passwordValidationDriver: Driver<String> { get }
-    var newRegistrationButtonDriver: Driver<(Bool, UIColor)> { get }
-    var transitionDriver: Driver<UIViewController> { get }
-    var loadingDriver: Driver<Bool> { get }
+    var registrationButtonDriver: Driver<(Bool, UIColor)> { get }
+    var isLoadingDriver: Driver<Bool> { get }
+    var sendCompletedDriver: Driver<Void> { get }
+    var errorMessageDriver: Driver<String> { get }
+    var signInCompletedDriver: Driver<Void> { get }
+    var emailVerificationDriver: Driver<String> { get }
 }
 
 protocol AccountRegistrationViewModelType {
@@ -30,86 +32,67 @@ protocol AccountRegistrationViewModelType {
     func setUp(input: AccountRegistrationViewModelInput)
 }
 
-class AccountRegistrationViewModel: NSObject ,AccountRegistrationViewModelType {
+class AccountRegistrationViewModel: NSObject, AccountRegistrationViewModelType {
     var output: AccountRegistrationViewModelOutput! { self }
-    private let errorAlertPublishRelay = PublishRelay<UIAlertController>()
     private lazy var appleAuthenticator: AppleAuthenticator = {
-        let appleAuthenticator = AppleAuthenticator()
-        return appleAuthenticator
+        return AppleAuthenticator()
     }()
     /// Apple認証画面を表示するために必要
     weak var viewController: UIViewController?
     private let disposeBag = DisposeBag()
-    private let emailValidationRelay = BehaviorRelay(value: "入力してください。")
-    private let passwordValidationRelay = BehaviorRelay(value: "入力してください。")
-    private let newRegistrationButtonRelay = PublishRelay<(Bool, UIColor)>()
-    private let transitionRelay = PublishRelay<UIViewController>()
-    private let loadingRelay = PublishRelay<Bool>()
+    private let emailValidation = PublishRelay<String>()
+    private let passwordValidation = PublishRelay<String>()
+    private let isLoading = PublishRelay<Bool>()
+    private let sendCompleted = PublishRelay<Void>()
+    private let errorMessage = PublishRelay<String>()
+    private let signInCompleted = PublishRelay<Void>()
+    private let emailVerification = PublishRelay<String>()
+    private let dataStorage = DataStorage()
     
     func setUp(input: AccountRegistrationViewModelInput) {
         // Emailバリデーションチェック
         input.emailTextFieldObserver
             .subscribe(onNext: { [weak self] email in
-                guard let email = email, let self = self else { return }
+                guard let email, let self else { return }
                 
-                let result = EmailValidator(value: email).validate()
-                switch result {
+                var validation = ""
+                switch EmailValidator(value: email).validate() {
                 case .valid:
-                    self.emailValidationRelay.accept("")
-                case .invalid(let error):
-                    self.emailValidationRelay.accept(error.localizedDescription)
+                    break
+                case .invalid (let error):
+                    validation = error.localizedDescription
                 }
-                self.checkButtonIsAvailable()
+                self.emailValidation.accept(validation)
             })
             .disposed(by: disposeBag)
+        
         // Passwordバリデーションチェック
         input.passwordTextFieldObserver
-            .subscribe(onNext: { [weak self] password in
-                guard let password = password, let self = self else { return }
+            .subscribe(onNext: { [weak self]  password in
+                guard let password, let self else { return }
                 
-                let result = PasswordValidator(value: password).validate()
-                switch result {
+                var validation = ""
+                switch PasswordValidator(value: password).validate() {
                 case .valid:
-                    self.passwordValidationRelay.accept("")
-                case .invalid(let error):
-                    self.passwordValidationRelay.accept(error.localizedDescription)
+                    break
+                case .invalid (let error):
+                    validation = error.localizedDescription
                 }
-                self.checkButtonIsAvailable()
+                self.passwordValidation.accept(validation)
             })
             .disposed(by: disposeBag)
+        
     }
-    
-    /// バリデーションが全てOKの場合にボタンを有効にする
-    private func checkButtonIsAvailable() {
-        if emailValidationRelay.value == "" && passwordValidationRelay.value == "" {
-            newRegistrationButtonRelay.accept((true, Const.mainBlueColor))
-        } else {
-            newRegistrationButtonRelay.accept((false, UIColor.systemGray2))
-        }
-    }
-    
+
     func googleSignIn(withPresenting: UIViewController) {
         Task {
             do {
                 try await GoogleAuthenticator().googleSignIn(withPresenting: withPresenting)
-                // 画面遷移
-                let accountSettingsVC = await AccountSettingsViewController()
-                transitionRelay.accept(accountSettingsVC)
+                signInCompleted.accept(())
             } catch (let error) {
-                // アラート表示
-                await MainActor.run {
-                    let errorAlert = createErrorAlert(message: error.localizedDescription)
-                    errorAlertPublishRelay.accept(errorAlert)
-                }
+                errorMessage.accept(error.localizedDescription)
             }
         }
-    }
-    
-    private func createErrorAlert(message: String) -> UIAlertController {
-        let controller = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default)
-        controller.addAction(okAction)
-        return controller
     }
     
     func appleSignIn(withPresenting: UIViewController) {
@@ -123,21 +106,14 @@ class AccountRegistrationViewModel: NSObject ,AccountRegistrationViewModelType {
     func createUser(email: String, password: String) {
         Task {
             do {
-                loadingRelay.accept(true)
-                try await Auth.auth().createUser(withEmail: email, password: password)
-                Auth.auth().languageCode = "ja_JP"
-                try await Auth.auth().currentUser?.sendEmailVerification()
-                loadingRelay.accept(false)
-                // 送信画面へ遷移
-                let outgoingEmailVC = await OutgoingEmailViewController()
-                transitionRelay.accept(outgoingEmailVC)
-            } catch(let error) {
-                loadingRelay.accept(false)
-                // アラート表示
-                await MainActor.run {
-                    let errorAlert = createErrorAlert(message: error.localizedDescription)
-                    errorAlertPublishRelay.accept(errorAlert)
-                }
+                isLoading.accept(true)
+                try await Task.sleep(nanoseconds: 1_500_000_000)
+                try await dataStorage.createUser(email: email, password: password)
+                isLoading.accept(false)
+                sendCompleted.accept(())
+            } catch (let error) {
+                isLoading.accept(false)
+                errorMessage.accept(dataStorage.getErrorMessage(error: error))
             }
         }
     }
@@ -145,84 +121,72 @@ class AccountRegistrationViewModel: NSObject ,AccountRegistrationViewModelType {
     func signIn(email: String, password: String) {
         Task {
             do {
-                let result = try await Auth.auth().signIn(withEmail: email, password: password)
-                if result.user.isEmailVerified {
-                    // 画面遷移
-                    let accountSettingsVC = await AccountSettingsViewController()
-                    transitionRelay.accept(accountSettingsVC)
+                if try await dataStorage.signIn(email: email, password: password) {
+                    signInCompleted.accept(())
                 } else {
-                    // 認証メール送信を促すアラートを表示
-                    await MainActor.run {
-                        let alertController = createEmailVerificationAlert(email: email)
-                        errorAlertPublishRelay.accept(alertController)
-                    }
+                    emailVerification.accept(email)
                 }
-            } catch(let error) {
-                // アラート表示
-                await MainActor.run {
-                    let errorAlert = createErrorAlert(message: error.localizedDescription)
-                    errorAlertPublishRelay.accept(errorAlert)
-                }
+            } catch (let error) {
+                errorMessage.accept(dataStorage.getErrorMessage(error: error))
             }
         }
     }
     
-    /// メール認証が未完了の場合に表示するアラート
-    /// - Parameter email: サインインに使用したメールアドレス
-    private func createEmailVerificationAlert(email: String) -> UIAlertController {
-        let alertController = UIAlertController(title: nil,
-                                                message: "メール認証が完了していません。\n\(email)に認証メールを送信してよろしいですか？",
-                                                preferredStyle: .alert)
-        let noAction = UIAlertAction(title: "いいえ", style: .cancel)
-        let yesAction = UIAlertAction(title: "送信", style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            Task {
-                do {
-                    try await Auth.auth().currentUser?.sendEmailVerification()
-                    // 送信画面へ遷移
-                    let outgoingEmailVC = await OutgoingEmailViewController()
-                    self.transitionRelay.accept(outgoingEmailVC)
-                } catch(let error) {
-                    // アラート表示
-                    await MainActor.run {
-                        let errorAlert = self.createErrorAlert(message: error.localizedDescription)
-                        self.errorAlertPublishRelay.accept(errorAlert)
-                    }
-                }
+    func sendEmailVerification() {
+        Task {
+            do {
+                try await dataStorage.sendEmailVerification()
+                sendCompleted.accept(())
+            } catch (let error) {
+                errorMessage.accept(dataStorage.getErrorMessage(error: error))
             }
         }
-        alertController.addAction(noAction)
-        alertController.addAction(yesAction)
-        return alertController
     }
+    
 }
 
 
 // MARK: - NewAccountRegistrationViewModelOutput
 
 extension AccountRegistrationViewModel: AccountRegistrationViewModelOutput {
-    var errorAlertDriver: Driver<UIAlertController> {
-        errorAlertPublishRelay.asDriver(onErrorDriveWith: .empty())
-    }
-    
     var emailValidationDriver: Driver<String> {
-        emailValidationRelay.asDriver(onErrorDriveWith: .empty())
+        emailValidation.asDriver(onErrorDriveWith: .empty())
     }
     
     var passwordValidationDriver: Driver<String> {
-        passwordValidationRelay.asDriver(onErrorDriveWith: .empty())
+        passwordValidation.asDriver(onErrorDriveWith: .empty())
+    }
+
+    var registrationButtonDriver: Driver<(Bool, UIColor)> {
+        return Observable.combineLatest(emailValidation, passwordValidation)
+            .map { emailValidation, passwordValidation in
+                if emailValidation.isEmpty && passwordValidation.isEmpty {
+                    return (true, Const.mainBlueColor)
+                } else {
+                    return (false, UIColor.systemGray2)
+                }
+            }
+            .asDriver(onErrorDriveWith: .empty())
     }
     
-    var newRegistrationButtonDriver: Driver<(Bool, UIColor)> {
-        newRegistrationButtonRelay.asDriver(onErrorDriveWith: .empty())
+    var isLoadingDriver: Driver<Bool> {
+        isLoading.asDriver(onErrorJustReturn: false)
     }
     
-    var transitionDriver: Driver<UIViewController> {
-        transitionRelay.asDriver(onErrorDriveWith: .empty())
+    var sendCompletedDriver: Driver<Void> {
+        sendCompleted.asDriver(onErrorDriveWith: .empty())
     }
     
-    var loadingDriver: Driver<Bool> {
-        loadingRelay.asDriver(onErrorJustReturn: false)
+    var errorMessageDriver: Driver<String> {
+        errorMessage.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var signInCompletedDriver: Driver<Void> {
+        signInCompleted.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var emailVerificationDriver: Driver<String> {
+        emailVerification.asDriver(onErrorDriveWith: .empty())
     }
     
 }
@@ -232,27 +196,18 @@ extension AccountRegistrationViewModel: AccountRegistrationViewModelOutput {
 
 extension AccountRegistrationViewModel: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        // Appleサインイン実行
         Task {
             do {
                 try await appleAuthenticator.appleSignIn(authorization: authorization)
-                // 画面遷移
-                let accountSettingsVC = await AccountSettingsViewController()
-                transitionRelay.accept(accountSettingsVC)
+                signInCompleted.accept(())
             } catch (let error) {
-                // アラート表示
-                await MainActor.run {
-                    let errorAlert = createErrorAlert(message: error.localizedDescription)
-                    errorAlertPublishRelay.accept(errorAlert)
-                }
+                errorMessage.accept(appleAuthenticator.getErrorMessage(error: error))
             }
         }
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        // アラート表示
-        let errorAlert = createErrorAlert(message: error.localizedDescription)
-        errorAlertPublishRelay.accept(errorAlert)
+        errorMessage.accept(appleAuthenticator.getErrorMessage(error: error))
     }
 }
 

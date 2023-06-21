@@ -127,41 +127,66 @@ class AccountRegistrationViewController: UIViewController {
         let input = AccountRegistrationViewModelInput(emailTextFieldObserver: emailTextField.rx.text.asObservable(),
                                                          passwordTextFieldObserver: passwordTextField.rx.text.asObservable())
         viewModel.setUp(input: input)
-        // エラーアラート表示
-        viewModel.output.errorAlertDriver
-            .drive(onNext: { [weak self] alert in
-                self?.present(alert, animated: true)
-            })
-            .disposed(by: disposeBag)
         
+        // Emailバリデーション
         viewModel.output.emailValidationDriver
-            .skip(2)
             .drive(emailValidationLabel.rx.text)
             .disposed(by: disposeBag)
         
+        // Passwordバリデーション
         viewModel.output.passwordValidationDriver
-            .skip(2)
             .drive(passwordValidationLabel.rx.text)
             .disposed(by: disposeBag)
-        // 登録ボタンの色、状態を変更する
-        viewModel.output.newRegistrationButtonDriver
+        
+        // 登録ボタンの色、状態
+        viewModel.output.registrationButtonDriver
             .drive(onNext: { [weak self] (bool, color) in
                 self?.registrationButton.isEnabled = bool
                 self?.registrationButton.backgroundColor = color
             })
             .disposed(by: disposeBag)
-        // 遷移処理を実行する
-        viewModel.output.transitionDriver
-            .drive(onNext: { [weak self] viewController in
-                self?.navigationController?.pushViewController(viewController, animated: true)
+        
+        // 送信完了画面への遷移
+        viewModel.output.sendCompletedDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                let vc = OutgoingEmailViewController()
+                navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
+        
+        // エラーアラート表示
+        viewModel.output.errorMessageDriver
+            .drive(onNext: { [weak self] error in
+                guard let self else { return }
+                present(createErrorAlert(error), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
         // ローディング画面表示
-        viewModel.output.loadingDriver
+        viewModel.output.isLoadingDriver
             .drive(onNext: { [weak self] bool in
                 self?.changeLoading(bool: bool)
             })
             .disposed(by: disposeBag)
+        
+        // アカウント設定画面への遷移
+        viewModel.output.signInCompletedDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                let vc = AccountSettingsViewController()
+                navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        // Email認証アラート表示
+        viewModel.output.emailVerificationDriver
+            .drive(onNext: { [weak self] email in
+                guard let self else { return }
+                present(createEmailVerificatioinAlert(email: email), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     /// ローディング画面の表示非表示を切り替える
@@ -180,6 +205,27 @@ class AccountRegistrationViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
+    }
+    
+    private func createErrorAlert(_ error: String) -> UIAlertController {
+        let controller = UIAlertController(title: error, message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        controller.addAction(okAction)
+        return controller
+    }
+    
+    private func createEmailVerificatioinAlert(email: String) -> UIAlertController {
+        let alertController = UIAlertController(title: nil,
+                                                message: "メール認証が完了していません。\n\(email)に認証メールを送信してよろしいですか？",
+                                                preferredStyle: .alert)
+        let noAction = UIAlertAction(title: "いいえ", style: .cancel)
+        let yesAction = UIAlertAction(title: "送信", style: .default) { [weak self] _ in
+            guard let self else { return }
+            viewModel.sendEmailVerification()
+        }
+        alertController.addAction(noAction)
+        alertController.addAction(yesAction)
+        return alertController
     }
 
 }

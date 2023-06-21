@@ -77,3 +77,31 @@ enum AppleSignInError: LocalizedError {
         }
     }
 }
+
+
+// MARK: - ErrorMessage
+
+extension AppleAuthenticator {
+    func getErrorMessage(error: Error) -> String {
+        let errorMessage = "エラーが起きました。\nしばらくしてから再度お試しください。"
+        
+        guard let error = error as? ASAuthorizationError else {
+            return errorMessage
+        }
+        
+        switch error.code {
+        case .canceled:
+            return "認証の試行をキャンセルしました。"
+        case .failed:
+            return "認証の試行が失敗しました。"
+        case .invalidResponse:
+            return "無効な応答を受け取りました。"
+        case .notHandled:
+            return "認証リクエストは処理されませんでした。"
+        case .unknown:
+            return "認証の試行が失敗しました。"
+        default:
+            return errorMessage
+        }
+    }
+}
