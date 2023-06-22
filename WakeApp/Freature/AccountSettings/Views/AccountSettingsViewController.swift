@@ -35,7 +35,8 @@ class AccountSettingsViewController: UIViewController {
     // MARK: - Action
     
     @IBAction func tapNextButton(_ sender: Any) {
-        
+        let vc = AccountImageSettingsViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func setUp() {

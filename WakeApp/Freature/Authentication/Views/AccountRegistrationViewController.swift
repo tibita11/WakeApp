@@ -159,7 +159,7 @@ class AccountRegistrationViewController: UIViewController {
         viewModel.output.errorMessageDriver
             .drive(onNext: { [weak self] error in
                 guard let self else { return }
-                present(createErrorAlert(error), animated: true)
+                present(createErrorAlert(title: error), animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -207,13 +207,6 @@ class AccountRegistrationViewController: UIViewController {
         view.endEditing(true)
     }
     
-    private func createErrorAlert(_ error: String) -> UIAlertController {
-        let controller = UIAlertController(title: error, message: nil, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default)
-        controller.addAction(okAction)
-        return controller
-    }
-    
     private func createEmailVerificatioinAlert(email: String) -> UIAlertController {
         let alertController = UIAlertController(title: nil,
                                                 message: "メール認証が完了していません。\n\(email)に認証メールを送信してよろしいですか？",
@@ -255,4 +248,16 @@ enum RegistrationStatus {
         }
     }
     
+}
+
+
+// MARK: - UIViewController
+
+extension UIViewController {
+    func createErrorAlert(title: String) -> UIAlertController {
+        let controller = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        controller.addAction(okAction)
+        return controller
+    }
 }

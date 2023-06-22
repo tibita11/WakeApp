@@ -21,7 +21,9 @@ protocol AccountImageSettingsViewModelOutput {
     var selectedImageUrlDriver: Driver<URL> { get }
     var selectedImageDriver: Driver<UIImage> { get }
     var presentationDriver: Driver<UIViewController> { get }
-    var alertDriver: Driver<UIAlertController> { get }
+    var showAlertDriver: Driver<Void> { get }
+    var isHiddenErrorDriver: Driver<Bool> { get }
+    var showErrorAlertDriver: Driver<Void> { get }
 }
 
 protocol AccountImageSettingsViewModelType {
@@ -33,32 +35,41 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     var output: AccountImageSettingsViewModelOutput! { self }
     private let dataStorage = DataStorage()
     private let disposeBag = DisposeBag()
-    /// 選択中の画像を保持
-    private var selectedImage: (image: UIImage?, url: URL?)! {
+    private var selectedImage: UIImage? = nil {
         didSet {
-            // デフォルト画像をUIに反映
-            if let url = selectedImage.url {
-                selectedImageUrlRelay.accept(url)
+            guard let selectedImage else {
                 return
             }
-            // 新規画像をUIに反映
-            if let image = selectedImage.image {
-                selectedImageRelay.accept(image)
+            selectedImageRelay.accept(selectedImage)
+            selectedImageUrl = nil
+        }
+    }
+    private var selectedImageUrl: URL? = nil  {
+        didSet {
+            guard let selectedImageUrl else {
+                return
             }
+            selectedImageUrlRelay.accept(selectedImageUrl)
+            selectedImage = nil
         }
     }
     private let defaultImageUrlsRelay = BehaviorRelay<[URL]>(value: [])
     private let selectedImageUrlRelay = PublishRelay<URL>()
     private let selectedImageRelay = PublishRelay<UIImage>()
-    private let presentationRelay = PublishRelay<UIViewController>()
-    private let alertRelay = PublishRelay<UIAlertController>()
+    private let presentation = PublishRelay<UIViewController>()
+    private let showAlert = PublishRelay<Void>()
+    private let isHiddenError = PublishRelay<Bool>()
+    private let showErrorAlert = PublishRelay<Void>()
+    
+    
+    // MARK: - Action
     
     func setUp(input: AccountImageSettingsViewModelInput) {
         // アルバムを表示する
         Observable.merge(input.imageChangeLargeButtonObserver, input.imageChangeSmallButtonObserver)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
-                alertRelay.accept(createAlert())
+                showAlert.accept(())
             })
             .disposed(by: disposeBag)
     }
@@ -66,55 +77,60 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     func setDefaultImage() {
         Task {
             do {
-                let defaultImageUrls = try await dataStorage.getDefaultProfileImages(names: Const.defaultProfileImageNames)
+                let defaultImageUrls = try await dataStorage.getDefaultProfileImages(names: Const.defaultProfileImages)
+                let iconImageUrl = try await dataStorage.getDefaultProfileImages(names: Const.iconImage)
                 defaultImageUrlsRelay.accept(defaultImageUrls)
+                selectedImageUrl = iconImageUrl.first
+                isHiddenError.accept(true)
             } catch (let error) {
                 print("URL取得失敗: \(error.localizedDescription)")
+                isHiddenError.accept(false)
             }
         }
     }
     
-    /// 選択画像が存在しない場合はアイコンを表示する
+    /// 画像を削除した場合に設定する画像
     func setIconImage() {
         Task {
             do {
-                let iconImageUrl = try await dataStorage.getDefaultProfileImages(names: Const.iconImageName)
-                selectedImage = (nil, iconImageUrl.first)
+                let iconImageUrl = try await dataStorage.getDefaultProfileImages(names: Const.iconImage)
+                selectedImageUrl = iconImageUrl.first
             } catch (let error) {
                 print("URL取得失敗: \(error.localizedDescription)")
             }
         }
     }
     
-    /// 選択した画像はselectedImageViewに表示される
     func selectDefaultImage(index: Int) {
         let urls = defaultImageUrlsRelay.value
-        let url = urls[index]
-        selectedImage = (nil, url)
+        // URLが取得できなかった場合を想定
+        guard urls.count >= index + 1 else {
+            return
+        }
+        selectedImageUrl = urls[index]
     }
     
-    private func createAlert() -> UIAlertController {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let albumAction = UIAlertAction(title: "写真を選択", style: .default) { [weak self] _ in
-            alertController.dismiss(animated: true)
-            // アルバムを表示
-            guard let self else { return }
-            var configuration = PHPickerConfiguration()
-            configuration.selectionLimit = 1
-            configuration.filter = .images
-            let picker = PHPickerViewController(configuration: configuration)
-            picker.delegate = self
-            presentationRelay.accept(picker)
+    func showAlbum() {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        configuration.filter = .images
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        presentation.accept(picker)
+    }
+    
+    func createAccount() {
+        if selectedImage == nil && selectedImageUrl == nil {
+            showErrorAlert.accept(())
+            return
         }
-        let deleteAction = UIAlertAction(title: "画像を削除", style: .destructive) { [weak self] _ in
-            guard let self else { return }
-            setIconImage()
+        
+        if selectedImageUrl == nil {
+            print("Storageへの保存を開始します。")
+        } else {
+            print("Firestoreへの保存を開始します。")
         }
-        let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel)
-        alertController.addAction(albumAction)
-        alertController.addAction(deleteAction)
-        alertController.addAction(cancelAction)
-        return alertController
+        
     }
     
 }
@@ -136,11 +152,19 @@ extension AccountImageSettingsViewModel: AccountImageSettingsViewModelOutput {
     }
     
     var presentationDriver: Driver<UIViewController> {
-        presentationRelay.asDriver(onErrorDriveWith: .empty())
+        presentation.asDriver(onErrorDriveWith: .empty())
     }
     
-    var alertDriver: Driver<UIAlertController> {
-        alertRelay.asDriver(onErrorDriveWith: .empty())
+    var showAlertDriver: Driver<Void> {
+        showAlert.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var isHiddenErrorDriver: Driver<Bool> {
+        isHiddenError.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var showErrorAlertDriver: Driver<Void> {
+        showErrorAlert.asDriver(onErrorDriveWith: .empty())
     }
     
 }
@@ -153,19 +177,20 @@ extension AccountImageSettingsViewModel: PHPickerViewControllerDelegate {
         picker.dismiss(animated: true)
         
         let itemProvider = results.first?.itemProvider
-        if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
-            itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
-                if let image = image {
-                    if let image = image as? UIImage {
-                        // imageを円形にトリミングする
-                        guard let self else { return }
-                        DispatchQueue.main.async {
-                            let cropVC = CropViewController(croppingStyle: .circular, image: image)
-                            cropVC.delegate = self
-                            self.presentationRelay.accept(cropVC)
-                        }
-                    }
-                }
+        guard let itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) else {
+            return
+        }
+        
+        itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+            guard let image, let uiImage = image as? UIImage else {
+                return
+            }
+            
+            DispatchQueue.main.async { [weak self] in
+                // imageを円形にトリミングする
+                let cropVC = CropViewController(croppingStyle: .circular, image: uiImage)
+                cropVC.delegate = self
+                self?.presentation.accept(cropVC)
             }
         }
     }
@@ -178,6 +203,6 @@ extension AccountImageSettingsViewModel: CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didCropToCircularImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true)
         // トリミング後の画像をUIに反映
-        selectedImage = (image, nil)
+        selectedImage = image
     }
 }

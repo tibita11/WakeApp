@@ -43,6 +43,7 @@ class AccountImageSettingsViewController: UIViewController {
             }
         }
     }
+    @IBOutlet weak var errorTextStackView: UIStackView!
     private let viewModel = AccountImageSettingsViewModel()
     private let disposeBag = DisposeBag()
     private let imageChangeSmallButton = UIButton()
@@ -72,10 +73,11 @@ class AccountImageSettingsViewController: UIViewController {
             .drive(onNext: { [weak self] defaultImageUrls in
                 guard let self else { return }
                 for number in 0..<defaultImageUrls.count {
-                    defaultImageViews[number].kf.setImage(with: defaultImageUrls[number])
+                    defaultImageViews[number].kf.setImage(with: defaultImageUrls[number], placeholder: UIImage(named: "placeholderImage"))
                 }
             })
             .disposed(by: disposeBag)
+        
         // 選択した画像を表示_URL
         viewModel.output.selectedImageUrlDriver
             .drive(onNext: { [weak self] url in
@@ -83,33 +85,57 @@ class AccountImageSettingsViewController: UIViewController {
                 selectedImageView.kf.setImage(with: url)
             })
             .disposed(by: disposeBag)
+        
         // 選択した画像を表示_UIImage
         viewModel.output.selectedImageDriver
             .drive(selectedImageView.rx.image)
             .disposed(by: disposeBag)
-        // ViewControllerを表示
+        
+        // 画像選択に関するViewController
         viewModel.output.presentationDriver
             .drive(onNext: { [weak self] viewController in
                 guard let self else { return }
                 present(viewController, animated: true)
             })
             .disposed(by: disposeBag)
-        // Alertを表示
-        viewModel.output.alertDriver
-            .drive(onNext: { [weak self] alertController in
+        
+        // アルバム選択アラートを表示
+        viewModel.output.showAlertDriver
+            .drive(onNext: { [weak self] in
                 guard let self else { return }
-                present(alertController, animated: true)
+                present(createAlert(), animated: true)
             })
             .disposed(by: disposeBag)
         
+        // 通信エラーを表示
+        viewModel.output.isHiddenErrorDriver
+            .drive(errorTextStackView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        // Create時のエラーを表示
+        viewModel.output.showErrorAlertDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                let title = "画像が選択されていません。"
+                present(createErrorAlert(title: title), animated: true)
+            })
+            .disposed(by: disposeBag)
         
         // 画像取得
         viewModel.setDefaultImage()
-        viewModel.setIconImage()
     }
     
     @objc func tapDefaultImageButton(sender: UIButton) {
         viewModel.selectDefaultImage(index: sender.tag)
+    }
+    
+    @IBAction func tapRetryButton(_ sender: Any) {
+        errorTextStackView.isHidden = true
+        viewModel.setDefaultImage()
+    }
+    
+    @IBAction func tapCreateButton(_ sender: Any) {
+        viewModel.createAccount()
     }
     
     /// 円形のボタンをselectedImageView上に配置する
@@ -131,6 +157,23 @@ class AccountImageSettingsViewController: UIViewController {
         imageChangeSmallButton.tintColor = .white
         imageChangeSmallButton.backgroundColor = Const.mainBlueColor
         selectedImageBaseView.addSubview(imageChangeSmallButton)
+    }
+    
+    private func createAlert() -> UIAlertController {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let albumAction = UIAlertAction(title: "写真を選択", style: .default) { [weak self] _ in
+            guard let self else { return }
+            viewModel.showAlbum()
+        }
+        let deleteAction = UIAlertAction(title: "画像を削除", style: .destructive) { [weak self] _ in
+            guard let self else { return }
+            viewModel.setIconImage()
+        }
+        let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel)
+        alertController.addAction(albumAction)
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        return alertController
     }
     
 

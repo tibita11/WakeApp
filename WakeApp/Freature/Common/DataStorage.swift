@@ -34,7 +34,6 @@ class DataStorage {
         try await auth.currentUser?.sendEmailVerification()
     }
     
-    /// uidのDocumentが存在しているかを確認する
     func checkDocument(uid: String) async throws -> Bool {
         let document = try await Firestore.firestore().collection(users).document(uid).getDocument()
         return document.exists
@@ -48,7 +47,6 @@ class DataStorage {
         return Storage.storage().reference().child(image)
     }
     
-    /// ImageNameからURLを取得する
     func getDefaultProfileImages(names: [String]) async throws -> [URL] {
         let imageRef = getDefaultImageFileRef()
         

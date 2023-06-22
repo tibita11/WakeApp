@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AccountImageSettingsViewController" customModule="WakeApp" customModuleProvider="target">
             <connections>
                 <outlet property="createButton" destination="w4t-de-svF" id="gLq-YM-PHN"/>
+                <outlet property="errorTextStackView" destination="2jD-HV-5js" id="ixf-wP-BWi"/>
                 <outlet property="imageChangeLargeButton" destination="V1D-Vl-Jp1" id="PbF-sN-1C2"/>
                 <outlet property="selectedImageBaseView" destination="kwr-Rf-94K" id="XQP-6I-4vf"/>
                 <outlet property="selectedImageView" destination="vfP-Yd-5yb" id="UM4-Os-6kd"/>
@@ -35,8 +36,8 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="FF2-do-APQ">
-                    <rect key="frame" x="51.666666666666657" y="89" width="290" height="532"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="FF2-do-APQ">
+                    <rect key="frame" x="51.666666666666657" y="79" width="290" height="472"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="プロフィール画像を選択" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vhk-TB-cyG">
                             <rect key="frame" x="11" y="0.0" width="267.66666666666669" height="28.666666666666668"/>
@@ -45,10 +46,11 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kwr-Rf-94K">
-                            <rect key="frame" x="80" y="68.666666666666657" width="130" height="130"/>
+                            <rect key="frame" x="80" y="53.666666666666657" width="130" height="130"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vfP-Yd-5yb">
-                                    <rect key="frame" x="0.0" y="0.0" width="130" height="130"/>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="vfP-Yd-5yb">
+                                    <rect key="frame" x="0.0" y="1.6666666666666572" width="130" height="127"/>
+                                    <color key="tintColor" systemColor="systemGray6Color"/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V1D-Vl-Jp1">
                                     <rect key="frame" x="0.0" y="0.0" width="130" height="130"/>
@@ -70,13 +72,13 @@
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="以下の画像からも選択可能です。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3JP-55-dba">
-                            <rect key="frame" x="22.333333333333343" y="238.66666666666669" width="245.00000000000003" height="19.333333333333314"/>
+                            <rect key="frame" x="22.333333333333343" y="208.66666666666669" width="245.00000000000003" height="19.333333333333343"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="lAP-ok-QyM">
-                            <rect key="frame" x="0.0" y="298" width="290" height="150"/>
+                            <rect key="frame" x="0.0" y="253" width="290" height="150"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="JZt-GE-20X">
                                     <rect key="frame" x="0.0" y="0.0" width="290" height="70"/>
@@ -84,8 +86,9 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Doz-4V-bhC">
                                             <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eL0-0D-uKh">
-                                                    <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="eL0-0D-uKh">
+                                                    <rect key="frame" x="0.0" y="1.6666666666666643" width="70" height="67"/>
+                                                    <color key="tintColor" systemColor="systemGray6Color"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EZH-Jc-1mq">
                                                     <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
@@ -109,8 +112,9 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DRb-Aq-wcN">
                                             <rect key="frame" x="110" y="0.0" width="70" height="70"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ox5-ne-87O">
-                                                    <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Ox5-ne-87O">
+                                                    <rect key="frame" x="0.0" y="1.6666666666666643" width="70" height="67"/>
+                                                    <color key="tintColor" systemColor="systemGray6Color"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e4A-LM-xLu">
                                                     <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
@@ -134,8 +138,9 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IDe-Hp-S71">
                                             <rect key="frame" x="220.00000000000003" y="0.0" width="69.999999999999972" height="70"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="v7o-Jq-rh7">
-                                                    <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="v7o-Jq-rh7">
+                                                    <rect key="frame" x="0.0" y="1.6666666666666643" width="70" height="67"/>
+                                                    <color key="tintColor" systemColor="systemGray6Color"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iCZ-VW-u0z">
                                                     <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
@@ -164,8 +169,9 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a3e-AX-Kd9">
                                             <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="feJ-bh-shB">
-                                                    <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="feJ-bh-shB">
+                                                    <rect key="frame" x="0.0" y="1.6666666666666643" width="70" height="67"/>
+                                                    <color key="tintColor" systemColor="systemGray6Color"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qvv-dZ-3Iu">
                                                     <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
@@ -189,8 +195,9 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I38-gX-CeY">
                                             <rect key="frame" x="110" y="0.0" width="70" height="70"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="O6o-UT-DdU">
-                                                    <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="O6o-UT-DdU">
+                                                    <rect key="frame" x="0.0" y="1.6666666666666643" width="70" height="67"/>
+                                                    <color key="tintColor" systemColor="systemGray6Color"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gT6-GA-TPB">
                                                     <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
@@ -214,8 +221,9 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Np8-9P-NUm">
                                             <rect key="frame" x="220.00000000000003" y="0.0" width="69.999999999999972" height="70"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u5h-yk-aSi">
-                                                    <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="u5h-yk-aSi">
+                                                    <rect key="frame" x="0.0" y="1.6666666666666643" width="70" height="67"/>
+                                                    <color key="tintColor" systemColor="systemGray6Color"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MVO-Ff-7cX">
                                                     <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
@@ -240,8 +248,30 @@
                                 </stackView>
                             </subviews>
                         </stackView>
+                        <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="2jD-HV-5js">
+                            <rect key="frame" x="34.666666666666671" y="415.66666666666669" width="220.66666666666663" height="5"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="エラーが起きました。 しばらくしてから再度お試しください。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LqE-1q-bjC">
+                                    <rect key="frame" x="0.0" y="0.0" width="220.66666666666666" height="0.0"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" systemColor="systemRedColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s55-Nb-BzC">
+                                    <rect key="frame" x="91.666666666666671" y="5" width="37.000000000000014" height="0.0"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="再試行">
+                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="tapRetryButton:" destination="-1" eventType="touchUpInside" id="gVa-a0-Ibp"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w4t-de-svF">
-                            <rect key="frame" x="5" y="488" width="280" height="44"/>
+                            <rect key="frame" x="5" y="428" width="280" height="44"/>
                             <color key="backgroundColor" red="0.074509803920000006" green="0.1843137255" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="T2b-iy-SJw"/>
@@ -251,6 +281,9 @@
                             <state key="normal" title="アカウント作成">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
+                            <connections>
+                                <action selector="tapCreateButton:" destination="-1" eventType="touchUpInside" id="5ZW-d8-ddc"/>
+                            </connections>
                         </button>
                     </subviews>
                 </stackView>
@@ -259,14 +292,21 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="FF2-do-APQ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="YdG-cu-7Ui"/>
-                <constraint firstItem="FF2-do-APQ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="30" id="axR-id-NaO"/>
+                <constraint firstItem="FF2-do-APQ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="axR-id-NaO"/>
             </constraints>
             <point key="canvasLocation" x="130.53435114503816" y="-11.267605633802818"/>
         </view>
     </objects>
     <resources>
+        <image name="photo" catalog="system" width="128" height="93"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
