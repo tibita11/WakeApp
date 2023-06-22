@@ -51,6 +51,19 @@ class AccountImageSettingsViewController: UIViewController {
     
     // MARK: - View Life Cycle
     
+    init(name: String, birthday: Date?) {
+        viewModel.setDefaultData(name: name, birthday: birthday)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -114,10 +127,9 @@ class AccountImageSettingsViewController: UIViewController {
         
         // Create時のエラーを表示
         viewModel.output.showErrorAlertDriver
-            .drive(onNext: { [weak self] in
+            .drive(onNext: { [weak self] error in
                 guard let self else { return }
-                let title = "画像が選択されていません。"
-                present(createErrorAlert(title: title), animated: true)
+                present(createErrorAlert(title: error), animated: true)
             })
             .disposed(by: disposeBag)
         

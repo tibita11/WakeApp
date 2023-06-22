@@ -23,7 +23,7 @@ protocol AccountImageSettingsViewModelOutput {
     var presentationDriver: Driver<UIViewController> { get }
     var showAlertDriver: Driver<Void> { get }
     var isHiddenErrorDriver: Driver<Bool> { get }
-    var showErrorAlertDriver: Driver<Void> { get }
+    var showErrorAlertDriver: Driver<String> { get }
 }
 
 protocol AccountImageSettingsViewModelType {
@@ -33,6 +33,8 @@ protocol AccountImageSettingsViewModelType {
 
 class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType {
     var output: AccountImageSettingsViewModelOutput! { self }
+    private var name: String? = nil
+    private var birthday: Date?  = nil
     private let dataStorage = DataStorage()
     private let disposeBag = DisposeBag()
     private var selectedImage: UIImage? = nil {
@@ -59,7 +61,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     private let presentation = PublishRelay<UIViewController>()
     private let showAlert = PublishRelay<Void>()
     private let isHiddenError = PublishRelay<Bool>()
-    private let showErrorAlert = PublishRelay<Void>()
+    private let showErrorAlert = PublishRelay<String>()
     
     
     // MARK: - Action
@@ -72,6 +74,11 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
                 showAlert.accept(())
             })
             .disposed(by: disposeBag)
+    }
+    
+    func setDefaultData(name: String, birthday: Date?) {
+        self.name = name
+        self.birthday = birthday
     }
     
     func setDefaultImage() {
@@ -121,16 +128,36 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     
     func createAccount() {
         if selectedImage == nil && selectedImageUrl == nil {
-            showErrorAlert.accept(())
+            showErrorAlert.accept("\(ImageSettingsError.noImageError.localizedDescription)")
             return
         }
         
-        if selectedImageUrl == nil {
-            print("Storageへの保存を開始します。")
-        } else {
-            print("Firestoreへの保存を開始します。")
+        guard let userID = dataStorage.getCurrenUserID() else {
+            showErrorAlert.accept("\(ImageSettingsError.retryError)")
+            return
         }
         
+        Task {
+            do {
+                var url = selectedImageUrl
+                if url == nil {
+                    url = try await saveProfileImage(userID: userID, image: selectedImage!)
+                }
+                let userData = UserData(name: name!, birthday: birthday, imageURL: url!.absoluteString)
+                try await dataStorage.saveUserData(uid: userID, data: userData)
+            } catch (let error) {
+                showErrorAlert.accept("\(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func saveProfileImage(userID: String, image: UIImage) async throws -> URL {
+        guard let imageData = dataStorage.covertToData(image: image) else {
+            throw ImageSettingsError.covertError
+        }
+        
+        let url = try await dataStorage.saveProfileImage(uid: userID, imageData: imageData)
+        return url
     }
     
 }
@@ -163,7 +190,7 @@ extension AccountImageSettingsViewModel: AccountImageSettingsViewModelOutput {
         isHiddenError.asDriver(onErrorDriveWith: .empty())
     }
     
-    var showErrorAlertDriver: Driver<Void> {
+    var showErrorAlertDriver: Driver<String> {
         showErrorAlert.asDriver(onErrorDriveWith: .empty())
     }
     
@@ -204,5 +231,25 @@ extension AccountImageSettingsViewModel: CropViewControllerDelegate {
         cropViewController.dismiss(animated: true)
         // トリミング後の画像をUIに反映
         selectedImage = image
+    }
+}
+
+
+// MARK: - ImageSettingsError
+
+enum ImageSettingsError: LocalizedError {
+    case noImageError
+    case retryError
+    case covertError
+    
+    var errorDescription: String? {
+        switch self {
+        case .noImageError:
+            return "画像が選択されていません。"
+        case .retryError:
+            return "エラーが起きました。\nしばらくしてから再度お試しください。"
+        case .covertError:
+            return "画像を変更して再度お試しください。"
+        }
     }
 }

@@ -12,9 +12,17 @@ import FirebaseStorage
 
 class DataStorage {
     private let auth = Auth.auth()
+    private let firestore = Firestore.firestore()
     /// コレクション名
     private let users = "Users"
     private let image = "Image"
+    
+    
+    // MARK: - Auth
+    
+    func getCurrenUserID() -> String? {
+        return auth.currentUser?.uid
+    }
     
     
     // MARK: - Firestore
@@ -35,8 +43,16 @@ class DataStorage {
     }
     
     func checkDocument(uid: String) async throws -> Bool {
-        let document = try await Firestore.firestore().collection(users).document(uid).getDocument()
+        let document = try await firestore.collection(users).document(uid).getDocument()
         return document.exists
+    }
+    
+    func saveUserData(uid: String, data: UserData) async throws {
+        let birthday = data.birthday == nil ? NSNull() : Timestamp(date: data.birthday!)
+        try await firestore.collection(users).document(uid).setData(["name": data.name,
+                                                                     "birthday": birthday,
+                                                                     "imageURL": data.imageURL,
+                                                                     "feature": data.feature])
     }
     
     
@@ -62,11 +78,13 @@ class DataStorage {
         })
     }
     
-    /// プロフィール画像を保存する
-    func saveProfileImage(uid: String, imageData: Data) async throws {
-        let imageRef = Storage.storage().reference().child(uid).child("profileImageData")
-        let metaData = try await imageRef.putDataAsync(imageData)
+    func saveProfileImage(uid: String, imageData: Data) async throws -> URL {
+        let imageRef = Storage.storage().reference().child(uid).child("\(UUID().uuidString).jpg")
+        _ = try await imageRef.putDataAsync(imageData)
+        let url = try await imageRef.downloadURL()
+        return url
     }
+    
 }
 
 

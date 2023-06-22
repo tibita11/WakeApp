@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -43,6 +43,7 @@
 		A5E45C862A2DA891004EC86B /* AccountImageSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E45C842A2DA891004EC86B /* AccountImageSettingsViewController.swift */; };
 		A5E45C872A2DA891004EC86B /* AccountImageSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5E45C852A2DA891004EC86B /* AccountImageSettingsViewController.xib */; };
 		A5E839F42A2721B8002D21FA /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E839F32A2721B8002D21FA /* Validation.swift */; };
+		A5F3790D2A44145F00E2B536 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F3790C2A44145F00E2B536 /* UserData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +109,7 @@
 		A5E45C842A2DA891004EC86B /* AccountImageSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountImageSettingsViewController.swift; sourceTree = "<group>"; };
 		A5E45C852A2DA891004EC86B /* AccountImageSettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountImageSettingsViewController.xib; sourceTree = "<group>"; };
 		A5E839F32A2721B8002D21FA /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
+		A5F3790C2A44145F00E2B536 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		C0F249E367FA7C50AB45CD73 /* Pods_WakeApp_WakeAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WakeApp_WakeAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F088D3925853C70B8AD02063 /* Pods-WakeApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WakeApp.debug.xcconfig"; path = "Target Support Files/Pods-WakeApp/Pods-WakeApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -169,6 +171,7 @@
 				A512D5072A2391DA0034D4D9 /* Const.swift */,
 				A58BB0CA2A28225000C834A3 /* DataStorage.swift */,
 				A5E839F32A2721B8002D21FA /* Validation.swift */,
+				A5F3790C2A44145F00E2B536 /* UserData.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -618,6 +621,7 @@
 				A58BB0D32A2839F400C834A3 /* LoadingView.swift in Sources */,
 				A555A7712A24A20B00B09B03 /* AccountRegistrationViewModel.swift in Sources */,
 				A57213812A25E4DA001E5F81 /* AppleAuthenticator.swift in Sources */,
+				A5F3790D2A44145F00E2B536 /* UserData.swift in Sources */,
 				A512D5082A2391DA0034D4D9 /* Const.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

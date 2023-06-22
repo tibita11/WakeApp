@@ -35,7 +35,16 @@ class AccountSettingsViewController: UIViewController {
     // MARK: - Action
     
     @IBAction func tapNextButton(_ sender: Any) {
-        let vc = AccountImageSettingsViewController()
+        guard let name = userNameTextField.text else {
+            return
+        }
+        
+        var birthday: Date? = nil
+        if let text = birthdayTextField.text, !text.isEmpty {
+            birthday = datePicker.date
+        }
+        
+        let vc = AccountImageSettingsViewController(name: name, birthday: birthday)
         navigationController?.pushViewController(vc, animated: true)
     }
     
