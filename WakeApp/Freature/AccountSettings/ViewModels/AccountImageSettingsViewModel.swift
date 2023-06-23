@@ -24,6 +24,7 @@ protocol AccountImageSettingsViewModelOutput {
     var showAlertDriver: Driver<Void> { get }
     var isHiddenErrorDriver: Driver<Bool> { get }
     var showErrorAlertDriver: Driver<String> { get }
+    var transitionDriver:Driver<Void> { get }
 }
 
 protocol AccountImageSettingsViewModelType {
@@ -62,6 +63,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     private let showAlert = PublishRelay<Void>()
     private let isHiddenError = PublishRelay<Bool>()
     private let showErrorAlert = PublishRelay<String>()
+    private let transition = PublishRelay<Void>()
     
     
     // MARK: - Action
@@ -145,6 +147,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
                 }
                 let userData = UserData(name: name!, birthday: birthday, imageURL: url!.absoluteString)
                 try await dataStorage.saveUserData(uid: userID, data: userData)
+                transition.accept(())
             } catch (let error) {
                 showErrorAlert.accept("\(error.localizedDescription)")
             }
@@ -192,6 +195,10 @@ extension AccountImageSettingsViewModel: AccountImageSettingsViewModelOutput {
     
     var showErrorAlertDriver: Driver<String> {
         showErrorAlert.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var transitionDriver: Driver<Void> {
+        transition.asDriver(onErrorDriveWith: .empty())
     }
     
 }

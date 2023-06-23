@@ -24,6 +24,7 @@ protocol AccountRegistrationViewModelOutput {
     var sendCompletedDriver: Driver<Void> { get }
     var errorMessageDriver: Driver<String> { get }
     var signInCompletedDriver: Driver<Void> { get }
+    var accountSettingsDriver: Driver<Void> { get }
     var emailVerificationDriver: Driver<String> { get }
 }
 
@@ -46,6 +47,7 @@ class AccountRegistrationViewModel: NSObject, AccountRegistrationViewModelType {
     private let sendCompleted = PublishRelay<Void>()
     private let errorMessage = PublishRelay<String>()
     private let signInCompleted = PublishRelay<Void>()
+    private let accountSettings = PublishRelay<Void>()
     private let emailVerification = PublishRelay<String>()
     private let dataStorage = DataStorage()
     
@@ -87,8 +89,8 @@ class AccountRegistrationViewModel: NSObject, AccountRegistrationViewModelType {
     func googleSignIn(withPresenting: UIViewController) {
         Task {
             do {
-                try await GoogleAuthenticator().googleSignIn(withPresenting: withPresenting)
-                signInCompleted.accept(())
+                let result = try await GoogleAuthenticator().googleSignIn(withPresenting: withPresenting)
+                try await transitionToNext(uid: result.user.uid)
             } catch (let error) {
                 errorMessage.accept(error.localizedDescription)
             }
@@ -121,11 +123,12 @@ class AccountRegistrationViewModel: NSObject, AccountRegistrationViewModelType {
     func signIn(email: String, password: String) {
         Task {
             do {
-                if try await dataStorage.signIn(email: email, password: password) {
-                    signInCompleted.accept(())
-                } else {
+                let result = try await dataStorage.signIn(email: email, password: password)
+                guard result.user.isEmailVerified else {
                     emailVerification.accept(email)
+                    return
                 }
+                try await transitionToNext(uid: result.user.uid)
             } catch (let error) {
                 errorMessage.accept(dataStorage.getErrorMessage(error: error))
             }
@@ -141,6 +144,15 @@ class AccountRegistrationViewModel: NSObject, AccountRegistrationViewModelType {
                 errorMessage.accept(dataStorage.getErrorMessage(error: error))
             }
         }
+    }
+    
+    /// - Parameter uid: ドキュメント有無で遷移先を決定する
+    private func transitionToNext(uid: String) async throws {
+        guard try await dataStorage.checkDocument(uid: uid) else {
+            accountSettings.accept(())
+            return
+        }
+        signInCompleted.accept(())
     }
     
 }
@@ -189,6 +201,10 @@ extension AccountRegistrationViewModel: AccountRegistrationViewModelOutput {
         emailVerification.asDriver(onErrorDriveWith: .empty())
     }
     
+    var accountSettingsDriver: Driver<Void> {
+        accountSettings.asDriver(onErrorDriveWith: .empty())
+    }
+    
 }
 
 
@@ -198,8 +214,8 @@ extension AccountRegistrationViewModel: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         Task {
             do {
-                try await appleAuthenticator.appleSignIn(authorization: authorization)
-                signInCompleted.accept(())
+                let result = try await appleAuthenticator.appleSignIn(authorization: authorization)
+                try await transitionToNext(uid: result.user.uid)
             } catch (let error) {
                 errorMessage.accept(appleAuthenticator.getErrorMessage(error: error))
             }

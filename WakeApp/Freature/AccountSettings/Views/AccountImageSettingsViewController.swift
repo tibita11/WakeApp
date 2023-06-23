@@ -133,6 +133,15 @@ class AccountImageSettingsViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        // 登録完了時の遷移
+        viewModel.output.transitionDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                let vc = MainTabBarController()
+                navigationController?.viewControllers = [vc]
+            })
+            .disposed(by: disposeBag)
+        
         // 画像取得
         viewModel.setDefaultImage()
     }

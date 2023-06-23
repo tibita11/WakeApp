@@ -170,8 +170,17 @@ class AccountRegistrationViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        // アカウント設定画面への遷移
+        // 記録画面へ遷移
         viewModel.output.signInCompletedDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                let vc = MainTabBarController()
+                navigationController?.viewControllers = [vc]
+            })
+            .disposed(by: disposeBag)
+        
+        // アカウント設定画面への遷移
+        viewModel.output.accountSettingsDriver
             .drive(onNext: { [weak self] in
                 guard let self else { return }
                 let vc = AccountSettingsViewController()

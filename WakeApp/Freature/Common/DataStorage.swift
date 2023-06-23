@@ -24,6 +24,10 @@ class DataStorage {
         return auth.currentUser?.uid
     }
     
+    func getCurrentUser() -> User? {
+        return auth.currentUser
+    }
+    
     
     // MARK: - Firestore
     
@@ -33,9 +37,8 @@ class DataStorage {
         try await result.user.sendEmailVerification()
     }
     
-    func signIn(email: String, password: String) async throws -> Bool {
-        let result = try await auth.signIn(withEmail: email, password: password)
-        return result.user.isEmailVerified
+    func signIn(email: String, password: String) async throws -> AuthDataResult {
+        return try await auth.signIn(withEmail: email, password: password)
     }
     
     func sendEmailVerification() async throws {

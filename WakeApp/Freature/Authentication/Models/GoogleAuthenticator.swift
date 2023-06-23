@@ -13,7 +13,7 @@ import FirebaseAuth
 class GoogleAuthenticator {
     
     @MainActor
-    func googleSignIn(withPresenting: UIViewController) async throws {
+    func googleSignIn(withPresenting: UIViewController) async throws -> AuthDataResult {
         guard let clientID = FirebaseApp.app()?.options.clientID else {
             throw GoogleSignInError.signInfailed
         }
@@ -26,7 +26,7 @@ class GoogleAuthenticator {
             throw GoogleSignInError.signInfailed
         }
         let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: result.user.accessToken.tokenString)
-        try await Auth.auth().signIn(with: credential)
+        return try await Auth.auth().signIn(with: credential)
     }
     
 }

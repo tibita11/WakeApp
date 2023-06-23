@@ -18,31 +18,44 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
-        
-        var rootVC: UIViewController = StartingViewController()
-        // 遷移先を判別する
-        if let user = Auth.auth().currentUser, user.isEmailVerified {
-            Task {
-                do {
-                    if try await DataStorage().checkDocument(uid: user.uid) {
-                        // ログイン後の画面に遷移
-                        rootVC = RecordViewController()
-                    }
-                } catch(let error) {
-                    print(error.localizedDescription)
-                }
-            }
-        }
-        
+
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.makeKeyAndVisible()
             
-            let navigationController = UINavigationController(rootViewController: rootVC)
-            window.rootViewController = navigationController
+            let splashVC = SplashViewController()
+            window.rootViewController = splashVC
             
             self.window = window
+            
+            // 非同期に初期画面をセット
+            Task {
+                let rootVC = await setRootViewController()
+                await MainActor.run {
+                    let navigationController = UINavigationController(rootViewController: rootVC)
+                    window.rootViewController = navigationController
+                }
+            }
         }
+    }
+    
+    func setRootViewController() async -> UIViewController {
+        let dataStorage = DataStorage()
+        var rootVC: UIViewController = StartingViewController()
+        
+        guard let currentUser = dataStorage.getCurrentUser(), currentUser.isEmailVerified else {
+            return rootVC
+        }
+        
+        do {
+            if try await dataStorage.checkDocument(uid: currentUser.uid) {
+                rootVC = MainTabBarController()
+            }
+        } catch (let error) {
+            print("初期化エラー: \(error.localizedDescription)")
+        }
+        
+        return rootVC
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
