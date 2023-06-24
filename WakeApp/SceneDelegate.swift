@@ -30,6 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             // 非同期に初期画面をセット
             Task {
+                try await Task.sleep(nanoseconds: 1_500_000_000)
                 let rootVC = await setRootViewController()
                 await MainActor.run {
                     let navigationController = UINavigationController(rootViewController: rootVC)
