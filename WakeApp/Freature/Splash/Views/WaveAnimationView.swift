@@ -25,7 +25,6 @@ public class WaveAnimationView: UIView {
     private var xAxis: CGFloat
     private var yAxis: CGFloat
     
-    open var waveHeight: CGFloat = 3.0 //3.0 .. about 50.0 are standard.
     open var waveDelay: CGFloat = 300.0 //0.0 .. about 500.0 are standard.
     
     open var frontColor: UIColor!
@@ -83,15 +82,16 @@ public class WaveAnimationView: UIView {
         path.removeAllPoints()
         drawWave(layer: layer, path: path, color: color, delay: delay)
         drawSeconds += 0.009
-        drawElapsedTime = drawSeconds*CGFloat(Double.pi)
-        if drawElapsedTime >= CGFloat(Double.pi) {
+        let pi = CGFloat(Double.pi)*2
+        drawElapsedTime = drawSeconds*pi
+        if drawElapsedTime >= pi {
             drawSeconds = 0.0
             drawElapsedTime = 0.0
         }
     }
     
     private func drawWave(layer: CAShapeLayer,path: UIBezierPath,color: UIColor,delay:CGFloat) {
-        drawSin(path: path,time: drawElapsedTime/0.5, delay: delay)
+        drawSin(path: path,time: drawElapsedTime, delay: delay)
         path.addLine(to: CGPoint(x: width+10, y: height))
         path.addLine(to: CGPoint(x: 0, y: height))
         path.close()
@@ -103,18 +103,18 @@ public class WaveAnimationView: UIView {
     
     private func drawSin(path: UIBezierPath, time: CGFloat, delay: CGFloat) {
         
-        let unit:CGFloat = 100.0
-        let zoom:CGFloat = 1.0
+        let unit:CGFloat = 30.0
+        let scaleForPeriod:CGFloat = 100.0
         var x = time
-        var y = sin(x)/zoom
+        var y = sin(x)
         let start = CGPoint(x: yAxis, y: unit*y+xAxis)
         
         path.move(to: start)
         
         var i = yAxis
         while i <= width+10 {
-            x = time+(-yAxis+i)/unit/zoom
-            y = sin(x - delay)/self.waveHeight
+            x = time+(-yAxis+i)/scaleForPeriod
+            y = sin(x - delay)
             
             path.addLine(to: CGPoint(x: i, y: unit*y+xAxis))
             
