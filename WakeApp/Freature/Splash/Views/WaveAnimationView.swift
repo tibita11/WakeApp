@@ -82,16 +82,15 @@ public class WaveAnimationView: UIView {
         path.removeAllPoints()
         drawWave(layer: layer, path: path, color: color, delay: delay)
         drawSeconds += 0.009
-        let pi = CGFloat(Double.pi)*2
-        drawElapsedTime = drawSeconds*pi
-        if drawElapsedTime >= pi {
+        drawElapsedTime = drawSeconds*CGFloat(Double.pi)
+        if drawElapsedTime >= CGFloat(Double.pi) {
             drawSeconds = 0.0
             drawElapsedTime = 0.0
         }
     }
     
     private func drawWave(layer: CAShapeLayer,path: UIBezierPath,color: UIColor,delay:CGFloat) {
-        drawSin(path: path,time: drawElapsedTime, delay: delay)
+        drawSin(path: path,time: drawElapsedTime/0.5, delay: delay)
         path.addLine(to: CGPoint(x: width+10, y: height))
         path.addLine(to: CGPoint(x: 0, y: height))
         path.close()
