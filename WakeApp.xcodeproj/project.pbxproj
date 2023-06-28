@@ -40,6 +40,7 @@
 		A5B42CE12A49907000F64F4B /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B42CE02A49907000F64F4B /* TriangleView.swift */; };
 		A5CFBD9C2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */; };
 		A5E03C642A4C1C24002148F1 /* PlaceHolderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E03C632A4C1C24002148F1 /* PlaceHolderTextView.swift */; };
+		A5E03C662A4C1FB3002148F1 /* ProfileEditingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E03C652A4C1FB3002148F1 /* ProfileEditingViewModel.swift */; };
 		A5E14CF62A472D9800A8C547 /* WaveAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E14CF52A472D9800A8C547 /* WaveAnimationView.swift */; };
 		A5E45C822A2D7C5F004EC86B /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E45C802A2D7C5F004EC86B /* RecordViewController.swift */; };
 		A5E45C832A2D7C5F004EC86B /* RecordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5E45C812A2D7C5F004EC86B /* RecordViewController.xib */; };
@@ -117,6 +118,7 @@
 		A5B42CE02A49907000F64F4B /* TriangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
 		A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountImageSettingsViewModel.swift; sourceTree = "<group>"; };
 		A5E03C632A4C1C24002148F1 /* PlaceHolderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderTextView.swift; sourceTree = "<group>"; };
+		A5E03C652A4C1FB3002148F1 /* ProfileEditingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditingViewModel.swift; sourceTree = "<group>"; };
 		A5E14CF52A472D9800A8C547 /* WaveAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveAnimationView.swift; sourceTree = "<group>"; };
 		A5E45C802A2D7C5F004EC86B /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		A5E45C812A2D7C5F004EC86B /* RecordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecordViewController.xib; sourceTree = "<group>"; };
@@ -420,6 +422,7 @@
 			isa = PBXGroup;
 			children = (
 				A5FF515C2A49D0E6000AEC7F /* ProfileViewModel.swift */,
+				A5E03C652A4C1FB3002148F1 /* ProfileEditingViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -713,6 +716,7 @@
 				A5B42CE12A49907000F64F4B /* TriangleView.swift in Sources */,
 				A5ECAA122A450743007FDEDF /* MainTabBarController.swift in Sources */,
 				A57213812A25E4DA001E5F81 /* AppleAuthenticator.swift in Sources */,
+				A5E03C662A4C1FB3002148F1 /* ProfileEditingViewModel.swift in Sources */,
 				A5F3790D2A44145F00E2B536 /* UserData.swift in Sources */,
 				A512D5082A2391DA0034D4D9 /* Const.swift in Sources */,
 			);
