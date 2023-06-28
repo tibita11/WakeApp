@@ -23,15 +23,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         IQKeyboardManager.shared.enable = true
         //ST -テスト用
-        Auth.auth().useEmulator(withHost: "localhost", port: 9099)
-        
-        let settings = Firestore.firestore().settings
-        settings.host = "127.0.0.1:8080"
-        settings.isPersistenceEnabled = false
-        settings.isSSLEnabled = false
-        Firestore.firestore().settings = settings
-        
-        Storage.storage().useEmulator(withHost: "localhost", port: 9199)
+//        Auth.auth().useEmulator(withHost: "localhost", port: 9099)
+//
+//        let settings = Firestore.firestore().settings
+//        settings.host = "127.0.0.1:8080"
+//        settings.isPersistenceEnabled = false
+//        settings.isSSLEnabled = false
+//        Firestore.firestore().settings = settings
+//
+//        Storage.storage().useEmulator(withHost: "localhost", port: 9199)
         //ED -テスト用
         
         return true

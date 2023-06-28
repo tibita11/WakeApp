@@ -131,7 +131,7 @@ class ProfileViewController: UIViewController {
         imageView.layer.cornerRadius = size / 2
         imageView.image = UIImage(systemName: "photo")
         imageView.tintColor = .systemGray6
-        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFit
         
         NSLayoutConstraint.activate([
             imageView.widthAnchor.constraint(equalToConstant: size),
