@@ -37,7 +37,7 @@ class ProfileEditingViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var birthdayTextField: UITextField!
     
-    private let viewModel = ProfileEditingViewModel()
+    private var viewModel: ProfileEditingViewModel!
     private let disposeBag = DisposeBag()
     private var datePicker = UIDatePicker()
     
@@ -66,6 +66,14 @@ class ProfileEditingViewController: UIViewController {
     }
     
     private func setUpViewModel() {
+        // ViewModel初期化
+        let datePickerObserver = datePicker.rx.controlEvent(.valueChanged)
+            .map { [weak self] in
+                self?.datePicker.date
+            }
+        let input = ProfileEditingViewModelInputs(datePickerObserver: datePickerObserver)
+        viewModel = ProfileEditingViewModel(input: input)
+        // バインド
         viewModel.outputs.imageUrlDriver
             .drive(onNext: { [weak self] url in
                 self?.imageView.kf.setImage(with: URL(string: url))

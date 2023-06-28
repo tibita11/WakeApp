@@ -9,6 +9,10 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+struct ProfileEditingViewModelInputs {
+    let datePickerObserver: Observable<Date?>
+}
+
 protocol ProfileEditingViewModelOutputs {
     var imageUrlDriver: Driver<String> { get }
     var nameDriver: Driver<String> { get }
@@ -25,6 +29,7 @@ protocol ProfileEditingViewModelType {
 class ProfileEditingViewModel: ProfileEditingViewModelType {
     var outputs: ProfileEditingViewModelOutputs { self }
     
+    private let disposeBag = DisposeBag()
     private let dataStorage = DataStorage()
     private let imageUrlRelay = PublishRelay<String>()
     private let nameRelay = PublishRelay<String>()
@@ -37,6 +42,15 @@ class ProfileEditingViewModel: ProfileEditingViewModelType {
         dateFormatter.dateFormat = "yyyy年MM月dd日"
         return dateFormatter
     }()
+    
+    init(input: ProfileEditingViewModelInputs) {
+        input.datePickerObserver
+            .subscribe(onNext: { [weak self] date in
+                guard let date, let self else { return }
+                birthdayTextRelay.accept(dateFormatter.string(from: date))
+            })
+            .disposed(by: disposeBag)
+    }
     
     func getUserData() {
         Task {
