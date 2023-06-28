@@ -39,6 +39,7 @@ class ProfileEditingViewController: UIViewController {
     
     private let viewModel = ProfileEditingViewModel()
     private let disposeBag = DisposeBag()
+    private var datePicker = UIDatePicker()
     
     
     
@@ -48,6 +49,7 @@ class ProfileEditingViewController: UIViewController {
         super.viewDidLoad()
         
         setUpViewModel()
+        setUpDatePicker()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,6 +76,10 @@ class ProfileEditingViewController: UIViewController {
             .drive(nameTextField.rx.text)
             .disposed(by: disposeBag)
         
+        viewModel.outputs.birthdayDriver
+            .drive(datePicker.rx.date)
+            .disposed(by: disposeBag)
+        
         viewModel.outputs.birthdayTextDriver
             .drive(birthdayTextField.rx.text)
             .disposed(by: disposeBag)
@@ -88,6 +94,32 @@ class ProfileEditingViewController: UIViewController {
                 present(createErrorAlert(title: error), animated: true)
             })
             .disposed(by: disposeBag)
+    }
+    
+    private func setUpDatePicker() {
+        let toolBar = UIToolbar(frame: CGRect(origin: .zero, size: CGSize(width: 100.0, height: 45.0)))
+        let spaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let doneButton = UIBarButtonItem(title: "完了", style: .done, target: self, action: #selector(tapDoneButton))
+        let clearButton = UIBarButtonItem(title: "クリア", style: .plain, target: self, action: #selector(tapClearButton))
+        toolBar.items = [clearButton, spaceItem, doneButton]
+        toolBar.sizeToFit()
+        
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.datePickerMode = .date
+        datePicker.locale = Locale(identifier: "ja_JP")
+        
+        birthdayTextField.inputView = datePicker
+        birthdayTextField.inputAccessoryView = toolBar
+    }
+    
+    /// ToolBarに設置する完了ボタン
+    @objc private func tapDoneButton() {
+        birthdayTextField.resignFirstResponder()
+    }
+    
+    /// ToolBarに設置するクリアボタン
+    @objc private func tapClearButton() {
+        birthdayTextField.text = ""
     }
 
 
