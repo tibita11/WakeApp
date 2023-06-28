@@ -49,6 +49,7 @@
 		A5ECAA182A4508D9007FDEDF /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5ECAA162A4508D9007FDEDF /* ProfileViewController.swift */; };
 		A5ECAA1C2A453416007FDEDF /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5ECAA1A2A453416007FDEDF /* SplashViewController.swift */; };
 		A5F3790D2A44145F00E2B536 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F3790C2A44145F00E2B536 /* UserData.swift */; };
+		A5FF515D2A49D0E6000AEC7F /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF515C2A49D0E6000AEC7F /* ProfileViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +121,7 @@
 		A5ECAA162A4508D9007FDEDF /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		A5ECAA1A2A453416007FDEDF /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		A5F3790C2A44145F00E2B536 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		A5FF515C2A49D0E6000AEC7F /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		C0F249E367FA7C50AB45CD73 /* Pods_WakeApp_WakeAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WakeApp_WakeAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F088D3925853C70B8AD02063 /* Pods-WakeApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WakeApp.debug.xcconfig"; path = "Target Support Files/Pods-WakeApp/Pods-WakeApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -406,6 +408,7 @@
 		A5ECAA142A4508B3007FDEDF /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				A5FF515C2A49D0E6000AEC7F /* ProfileViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -676,6 +679,7 @@
 				A5E839F42A2721B8002D21FA /* Validation.swift in Sources */,
 				A5ECAA182A4508D9007FDEDF /* ProfileViewController.swift in Sources */,
 				A58BB0CB2A28225000C834A3 /* DataStorage.swift in Sources */,
+				A5FF515D2A49D0E6000AEC7F /* ProfileViewModel.swift in Sources */,
 				A59EEEA02A21867000C60128 /* StartingViewController.swift in Sources */,
 				A512D5012A22EFD70034D4D9 /* MainPageViewController.swift in Sources */,
 				A59EEE6C2A216A1200C60128 /* SceneDelegate.swift in Sources */,

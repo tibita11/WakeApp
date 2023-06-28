@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import Kingfisher
 
 class ProfileViewController: UIViewController {
     
@@ -16,10 +19,13 @@ class ProfileViewController: UIViewController {
     private let nameLable = UILabel()
     private let largeStackView = UIStackView()
     private let featureContainerView = UIView()
-    private let featureView = UIView()
-    private let featureLabel = UILabel()
+    private let futureView = UIView()
+    private let futureLabel = UILabel()
     private let triangleView = TriangleView()
     private var settingsButton = UIBarButtonItem()
+    
+    private let viewModel = ProfileViewModel()
+    private let disposeBag = DisposeBag()
     
     
     // MARK: - View Life Cycle
@@ -27,13 +33,50 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUp()
+        setUpLayout()
+        setUpViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        viewModel.getUserData()
+    }
+    
+    // MARK: - Action
+    
+    private func setUpViewModel() {
+        viewModel.outputs.nameDriver
+            .drive(nameLable.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.imageUrlDriver
+            .drive(onNext: { [weak self] imageUrl in
+                self?.imageView.kf.setImage(with: URL(string: imageUrl))
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.futureDriver
+            .drive(futureLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.errorAlertDriver
+            .drive(onNext: { [weak self] error in
+                guard let self else { return }
+                present(createErrorAlert(title: error), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+    }
+    
+    @objc private func tapSettingsButton() {
+
     }
     
     
-    //MARK: - Action
+    // MARK: - Layout
     
-    private func setUp() {
+    private func setUpLayout() {
         view.backgroundColor = .systemBackground
         
         setUpContainerView()
@@ -85,9 +128,9 @@ class ProfileViewController: UIViewController {
         let size: CGFloat = 50.0
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = size / 2
+        imageView.image = UIImage(systemName: "photo")
+        imageView.tintColor = .systemGray6
         imageView.layer.masksToBounds = true
-        // ここはDBから取得知ったものを表示
-        imageView.image = UIImage(named: "WAKE")
         
         NSLayoutConstraint.activate([
             imageView.widthAnchor.constraint(equalToConstant: size),
@@ -110,8 +153,6 @@ class ProfileViewController: UIViewController {
     
     private func setUpNameLabel() {
         nameLable.translatesAutoresizingMaskIntoConstraints = false
-        // ここはDBから取得知ったものを表示
-        nameLable.text = ""
         nameLable.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         nameLable.textColor = .white
         nameLable.textAlignment = .left
@@ -135,33 +176,31 @@ class ProfileViewController: UIViewController {
     }
     
     private func setUpFeatureView() {
-        featureView.translatesAutoresizingMaskIntoConstraints = false
-        featureView.layer.cornerRadius = 15
-        featureView.backgroundColor = .systemBackground
-        featureContainerView.addSubview(featureView)
+        futureView.translatesAutoresizingMaskIntoConstraints = false
+        futureView.layer.cornerRadius = 15
+        futureView.backgroundColor = .systemBackground
+        featureContainerView.addSubview(futureView)
         
         NSLayoutConstraint.activate([
-            featureView.topAnchor.constraint(equalTo: featureContainerView.topAnchor),
-            featureView.trailingAnchor.constraint(equalTo: featureContainerView.trailingAnchor),
-            featureView.bottomAnchor.constraint(equalTo: featureContainerView.bottomAnchor),
-            featureView.leadingAnchor.constraint(equalTo: featureContainerView.leadingAnchor, constant: 15)
+            futureView.topAnchor.constraint(equalTo: featureContainerView.topAnchor),
+            futureView.trailingAnchor.constraint(equalTo: featureContainerView.trailingAnchor),
+            futureView.bottomAnchor.constraint(equalTo: featureContainerView.bottomAnchor),
+            futureView.leadingAnchor.constraint(equalTo: featureContainerView.leadingAnchor, constant: 15)
         ])
         // パーツ
         setUpFreatureLabel()
     }
     
     private func setUpFreatureLabel() {
-        featureLabel.translatesAutoresizingMaskIntoConstraints = false
-        // ここはDBから取得知ったものを表示
-        featureLabel.text = ""
-        featureLabel.textAlignment = .center
-        featureLabel.font = UIFont.systemFont(ofSize: 16)
-        featureLabel.numberOfLines = 0
-        featureView.addSubview(featureLabel)
+        futureLabel.translatesAutoresizingMaskIntoConstraints = false
+        futureLabel.textAlignment = .center
+        futureLabel.font = UIFont.systemFont(ofSize: 16)
+        futureLabel.numberOfLines = 0
+        futureView.addSubview(futureLabel)
         
         NSLayoutConstraint.activate([
-            featureLabel.widthAnchor.constraint(equalTo: featureView.widthAnchor),
-            featureLabel.heightAnchor.constraint(equalTo: featureView.heightAnchor)
+            futureLabel.widthAnchor.constraint(equalTo: futureView.widthAnchor),
+            futureLabel.heightAnchor.constraint(equalTo: futureView.heightAnchor)
         ])
     }
     
@@ -182,10 +221,6 @@ class ProfileViewController: UIViewController {
         settingsButton = UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: .plain, target: self, action: #selector(tapSettingsButton))
         settingsButton.tintColor = .white
         parent?.navigationItem.rightBarButtonItem = settingsButton
-    }
-    
-    @objc private func tapSettingsButton() {
-
     }
     
     

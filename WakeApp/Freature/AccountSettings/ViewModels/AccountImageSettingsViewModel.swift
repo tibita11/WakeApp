@@ -134,13 +134,9 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
             return
         }
         
-        guard let userID = dataStorage.getCurrenUserID() else {
-            showErrorAlert.accept("\(ImageSettingsError.retryError)")
-            return
-        }
-        
         Task {
             do {
+                let userID = try dataStorage.getCurrenUserID()
                 var url = selectedImageUrl
                 if url == nil {
                     url = try await saveProfileImage(userID: userID, image: selectedImage!)

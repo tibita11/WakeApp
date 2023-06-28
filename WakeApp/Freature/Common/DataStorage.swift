@@ -9,6 +9,23 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
+import RxSwift
+
+// MARK: - DataStorageError
+
+enum DataStorageError: LocalizedError {
+    case noUserUid
+    case noUserData
+    
+    var errorDescription: String? {
+        switch self {
+        case .noUserUid:
+            return "ユーザー情報を取得できませんでした。\nアプリを再起動して再ログインをお願いします。"
+        case .noUserData:
+            return "データが取得できませんでした。\nアプリを再起動して再ログインをお願いします。"
+        }
+    }
+}
 
 class DataStorage {
     private let auth = Auth.auth()
@@ -20,8 +37,11 @@ class DataStorage {
     
     // MARK: - Auth
     
-    func getCurrenUserID() -> String? {
-        return auth.currentUser?.uid
+    func getCurrenUserID() throws -> String {
+        if let uid = auth.currentUser?.uid {
+            return uid
+        }
+        throw DataStorageError.noUserUid
     }
     
     func getCurrentUser() -> User? {
@@ -55,7 +75,34 @@ class DataStorage {
         try await firestore.collection(users).document(uid).setData(["name": data.name,
                                                                      "birthday": birthday,
                                                                      "imageURL": data.imageURL,
-                                                                     "feature": data.feature])
+                                                                     "future": data.future])
+    }
+    
+    func getUserData(uid: String) async throws -> UserData {
+        let snapshot = try await firestore.collection(users).document(uid).getDocument()
+        
+        guard snapshot.exists, let data = snapshot.data() else {
+            // 登録時にデータを作成しているため、存在しないことはありえない
+            // データがない場合は、再ログインを促す
+            throw DataStorageError.noUserData
+        }
+        
+        let timestamp = data["birthday"] as? Timestamp
+        let birthday: Date? = timestamp?.dateValue()
+        // キャスできない場合、ビルド時は落とす
+        let name = data["name"] as? String ?? {
+            assertionFailure("Stringにキャストできませんでした。")
+            return ""
+        }()
+        let imageURL = data["imageURL"] as? String ?? {
+            assertionFailure("Stringにキャストできませんでした。")
+            return ""
+        }()
+        let future = data["future"] as? String ?? {
+            assertionFailure("Stringにキャストできませんでした。")
+            return ""
+        }()
+        return UserData(name: name, birthday: birthday, imageURL: imageURL, future: future)
     }
     
     

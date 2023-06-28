@@ -11,12 +11,12 @@ struct UserData {
     let name: String
     let birthday: Date?
     let imageURL: String
-    let feature: String
+    let future: String
     
-    init(name: String, birthday: Date? = nil, imageURL: String, feature: String = "") {
+    init(name: String, birthday: Date? = nil, imageURL: String, future: String = "") {
         self.name = name
         self.birthday = birthday
         self.imageURL = imageURL
-        self.feature = feature
+        self.future = future
     }
 }
