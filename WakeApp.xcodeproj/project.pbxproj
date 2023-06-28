@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -39,6 +39,7 @@
 		A59EEEA12A21867000C60128 /* StartingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A59EEE9F2A21867000C60128 /* StartingViewController.xib */; };
 		A5B42CE12A49907000F64F4B /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B42CE02A49907000F64F4B /* TriangleView.swift */; };
 		A5CFBD9C2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */; };
+		A5E03C642A4C1C24002148F1 /* PlaceHolderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E03C632A4C1C24002148F1 /* PlaceHolderTextView.swift */; };
 		A5E14CF62A472D9800A8C547 /* WaveAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E14CF52A472D9800A8C547 /* WaveAnimationView.swift */; };
 		A5E45C822A2D7C5F004EC86B /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E45C802A2D7C5F004EC86B /* RecordViewController.swift */; };
 		A5E45C832A2D7C5F004EC86B /* RecordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5E45C812A2D7C5F004EC86B /* RecordViewController.xib */; };
@@ -115,6 +116,7 @@
 		A59EEE9F2A21867000C60128 /* StartingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartingViewController.xib; sourceTree = "<group>"; };
 		A5B42CE02A49907000F64F4B /* TriangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
 		A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountImageSettingsViewModel.swift; sourceTree = "<group>"; };
+		A5E03C632A4C1C24002148F1 /* PlaceHolderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderTextView.swift; sourceTree = "<group>"; };
 		A5E14CF52A472D9800A8C547 /* WaveAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveAnimationView.swift; sourceTree = "<group>"; };
 		A5E45C802A2D7C5F004EC86B /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		A5E45C812A2D7C5F004EC86B /* RecordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecordViewController.xib; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				A58BB0CA2A28225000C834A3 /* DataStorage.swift */,
 				A5E839F32A2721B8002D21FA /* Validation.swift */,
 				A5F3790C2A44145F00E2B536 /* UserData.swift */,
+				A5E03C632A4C1C24002148F1 /* PlaceHolderTextView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -705,6 +708,7 @@
 				A50B9E4E2A2424230051C78C /* AccountRegistrationViewController.swift in Sources */,
 				A58BB0CE2A282AEB00C834A3 /* OutgoingEmailViewController.swift in Sources */,
 				A58BB0D32A2839F400C834A3 /* LoadingView.swift in Sources */,
+				A5E03C642A4C1C24002148F1 /* PlaceHolderTextView.swift in Sources */,
 				A555A7712A24A20B00B09B03 /* AccountRegistrationViewModel.swift in Sources */,
 				A5B42CE12A49907000F64F4B /* TriangleView.swift in Sources */,
 				A5ECAA122A450743007FDEDF /* MainTabBarController.swift in Sources */,

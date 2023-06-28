@@ -26,6 +26,12 @@ class ProfileEditingViewController: UIViewController {
             registerButton.layer.cornerRadius = Const.LargeBlueButtonCorner
         }
     }
+    @IBOutlet weak var futureTextView: PlaceHolderTextView! {
+        didSet {
+            futureTextView.placeHolder = "例) たくさんの人を救える医者になりたい"
+        }
+    }
+    
     
     
     // MARK: - View Life Cycle
