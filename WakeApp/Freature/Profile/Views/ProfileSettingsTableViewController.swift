@@ -14,18 +14,16 @@ class ProfileSettingsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "profileSettingsCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "profileSettingsCell")
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return settins.count
     }
 
@@ -35,6 +33,19 @@ class ProfileSettingsTableViewController: UITableViewController {
         config.text = settins[indexPath.row]
         cell.contentConfiguration = config
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            let profileEditingVC = ProfileEditingViewController()
+            navigationController?.pushViewController(profileEditingVC, animated: true)
+        case 1:
+            // 目標編集画面へ遷移
+            break
+        default:
+            break
+        }
     }
 
     /*
