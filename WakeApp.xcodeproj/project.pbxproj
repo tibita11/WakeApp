@@ -50,6 +50,8 @@
 		A5ECAA1C2A453416007FDEDF /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5ECAA1A2A453416007FDEDF /* SplashViewController.swift */; };
 		A5F3790D2A44145F00E2B536 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F3790C2A44145F00E2B536 /* UserData.swift */; };
 		A5FF515D2A49D0E6000AEC7F /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF515C2A49D0E6000AEC7F /* ProfileViewModel.swift */; };
+		A5FF51602A4BFB13000AEC7F /* ProfileSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF515E2A4BFB13000AEC7F /* ProfileSettingsTableViewController.swift */; };
+		A5FF51612A4BFB13000AEC7F /* ProfileSettingsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5FF515F2A4BFB13000AEC7F /* ProfileSettingsTableViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +124,8 @@
 		A5ECAA1A2A453416007FDEDF /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		A5F3790C2A44145F00E2B536 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		A5FF515C2A49D0E6000AEC7F /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		A5FF515E2A4BFB13000AEC7F /* ProfileSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsTableViewController.swift; sourceTree = "<group>"; };
+		A5FF515F2A4BFB13000AEC7F /* ProfileSettingsTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileSettingsTableViewController.xib; sourceTree = "<group>"; };
 		C0F249E367FA7C50AB45CD73 /* Pods_WakeApp_WakeAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WakeApp_WakeAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F088D3925853C70B8AD02063 /* Pods-WakeApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WakeApp.debug.xcconfig"; path = "Target Support Files/Pods-WakeApp/Pods-WakeApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -416,8 +420,10 @@
 		A5ECAA152A4508BB007FDEDF /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A5ECAA162A4508D9007FDEDF /* ProfileViewController.swift */,
 				A5B42CE02A49907000F64F4B /* TriangleView.swift */,
+				A5ECAA162A4508D9007FDEDF /* ProfileViewController.swift */,
+				A5FF515E2A4BFB13000AEC7F /* ProfileSettingsTableViewController.swift */,
+				A5FF515F2A4BFB13000AEC7F /* ProfileSettingsTableViewController.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -535,6 +541,7 @@
 				A5E45C832A2D7C5F004EC86B /* RecordViewController.xib in Resources */,
 				A555A76F2A249FF000B09B03 /* GoogleService-Info.plist in Resources */,
 				A59EEE762A216A1300C60128 /* LaunchScreen.storyboard in Resources */,
+				A5FF51612A4BFB13000AEC7F /* ProfileSettingsTableViewController.xib in Resources */,
 				A59EEE732A216A1300C60128 /* Assets.xcassets in Resources */,
 				A58BB0D12A2839E200C834A3 /* LoadingView.xib in Resources */,
 				A5E45C872A2DA891004EC86B /* AccountImageSettingsViewController.xib in Resources */,
@@ -674,6 +681,7 @@
 				A512D5042A22F0910034D4D9 /* IntroductionViewController.swift in Sources */,
 				A5ECAA1C2A453416007FDEDF /* SplashViewController.swift in Sources */,
 				A58BB0DE2A289D7700C834A3 /* AccountSettingsViewController.swift in Sources */,
+				A5FF51602A4BFB13000AEC7F /* ProfileSettingsTableViewController.swift in Sources */,
 				A5E45C862A2DA891004EC86B /* AccountImageSettingsViewController.swift in Sources */,
 				A53468F52A2AE4F10097A9EB /* AccountSettingsViewModel.swift in Sources */,
 				A5E839F42A2721B8002D21FA /* Validation.swift in Sources */,

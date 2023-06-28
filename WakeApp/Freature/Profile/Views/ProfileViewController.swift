@@ -70,7 +70,8 @@ class ProfileViewController: UIViewController {
     }
     
     @objc private func tapSettingsButton() {
-
+        let vc = ProfileSettingsTableViewController()
+        parent?.navigationController?.pushViewController(vc, animated: true)
     }
     
     
