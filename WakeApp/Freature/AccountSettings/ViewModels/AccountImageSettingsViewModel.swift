@@ -163,7 +163,39 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     }
     
     func updateAccount() {
-
+        if selectedImage == nil && selectedImageUrl == nil {
+            showErrorAlert.accept("\(ImageSettingsError.noImageError.localizedDescription)")
+            return
+        }
+        
+        Task {
+            do {
+                let userID = try dataStorage.getCurrenUserID()
+                var url = selectedImageUrl
+                let registerdUrl = try await dataStorage.getImageURL(uid: userID)
+                
+                if url == nil {
+                    url = try await saveProfileImage(userID: userID, image: selectedImage!)
+                }
+                
+                let urlString = url!.absoluteString
+                if urlString != registerdUrl {
+                    // デフォルト以外の登録済みデータを削除
+                    if !registerdUrl.contains("Image") {
+                        try await dataStorage.deleteProfileImage(imageUrl: registerdUrl)
+                    }
+                }
+                
+                try await dataStorage.updateImageURL(uid: userID, url: url!.absoluteString)
+            } catch let error as DataStorageError {
+                // 復旧不可エラー
+                showErrorAlert.accept(error.localizedDescription)
+            } catch let error {
+                print(error.localizedDescription)
+                let errorMessage = "エラーが起きました。\nしばらくしてから再度お試しください。"
+                showErrorAlert.accept(errorMessage)
+            }
+        }
     }
     
     private func saveProfileImage(userID: String, image: UIImage) async throws -> URL {

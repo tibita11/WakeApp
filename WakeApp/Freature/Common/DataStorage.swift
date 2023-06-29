@@ -30,6 +30,7 @@ enum DataStorageError: LocalizedError {
 class DataStorage {
     private let auth = Auth.auth()
     private let firestore = Firestore.firestore()
+    private let storage = Storage.storage()
     /// コレクション名
     private let users = "Users"
     private let image = "Image"
@@ -76,6 +77,10 @@ class DataStorage {
                                                                      "birthday": birthday,
                                                                      "imageURL": data.imageURL,
                                                                      "future": data.future])
+    }
+    
+    func updateImageURL(uid: String, url: String) async throws {
+        try await firestore.collection(users).document(uid).updateData(["imageURL": url])
     }
     
     func getUserData(uid: String) async throws -> UserData {
@@ -143,10 +148,15 @@ class DataStorage {
     }
     
     func saveProfileImage(uid: String, imageData: Data) async throws -> URL {
-        let imageRef = Storage.storage().reference().child(uid).child("\(UUID().uuidString).jpg")
+        let imageRef = storage.reference().child(uid).child("\(UUID().uuidString).jpg")
         _ = try await imageRef.putDataAsync(imageData)
         let url = try await imageRef.downloadURL()
         return url
+    }
+    
+    func deleteProfileImage(imageUrl: String) async throws {
+        let imageRef = storage.reference(forURL: imageUrl)
+        try await imageRef.delete()
     }
     
 }

@@ -132,7 +132,7 @@ class ProfileEditingViewController: UIViewController {
 
     @IBAction func tapImageChangeButton(_ sender: Any) {
         let vc = AccountImageSettingsViewController()
-        self.present(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
 }
