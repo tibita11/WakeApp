@@ -22,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         IQKeyboardManager.shared.enable = true
+        Network.shared.setUp()
+        
         //ST -テスト用
 //        Auth.auth().useEmulator(withHost: "localhost", port: 9099)
 //

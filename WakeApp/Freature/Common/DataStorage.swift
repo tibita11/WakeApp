@@ -45,10 +45,6 @@ class DataStorage {
         throw DataStorageError.noUserUid
     }
     
-    func getCurrentUser() -> User? {
-        return auth.currentUser
-    }
-    
     
     // MARK: - Firestore
     

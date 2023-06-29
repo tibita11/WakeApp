@@ -32,9 +32,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             Task {
                 try await Task.sleep(nanoseconds: 1_500_000_000)
                 let rootVC = await setRootViewController()
+                
                 await MainActor.run {
                     let navigationController = UINavigationController(rootViewController: rootVC)
                     window.rootViewController = navigationController
+                    
+                    if !Network.shared.isOnline() {
+                        window.rootViewController?.present(createNetworkErrorAlert(), animated: false)
+                    }
                 }
             }
         }
@@ -44,19 +49,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let dataStorage = DataStorage()
         var rootVC: UIViewController = StartingViewController()
         
-        guard let currentUser = dataStorage.getCurrentUser(), currentUser.isEmailVerified else {
+        guard let currentUser = Auth.auth().currentUser, currentUser.isEmailVerified else {
             return rootVC
         }
-        
-        do {
-            if try await dataStorage.checkDocument(uid: currentUser.uid) {
-                rootVC = MainTabBarController()
-            }
-        } catch (let error) {
-            print("初期化エラー: \(error.localizedDescription)")
+        // エラーをキャッチする場合も一律でrootVCを返す
+        if let bool = try? await dataStorage.checkDocument(uid: currentUser.uid), bool {
+            rootVC = MainTabBarController()
         }
         
         return rootVC
+    }
+    
+    func createNetworkErrorAlert() -> UIAlertController {
+        let alertController = UIAlertController(title: "サーバーへ接続が出来ません", message: "WakeAppにアクセスできません。\nインターネット接続を確認してください。", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alertController.addAction(okAction)
+        return alertController
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
