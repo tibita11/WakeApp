@@ -105,6 +105,20 @@ class DataStorage {
         return UserData(name: name, birthday: birthday, imageURL: imageURL, future: future)
     }
     
+    func getImageURL(uid: String) async throws -> String {
+        let snapshot = try await firestore.collection(users).document(uid).getDocument()
+        
+        guard snapshot.exists, let data = snapshot.data() else {
+            throw DataStorageError.noUserData
+        }
+        
+        let imageURL = data["imageURL"] as? String ?? {
+            assertionFailure("Stringにキャストできませんでした。")
+            return ""
+        }()
+        return imageURL
+    }
+    
     
     // MARK: - Storage
     

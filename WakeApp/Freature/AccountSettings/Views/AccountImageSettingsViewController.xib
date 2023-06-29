@@ -281,9 +281,6 @@
                             <state key="normal" title="アカウント作成">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
-                            <connections>
-                                <action selector="tapCreateButton:" destination="-1" eventType="touchUpInside" id="5ZW-d8-ddc"/>
-                            </connections>
                         </button>
                     </subviews>
                 </stackView>

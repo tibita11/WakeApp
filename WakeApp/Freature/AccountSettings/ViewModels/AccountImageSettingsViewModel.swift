@@ -83,16 +83,28 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
         self.birthday = birthday
     }
     
-    func setDefaultImage() {
+    func setDefaultImage(status: AccountImageSettingsStatus) {
         Task {
             do {
                 let defaultImageUrls = try await dataStorage.getDefaultProfileImages(names: Const.defaultProfileImages)
-                let iconImageUrl = try await dataStorage.getDefaultProfileImages(names: Const.iconImage)
+                switch status {
+                case .create:
+                    // 新規の場合は、デフォルト画像を表示
+                    let iconImageUrl = try await dataStorage.getDefaultProfileImages(names: Const.iconImage)
+                    selectedImageUrl = iconImageUrl.first
+                case .update:
+                    // 更新の場合は、登録済み画像を表示
+                    let userID = try dataStorage.getCurrenUserID()
+                    let imageUrl = try await dataStorage.getImageURL(uid: userID)
+                    selectedImageUrl = URL(string: imageUrl)
+                }
                 defaultImageUrlsRelay.accept(defaultImageUrls)
-                selectedImageUrl = iconImageUrl.first
                 isHiddenError.accept(true)
-            } catch (let error) {
-                print("URL取得失敗: \(error.localizedDescription)")
+            } catch let error as DataStorageError {
+                // 復旧不可エラー
+                showErrorAlert.accept(error.localizedDescription)
+            } catch {
+                // 再試行で復旧する可能性がある
                 isHiddenError.accept(false)
             }
         }
@@ -148,6 +160,10 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
                 showErrorAlert.accept("\(error.localizedDescription)")
             }
         }
+    }
+    
+    func updateAccount() {
+
     }
     
     private func saveProfileImage(userID: String, image: UIImage) async throws -> URL {

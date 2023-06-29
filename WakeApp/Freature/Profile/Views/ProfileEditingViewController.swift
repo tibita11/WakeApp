@@ -130,5 +130,9 @@ class ProfileEditingViewController: UIViewController {
         birthdayTextField.text = ""
     }
 
-
+    @IBAction func tapImageChangeButton(_ sender: Any) {
+        let vc = AccountImageSettingsViewController()
+        self.present(vc, animated: true)
+    }
+    
 }

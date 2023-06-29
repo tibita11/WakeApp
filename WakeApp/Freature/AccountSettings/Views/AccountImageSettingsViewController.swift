@@ -10,6 +10,11 @@ import Kingfisher
 import RxSwift
 import RxCocoa
 
+enum AccountImageSettingsStatus {
+    case create
+    case update
+}
+
 class AccountImageSettingsViewController: UIViewController {
     
     @IBOutlet weak var selectedImageView: UIImageView! {
@@ -31,6 +36,14 @@ class AccountImageSettingsViewController: UIViewController {
     @IBOutlet weak var createButton: UIButton! {
         didSet {
             createButton.layer.cornerRadius = Const.LargeBlueButtonCorner
+            switch status {
+            case .create:
+                createButton.setTitle("アカウント作成", for: .normal)
+                createButton.addTarget(self, action: #selector(createAccout), for: .touchUpInside)
+            case .update:
+                createButton.setTitle("更新", for: .normal)
+                createButton.addTarget(self, action: #selector(updateAccount), for: .touchUpInside)
+            }
         }
     }
     @IBOutlet var defaultImageButtons: [UIButton]! {
@@ -47,16 +60,20 @@ class AccountImageSettingsViewController: UIViewController {
     private let viewModel = AccountImageSettingsViewModel()
     private let disposeBag = DisposeBag()
     private let imageChangeSmallButton = UIButton()
+    /// 新規作成と更新で同じ画面を使用するため
+    private let status: AccountImageSettingsStatus
     
     
     // MARK: - View Life Cycle
     
     init(name: String, birthday: Date?) {
         viewModel.setDefaultData(name: name, birthday: birthday)
+        self.status = AccountImageSettingsStatus.create
         super.init(nibName: nil, bundle: nil)
     }
     
     init() {
+        self.status = AccountImageSettingsStatus.update
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -143,7 +160,7 @@ class AccountImageSettingsViewController: UIViewController {
             .disposed(by: disposeBag)
         
         // 画像取得
-        viewModel.setDefaultImage()
+        viewModel.setDefaultImage(status: status)
     }
     
     @objc func tapDefaultImageButton(sender: UIButton) {
@@ -152,11 +169,15 @@ class AccountImageSettingsViewController: UIViewController {
     
     @IBAction func tapRetryButton(_ sender: Any) {
         errorTextStackView.isHidden = true
-        viewModel.setDefaultImage()
+        viewModel.setDefaultImage(status: status)
     }
     
-    @IBAction func tapCreateButton(_ sender: Any) {
+    @objc private func createAccout() {
         viewModel.createAccount()
+    }
+    
+    @objc private func updateAccount() {
+        viewModel.updateAccount()
     }
     
     /// 円形のボタンをselectedImageView上に配置する

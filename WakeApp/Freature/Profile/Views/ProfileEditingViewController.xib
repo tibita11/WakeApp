@@ -57,6 +57,9 @@
                                     <state key="normal" title="変更">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </state>
+                                    <connections>
+                                        <action selector="tapImageChangeButton:" destination="-1" eventType="touchUpInside" id="zji-fg-259"/>
+                                    </connections>
                                 </button>
                             </subviews>
                         </stackView>
