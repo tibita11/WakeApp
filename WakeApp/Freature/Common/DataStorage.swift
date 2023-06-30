@@ -14,13 +14,10 @@ import RxSwift
 // MARK: - DataStorageError
 
 enum DataStorageError: LocalizedError {
-    case noUserUid
     case noUserData
     
     var errorDescription: String? {
         switch self {
-        case .noUserUid:
-            return "ユーザー情報を取得できませんでした。\nアプリを再起動して再ログインをお願いします。"
         case .noUserData:
             return "データが取得できませんでした。\nアプリを再起動して再ログインをお願いします。"
         }
@@ -28,39 +25,13 @@ enum DataStorageError: LocalizedError {
 }
 
 class DataStorage {
-    private let auth = Auth.auth()
     private let firestore = Firestore.firestore()
     private let storage = Storage.storage()
     /// コレクション名
     private let users = "Users"
     private let image = "Image"
     
-    
-    // MARK: - Auth
-    
-    func getCurrenUserID() throws -> String {
-        if let uid = auth.currentUser?.uid {
-            return uid
-        }
-        throw DataStorageError.noUserUid
-    }
-    
-    
     // MARK: - Firestore
-    
-    func createUser(email: String, password: String) async throws {
-        auth.languageCode = "ja_JP"
-        let result = try await auth.createUser(withEmail: email, password: password)
-        try await result.user.sendEmailVerification()
-    }
-    
-    func signIn(email: String, password: String) async throws -> AuthDataResult {
-        return try await auth.signIn(withEmail: email, password: password)
-    }
-    
-    func sendEmailVerification() async throws {
-        try await auth.currentUser?.sendEmailVerification()
-    }
     
     func checkDocument(uid: String) async throws -> Bool {
         let document = try await firestore.collection(users).document(uid).getDocument()
@@ -208,36 +179,5 @@ extension DataStorage {
             data = image.jpegData(compressionQuality: complessionQuality)
         }
         return data
-    }
-}
-
-
-// MARK: - ErrorMessage
-
-extension DataStorage {
-    func getErrorMessage(error: Error) -> String {
-        let errorMessage = "エラーが起きました。\nしばらくしてから再度お試しください。"
-        
-        guard let error = error as NSError?,
-              let errorCode = AuthErrorCode.Code(rawValue: error.code) else {
-            return errorMessage
-        }
-        
-        switch errorCode {
-        case .invalidEmail:
-            return "メールアドレスの形式が正しくありません。"
-        case .emailAlreadyInUse:
-            return "登録に使用されたメールアドレスがすでに存在しています。"
-        case .weakPassword:
-            return "強力なパスワードを設定してください。"
-        case .userDisabled:
-            return "このアカウントは使用できません。"
-        case .wrongPassword:
-            return "パスワードが間違っています。"
-        case .userNotFound:
-            return "該当アカウントが存在しません。"
-        default:
-            return errorMessage
-        }
     }
 }

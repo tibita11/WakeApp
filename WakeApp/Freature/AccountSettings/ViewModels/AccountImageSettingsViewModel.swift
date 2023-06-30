@@ -37,6 +37,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     private var name: String? = nil
     private var birthday: Date?  = nil
     private let dataStorage = DataStorage()
+    private let firebaseAuthService = FirebaseAuthService()
     private let disposeBag = DisposeBag()
     private var selectedImage: UIImage? = nil {
         didSet {
@@ -94,7 +95,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
                     selectedImageUrl = iconImageUrl.first
                 case .update:
                     // 更新の場合は、登録済み画像を表示
-                    let userID = try dataStorage.getCurrenUserID()
+                    let userID = try firebaseAuthService.getCurrenUserID()
                     let imageUrl = try await dataStorage.getImageURL(uid: userID)
                     selectedImageUrl = URL(string: imageUrl)
                 }
@@ -148,7 +149,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
         
         Task {
             do {
-                let userID = try dataStorage.getCurrenUserID()
+                let userID = try firebaseAuthService.getCurrenUserID()
                 var url = selectedImageUrl
                 if url == nil {
                     url = try await saveProfileImage(userID: userID, image: selectedImage!)
@@ -170,7 +171,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
         
         Task {
             do {
-                let userID = try dataStorage.getCurrenUserID()
+                let userID = try firebaseAuthService.getCurrenUserID()
                 var url = selectedImageUrl
                 let registerdUrl = try await dataStorage.getImageURL(uid: userID)
                 

@@ -23,15 +23,16 @@ class AppleAuthenticator {
         return request
     }
     
-    func appleSignIn(authorization: ASAuthorization) async throws -> AuthDataResult {
+    func appleSignIn(authorization: ASAuthorization) -> AuthCredential {
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
               let nonce = currentNonce,
               let appleIDToken = appleIDCredential.identityToken,
               let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-            throw AppleSignInError.signInFailed
+            // アプリを落とす
+            fatalError("Appleログイン失敗")
         }
         let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-        return try await Auth.auth().signIn(with: credential)
+        return credential
     }
     
     private func randomNonceString(length: Int = 32) -> String {

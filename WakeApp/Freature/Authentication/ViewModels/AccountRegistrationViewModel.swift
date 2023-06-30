@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import AuthenticationServices
 import FirebaseAuth
+import GoogleSignIn
 
 struct AccountRegistrationViewModelInput {
     let emailTextFieldObserver: Observable<String?>
@@ -50,6 +51,7 @@ class AccountRegistrationViewModel: NSObject, AccountRegistrationViewModelType {
     private let accountSettings = PublishRelay<Void>()
     private let emailVerification = PublishRelay<String>()
     private let dataStorage = DataStorage()
+    private let firebaseAuthService = FirebaseAuthService()
     
     func setUp(input: AccountRegistrationViewModelInput) {
         // Emailバリデーションチェック
@@ -85,14 +87,33 @@ class AccountRegistrationViewModel: NSObject, AccountRegistrationViewModelType {
             .disposed(by: disposeBag)
         
     }
-
-    func googleSignIn(withPresenting: UIViewController) {
+    
+    /// - Parameter uid: ドキュメント有無で遷移先を決定
+    private func determineNextScreen(from uid: String) {
         Task {
             do {
-                let result = try await GoogleAuthenticator().googleSignIn(withPresenting: withPresenting)
-                try await transitionToNext(uid: result.user.uid)
-            } catch (let error) {
-                errorMessage.accept(error.localizedDescription)
+                if try await dataStorage.checkDocument(uid: uid) {
+                    signInCompleted.accept(())
+                } else {
+                    accountSettings.accept(())
+                }
+            } catch {
+                accountSettings.accept(())
+            }
+        }
+    }
+
+    func googleSignIn(withPresenting: UIViewController) {
+        let googleAuthenticator = GoogleAuthenticator()
+        Task {
+            do {
+                let credential = try await googleAuthenticator.googleSignIn(withPresenting: withPresenting)
+                let result = try await firebaseAuthService.signIn(with: credential)
+                determineNextScreen(from: result.user.uid)
+            } catch let error as GIDSignInError {
+                errorMessage.accept(googleAuthenticator.getErrorMessage(error: error))
+            } catch let error {
+                errorMessage.accept(firebaseAuthService.getErrorMessage(error: error))
             }
         }
     }
@@ -110,12 +131,12 @@ class AccountRegistrationViewModel: NSObject, AccountRegistrationViewModelType {
             do {
                 isLoading.accept(true)
                 try await Task.sleep(nanoseconds: 1_500_000_000)
-                try await dataStorage.createUser(email: email, password: password)
+                try await firebaseAuthService.createUser(email: email, password: password)
                 isLoading.accept(false)
                 sendCompleted.accept(())
             } catch (let error) {
                 isLoading.accept(false)
-                errorMessage.accept(dataStorage.getErrorMessage(error: error))
+                errorMessage.accept(firebaseAuthService.getErrorMessage(error: error))
             }
         }
     }
@@ -123,14 +144,14 @@ class AccountRegistrationViewModel: NSObject, AccountRegistrationViewModelType {
     func signIn(email: String, password: String) {
         Task {
             do {
-                let result = try await dataStorage.signIn(email: email, password: password)
+                let result = try await firebaseAuthService.signIn(email: email, password: password)
                 guard result.user.isEmailVerified else {
                     emailVerification.accept(email)
                     return
                 }
-                try await transitionToNext(uid: result.user.uid)
+                determineNextScreen(from: result.user.uid)
             } catch (let error) {
-                errorMessage.accept(dataStorage.getErrorMessage(error: error))
+                errorMessage.accept(firebaseAuthService.getErrorMessage(error: error))
             }
         }
     }
@@ -138,21 +159,12 @@ class AccountRegistrationViewModel: NSObject, AccountRegistrationViewModelType {
     func sendEmailVerification() {
         Task {
             do {
-                try await dataStorage.sendEmailVerification()
+                try await firebaseAuthService.sendEmailVerification()
                 sendCompleted.accept(())
             } catch (let error) {
-                errorMessage.accept(dataStorage.getErrorMessage(error: error))
+                errorMessage.accept(firebaseAuthService.getErrorMessage(error: error))
             }
         }
-    }
-    
-    /// - Parameter uid: ドキュメント有無で遷移先を決定する
-    private func transitionToNext(uid: String) async throws {
-        guard try await dataStorage.checkDocument(uid: uid) else {
-            accountSettings.accept(())
-            return
-        }
-        signInCompleted.accept(())
     }
     
 }
@@ -214,10 +226,13 @@ extension AccountRegistrationViewModel: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         Task {
             do {
-                let result = try await appleAuthenticator.appleSignIn(authorization: authorization)
-                try await transitionToNext(uid: result.user.uid)
-            } catch (let error) {
+                let credential = appleAuthenticator.appleSignIn(authorization: authorization)
+                let result = try await firebaseAuthService.signIn(with: credential)
+                determineNextScreen(from: result.user.uid)
+            } catch let error as ASAuthorizationError {
                 errorMessage.accept(appleAuthenticator.getErrorMessage(error: error))
+            } catch let error {
+                errorMessage.accept(firebaseAuthService.getErrorMessage(error: error))
             }
         }
     }

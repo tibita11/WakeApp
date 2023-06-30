@@ -17,6 +17,7 @@
 		A512D5052A22F0910034D4D9 /* IntroductionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A512D5032A22F0910034D4D9 /* IntroductionViewController.xib */; };
 		A512D5082A2391DA0034D4D9 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = A512D5072A2391DA0034D4D9 /* Const.swift */; };
 		A53468F52A2AE4F10097A9EB /* AccountSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53468F42A2AE4F10097A9EB /* AccountSettingsViewModel.swift */; };
+		A54C21002A4E7EDF00A62691 /* FirebaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54C20FF2A4E7EDF00A62691 /* FirebaseAuthService.swift */; };
 		A555A76F2A249FF000B09B03 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A555A76E2A249FF000B09B03 /* GoogleService-Info.plist */; };
 		A555A7712A24A20B00B09B03 /* AccountRegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555A7702A24A20B00B09B03 /* AccountRegistrationViewModel.swift */; };
 		A555A7732A24ECD300B09B03 /* GoogleAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555A7722A24ECD300B09B03 /* GoogleAuthenticator.swift */; };
@@ -91,6 +92,7 @@
 		A512D5032A22F0910034D4D9 /* IntroductionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IntroductionViewController.xib; sourceTree = "<group>"; };
 		A512D5072A2391DA0034D4D9 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
 		A53468F42A2AE4F10097A9EB /* AccountSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingsViewModel.swift; sourceTree = "<group>"; };
+		A54C20FF2A4E7EDF00A62691 /* FirebaseAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthService.swift; sourceTree = "<group>"; };
 		A555A76E2A249FF000B09B03 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A555A7702A24A20B00B09B03 /* AccountRegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRegistrationViewModel.swift; sourceTree = "<group>"; };
 		A555A7722A24ECD300B09B03 /* GoogleAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthenticator.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				A5E839F32A2721B8002D21FA /* Validation.swift */,
 				A5F3790C2A44145F00E2B536 /* UserData.swift */,
 				A5E03C632A4C1C24002148F1 /* PlaceHolderTextView.swift */,
+				A54C20FF2A4E7EDF00A62691 /* FirebaseAuthService.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -716,6 +719,7 @@
 				A58BB0CE2A282AEB00C834A3 /* OutgoingEmailViewController.swift in Sources */,
 				A58BB0D32A2839F400C834A3 /* LoadingView.swift in Sources */,
 				A5E03C642A4C1C24002148F1 /* PlaceHolderTextView.swift in Sources */,
+				A54C21002A4E7EDF00A62691 /* FirebaseAuthService.swift in Sources */,
 				A555A7712A24A20B00B09B03 /* AccountRegistrationViewModel.swift in Sources */,
 				A5B42CE12A49907000F64F4B /* TriangleView.swift in Sources */,
 				A5ECAA122A450743007FDEDF /* MainTabBarController.swift in Sources */,
