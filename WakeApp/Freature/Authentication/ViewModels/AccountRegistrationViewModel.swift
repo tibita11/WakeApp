@@ -92,7 +92,7 @@ class AccountRegistrationViewModel: NSObject, AccountRegistrationViewModelType {
     private func determineNextScreen(from uid: String) {
         Task {
             do {
-                if try await dataStorage.checkDocument(uid: uid) {
+                if try await FirebaseFirestoreService().checkDocument(uid: uid) {
                     signInCompleted.accept(())
                 } else {
                     accountSettings.accept(())

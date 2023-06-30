@@ -53,7 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return rootVC
         }
         // エラーをキャッチする場合も一律でrootVCを返す
-        if let bool = try? await dataStorage.checkDocument(uid: currentUser.uid), bool {
+        if let bool = try? await FirebaseFirestoreService().checkDocument(uid: currentUser.uid), bool {
             rootVC = MainTabBarController()
         }
         

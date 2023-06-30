@@ -32,6 +32,7 @@ class ProfileEditingViewModel: ProfileEditingViewModelType {
     private let disposeBag = DisposeBag()
     private let dataStorage = DataStorage()
     private let firebaseAuthService = FirebaseAuthService()
+    private let firebaseFirestoreService = FirebaseFirestoreService()
     private let imageUrlRelay = PublishRelay<String>()
     private let nameRelay = PublishRelay<String>()
     private let birthdayRelay = PublishRelay<Date>()
@@ -57,7 +58,7 @@ class ProfileEditingViewModel: ProfileEditingViewModelType {
         Task {
             do {
                 let userID = try firebaseAuthService.getCurrenUserID()
-                let userData = try await dataStorage.getUserData(uid: userID)
+                let userData = try await firebaseFirestoreService.getUserData(uid: userID)
                 
                 imageUrlRelay.accept(userData.imageURL)
                 nameRelay.accept(userData.name)

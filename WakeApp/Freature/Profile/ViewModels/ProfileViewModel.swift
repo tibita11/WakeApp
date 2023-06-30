@@ -25,6 +25,7 @@ class ProfileViewModel: ProfileViewModelType {
     
     private let dataStorage = DataStorage()
     private let firebaseAuthService = FirebaseAuthService()
+    private let firebaseFirestoreService = FirebaseFirestoreService()
     private var nameRelay = PublishRelay<String>()
     private let imageUrlRelay = PublishRelay<String>()
     private let futureRelay = PublishRelay<String>()
@@ -35,7 +36,7 @@ class ProfileViewModel: ProfileViewModelType {
         Task {
             do {
                 let userID = try firebaseAuthService.getCurrenUserID()
-                let userData = try await dataStorage.getUserData(uid: userID)
+                let userData = try await firebaseFirestoreService.getUserData(uid: userID)
                 nameRelay.accept(userData.name)
                 imageUrlRelay.accept(userData.imageURL)
                 futureRelay.accept(userData.future)

@@ -37,6 +37,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     private var name: String? = nil
     private var birthday: Date?  = nil
     private let dataStorage = DataStorage()
+    private let firebaseFirestoreService = FirebaseFirestoreService()
     private let firebaseAuthService = FirebaseAuthService()
     private let disposeBag = DisposeBag()
     private var selectedImage: UIImage? = nil {
@@ -96,7 +97,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
                 case .update:
                     // 更新の場合は、登録済み画像を表示
                     let userID = try firebaseAuthService.getCurrenUserID()
-                    let imageUrl = try await dataStorage.getImageURL(uid: userID)
+                    let imageUrl = try await firebaseFirestoreService.getImageURL(uid: userID)
                     selectedImageUrl = URL(string: imageUrl)
                 }
                 defaultImageUrlsRelay.accept(defaultImageUrls)
@@ -155,7 +156,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
                     url = try await saveProfileImage(userID: userID, image: selectedImage!)
                 }
                 let userData = UserData(name: name!, birthday: birthday, imageURL: url!.absoluteString)
-                try await dataStorage.saveUserData(uid: userID, data: userData)
+                try await firebaseFirestoreService.saveUserData(uid: userID, data: userData)
                 transition.accept(())
             } catch (let error) {
                 showErrorAlert.accept("\(error.localizedDescription)")
@@ -173,7 +174,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
             do {
                 let userID = try firebaseAuthService.getCurrenUserID()
                 var url = selectedImageUrl
-                let registerdUrl = try await dataStorage.getImageURL(uid: userID)
+                let registerdUrl = try await firebaseFirestoreService.getImageURL(uid: userID)
                 
                 if url == nil {
                     url = try await saveProfileImage(userID: userID, image: selectedImage!)
@@ -187,7 +188,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
                     }
                 }
                 
-                try await dataStorage.updateImageURL(uid: userID, url: url!.absoluteString)
+                try await firebaseFirestoreService.updateImageURL(uid: userID, url: url!.absoluteString)
             } catch let error as DataStorageError {
                 // 復旧不可エラー
                 showErrorAlert.accept(error.localizedDescription)
