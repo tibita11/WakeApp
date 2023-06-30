@@ -50,7 +50,6 @@ class AccountRegistrationViewModel: NSObject, AccountRegistrationViewModelType {
     private let signInCompleted = PublishRelay<Void>()
     private let accountSettings = PublishRelay<Void>()
     private let emailVerification = PublishRelay<String>()
-    private let dataStorage = DataStorage()
     private let firebaseAuthService = FirebaseAuthService()
     
     func setUp(input: AccountRegistrationViewModelInput) {

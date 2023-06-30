@@ -23,7 +23,6 @@ protocol ProfileViewModelType {
 class ProfileViewModel: ProfileViewModelType {
     var outputs: ProfileViewModelOutputs { self }
     
-    private let dataStorage = DataStorage()
     private let firebaseAuthService = FirebaseAuthService()
     private let firebaseFirestoreService = FirebaseFirestoreService()
     private var nameRelay = PublishRelay<String>()
@@ -41,7 +40,7 @@ class ProfileViewModel: ProfileViewModelType {
                 imageUrlRelay.accept(userData.imageURL)
                 futureRelay.accept(userData.future)
                 
-            } catch let error as DataStorageError {
+            } catch let error as FirebaseFirestoreServiceError {
                 errorAlertRelay.accept(error.localizedDescription)
             } catch {
                 let errorText = "エラーが起きました。\nしばらくしてから再度お試しください。"

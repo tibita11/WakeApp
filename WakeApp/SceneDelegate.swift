@@ -46,7 +46,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func setRootViewController() async -> UIViewController {
-        let dataStorage = DataStorage()
         var rootVC: UIViewController = StartingViewController()
         
         guard let currentUser = Auth.auth().currentUser, currentUser.isEmailVerified else {

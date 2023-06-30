@@ -9,34 +9,16 @@ import UIKit
 import FirebaseStorage
 import RxSwift
 
-// MARK: - DataStorageError
-
-enum DataStorageError: LocalizedError {
-    case noUserData
+class FirebaseStorageService {
     
-    var errorDescription: String? {
-        switch self {
-        case .noUserData:
-            return "データが取得できませんでした。\nアプリを再起動して再ログインをお願いします。"
-        }
-    }
-}
-
-class DataStorage {
     private let storage = Storage.storage()
     /// コレクション名
     private let image = "Image"
     
-    
-    // MARK: - Storage
-    
-    /// デフォルト画像格納場所への参照
-    func getDefaultImageFileRef() -> StorageReference {
-        return Storage.storage().reference().child(image)
-    }
-    
+    // MARK: - Action
+        
     func getDefaultProfileImages(names: [String]) async throws -> [URL] {
-        let imageRef = getDefaultImageFileRef()
+        let imageRef = storage.reference().child(image)
         
         return try await withThrowingTaskGroup(of: URL.self, body: { group in
             for name in names {
@@ -83,7 +65,7 @@ extension UIImage {
 
 // MARK: - Imageリサイズ用に拡張
 
-extension DataStorage {
+extension FirebaseStorageService {
     /// Storageに保存する際のDataを作成する
     /// - Returns: jpegDataに変換不可はnilが返る
     func covertToData(image: UIImage) -> Data? {

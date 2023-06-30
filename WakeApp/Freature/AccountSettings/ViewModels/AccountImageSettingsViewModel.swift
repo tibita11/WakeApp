@@ -36,9 +36,9 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     var output: AccountImageSettingsViewModelOutput! { self }
     private var name: String? = nil
     private var birthday: Date?  = nil
-    private let dataStorage = DataStorage()
     private let firebaseFirestoreService = FirebaseFirestoreService()
     private let firebaseAuthService = FirebaseAuthService()
+    private let firebaseStorageService = FirebaseStorageService()
     private let disposeBag = DisposeBag()
     private var selectedImage: UIImage? = nil {
         didSet {
@@ -88,11 +88,11 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     func setDefaultImage(status: AccountImageSettingsStatus) {
         Task {
             do {
-                let defaultImageUrls = try await dataStorage.getDefaultProfileImages(names: Const.defaultProfileImages)
+                let defaultImageUrls = try await firebaseStorageService.getDefaultProfileImages(names: Const.defaultProfileImages)
                 switch status {
                 case .create:
                     // 新規の場合は、デフォルト画像を表示
-                    let iconImageUrl = try await dataStorage.getDefaultProfileImages(names: Const.iconImage)
+                    let iconImageUrl = try await firebaseStorageService.getDefaultProfileImages(names: Const.iconImage)
                     selectedImageUrl = iconImageUrl.first
                 case .update:
                     // 更新の場合は、登録済み画像を表示
@@ -102,7 +102,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
                 }
                 defaultImageUrlsRelay.accept(defaultImageUrls)
                 isHiddenError.accept(true)
-            } catch let error as DataStorageError {
+            } catch let error as FirebaseFirestoreServiceError {
                 // 復旧不可エラー
                 showErrorAlert.accept(error.localizedDescription)
             } catch {
@@ -116,7 +116,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     func setIconImage() {
         Task {
             do {
-                let iconImageUrl = try await dataStorage.getDefaultProfileImages(names: Const.iconImage)
+                let iconImageUrl = try await firebaseStorageService.getDefaultProfileImages(names: Const.iconImage)
                 selectedImageUrl = iconImageUrl.first
             } catch (let error) {
                 print("URL取得失敗: \(error.localizedDescription)")
@@ -184,12 +184,12 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
                 if urlString != registerdUrl {
                     // デフォルト以外の登録済みデータを削除
                     if !registerdUrl.contains("Image") {
-                        try await dataStorage.deleteProfileImage(imageUrl: registerdUrl)
+                        try await firebaseStorageService.deleteProfileImage(imageUrl: registerdUrl)
                     }
                 }
                 
                 try await firebaseFirestoreService.updateImageURL(uid: userID, url: url!.absoluteString)
-            } catch let error as DataStorageError {
+            } catch let error as FirebaseFirestoreServiceError {
                 // 復旧不可エラー
                 showErrorAlert.accept(error.localizedDescription)
             } catch let error {
@@ -201,11 +201,11 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     }
     
     private func saveProfileImage(userID: String, image: UIImage) async throws -> URL {
-        guard let imageData = dataStorage.covertToData(image: image) else {
+        guard let imageData = firebaseStorageService.covertToData(image: image) else {
             throw ImageSettingsError.covertError
         }
         
-        let url = try await dataStorage.saveProfileImage(uid: userID, imageData: imageData)
+        let url = try await firebaseStorageService.saveProfileImage(uid: userID, imageData: imageData)
         return url
     }
     

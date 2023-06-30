@@ -8,6 +8,17 @@
 import Foundation
 import FirebaseFirestore
 
+enum FirebaseFirestoreServiceError: LocalizedError {
+    case noUserData
+    
+    var errorDescription: String? {
+        switch self {
+        case .noUserData:
+            return "データが取得できませんでした。\nアプリを再起動して再ログインをお願いします。"
+        }
+    }
+}
+
 class FirebaseFirestoreService {
     
     private let firestore = Firestore.firestore()
@@ -37,7 +48,7 @@ class FirebaseFirestoreService {
         guard snapshot.exists, let data = snapshot.data() else {
             // 登録時にデータを作成しているため、存在しないことはありえない
             // データがない場合は、再ログインを促す
-            throw DataStorageError.noUserData
+            throw FirebaseFirestoreServiceError.noUserData
         }
         
         let timestamp = data["birthday"] as? Timestamp
@@ -67,7 +78,7 @@ class FirebaseFirestoreService {
         let snapshot = try await firestore.collection(users).document(uid).getDocument()
         
         guard snapshot.exists, let data = snapshot.data() else {
-            throw DataStorageError.noUserData
+            throw FirebaseFirestoreServiceError.noUserData
         }
         
         let imageURL = data["imageURL"] as? String ?? {

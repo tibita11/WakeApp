@@ -24,7 +24,7 @@
 		A555A7732A24ECD300B09B03 /* GoogleAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555A7722A24ECD300B09B03 /* GoogleAuthenticator.swift */; };
 		A563A15B2A4D7E570017B545 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = A563A15A2A4D7E570017B545 /* Network.swift */; };
 		A57213812A25E4DA001E5F81 /* AppleAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57213802A25E4DA001E5F81 /* AppleAuthenticator.swift */; };
-		A58BB0CB2A28225000C834A3 /* DataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58BB0CA2A28225000C834A3 /* DataStorage.swift */; };
+		A58BB0CB2A28225000C834A3 /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58BB0CA2A28225000C834A3 /* FirebaseStorageService.swift */; };
 		A58BB0CE2A282AEB00C834A3 /* OutgoingEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58BB0CC2A282AEB00C834A3 /* OutgoingEmailViewController.swift */; };
 		A58BB0CF2A282AEB00C834A3 /* OutgoingEmailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A58BB0CD2A282AEB00C834A3 /* OutgoingEmailViewController.xib */; };
 		A58BB0D12A2839E200C834A3 /* LoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A58BB0D02A2839E200C834A3 /* LoadingView.xib */; };
@@ -101,7 +101,7 @@
 		A563A15A2A4D7E570017B545 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		A572137F2A25DD8E001E5F81 /* WakeApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WakeApp.entitlements; sourceTree = "<group>"; };
 		A57213802A25E4DA001E5F81 /* AppleAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuthenticator.swift; sourceTree = "<group>"; };
-		A58BB0CA2A28225000C834A3 /* DataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorage.swift; sourceTree = "<group>"; };
+		A58BB0CA2A28225000C834A3 /* FirebaseStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageService.swift; sourceTree = "<group>"; };
 		A58BB0CC2A282AEB00C834A3 /* OutgoingEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingEmailViewController.swift; sourceTree = "<group>"; };
 		A58BB0CD2A282AEB00C834A3 /* OutgoingEmailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OutgoingEmailViewController.xib; sourceTree = "<group>"; };
 		A58BB0D02A2839E200C834A3 /* LoadingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingView.xib; sourceTree = "<group>"; };
@@ -200,12 +200,12 @@
 			children = (
 				A563A15A2A4D7E570017B545 /* Network.swift */,
 				A512D5072A2391DA0034D4D9 /* Const.swift */,
-				A58BB0CA2A28225000C834A3 /* DataStorage.swift */,
 				A5E839F32A2721B8002D21FA /* Validation.swift */,
 				A5F3790C2A44145F00E2B536 /* UserData.swift */,
 				A5E03C632A4C1C24002148F1 /* PlaceHolderTextView.swift */,
 				A54C20FF2A4E7EDF00A62691 /* FirebaseAuthService.swift */,
 				A54C21012A4EC59600A62691 /* FirebaseFirestoreService.swift */,
+				A58BB0CA2A28225000C834A3 /* FirebaseStorageService.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -709,7 +709,7 @@
 				A563A15B2A4D7E570017B545 /* Network.swift in Sources */,
 				A5E839F42A2721B8002D21FA /* Validation.swift in Sources */,
 				A5ECAA182A4508D9007FDEDF /* ProfileViewController.swift in Sources */,
-				A58BB0CB2A28225000C834A3 /* DataStorage.swift in Sources */,
+				A58BB0CB2A28225000C834A3 /* FirebaseStorageService.swift in Sources */,
 				A5FF515D2A49D0E6000AEC7F /* ProfileViewModel.swift in Sources */,
 				A59EEEA02A21867000C60128 /* StartingViewController.swift in Sources */,
 				A5FF51642A4C000A000AEC7F /* ProfileEditingViewController.swift in Sources */,
