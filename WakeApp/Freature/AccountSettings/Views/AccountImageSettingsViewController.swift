@@ -159,6 +159,14 @@ class AccountImageSettingsViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        // ネットワークエラー
+        viewModel.output.networkErrorAlertDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                present(createNetworkErrorAlert(), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
         // 画像取得
         viewModel.setDefaultImage(status: status)
     }
@@ -220,4 +228,18 @@ class AccountImageSettingsViewController: UIViewController {
     }
     
 
+}
+
+
+// MARK: - UIViewController
+
+extension UIViewController {
+    func createNetworkErrorAlert() -> UIAlertController {
+        let alertController = UIAlertController(title: "サーバーへ接続が出来ません",
+                                                message: "WakeAppにアクセスできません。\nインターネット接続を確認してください。",
+                                                preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alertController.addAction(okAction)
+        return alertController
+    }
 }

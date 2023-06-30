@@ -25,6 +25,7 @@ protocol AccountImageSettingsViewModelOutput {
     var isHiddenErrorDriver: Driver<Bool> { get }
     var showErrorAlertDriver: Driver<String> { get }
     var transitionDriver:Driver<Void> { get }
+    var networkErrorAlertDriver: Driver<Void> { get }
 }
 
 protocol AccountImageSettingsViewModelType {
@@ -66,6 +67,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     private let isHiddenError = PublishRelay<Bool>()
     private let showErrorAlert = PublishRelay<String>()
     private let transition = PublishRelay<Void>()
+    private let networkErrorAlert = PublishRelay<Void>()
     
     
     // MARK: - Action
@@ -87,12 +89,21 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     
     func setDefaultImage(status: AccountImageSettingsStatus) {
         Task {
+            // Storageにアクセスするためネットワーク状況を確認
+            guard Network.shared.isOnline() else {
+                networkErrorAlert.accept(())
+                isHiddenError.accept(false)
+                return
+            }
+            
             do {
-                let defaultImageUrls = try await firebaseStorageService.getDefaultProfileImages(names: Const.defaultProfileImages)
+                let defaultImageUrls = try await firebaseStorageService
+                    .getDefaultProfileImages(names: Const.defaultProfileImages)
                 switch status {
                 case .create:
                     // 新規の場合は、デフォルト画像を表示
-                    let iconImageUrl = try await firebaseStorageService.getDefaultProfileImages(names: Const.iconImage)
+                    let iconImageUrl = try await firebaseStorageService
+                        .getDefaultProfileImages(names: Const.iconImage)
                     selectedImageUrl = iconImageUrl.first
                 case .update:
                     // 更新の場合は、登録済み画像を表示
@@ -102,8 +113,11 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
                 }
                 defaultImageUrlsRelay.accept(defaultImageUrls)
                 isHiddenError.accept(true)
+            } catch let error as FirebaseAuthServiceError {
+                // 復旧不可、再ログインを促す
+                showErrorAlert.accept(error.localizedDescription)
             } catch let error as FirebaseFirestoreServiceError {
-                // 復旧不可エラー
+                // 復旧不可、再ログインを促す
                 showErrorAlert.accept(error.localizedDescription)
             } catch {
                 // 再試行で復旧する可能性がある
@@ -245,6 +259,10 @@ extension AccountImageSettingsViewModel: AccountImageSettingsViewModelOutput {
     
     var transitionDriver: Driver<Void> {
         transition.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var networkErrorAlertDriver: Driver<Void> {
+        networkErrorAlert.asDriver(onErrorDriveWith: .empty())
     }
     
 }
