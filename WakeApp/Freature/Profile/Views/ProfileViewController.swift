@@ -12,17 +12,28 @@ import Kingfisher
 
 class ProfileViewController: UIViewController {
     
-    private let containerView = UIView()
+    /// 円形のViewを乗せるためのView
+    private let circleContainerView = UIView()
+    /// 色付きの円形View
     private let circleView = UIView()
-    private let smallStackView = UIStackView()
+    private let profileContainerView = UIView()
     private let imageView = UIImageView()
+    private let stackView = UIStackView()
     private let nameLable = UILabel()
-    private let largeStackView = UIStackView()
-    private let featureContainerView = UIView()
+    private let futureContainerView = UIView()
     private let futureView = UIView()
     private let futureLabel = UILabel()
     private let triangleView = TriangleView()
     private var settingsButton = UIBarButtonItem()
+    /// NavigationBarの高さ
+    private var heightToNavBar: CGFloat {
+        var height: CGFloat = 0
+        if let navigationController = self.navigationController {
+            let navBarMaxY = navigationController.navigationBar.frame.maxY
+            height = navBarMaxY
+        }
+        return height
+    }
     
     private let viewModel = ProfileViewModel()
     private let disposeBag = DisposeBag()
@@ -82,74 +93,76 @@ class ProfileViewController: UIViewController {
         
         setUpContainerView()
         setUpCircleView()
-        setUpLargeStackView()
+        setUpProfileContainerView()
         setUpNavigationButton()
     }
     
     private func setUpContainerView() {
-        containerView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height / 3)
-        view.addSubview(containerView)
+        circleContainerView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height / 3)
+        view.addSubview(circleContainerView)
     }
     
     private func setUpCircleView() {
         circleView.translatesAutoresizingMaskIntoConstraints = false
-        let width = containerView.bounds.width
+        let width = circleContainerView.bounds.width
         circleView.layer.cornerRadius = width
         circleView.backgroundColor = Const.lightBlueColor
-        containerView.addSubview(circleView)
+        circleContainerView.addSubview(circleView)
         
         NSLayoutConstraint.activate([
-            circleView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            circleView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            circleView.bottomAnchor.constraint(equalTo: circleContainerView.bottomAnchor),
+            circleView.centerXAnchor.constraint(equalTo: circleContainerView.centerXAnchor),
             circleView.widthAnchor.constraint(equalToConstant: width * 2),
             circleView.heightAnchor.constraint(equalToConstant: width * 2)
         ])
     }
     
-    private func setUpLargeStackView() {
-        largeStackView.translatesAutoresizingMaskIntoConstraints = false
-        largeStackView.addArrangedSubview(imageView)
-        largeStackView.addArrangedSubview(smallStackView)
-        containerView.addSubview(largeStackView)
-        largeStackView.spacing = 15
-        largeStackView.axis = .horizontal
-        largeStackView.alignment = .top
-        largeStackView.distribution = .fill
+    private func setUpProfileContainerView() {
+        profileContainerView.translatesAutoresizingMaskIntoConstraints = false
+        circleContainerView.addSubview(profileContainerView)
         
         NSLayoutConstraint.activate([
-            largeStackView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            largeStackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+            profileContainerView.topAnchor.constraint(equalTo: circleContainerView.topAnchor, constant: heightToNavBar),
+            profileContainerView.leadingAnchor.constraint(equalTo: circleContainerView.leadingAnchor, constant: 60),
+            profileContainerView.trailingAnchor.constraint(equalTo: circleContainerView.trailingAnchor, constant: -60),
+            profileContainerView.bottomAnchor.constraint(equalTo: circleContainerView.bottomAnchor, constant: -40)
         ])
         // パーツ
         setUpImageView()
-        setUpSmallStackView()
+        setUpStackView()
     }
     
     private func setUpImageView() {
         let size: CGFloat = 50.0
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.layer.cornerRadius = size / 2
+        imageView.frame = CGRect(x: 0, y: 0, width: size, height: size)
+        profileContainerView.addSubview(imageView)
         imageView.image = UIImage(systemName: "photo")
+        imageView.layer.cornerRadius = size / 2
         imageView.tintColor = .systemGray6
         imageView.contentMode = .scaleAspectFit
-        
-        NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: size),
-            imageView.heightAnchor.constraint(equalToConstant: size)
-        ])
+        imageView.backgroundColor = .darkGray
+        imageView.layer.masksToBounds = true
     }
     
-    private func setUpSmallStackView() {
-        smallStackView.translatesAutoresizingMaskIntoConstraints = false
-        smallStackView.addArrangedSubview(nameLable)
-        smallStackView.addArrangedSubview(featureContainerView)
-        smallStackView.spacing = 20
-        smallStackView.axis = .vertical
-        smallStackView.alignment = .fill
-        smallStackView.distribution = .fill
+    private func setUpStackView() {
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        profileContainerView.addSubview(stackView)
+        stackView.addArrangedSubview(nameLable)
+        stackView.addArrangedSubview(futureContainerView)
+        stackView.spacing = 20
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: profileContainerView.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 15),
+            stackView.trailingAnchor.constraint(equalTo: profileContainerView.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: profileContainerView.bottomAnchor)
+        ])
         // パーツ
         setUpNameLabel()
-        setUpFeatureContainerView()
+        setUpFutureContainerView()
     }
     
     private func setUpNameLabel() {
@@ -163,30 +176,29 @@ class ProfileViewController: UIViewController {
         ])
     }
     
-    private func setUpFeatureContainerView() {
-        featureContainerView.translatesAutoresizingMaskIntoConstraints = false
-        featureContainerView.backgroundColor = .clear
-        
-        NSLayoutConstraint.activate([
-            featureContainerView.heightAnchor.constraint(equalToConstant: 100),
-            featureContainerView.widthAnchor.constraint(equalToConstant: 200)
-        ])
+    private func setUpFutureContainerView() {
         // パーツ
-        setUpFeatureView()
         setUpTriangleView()
+        setUpFutureView()
     }
     
-    private func setUpFeatureView() {
+    private func setUpTriangleView() {
+        triangleView.frame = CGRect(x: 0, y: 20, width: 15, height: 15)
+        triangleView.backgroundColor = .clear
+        futureContainerView.addSubview(triangleView)
+    }
+    
+    private func setUpFutureView() {
         futureView.translatesAutoresizingMaskIntoConstraints = false
-        futureView.layer.cornerRadius = 15
+        futureContainerView.addSubview(futureView)
         futureView.backgroundColor = .systemBackground
-        featureContainerView.addSubview(futureView)
+        futureView.layer.cornerRadius = 15
         
         NSLayoutConstraint.activate([
-            futureView.topAnchor.constraint(equalTo: featureContainerView.topAnchor),
-            futureView.trailingAnchor.constraint(equalTo: featureContainerView.trailingAnchor),
-            futureView.bottomAnchor.constraint(equalTo: featureContainerView.bottomAnchor),
-            futureView.leadingAnchor.constraint(equalTo: featureContainerView.leadingAnchor, constant: 15)
+            futureView.topAnchor.constraint(equalTo: futureContainerView.topAnchor),
+            futureView.leadingAnchor.constraint(equalTo: triangleView.trailingAnchor),
+            futureView.bottomAnchor.constraint(equalTo: futureContainerView.bottomAnchor),
+            futureView.trailingAnchor.constraint(equalTo: futureContainerView.trailingAnchor)
         ])
         // パーツ
         setUpFreatureLabel()
@@ -198,23 +210,10 @@ class ProfileViewController: UIViewController {
         futureLabel.font = UIFont.systemFont(ofSize: 16)
         futureLabel.numberOfLines = 0
         futureView.addSubview(futureLabel)
-        
+                
         NSLayoutConstraint.activate([
-            futureLabel.widthAnchor.constraint(equalTo: futureView.widthAnchor),
-            futureLabel.heightAnchor.constraint(equalTo: futureView.heightAnchor)
-        ])
-    }
-    
-    private func setUpTriangleView() {
-        triangleView.translatesAutoresizingMaskIntoConstraints = false
-        triangleView.backgroundColor = .clear
-        featureContainerView.addSubview(triangleView)
-        
-        NSLayoutConstraint.activate([
-            triangleView.topAnchor.constraint(equalTo: featureContainerView.topAnchor, constant: 20),
-            triangleView.leadingAnchor.constraint(equalTo: featureContainerView.leadingAnchor),
-            triangleView.widthAnchor.constraint(equalToConstant: 15),
-            triangleView.heightAnchor.constraint(equalToConstant: 15)
+            futureLabel.widthAnchor.constraint(equalTo: futureView.widthAnchor, multiplier: 1),
+            futureLabel.heightAnchor.constraint(equalTo: futureView.heightAnchor, multiplier: 1)
         ])
     }
     
