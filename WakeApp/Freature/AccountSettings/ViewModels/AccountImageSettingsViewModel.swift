@@ -11,6 +11,22 @@ import RxCocoa
 import PhotosUI
 import CropViewController
 
+// MARK: - ImageSettingsError
+
+enum ImageSettingsError: LocalizedError {
+    case noImageError
+    case retryError
+    
+    var errorDescription: String? {
+        switch self {
+        case .noImageError:
+            return "画像が選択されていません。"
+        case .retryError:
+            return "エラーが起きました。\nしばらくしてから再度お試しください。"
+        }
+    }
+}
+
 struct AccountImageSettingsViewModelInput {
     let imageChangeLargeButtonObserver: Observable<Void>
     let imageChangeSmallButtonObserver: Observable<Void>
@@ -157,6 +173,12 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     }
     
     func createAccount() {
+        // オフライン時は登録エラー
+        guard Network.shared.isOnline() else {
+            networkErrorAlert.accept(())
+            return
+        }
+        
         if selectedImage == nil && selectedImageUrl == nil {
             showErrorAlert.accept("\(ImageSettingsError.noImageError.localizedDescription)")
             return
@@ -166,19 +188,45 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
             do {
                 let userID = try firebaseAuthService.getCurrenUserID()
                 var url = selectedImageUrl
+                
                 if url == nil {
                     url = try await saveProfileImage(userID: userID, image: selectedImage!)
                 }
-                let userData = UserData(name: name!, birthday: birthday, imageURL: url!.absoluteString)
+                
+                let name = self.name ?? {
+                    assertionFailure("アカウント設定時にnameが正しく受け取れていません。")
+                    return ""
+                }()
+                
+                let urlString = url?.absoluteString ?? {
+                    assertionFailure("アカウント設定時にurlが正しく受け取れていません。")
+                    return ""
+                }()
+                
+                let userData = UserData(name: name, birthday: birthday, imageURL: urlString)
                 try await firebaseFirestoreService.saveUserData(uid: userID, data: userData)
                 transition.accept(())
-            } catch (let error) {
+            } catch let error as FirebaseAuthServiceError {
+                // 復旧不可
                 showErrorAlert.accept("\(error.localizedDescription)")
+            } catch let error as FirebaseStorageServiceError {
+                // 画像変更を促す
+                showErrorAlert.accept("\(error.localizedDescription)")
+            } catch let error {
+                // 更新時エラー
+                print("createAcccountError: \(error.localizedDescription)")
+                showErrorAlert.accept("エラーが起きました。\nしばらくしてから再度お試しください。")
             }
         }
     }
     
     func updateAccount() {
+        // オフライン時は登録エラー
+        guard Network.shared.isOnline() else {
+            networkErrorAlert.accept(())
+            return
+        }
+        
         if selectedImage == nil && selectedImageUrl == nil {
             showErrorAlert.accept("\(ImageSettingsError.noImageError.localizedDescription)")
             return
@@ -203,24 +251,22 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
                 }
                 
                 try await firebaseFirestoreService.updateImageURL(uid: userID, url: url!.absoluteString)
+            } catch let error as FirebaseAuthServiceError {
+                // 復旧不可
+                showErrorAlert.accept(error.localizedDescription)
             } catch let error as FirebaseFirestoreServiceError {
                 // 復旧不可エラー
                 showErrorAlert.accept(error.localizedDescription)
             } catch let error {
-                print(error.localizedDescription)
-                let errorMessage = "エラーが起きました。\nしばらくしてから再度お試しください。"
-                showErrorAlert.accept(errorMessage)
+                print("updateAccountError: \(error.localizedDescription)")
+                showErrorAlert.accept("エラーが起きました。\nしばらくしてから再度お試しください。")
             }
         }
     }
     
     private func saveProfileImage(userID: String, image: UIImage) async throws -> URL {
-        guard let imageData = firebaseStorageService.covertToData(image: image) else {
-            throw ImageSettingsError.covertError
-        }
-        
-        let url = try await firebaseStorageService.saveProfileImage(uid: userID, imageData: imageData)
-        return url
+        let data = try firebaseStorageService.covertToData(image: image)
+        return try await firebaseStorageService.saveProfileImage(uid: userID, imageData: data)
     }
     
 }
@@ -302,25 +348,5 @@ extension AccountImageSettingsViewModel: CropViewControllerDelegate {
         cropViewController.dismiss(animated: true)
         // トリミング後の画像をUIに反映
         selectedImage = image
-    }
-}
-
-
-// MARK: - ImageSettingsError
-
-enum ImageSettingsError: LocalizedError {
-    case noImageError
-    case retryError
-    case covertError
-    
-    var errorDescription: String? {
-        switch self {
-        case .noImageError:
-            return "画像が選択されていません。"
-        case .retryError:
-            return "エラーが起きました。\nしばらくしてから再度お試しください。"
-        case .covertError:
-            return "画像を変更して再度お試しください。"
-        }
     }
 }

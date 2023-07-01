@@ -9,6 +9,17 @@ import UIKit
 import FirebaseStorage
 import RxSwift
 
+enum FirebaseStorageServiceError: LocalizedError {
+    case covertError
+    
+    var errorDescription: String? {
+        switch self {
+        case .covertError:
+            return "画像を変更して再度お試しください。"
+        }
+    }
+}
+
 class FirebaseStorageService {
     
     private let storage = Storage.storage()
@@ -68,33 +79,42 @@ extension UIImage {
 extension FirebaseStorageService {
     /// Storageに保存する際のDataを作成する
     /// - Returns: jpegDataに変換不可はnilが返る
-    func covertToData(image: UIImage) -> Data? {
+    func covertToData(image: UIImage) throws -> Data {
         let minSizeInKB: Double = 100.0
         let maxSizeInKB: Double = 1000.0
-        let data = image.jpegData(compressionQuality: 1)
-        let size = Double(data?.count ?? 0 / 1024)
+        guard let data = image.jpegData(compressionQuality: 1) else {
+            throw FirebaseStorageServiceError.covertError
+        }
+        let size = Double(data.count / 1024)
         // そのまま返す
         guard size > minSizeInKB else {
             return data
         }
         // jpegDataに変換
         guard size > maxSizeInKB else {
-            return resizeData(image: image)
+            return try resizeData(image: image)
         }
         // 画像をリサイズ後にjpegDataに変換
         let resizedImage = image.resizeImage(withPercentage: 0.5)!
-        return resizeData(image: resizedImage)
+        return try resizeData(image: resizedImage)
     }
     
     /// 100KB以下になるまで圧縮を繰り返す
     /// - Returns: jpegDataに変換不可はnilが返る
-    private func resizeData(image: UIImage) -> Data? {
+    private func resizeData(image: UIImage) throws -> Data {
         let sizeInKB:Double = 100.0
         var complessionQuality = CGFloat(1)
-        var data = image.jpegData(compressionQuality: complessionQuality)
-        while (Double(data?.count ?? 0) / 1024) > sizeInKB && complessionQuality > 0 {
+        
+        guard var data = image.jpegData(compressionQuality: complessionQuality) else {
+            throw FirebaseStorageServiceError.covertError
+        }
+        
+        while (Double(data.count) / 1024) > sizeInKB && complessionQuality > 0 {
             complessionQuality -= 0.1
-            data = image.jpegData(compressionQuality: complessionQuality)
+            guard let resizeData = image.jpegData(compressionQuality: complessionQuality) else {
+                throw FirebaseStorageServiceError.covertError
+            }
+            data = resizeData
         }
         return data
     }
