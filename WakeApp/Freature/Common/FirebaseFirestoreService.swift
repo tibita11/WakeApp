@@ -46,7 +46,6 @@ class FirebaseFirestoreService {
         let snapshot = try await firestore.collection(users).document(uid).getDocument()
         
         guard snapshot.exists, let data = snapshot.data() else {
-            // 登録時にデータを作成しているため、存在しないことはありえない
             // データがない場合は、再ログインを促す
             throw FirebaseFirestoreServiceError.noUserData
         }

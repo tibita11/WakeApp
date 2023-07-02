@@ -20,6 +20,8 @@ protocol ProfileEditingViewModelOutputs {
     var birthdayTextDriver: Driver<String> { get }
     var futureDriver: Driver<String> { get }
     var errorAlertDriver: Driver<String> { get }
+    var networkErrorAlertDriver: Driver<Void> { get }
+    var isHiddenErrorDriver: Driver<Bool> { get }
 }
 
 protocol ProfileEditingViewModelType {
@@ -38,6 +40,8 @@ class ProfileEditingViewModel: ProfileEditingViewModelType {
     private let birthdayTextRelay = PublishRelay<String>()
     private let futureRelay = PublishRelay<String>()
     private let errorAlertRelay = PublishRelay<String>()
+    private let networkErrorAlertRelay = PublishRelay<Void>()
+    private let isHiddenError = PublishRelay<Bool>()
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy年MM月dd日"
@@ -67,9 +71,21 @@ class ProfileEditingViewModel: ProfileEditingViewModelType {
                     birthdayTextRelay.accept(dateFormatter.string(from: birthday))
                     birthdayRelay.accept(birthday)
                 }
+                isHiddenError.accept(true)
+            } catch let error as FirebaseAuthServiceError {
+                // 再ログイン促す
+                errorAlertRelay.accept(error.localizedDescription)
             } catch let error as FirebaseFirestoreServiceError {
+                // 再ログイン促す
                 errorAlertRelay.accept(error.localizedDescription)
             } catch {
+                // ネットワークエラー
+                guard Network.shared.isOnline() else {
+                    networkErrorAlertRelay.accept(())
+                    isHiddenError.accept(false)
+                    return
+                }
+                
                 let errorText = "エラーが起きました。\nしばらくしてから再度お試しください。"
                 errorAlertRelay.accept(errorText)
             }
@@ -104,5 +120,14 @@ extension ProfileEditingViewModel: ProfileEditingViewModelOutputs {
     var errorAlertDriver: Driver<String> {
         errorAlertRelay.asDriver(onErrorDriveWith: .empty())
     }
+    
+    var networkErrorAlertDriver: Driver<Void> {
+        networkErrorAlertRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var isHiddenErrorDriver: Driver<Bool> {
+        isHiddenError.asDriver(onErrorDriveWith: .empty())
+    }
+    
     
 }

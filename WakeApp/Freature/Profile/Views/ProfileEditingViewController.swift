@@ -36,6 +36,7 @@ class ProfileEditingViewController: UIViewController {
     }
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var birthdayTextField: UITextField!
+    @IBOutlet weak var errorTextStackView: UIStackView!
     
     private var viewModel: ProfileEditingViewModel!
     private let disposeBag = DisposeBag()
@@ -102,6 +103,17 @@ class ProfileEditingViewController: UIViewController {
                 present(createErrorAlert(title: error), animated: true)
             })
             .disposed(by: disposeBag)
+        
+        viewModel.outputs.networkErrorAlertDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                present(createNetworkErrorAlert(), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.isHiddenErrorDriver
+            .drive(errorTextStackView.rx.isHidden)
+            .disposed(by: disposeBag)
     }
     
     private func setUpDatePicker() {
@@ -134,5 +146,10 @@ class ProfileEditingViewController: UIViewController {
         let vc = AccountImageSettingsViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    @IBAction func tapRetryButton(_ sender: Any) {
+        viewModel.getUserData()
+    }
+    
     
 }

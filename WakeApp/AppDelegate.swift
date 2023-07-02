@@ -21,6 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        
+//        let settings = Firestore.firestore().settings
+//        settings.isPersistenceEnabled = false
+//        Firestore.firestore().settings = settings
+        
         IQKeyboardManager.shared.enable = true
         Network.shared.setUp()
         

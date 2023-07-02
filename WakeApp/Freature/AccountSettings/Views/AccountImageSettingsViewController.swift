@@ -186,7 +186,6 @@ class AccountImageSettingsViewController: UIViewController {
     
     @objc private func updateAccount() {
         viewModel.updateAccount()
-        navigationController?.popViewController(animated: true)
     }
     
     /// 円形のボタンをselectedImageView上に配置する

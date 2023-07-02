@@ -140,7 +140,6 @@ class ProfileViewController: UIViewController {
         imageView.layer.cornerRadius = size / 2
         imageView.tintColor = .systemGray6
         imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = .darkGray
         imageView.layer.masksToBounds = true
     }
     
