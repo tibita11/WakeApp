@@ -22,6 +22,8 @@ protocol ProfileEditingViewModelOutputs {
     var errorAlertDriver: Driver<String> { get }
     var networkErrorAlertDriver: Driver<Void> { get }
     var isHiddenErrorDriver: Driver<Bool> { get }
+    var unsentAlertDriver: Driver<Void> { get }
+    var transitionToRootViewDriver: Driver<Void> { get }
 }
 
 protocol ProfileEditingViewModelType {
@@ -42,6 +44,8 @@ class ProfileEditingViewModel: ProfileEditingViewModelType {
     private let errorAlertRelay = PublishRelay<String>()
     private let networkErrorAlertRelay = PublishRelay<Void>()
     private let isHiddenError = PublishRelay<Bool>()
+    private let unsentAlertRelay = PublishRelay<Void>()
+    private let transitionToRootViewRelay = PublishRelay<Void>()
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy年MM月dd日"
@@ -91,6 +95,26 @@ class ProfileEditingViewModel: ProfileEditingViewModelType {
             }
         }
     }
+    
+    func updateUserData(name: String, birthday: Date?, future: String?) {
+        Task {
+            do {
+                let userID = try firebaseAuthService.getCurrenUserID()
+                firebaseFirestoreService.updateUserData(uid: userID, name: name, birthday: birthday, future: future ?? "")
+                
+                if Network.shared.isOnline() {
+                    // オンラインの場合、画面遷移
+                    transitionToRootViewRelay.accept(())
+                } else {
+                    // オフラインの場合、アラート表示
+                    unsentAlertRelay.accept(())
+                }
+            } catch let error as FirebaseAuthServiceError {
+                // 再ログイン促す
+                errorAlertRelay.accept(error.localizedDescription)
+            }
+        }
+    }
 }
 
 
@@ -127,6 +151,14 @@ extension ProfileEditingViewModel: ProfileEditingViewModelOutputs {
     
     var isHiddenErrorDriver: Driver<Bool> {
         isHiddenError.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var unsentAlertDriver: Driver<Void> {
+        unsentAlertRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var transitionToRootViewDriver: Driver<Void> {
+        transitionToRootViewRelay.asDriver(onErrorDriveWith: .empty())
     }
     
     

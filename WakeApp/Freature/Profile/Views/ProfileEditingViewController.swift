@@ -114,6 +114,28 @@ class ProfileEditingViewController: UIViewController {
         viewModel.outputs.isHiddenErrorDriver
             .drive(errorTextStackView.rx.isHidden)
             .disposed(by: disposeBag)
+        
+        // オフライン時の未送信処理
+        viewModel.outputs.unsentAlertDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                // アラートを表示する
+                let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+                    guard let self else { return }
+                    navigationController?.popToRootViewController(animated: true)
+                }
+                present(createUnsentAlert(action: action), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        // 登録時の処理
+        viewModel.outputs.transitionToRootViewDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                navigationController?.popToRootViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+       
     }
     
     private func setUpDatePicker() {
@@ -151,5 +173,34 @@ class ProfileEditingViewController: UIViewController {
         viewModel.getUserData()
     }
     
+    @IBAction func tapRegisterButton(_ sender: Any) {
+        guard let name = nameTextField.text else {
+            return
+        }
+        
+        var birthday: Date? = nil
+        if let birthdayText = birthdayTextField.text, !birthdayText.isEmpty {
+            birthday = datePicker.date
+        }
+        
+        let future = futureTextView.text
+        
+        viewModel.updateUserData(name: name, birthday: birthday, future: future)
+    }
     
+}
+
+
+extension UIViewController {
+    
+    /// オフライン時の未送信アラート
+    ///
+    /// - Parameter okAction: OKボタン
+    func createUnsentAlert(action: UIAlertAction) -> UIAlertController {
+        let alertController = UIAlertController(title: "送信待ち保存",
+                                                message: "サーバーと通信できないため、送信待ちとして保存しました。オンラインになると自動的に送信されます。",
+                                                preferredStyle: .alert)
+        alertController.addAction(action)
+        return alertController
+    }
 }

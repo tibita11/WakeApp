@@ -169,7 +169,7 @@
                                 </button>
                             </subviews>
                         </stackView>
-                        <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UNZ-Fe-ZpU">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UNZ-Fe-ZpU">
                             <rect key="frame" x="26.666666666666657" y="690" width="280" height="44"/>
                             <color key="backgroundColor" red="0.074509803921568626" green="0.18431372549019609" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -180,6 +180,9 @@
                             <state key="normal" title="登録">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
+                            <connections>
+                                <action selector="tapRegisterButton:" destination="-1" eventType="touchUpInside" id="5Bg-So-Y4l"/>
+                            </connections>
                         </button>
                     </subviews>
                     <constraints>

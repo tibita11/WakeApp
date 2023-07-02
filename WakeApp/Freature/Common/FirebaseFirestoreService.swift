@@ -68,6 +68,14 @@ class FirebaseFirestoreService {
         return UserData(name: name, birthday: birthday, imageURL: imageURL, future: future)
     }
     
+    func updateUserData(uid: String, name: String, birthday: Date?, future: String) {
+        let birthday = birthday == nil ? NSNull() : Timestamp(date: birthday!)
+        firestore.collection(users).document(uid)
+            .updateData(["name" : name,
+                         "birthday" : birthday,
+                         "future" : future])
+    }
+    
     func updateImageURL(uid: String, url: String) async throws {
         try await firestore.collection(users).document(uid)
             .updateData(["imageURL": url])
