@@ -94,7 +94,13 @@ class ProfileEditingViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.outputs.futureDriver
-            .drive(futureTextView.rx.text)
+            .drive(onNext: { [weak self] future in
+                guard let self else { return }
+                if !future.isEmpty {
+                    futureTextView.placeHolderLabel.alpha = 0
+                    futureTextView.text = future
+                }
+            })
             .disposed(by: disposeBag)
         
         viewModel.outputs.errorAlertDriver

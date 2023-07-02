@@ -16,7 +16,7 @@ final class PlaceHolderTextView: UITextView {
         }
     }
 
-    private lazy var placeHolderLabel: UILabel = {
+    lazy var placeHolderLabel: UILabel = {
         let label = UILabel()
         label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
