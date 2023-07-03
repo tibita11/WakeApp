@@ -34,8 +34,11 @@ class ProfileViewController: UIViewController {
         }
         return height
     }
+    private let errorStackView = UIStackView()
+    private let errorLabel = UILabel()
+    private let retryButton = UIButton()
     
-    private let viewModel = ProfileViewModel()
+    private var viewModel: ProfileViewModel!
     private let disposeBag = DisposeBag()
     
     
@@ -48,15 +51,12 @@ class ProfileViewController: UIViewController {
         setUpViewModel()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        viewModel.getUserData()
-    }
     
     // MARK: - Action
     
     private func setUpViewModel() {
+        viewModel = ProfileViewModel()
+        
         viewModel.outputs.nameDriver
             .drive(nameLable.rx.text)
             .disposed(by: disposeBag)
@@ -78,11 +78,29 @@ class ProfileViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        // ネットワークエラー表示
+        viewModel.outputs.networkErrorAlertDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                present(createNetworkErrorAlert(), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        // 再試行ボタンの表示状態
+        viewModel.outputs.isHiddenErrorDriver
+            .drive(errorStackView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
     }
     
     @objc private func tapSettingsButton() {
         let vc = ProfileSettingsTableViewController()
         parent?.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    /// UserDataの再取得
+    @objc private func tapRetryButton() {
+        viewModel.getUserData()
     }
     
     
@@ -95,6 +113,7 @@ class ProfileViewController: UIViewController {
         setUpCircleView()
         setUpProfileContainerView()
         setUpNavigationButton()
+        setUpErrorTextStackView()
     }
     
     private func setUpContainerView() {
@@ -220,6 +239,52 @@ class ProfileViewController: UIViewController {
         settingsButton = UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: .plain, target: self, action: #selector(tapSettingsButton))
         settingsButton.tintColor = .white
         parent?.navigationItem.rightBarButtonItem = settingsButton
+    }
+    
+    /// エラー文言と再試行ボタン
+    private func setUpErrorTextStackView() {
+        errorStackView.translatesAutoresizingMaskIntoConstraints = false
+        errorStackView.isHidden = true
+        errorStackView.addArrangedSubview(errorLabel)
+        errorStackView.addArrangedSubview(retryButton)
+        errorStackView.axis = .vertical
+        errorStackView.spacing = 10
+        errorStackView.alignment = .center
+        errorStackView.distribution = .fill
+        view.addSubview(errorStackView)
+        
+        let height: CGFloat = tabBarController!.tabBar.frame.height + 10
+        
+        NSLayoutConstraint.activate([
+            errorStackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1),
+            errorStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            errorStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -height)
+        ])
+        
+        // パーツ
+        setUpErrorLabel()
+        setUpRetryButton()
+    }
+    
+    /// エラーテキスト表示
+    private func setUpErrorLabel() {
+        errorLabel.numberOfLines = 0
+        errorLabel.text = "エラーが起きました。\nしばらくしてから再度お試しください。"
+        errorLabel.textColor = .red
+        errorLabel.font = UIFont.systemFont(ofSize: 12)
+    }
+    
+    /// 再試行ボタン表示
+    private func setUpRetryButton() {
+        var config = UIButton.Configuration.plain()
+        let container = AttributeContainer([
+            .font: UIFont.systemFont(ofSize: 12)
+        ])
+        config.attributedTitle = AttributedString("再試行", attributes: container)
+        config.titleAlignment = .center
+        config.baseForegroundColor = .black
+        retryButton.configuration = config
+        retryButton.addTarget(self, action: #selector(tapRetryButton), for: .touchUpInside)
     }
     
     

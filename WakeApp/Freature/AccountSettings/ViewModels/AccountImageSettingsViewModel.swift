@@ -40,8 +40,11 @@ protocol AccountImageSettingsViewModelOutput {
     var showAlertDriver: Driver<Void> { get }
     var isHiddenErrorDriver: Driver<Bool> { get }
     var showErrorAlertDriver: Driver<String> { get }
-    var transitionDriver:Driver<Void> { get }
+    var transitionToMainTabDriver: Driver<Void> { get }
+    var transitionToEditingViewDriver: Driver<Void> { get }
     var networkErrorAlertDriver: Driver<Void> { get }
+    var waitingForUpdateAlertDriver: Driver<Void> { get }
+    var waitingForCreateAlertDeiver: Driver<Void> { get }
 }
 
 protocol AccountImageSettingsViewModelType {
@@ -82,8 +85,11 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     private let showAlert = PublishRelay<Void>()
     private let isHiddenError = PublishRelay<Bool>()
     private let showErrorAlert = PublishRelay<String>()
-    private let transition = PublishRelay<Void>()
+    private let transitionToMainTabRelay = PublishRelay<Void>()
+    private let transitionToEditingViewRelay = PublishRelay<Void>()
     private let networkErrorAlert = PublishRelay<Void>()
+    private let waitingForUpdateAlertRelay = PublishRelay<Void>()
+    private let waitingForCreateAlertRelay = PublishRelay<Void>()
     
     
     // MARK: - Action
@@ -173,12 +179,7 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     }
     
     func createAccount() {
-        // オフライン時は登録エラー
-        guard Network.shared.isOnline() else {
-            networkErrorAlert.accept(())
-            return
-        }
-        
+
         if selectedImage == nil && selectedImageUrl == nil {
             showErrorAlert.accept("\(ImageSettingsError.noImageError.localizedDescription)")
             return
@@ -189,44 +190,44 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
                 let userID = try firebaseAuthService.getCurrenUserID()
                 var url = selectedImageUrl
                 
-                if url == nil {
-                    url = try await saveProfileImage(userID: userID, image: selectedImage!)
+                // 新規画像の場合、URLに変換
+                if let selectedImage {
+                    let data = try firebaseStorageService.covertToData(image: selectedImage)
+                    checkNetworkAtCreate()
+                    url = try await firebaseStorageService.saveProfileImage(uid: userID, imageData: data)
+                } else {
+                    checkNetworkAtCreate()
                 }
                 
                 let name = self.name ?? {
                     assertionFailure("アカウント設定時にnameが正しく受け取れていません。")
                     return ""
                 }()
-                
+
                 let urlString = url?.absoluteString ?? {
                     assertionFailure("アカウント設定時にurlが正しく受け取れていません。")
                     return ""
                 }()
-                
+
                 let userData = UserData(name: name, birthday: birthday, imageURL: urlString)
-                try await firebaseFirestoreService.saveUserData(uid: userID, data: userData)
-                transition.accept(())
+                // Firestoreに保存
+                firebaseFirestoreService.saveUserData(uid: userID, data: userData)
+                
             } catch let error as FirebaseAuthServiceError {
-                // 復旧不可
-                showErrorAlert.accept("\(error.localizedDescription)")
-            } catch let error as FirebaseStorageServiceError {
-                // 画像変更を促す
-                showErrorAlert.accept("\(error.localizedDescription)")
+                // ログイン情報がないため、再ログインを促す
+                showErrorAlert.accept(error.localizedDescription)
+            } catch let error as FirebaseFirestoreServiceError {
+                // データに変換できないため、画像の変更を促す
+                showErrorAlert.accept(error.localizedDescription)
             } catch let error {
-                // 更新時エラー
-                print("createAcccountError: \(error.localizedDescription)")
-                showErrorAlert.accept("エラーが起きました。\nしばらくしてから再度お試しください。")
+                // その他エラーの場合、デバッグ時はアプリを落とす
+                assertionFailure("updateAccountError: \(error.localizedDescription)")
             }
         }
     }
     
+    /// Firestoreに登録されているURLを更新する
     func updateAccount() {
-        // オフライン時は登録エラー
-        guard Network.shared.isOnline() else {
-            networkErrorAlert.accept(())
-            return
-        }
-        
         if selectedImage == nil && selectedImageUrl == nil {
             showErrorAlert.accept("\(ImageSettingsError.noImageError.localizedDescription)")
             return
@@ -238,35 +239,54 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
                 var url = selectedImageUrl
                 let registerdUrl = try await firebaseFirestoreService.getImageURL(uid: userID)
                 
-                if url == nil {
-                    url = try await saveProfileImage(userID: userID, image: selectedImage!)
+                // 新規画像の場合、URLに変換
+                if let selectedImage {
+                    let data = try firebaseStorageService.covertToData(image: selectedImage)
+                    checkNetworkAtUpdate()
+                    url = try await firebaseStorageService.saveProfileImage(uid: userID, imageData: data)
+                } else {
+                    checkNetworkAtUpdate()
                 }
                 
+                // デフォルト以外の登録済みデータを削除
                 let urlString = url!.absoluteString
                 if urlString != registerdUrl {
-                    // デフォルト以外の登録済みデータを削除
                     if !registerdUrl.contains("Image") {
-                        try await firebaseStorageService.deleteProfileImage(imageUrl: registerdUrl)
+                        firebaseStorageService.deleteProfileImage(with:  registerdUrl)
                     }
                 }
+                // Firestoreを更新
+                firebaseFirestoreService.updateImageURL(uid: userID, url: url!.absoluteString)
                 
-                try await firebaseFirestoreService.updateImageURL(uid: userID, url: url!.absoluteString)
             } catch let error as FirebaseAuthServiceError {
-                // 復旧不可
+                // ログイン情報がないため、再ログインを促す
                 showErrorAlert.accept(error.localizedDescription)
             } catch let error as FirebaseFirestoreServiceError {
-                // 復旧不可エラー
+                // データに変換できないため、画像の変更を促す
                 showErrorAlert.accept(error.localizedDescription)
             } catch let error {
-                print("updateAccountError: \(error.localizedDescription)")
-                showErrorAlert.accept("エラーが起きました。\nしばらくしてから再度お試しください。")
+                // その他エラーの場合、デバッグ時はアプリを落とす
+                assertionFailure("updateAccountError: \(error.localizedDescription)")
             }
         }
     }
     
-    private func saveProfileImage(userID: String, image: UIImage) async throws -> URL {
-        let data = try firebaseStorageService.covertToData(image: image)
-        return try await firebaseStorageService.saveProfileImage(uid: userID, imageData: data)
+    /// 更新にて、オフライン時に送信待ちアラートを表示
+    private func checkNetworkAtUpdate() {
+        if Network.shared.isOnline() {
+            transitionToEditingViewRelay.accept(())
+        } else {
+            waitingForUpdateAlertRelay.accept(())
+        }
+    }
+    
+    /// 作成にて、オフライン時に送信待ちアラートを表示
+    private func checkNetworkAtCreate() {
+        if Network.shared.isOnline() {
+            transitionToMainTabRelay.accept(())
+        } else {
+            waitingForCreateAlertRelay.accept(())
+        }
     }
     
 }
@@ -303,13 +323,26 @@ extension AccountImageSettingsViewModel: AccountImageSettingsViewModelOutput {
         showErrorAlert.asDriver(onErrorDriveWith: .empty())
     }
     
-    var transitionDriver: Driver<Void> {
-        transition.asDriver(onErrorDriveWith: .empty())
+    var transitionToMainTabDriver: Driver<Void> {
+        transitionToMainTabRelay.asDriver(onErrorDriveWith: .empty())
     }
     
     var networkErrorAlertDriver: Driver<Void> {
         networkErrorAlert.asDriver(onErrorDriveWith: .empty())
     }
+    
+    var transitionToEditingViewDriver: Driver<Void> {
+        transitionToEditingViewRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var waitingForUpdateAlertDriver: Driver<Void> {
+        waitingForUpdateAlertRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var waitingForCreateAlertDeiver: Driver<Void> {
+        waitingForCreateAlertRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
     
 }
 

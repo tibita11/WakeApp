@@ -151,11 +151,19 @@ class AccountImageSettingsViewController: UIViewController {
             .disposed(by: disposeBag)
         
         // 登録完了時の遷移
-        viewModel.output.transitionDriver
+        viewModel.output.transitionToMainTabDriver
             .drive(onNext: { [weak self] in
                 guard let self else { return }
                 let vc = MainTabBarController()
                 navigationController?.viewControllers = [vc]
+            })
+            .disposed(by: disposeBag)
+        
+        // 更新完了時の遷移
+        viewModel.output.transitionToEditingViewDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -164,6 +172,33 @@ class AccountImageSettingsViewController: UIViewController {
             .drive(onNext: { [weak self] in
                 guard let self else { return }
                 present(createNetworkErrorAlert(), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        // オフライン時の送信待ちアラートを表示_更新時
+        viewModel.output.waitingForUpdateAlertDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+                    guard let self else { return }
+                    // 前の画面に戻る
+                    navigationController?.popViewController(animated: true)
+                }
+                present(createUnsentAlert(action: action), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        // オフライン時の送信待ちアラートを表示_作成時
+        viewModel.output.waitingForCreateAlertDeiver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+                    guard let self else { return }
+                    // 前の画面に戻る
+                    let vc = MainTabBarController()
+                    navigationController?.viewControllers = [vc]
+                }
+                present(createUnsentAlert(action: action), animated: true)
             })
             .disposed(by: disposeBag)
         

@@ -53,12 +53,6 @@ class ProfileEditingViewController: UIViewController {
         setUpDatePicker()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        viewModel.getUserData()
-    }
-    
     
     // MARK: - Action
     

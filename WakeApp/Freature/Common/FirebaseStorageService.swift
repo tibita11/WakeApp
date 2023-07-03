@@ -43,16 +43,29 @@ class FirebaseStorageService {
         })
     }
     
+    /// ImageDataをStorageに保存後にURL取得
+    ///
+    /// - Parameters:
+    ///   - uid: 保存ファイル名
+    ///   - imageData: 保存する画像データ
+    ///
+    /// - Returns: 保存先URL
     func saveProfileImage(uid: String, imageData: Data) async throws -> URL {
         let imageRef = storage.reference().child(uid).child("\(UUID().uuidString).jpg")
         _ = try await imageRef.putDataAsync(imageData)
-        let url = try await imageRef.downloadURL()
-        return url
+        return try await imageRef.downloadURL()
     }
     
-    func deleteProfileImage(imageUrl: String) async throws {
-        let imageRef = storage.reference(forURL: imageUrl)
-        try await imageRef.delete()
+    /// 登録済みのプロフィール画像を削除
+    ///
+    /// - Parameter url: 削除する画像URL
+    func deleteProfileImage(with url: String) {
+        let imageRef = storage.reference(forURL: url)
+        imageRef.delete { error in
+            if let error {
+                assertionFailure("プロフィール写真削除失敗: \(error.localizedDescription)")
+            }
+        }
     }
     
 }

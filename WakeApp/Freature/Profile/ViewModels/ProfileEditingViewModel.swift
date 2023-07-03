@@ -59,40 +59,52 @@ class ProfileEditingViewModel: ProfileEditingViewModelType {
                 birthdayTextRelay.accept(dateFormatter.string(from: date))
             })
             .disposed(by: disposeBag)
+        
+        getUserData()
+
     }
     
+    /// UserDataの取得
     func getUserData() {
-        Task {
-            do {
-                let userID = try firebaseAuthService.getCurrenUserID()
-                let userData = try await firebaseFirestoreService.getUserData(uid: userID)
-                
-                imageUrlRelay.accept(userData.imageURL)
-                nameRelay.accept(userData.name)
-                futureRelay.accept(userData.future)
-                
-                if let birthday = userData.birthday {
-                    birthdayTextRelay.accept(dateFormatter.string(from: birthday))
-                    birthdayRelay.accept(birthday)
-                }
-                isHiddenError.accept(true)
-            } catch let error as FirebaseAuthServiceError {
-                // 再ログイン促す
-                errorAlertRelay.accept(error.localizedDescription)
-            } catch let error as FirebaseFirestoreServiceError {
-                // 再ログイン促す
-                errorAlertRelay.accept(error.localizedDescription)
-            } catch {
-                // ネットワークエラー
-                guard Network.shared.isOnline() else {
-                    networkErrorAlertRelay.accept(())
-                    isHiddenError.accept(false)
-                    return
-                }
-                
-                let errorText = "エラーが起きました。\nしばらくしてから再度お試しください。"
-                errorAlertRelay.accept(errorText)
-            }
+        // 初期値を設定
+        do {
+            let userID = try firebaseAuthService.getCurrenUserID()
+            firebaseFirestoreService.getUserData(uid: userID)
+                .subscribe(onNext: { [weak self] userData in
+                    guard let self else { return }
+                    // UIに反映
+                    imageUrlRelay.accept(userData.imageURL)
+                    nameRelay.accept(userData.name)
+                    futureRelay.accept(userData.future)
+
+                    if let birthday = userData.birthday {
+                        birthdayTextRelay.accept(dateFormatter.string(from: birthday))
+                        birthdayRelay.accept(birthday)
+                    }
+                    // 再試行画面の非表示
+                    isHiddenError.accept(true)
+                }, onError: { [weak self] error in
+                    guard let self else { return }
+                    // エラー処理
+                    if Network.shared.isOnline() {
+                        // エラーが出た場合は、コード側のミス
+                        print("Error: \(error.localizedDescription)")
+                        let errorText = "エラーが起きました。\nしばらくしてから再度お試しください。"
+                        errorAlertRelay.accept(errorText)
+                        // 再試行画面の表示
+                        isHiddenError.accept(false)
+                    } else {
+                        // オフライン
+                        networkErrorAlertRelay.accept(())
+                        isHiddenError.accept(false)
+                    }
+
+                })
+                .disposed(by: disposeBag)
+
+        } catch let error {
+            // UserIDが取得できない場合、再ログインを促す
+            errorAlertRelay.accept(error.localizedDescription)
         }
     }
     
