@@ -41,8 +41,8 @@ class ProfileSettingsTableViewController: UITableViewController {
             let profileEditingVC = ProfileEditingViewController()
             navigationController?.pushViewController(profileEditingVC, animated: true)
         case 1:
-            // 目標編集画面へ遷移
-            break
+            let goalsEditingVC = GoalsEditingViewController()
+            navigationController?.pushViewController(goalsEditingVC, animated: true)
         default:
             break
         }

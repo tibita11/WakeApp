@@ -11,11 +11,14 @@ import RxSwift
 
 enum FirebaseFirestoreServiceError: LocalizedError {
     case noUserData
+    case noGoalData
     
     var errorDescription: String? {
         switch self {
         case .noUserData:
             return "データが取得できませんでした。\nアプリを再起動して再ログインをお願いします。"
+        case .noGoalData:
+            return "データが登録されていません。"
         }
     }
 }
@@ -25,6 +28,7 @@ class FirebaseFirestoreService {
     private let firestore = Firestore.firestore()
     // コレクション
     private let users = "Users"
+    private let goals = "Goals"
 
     
     // MARK: - Action
@@ -126,5 +130,52 @@ class FirebaseFirestoreService {
         }()
         return imageURL
     }
+    
+    /// Firestoreに目標を登録
+    ///
+    /// - Parameters:
+    ///   - uid: 保存先のドキュメント名
+    ///   - goalData: 保存するデータ
+    func saveGoalData(uid: String, goalData: GoalData) {
+        firestore.collection(users).document(uid).collection(goals).document()
+            .setData([
+                "title" : goalData.title
+            ])
+    }
+    
+    /// Firestoreから目標を取得
+    ///
+    /// - Parameter uid: 取得先のドキュメント名
+    func getGoalData(uid: String) -> Observable<[GoalData]> {
+        return Observable.create { [weak self] observer in
+            let listener = self!.firestore.collection(self!.users).document(uid).collection(self!.goals)
+                .addSnapshotListener { snapshot, error in
+                    if let error {
+                        observer.onError(error)
+                    }
+                    
+                    guard let documents = snapshot?.documents else {
+                        // データが空の場合
+                        observer.onError(FirebaseFirestoreServiceError.noGoalData)
+                        return
+                    }
+                    
+                    let goals = documents.map {
+                        let title = $0["title"] as? String ?? {
+                            assertionFailure("Stringにキャストできませんでした。")
+                            return ""
+                        }()
+                        return GoalData(title: title)
+                    }
+                    
+                    observer.onNext(goals)
+                }
+            
+            return Disposables.create {
+                listener.remove()
+            }
+        }
+    }
+    
 
 }

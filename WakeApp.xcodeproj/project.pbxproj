@@ -16,7 +16,12 @@
 		A512D5042A22F0910034D4D9 /* IntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A512D5022A22F0910034D4D9 /* IntroductionViewController.swift */; };
 		A512D5052A22F0910034D4D9 /* IntroductionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A512D5032A22F0910034D4D9 /* IntroductionViewController.xib */; };
 		A512D5082A2391DA0034D4D9 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = A512D5072A2391DA0034D4D9 /* Const.swift */; };
+		A51CC1632A52B00A0039EA9A /* GoalsEditingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51CC1612A52B00A0039EA9A /* GoalsEditingViewController.swift */; };
+		A51CC1642A52B00A0039EA9A /* GoalsEditingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A51CC1622A52B00A0039EA9A /* GoalsEditingViewController.xib */; };
+		A51CC1672A52B2A00039EA9A /* GoalRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51CC1652A52B2A00039EA9A /* GoalRegistrationViewController.swift */; };
+		A51CC1682A52B2A00039EA9A /* GoalRegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A51CC1662A52B2A00039EA9A /* GoalRegistrationViewController.xib */; };
 		A53468F52A2AE4F10097A9EB /* AccountSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53468F42A2AE4F10097A9EB /* AccountSettingsViewModel.swift */; };
+		A54BD92C2A53B4D300FAF51C /* DoubleCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54BD92B2A53B4D300FAF51C /* DoubleCircleView.swift */; };
 		A54C21002A4E7EDF00A62691 /* FirebaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54C20FF2A4E7EDF00A62691 /* FirebaseAuthService.swift */; };
 		A54C21022A4EC59600A62691 /* FirebaseFirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54C21012A4EC59600A62691 /* FirebaseFirestoreService.swift */; };
 		A555A76F2A249FF000B09B03 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A555A76E2A249FF000B09B03 /* GoogleService-Info.plist */; };
@@ -41,6 +46,10 @@
 		A59EEEA02A21867000C60128 /* StartingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE9E2A21867000C60128 /* StartingViewController.swift */; };
 		A59EEEA12A21867000C60128 /* StartingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A59EEE9F2A21867000C60128 /* StartingViewController.xib */; };
 		A5B42CE12A49907000F64F4B /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B42CE02A49907000F64F4B /* TriangleView.swift */; };
+		A5C297F12A52B5CB006FE376 /* GoalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C297F02A52B5CB006FE376 /* GoalData.swift */; };
+		A5C297F62A52B77A006FE376 /* GoalRegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C297F52A52B77A006FE376 /* GoalRegistrationViewModel.swift */; };
+		A5C297F92A52C4D4006FE376 /* GoalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C297F72A52C4D4006FE376 /* GoalCollectionViewCell.swift */; };
+		A5C297FA2A52C4D4006FE376 /* GoalCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5C297F82A52C4D4006FE376 /* GoalCollectionViewCell.xib */; };
 		A5CFBD9C2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */; };
 		A5E03C642A4C1C24002148F1 /* PlaceHolderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E03C632A4C1C24002148F1 /* PlaceHolderTextView.swift */; };
 		A5E03C662A4C1FB3002148F1 /* ProfileEditingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E03C652A4C1FB3002148F1 /* ProfileEditingViewModel.swift */; };
@@ -53,6 +62,7 @@
 		A5ECAA122A450743007FDEDF /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5ECAA112A450743007FDEDF /* MainTabBarController.swift */; };
 		A5ECAA182A4508D9007FDEDF /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5ECAA162A4508D9007FDEDF /* ProfileViewController.swift */; };
 		A5ECAA1C2A453416007FDEDF /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5ECAA1A2A453416007FDEDF /* SplashViewController.swift */; };
+		A5F13EDC2A5309B3000878D5 /* GoalsEditingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F13EDB2A5309B3000878D5 /* GoalsEditingViewModel.swift */; };
 		A5F3790D2A44145F00E2B536 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F3790C2A44145F00E2B536 /* UserData.swift */; };
 		A5FF515D2A49D0E6000AEC7F /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF515C2A49D0E6000AEC7F /* ProfileViewModel.swift */; };
 		A5FF51602A4BFB13000AEC7F /* ProfileSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF515E2A4BFB13000AEC7F /* ProfileSettingsTableViewController.swift */; };
@@ -92,7 +102,12 @@
 		A512D5022A22F0910034D4D9 /* IntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewController.swift; sourceTree = "<group>"; };
 		A512D5032A22F0910034D4D9 /* IntroductionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IntroductionViewController.xib; sourceTree = "<group>"; };
 		A512D5072A2391DA0034D4D9 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
+		A51CC1612A52B00A0039EA9A /* GoalsEditingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsEditingViewController.swift; sourceTree = "<group>"; };
+		A51CC1622A52B00A0039EA9A /* GoalsEditingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GoalsEditingViewController.xib; sourceTree = "<group>"; };
+		A51CC1652A52B2A00039EA9A /* GoalRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRegistrationViewController.swift; sourceTree = "<group>"; };
+		A51CC1662A52B2A00039EA9A /* GoalRegistrationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GoalRegistrationViewController.xib; sourceTree = "<group>"; };
 		A53468F42A2AE4F10097A9EB /* AccountSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingsViewModel.swift; sourceTree = "<group>"; };
+		A54BD92B2A53B4D300FAF51C /* DoubleCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleCircleView.swift; sourceTree = "<group>"; };
 		A54C20FF2A4E7EDF00A62691 /* FirebaseAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthService.swift; sourceTree = "<group>"; };
 		A54C21012A4EC59600A62691 /* FirebaseFirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFirestoreService.swift; sourceTree = "<group>"; };
 		A555A76E2A249FF000B09B03 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -122,6 +137,10 @@
 		A59EEE9E2A21867000C60128 /* StartingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingViewController.swift; sourceTree = "<group>"; };
 		A59EEE9F2A21867000C60128 /* StartingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartingViewController.xib; sourceTree = "<group>"; };
 		A5B42CE02A49907000F64F4B /* TriangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
+		A5C297F02A52B5CB006FE376 /* GoalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalData.swift; sourceTree = "<group>"; };
+		A5C297F52A52B77A006FE376 /* GoalRegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRegistrationViewModel.swift; sourceTree = "<group>"; };
+		A5C297F72A52C4D4006FE376 /* GoalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCollectionViewCell.swift; sourceTree = "<group>"; };
+		A5C297F82A52C4D4006FE376 /* GoalCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GoalCollectionViewCell.xib; sourceTree = "<group>"; };
 		A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountImageSettingsViewModel.swift; sourceTree = "<group>"; };
 		A5E03C632A4C1C24002148F1 /* PlaceHolderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderTextView.swift; sourceTree = "<group>"; };
 		A5E03C652A4C1FB3002148F1 /* ProfileEditingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditingViewModel.swift; sourceTree = "<group>"; };
@@ -134,6 +153,7 @@
 		A5ECAA112A450743007FDEDF /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		A5ECAA162A4508D9007FDEDF /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		A5ECAA1A2A453416007FDEDF /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		A5F13EDB2A5309B3000878D5 /* GoalsEditingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsEditingViewModel.swift; sourceTree = "<group>"; };
 		A5F3790C2A44145F00E2B536 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		A5FF515C2A49D0E6000AEC7F /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		A5FF515E2A4BFB13000AEC7F /* ProfileSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsTableViewController.swift; sourceTree = "<group>"; };
@@ -206,8 +226,20 @@
 				A54C20FF2A4E7EDF00A62691 /* FirebaseAuthService.swift */,
 				A54C21012A4EC59600A62691 /* FirebaseFirestoreService.swift */,
 				A58BB0CA2A28225000C834A3 /* FirebaseStorageService.swift */,
+				A5C297F02A52B5CB006FE376 /* GoalData.swift */,
+				A54BD92B2A53B4D300FAF51C /* DoubleCircleView.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		A51CC1602A52AF400039EA9A /* Goal */ = {
+			isa = PBXGroup;
+			children = (
+				A5C297F22A52B74A006FE376 /* Views */,
+				A5C297F42A52B75E006FE376 /* ViewModels */,
+				A5C297F32A52B755006FE376 /* Models */,
+			);
+			path = Goal;
 			sourceTree = "<group>";
 		};
 		A58BB0D82A289C3F00C834A3 /* AccountSettings */ = {
@@ -310,6 +342,7 @@
 				A58BB0D82A289C3F00C834A3 /* AccountSettings */,
 				A5E45C7C2A2D7C13004EC86B /* Record */,
 				A5ECAA102A450581007FDEDF /* Profile */,
+				A51CC1602A52AF400039EA9A /* Goal */,
 			);
 			path = Freature;
 			sourceTree = "<group>";
@@ -357,6 +390,43 @@
 				A58BB0D02A2839E200C834A3 /* LoadingView.xib */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		A5C297F22A52B74A006FE376 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A5C297FB2A52C56E006FE376 /* GoalCollectionViewCell */,
+				A51CC1612A52B00A0039EA9A /* GoalsEditingViewController.swift */,
+				A51CC1622A52B00A0039EA9A /* GoalsEditingViewController.xib */,
+				A51CC1652A52B2A00039EA9A /* GoalRegistrationViewController.swift */,
+				A51CC1662A52B2A00039EA9A /* GoalRegistrationViewController.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A5C297F32A52B755006FE376 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A5C297F42A52B75E006FE376 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A5F13EDB2A5309B3000878D5 /* GoalsEditingViewModel.swift */,
+				A5C297F52A52B77A006FE376 /* GoalRegistrationViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A5C297FB2A52C56E006FE376 /* GoalCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				A5C297F72A52C4D4006FE376 /* GoalCollectionViewCell.swift */,
+				A5C297F82A52C4D4006FE376 /* GoalCollectionViewCell.xib */,
+			);
+			path = GoalCollectionViewCell;
 			sourceTree = "<group>";
 		};
 		A5E14CF32A472D3300A8C547 /* Splash */ = {
@@ -563,7 +633,10 @@
 				A555A76F2A249FF000B09B03 /* GoogleService-Info.plist in Resources */,
 				A59EEE762A216A1300C60128 /* LaunchScreen.storyboard in Resources */,
 				A5FF51652A4C000A000AEC7F /* ProfileEditingViewController.xib in Resources */,
+				A5C297FA2A52C4D4006FE376 /* GoalCollectionViewCell.xib in Resources */,
+				A51CC1682A52B2A00039EA9A /* GoalRegistrationViewController.xib in Resources */,
 				A5FF51612A4BFB13000AEC7F /* ProfileSettingsTableViewController.xib in Resources */,
+				A51CC1642A52B00A0039EA9A /* GoalsEditingViewController.xib in Resources */,
 				A59EEE732A216A1300C60128 /* Assets.xcassets in Resources */,
 				A58BB0D12A2839E200C834A3 /* LoadingView.xib in Resources */,
 				A5E45C872A2DA891004EC86B /* AccountImageSettingsViewController.xib in Resources */,
@@ -719,14 +792,21 @@
 				A555A7732A24ECD300B09B03 /* GoogleAuthenticator.swift in Sources */,
 				A5CFBD9C2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift in Sources */,
 				A50B9E4E2A2424230051C78C /* AccountRegistrationViewController.swift in Sources */,
+				A5F13EDC2A5309B3000878D5 /* GoalsEditingViewModel.swift in Sources */,
 				A58BB0CE2A282AEB00C834A3 /* OutgoingEmailViewController.swift in Sources */,
+				A5C297F62A52B77A006FE376 /* GoalRegistrationViewModel.swift in Sources */,
 				A54C21022A4EC59600A62691 /* FirebaseFirestoreService.swift in Sources */,
+				A54BD92C2A53B4D300FAF51C /* DoubleCircleView.swift in Sources */,
 				A58BB0D32A2839F400C834A3 /* LoadingView.swift in Sources */,
 				A5E03C642A4C1C24002148F1 /* PlaceHolderTextView.swift in Sources */,
 				A54C21002A4E7EDF00A62691 /* FirebaseAuthService.swift in Sources */,
+				A51CC1632A52B00A0039EA9A /* GoalsEditingViewController.swift in Sources */,
 				A555A7712A24A20B00B09B03 /* AccountRegistrationViewModel.swift in Sources */,
 				A5B42CE12A49907000F64F4B /* TriangleView.swift in Sources */,
 				A5ECAA122A450743007FDEDF /* MainTabBarController.swift in Sources */,
+				A5C297F12A52B5CB006FE376 /* GoalData.swift in Sources */,
+				A51CC1672A52B2A00039EA9A /* GoalRegistrationViewController.swift in Sources */,
+				A5C297F92A52C4D4006FE376 /* GoalCollectionViewCell.swift in Sources */,
 				A57213812A25E4DA001E5F81 /* AppleAuthenticator.swift in Sources */,
 				A5E03C662A4C1FB3002148F1 /* ProfileEditingViewModel.swift in Sources */,
 				A5F3790D2A44145F00E2B536 /* UserData.swift in Sources */,

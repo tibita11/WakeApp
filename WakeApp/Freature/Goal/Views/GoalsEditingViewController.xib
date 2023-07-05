@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GoalsEditingViewController" customModule="WakeApp" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="pQG-dn-HsP" id="YqN-8V-8cK"/>
+                <outlet property="collectionViewFlowLayout" destination="Znj-U5-tjo" id="2vy-pd-1Sb"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BLw-sw-xP7">
+                    <rect key="frame" x="221.66666666666663" y="113" width="141.33333333333337" height="50"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="01r-Mj-Z9a"/>
+                    </constraints>
+                    <color key="tintColor" red="0.074509803921568626" green="0.18431372549019609" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="plus.circle.fill" catalog="system" title="目標を追加" imagePadding="10">
+                        <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="tapAdditionButton:" destination="-1" eventType="touchUpInside" id="sH7-oD-Vlk"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="目標編集" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="22q-Jo-lfS">
+                    <rect key="frame" x="147.66666666666666" y="74" width="98" height="29"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ieO-zZ-dM1">
+                    <rect key="frame" x="30" y="168" width="333" height="1.6666666666666572"/>
+                    <color key="backgroundColor" systemColor="systemGray6Color"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1.5" id="Hfz-XA-CId"/>
+                    </constraints>
+                </view>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="pQG-dn-HsP">
+                    <rect key="frame" x="15" y="184.66666666666669" width="363" height="618.33333333333326"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Znj-U5-tjo">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="pQG-dn-HsP" firstAttribute="top" secondItem="ieO-zZ-dM1" secondAttribute="bottom" constant="15" id="2Ki-CA-yrA"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="pQG-dn-HsP" secondAttribute="trailing" constant="15" id="KKC-sg-v6r"/>
+                <constraint firstItem="BLw-sw-xP7" firstAttribute="top" secondItem="22q-Jo-lfS" secondAttribute="bottom" constant="10" id="MgA-Fr-8ph"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="pQG-dn-HsP" secondAttribute="bottom" constant="15" id="NsI-ca-D8a"/>
+                <constraint firstItem="ieO-zZ-dM1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="YyJ-M1-XXs"/>
+                <constraint firstItem="22q-Jo-lfS" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="15" id="bUR-Qy-BQY"/>
+                <constraint firstAttribute="trailing" secondItem="ieO-zZ-dM1" secondAttribute="trailing" constant="30" id="dhr-t0-QbF"/>
+                <constraint firstItem="ieO-zZ-dM1" firstAttribute="top" secondItem="BLw-sw-xP7" secondAttribute="bottom" constant="5" id="irQ-cg-fqr"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="BLw-sw-xP7" secondAttribute="trailing" constant="30" id="mId-5N-VAc"/>
+                <constraint firstItem="pQG-dn-HsP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="n8I-2g-CSN"/>
+                <constraint firstItem="22q-Jo-lfS" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="uLw-Nn-oIS"/>
+            </constraints>
+            <point key="canvasLocation" x="96.946564885496173" y="-11.267605633802818"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="plus.circle.fill" catalog="system" width="128" height="123"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="gTV-IL-0wX" customClass="GoalCollectionViewCell" customModule="WakeApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="350" height="300"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="350" height="300"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ifc-ha-Uzv">
+                        <rect key="frame" x="0.0" y="0.0" width="350" height="300"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="GnE-BO-kdm">
+                                <rect key="frame" x="0.0" y="0.0" width="350" height="300"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Tyr-1x-Wxo">
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="40"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Tcd-md-VYT">
+                                                <rect key="frame" x="0.0" y="2" width="75" height="36.333333333333336"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2019年3月(24)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9HQ-2W-Zpx">
+                                                        <rect key="frame" x="5.3333333333333357" y="0.0" width="64.666666666666657" height="11"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1oy-fX-sAy">
+                                                        <rect key="frame" x="34.666666666666664" y="11" width="5.6666666666666643" height="14.333333333333336"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2019年12月(24)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pxc-Hf-RhF">
+                                                        <rect key="frame" x="3.3333333333333357" y="25.333333333333332" width="68.666666666666657" height="10.999999999999996"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="75" id="RkL-kg-8TU"/>
+                                                </constraints>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="fed-gq-IFn">
+                                                <rect key="frame" x="85" y="0.0" width="180" height="40"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cea-bm-VkJ" customClass="DoubleCircleView" customModule="WakeApp" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="Cea-bm-VkJ" secondAttribute="height" multiplier="1:1" id="4sn-Xc-S85"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="英検合格" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jph-Uc-M0E">
+                                                        <rect key="frame" x="50" y="0.0" width="130" height="40"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="abm-rY-atW">
+                                                <rect key="frame" x="275" y="9" width="75" height="22"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-未達成-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3lH-DY-ovs">
+                                                        <rect key="frame" x="0.0" y="0.0" width="48.333333333333336" height="22"/>
+                                                        <color key="tintColor" systemColor="systemGray6Color"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="textColor" systemColor="systemGray2Color"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cAn-al-yFk">
+                                                        <rect key="frame" x="53.333333333333307" y="0.0" width="21.666666666666664" height="22"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" image="pencil" catalog="system"/>
+                                                    </button>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="75" id="SBt-gS-fwd"/>
+                                                </constraints>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="f1c-v7-6D5"/>
+                                        </constraints>
+                                    </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RfH-OD-IAG">
+                                        <rect key="frame" x="0.0" y="50" width="350" height="210"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="350" id="Ywh-QM-gyb"/>
+                                        </constraints>
+                                    </view>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dYH-kb-ZAM">
+                                        <rect key="frame" x="0.0" y="270" width="350" height="30"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8j9-qN-MmO">
+                                                <rect key="frame" x="0.0" y="0.0" width="240" height="30"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fnx-cq-mfe">
+                                                <rect key="frame" x="240" y="0.0" width="110" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="110" id="40c-Xa-iWr"/>
+                                                    <constraint firstAttribute="height" constant="30" id="VCR-1h-haD"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="やることを追加">
+                                                    <imageReference key="image" image="plus" catalog="system" symbolScale="small"/>
+                                                </state>
+                                                <buttonConfiguration key="configuration" style="plain" title="やることを追加">
+                                                    <imageReference key="image" image="plus" catalog="system" symbolScale="small"/>
+                                                    <fontDescription key="titleFontDescription" type="system" pointSize="10"/>
+                                                </buttonConfiguration>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="dYH-kb-ZAM" secondAttribute="bottom" id="8Yr-ho-EnL"/>
+                                    <constraint firstAttribute="trailing" secondItem="Tyr-1x-Wxo" secondAttribute="trailing" id="LZq-AA-mcd"/>
+                                    <constraint firstAttribute="trailing" secondItem="dYH-kb-ZAM" secondAttribute="trailing" id="Rqh-E8-VLc"/>
+                                    <constraint firstAttribute="trailing" secondItem="RfH-OD-IAG" secondAttribute="trailing" id="WgA-d1-zLd"/>
+                                    <constraint firstItem="Tyr-1x-Wxo" firstAttribute="top" secondItem="GnE-BO-kdm" secondAttribute="top" id="daP-Ze-dC3"/>
+                                    <constraint firstItem="Tyr-1x-Wxo" firstAttribute="leading" secondItem="GnE-BO-kdm" secondAttribute="leading" id="n81-4d-8Dq"/>
+                                    <constraint firstItem="RfH-OD-IAG" firstAttribute="leading" secondItem="GnE-BO-kdm" secondAttribute="leading" id="qUF-Vx-N1X"/>
+                                    <constraint firstItem="dYH-kb-ZAM" firstAttribute="leading" secondItem="GnE-BO-kdm" secondAttribute="leading" id="tJK-Vi-IO5"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="GnE-BO-kdm" firstAttribute="leading" secondItem="Ifc-ha-Uzv" secondAttribute="leading" id="37O-dk-WiG"/>
+                            <constraint firstItem="GnE-BO-kdm" firstAttribute="top" secondItem="Ifc-ha-Uzv" secondAttribute="top" id="Cxa-DJ-r9M"/>
+                            <constraint firstAttribute="bottom" secondItem="GnE-BO-kdm" secondAttribute="bottom" id="mDL-lh-zsN"/>
+                            <constraint firstAttribute="trailing" secondItem="GnE-BO-kdm" secondAttribute="trailing" id="mHi-d9-JlX"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="Ifc-ha-Uzv" secondAttribute="bottom" id="7AO-eE-d0S"/>
+                <constraint firstAttribute="trailing" secondItem="Ifc-ha-Uzv" secondAttribute="trailing" id="DwT-a6-yi8"/>
+                <constraint firstItem="Ifc-ha-Uzv" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="th1-mz-haZ"/>
+                <constraint firstItem="Ifc-ha-Uzv" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="w85-gs-IEB"/>
+            </constraints>
+            <connections>
+                <outlet property="additionButton" destination="Fnx-cq-mfe" id="8oG-1T-xjD"/>
+                <outlet property="baseView" destination="RfH-OD-IAG" id="RhN-O8-vB6"/>
+                <outlet property="baseViewWidth" destination="Ywh-QM-gyb" id="tpi-YV-Gnb"/>
+                <outlet property="titleLabel" destination="jph-Uc-M0E" id="Ee8-pd-qk6"/>
+            </connections>
+            <point key="canvasLocation" x="129.7709923664122" y="-11.267605633802818"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="pencil" catalog="system" width="128" height="113"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
