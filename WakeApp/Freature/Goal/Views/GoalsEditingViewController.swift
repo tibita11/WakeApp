@@ -17,6 +17,16 @@ class GoalsEditingViewController: UIViewController {
             collectionViewFlowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         }
     }
+    @IBOutlet weak var networkErrorView: UIView! {
+        didSet {
+            networkErrorView.layer.cornerRadius = 15
+        }
+    }
+    @IBOutlet weak var retryButton: UIButton! {
+        didSet {
+            retryButton.addTarget(self, action: #selector(tapRetryButton), for: .touchUpInside)
+        }
+    }
     
     private var viewModel: GoalsEditingViewModel!
     private let disposeBag = DisposeBag()
@@ -60,12 +70,35 @@ class GoalsEditingViewController: UIViewController {
                 }
             }
             .disposed(by: disposeBag)
+        
+        // オフライン時の再試行ボタン表示
+        viewModel.outputs.isHiddenErrorDriver
+            .drive(onNext: { [weak self] bool in
+                self?.networkErrorView.isHidden = bool
+            })
+            .disposed(by: disposeBag)
+        
+        // ネットワークエラーアラート表示
+        viewModel.outputs.networkErrorDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                present(createNetworkErrorAlert(), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        // 初期データの取得
+        viewModel.getGoalData()
     }
     
     /// 目標追加画面に遷移
     @IBAction func tapAdditionButton(_ sender: Any) {
         let vc = GoalRegistrationViewController()
         present(vc, animated: true)
+    }
+    
+    /// GoalDataを再取得
+    @objc private func tapRetryButton() {
+        viewModel.getGoalData()
     }
     
 }

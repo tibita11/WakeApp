@@ -61,6 +61,7 @@ class FirebaseFirestoreService {
             let listener = self!.firestore.collection(self!.users).document(uid).addSnapshotListener { snapshot, error in
                 if let error {
                     observer.onError(error)
+                    return
                 }
                 
                 guard let snapshot, snapshot.exists, let data = snapshot.data() else {
@@ -152,6 +153,7 @@ class FirebaseFirestoreService {
                 .addSnapshotListener { snapshot, error in
                     if let error {
                         observer.onError(error)
+                        return
                     }
                     
                     guard let documents = snapshot?.documents else {

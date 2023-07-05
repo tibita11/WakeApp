@@ -11,6 +11,8 @@ import RxCocoa
 
 protocol GoalsEditingViewModelOutputs {
     var goalDataDriver: Driver<[GoalData]> { get }
+    var isHiddenErrorDriver: Driver<Bool> { get }
+    var networkErrorDriver: Driver<Void> { get }
 }
 
 protocol GoalsEditingViewModelType {
@@ -24,12 +26,23 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
     private let authService = FirebaseAuthService()
     private let disposeBag = DisposeBag()
     private let goalDataRelay = PublishRelay<[GoalData]>()
+    private let isHiddenErrorRelay = PublishRelay<Bool>()
+    private let networkErrorRelay = PublishRelay<Void>()
     
     init() {
-        getGoalData()
+
     }
     
-    private func getGoalData() {
+    
+    func getGoalData() {
+        // オフラインチェック
+        if Network.shared.isOnline() {
+            isHiddenErrorRelay.accept(true)
+        } else {
+            networkErrorRelay.accept(())
+            isHiddenErrorRelay.accept(false)
+        }
+        
         do {
             let userID = try authService.getCurrenUserID()
             firestoreService.getGoalData(uid: userID)
@@ -42,7 +55,7 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
                         if let error = error as? FirebaseFirestoreServiceError {
                             // データが存在しない
                             // 目標を追加することを促すViewを表示
-                            
+                            print("データが存在しません。")
                         } else {
                             // 不明なエラー
                             // エラーが起きたことを通知する
@@ -51,7 +64,7 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
                         }
                     } else {
                         // 再試行ボタンをUI側に通知
-                        
+                        print("オフライン")
                     }
                 })
                 .disposed(by: disposeBag)
@@ -69,4 +82,12 @@ extension GoalsEditingViewModel: GoalsEditingViewModelOutputs {
         goalDataRelay.asDriver(onErrorDriveWith: .empty())
     }
     
+    var isHiddenErrorDriver: Driver<Bool> {
+        isHiddenErrorRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var networkErrorDriver: Driver<Void> {
+        networkErrorRelay.asDriver(onErrorDriveWith: .empty())
+    }
+   
 }
