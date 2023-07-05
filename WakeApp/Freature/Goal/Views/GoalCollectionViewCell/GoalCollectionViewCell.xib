@@ -51,7 +51,7 @@
                                                     </label>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="75" id="RkL-kg-8TU"/>
+                                                    <constraint firstAttribute="width" priority="999" constant="75" id="RkL-kg-8TU"/>
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="fed-gq-IFn">
@@ -71,6 +71,9 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="Cea-bm-VkJ" firstAttribute="leading" secondItem="fed-gq-IFn" secondAttribute="leading" id="M46-dR-Ofd"/>
+                                                </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="abm-rY-atW">
                                                 <rect key="frame" x="275" y="9" width="75" height="22"/>
@@ -89,19 +92,20 @@
                                                     </button>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="75" id="SBt-gS-fwd"/>
+                                                    <constraint firstAttribute="width" priority="999" constant="75" id="SBt-gS-fwd"/>
                                                 </constraints>
                                             </stackView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="f1c-v7-6D5"/>
+                                            <constraint firstAttribute="height" priority="999" constant="40" id="f1c-v7-6D5"/>
                                         </constraints>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RfH-OD-IAG">
                                         <rect key="frame" x="0.0" y="50" width="350" height="210"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="350" id="Ywh-QM-gyb"/>
+                                            <constraint firstAttribute="height" priority="999" constant="210" id="Mhc-s7-4HY"/>
+                                            <constraint firstAttribute="width" priority="999" constant="350" id="Ywh-QM-gyb"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dYH-kb-ZAM">
@@ -114,7 +118,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fnx-cq-mfe">
                                                 <rect key="frame" x="240" y="0.0" width="110" height="30"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="110" id="40c-Xa-iWr"/>
+                                                    <constraint firstAttribute="width" priority="999" constant="110" id="40c-Xa-iWr"/>
                                                     <constraint firstAttribute="height" constant="30" id="VCR-1h-haD"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -163,8 +167,9 @@
             <connections>
                 <outlet property="additionButton" destination="Fnx-cq-mfe" id="8oG-1T-xjD"/>
                 <outlet property="baseView" destination="RfH-OD-IAG" id="RhN-O8-vB6"/>
+                <outlet property="baseViewHeight" destination="Mhc-s7-4HY" id="rqL-Ol-j0C"/>
                 <outlet property="baseViewWidth" destination="Ywh-QM-gyb" id="tpi-YV-Gnb"/>
-                <outlet property="titleLabel" destination="jph-Uc-M0E" id="Ee8-pd-qk6"/>
+                <outlet property="titleLabel" destination="jph-Uc-M0E" id="eub-gi-Xzs"/>
             </connections>
             <point key="canvasLocation" x="129.7709923664122" y="-11.267605633802818"/>
         </collectionViewCell>

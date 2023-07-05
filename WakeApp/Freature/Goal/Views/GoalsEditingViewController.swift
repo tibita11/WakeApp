@@ -42,7 +42,22 @@ class GoalsEditingViewController: UIViewController {
         viewModel.outputs.goalDataDriver
             .drive(collectionView.rx.items(cellIdentifier: "GoalCollectionViewCell", cellType: GoalCollectionViewCell.self)) { [weak self] row, element, cell in
                 cell.titleLabel.text = element.title
-                cell.setUpWidth(to: self!.collectionView.bounds.width)
+                cell.setBaseViewWidth(to: self!.collectionView.bounds.width)
+                
+                // Todoの設定
+                let total = 3
+                let itemHeight = 130
+                let space = 10
+                cell.setBaseViewHeight(to: CGFloat((total * itemHeight) + (2 * space)))
+
+                for num in 0...total - 1 {
+                    let todoView = TodoView()
+                    todoView.frame = CGRect(x: 0,
+                                            y: num * itemHeight + 10,
+                                            width: Int(self!.collectionView.bounds.width),
+                                            height: itemHeight)
+                    cell.baseView.addSubview(todoView)
+                }
             }
             .disposed(by: disposeBag)
     }

@@ -19,14 +19,19 @@ class GoalCollectionViewCell: UICollectionViewCell {
     }
     @IBOutlet weak var baseView: UIView!
     @IBOutlet weak var baseViewWidth: NSLayoutConstraint!
+    @IBOutlet weak var baseViewHeight: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
     
-    func setUpWidth(to width: CGFloat) {
+    func setBaseViewWidth(to width: CGFloat) {
         baseViewWidth.constant = width
+    }
+    
+    func setBaseViewHeight(to height: CGFloat) {
+        baseViewHeight.constant = height
     }
 
 }

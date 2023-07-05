@@ -51,6 +51,8 @@
 		A5C297F92A52C4D4006FE376 /* GoalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C297F72A52C4D4006FE376 /* GoalCollectionViewCell.swift */; };
 		A5C297FA2A52C4D4006FE376 /* GoalCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5C297F82A52C4D4006FE376 /* GoalCollectionViewCell.xib */; };
 		A5CFBD9C2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */; };
+		A5DDC7B22A551A1E007B5558 /* TodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DDC7B12A551A1E007B5558 /* TodoView.swift */; };
+		A5DDC7B42A551A2E007B5558 /* TodoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5DDC7B32A551A2E007B5558 /* TodoView.xib */; };
 		A5E03C642A4C1C24002148F1 /* PlaceHolderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E03C632A4C1C24002148F1 /* PlaceHolderTextView.swift */; };
 		A5E03C662A4C1FB3002148F1 /* ProfileEditingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E03C652A4C1FB3002148F1 /* ProfileEditingViewModel.swift */; };
 		A5E14CF62A472D9800A8C547 /* WaveAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E14CF52A472D9800A8C547 /* WaveAnimationView.swift */; };
@@ -142,6 +144,8 @@
 		A5C297F72A52C4D4006FE376 /* GoalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCollectionViewCell.swift; sourceTree = "<group>"; };
 		A5C297F82A52C4D4006FE376 /* GoalCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GoalCollectionViewCell.xib; sourceTree = "<group>"; };
 		A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountImageSettingsViewModel.swift; sourceTree = "<group>"; };
+		A5DDC7B12A551A1E007B5558 /* TodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoView.swift; sourceTree = "<group>"; };
+		A5DDC7B32A551A2E007B5558 /* TodoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodoView.xib; sourceTree = "<group>"; };
 		A5E03C632A4C1C24002148F1 /* PlaceHolderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderTextView.swift; sourceTree = "<group>"; };
 		A5E03C652A4C1FB3002148F1 /* ProfileEditingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditingViewModel.swift; sourceTree = "<group>"; };
 		A5E14CF52A472D9800A8C547 /* WaveAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveAnimationView.swift; sourceTree = "<group>"; };
@@ -395,6 +399,7 @@
 		A5C297F22A52B74A006FE376 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A5DDC7B52A551A34007B5558 /* TodoView */,
 				A5C297FB2A52C56E006FE376 /* GoalCollectionViewCell */,
 				A51CC1612A52B00A0039EA9A /* GoalsEditingViewController.swift */,
 				A51CC1622A52B00A0039EA9A /* GoalsEditingViewController.xib */,
@@ -427,6 +432,15 @@
 				A5C297F82A52C4D4006FE376 /* GoalCollectionViewCell.xib */,
 			);
 			path = GoalCollectionViewCell;
+			sourceTree = "<group>";
+		};
+		A5DDC7B52A551A34007B5558 /* TodoView */ = {
+			isa = PBXGroup;
+			children = (
+				A5DDC7B12A551A1E007B5558 /* TodoView.swift */,
+				A5DDC7B32A551A2E007B5558 /* TodoView.xib */,
+			);
+			path = TodoView;
 			sourceTree = "<group>";
 		};
 		A5E14CF32A472D3300A8C547 /* Splash */ = {
@@ -638,6 +652,7 @@
 				A5FF51612A4BFB13000AEC7F /* ProfileSettingsTableViewController.xib in Resources */,
 				A51CC1642A52B00A0039EA9A /* GoalsEditingViewController.xib in Resources */,
 				A59EEE732A216A1300C60128 /* Assets.xcassets in Resources */,
+				A5DDC7B42A551A2E007B5558 /* TodoView.xib in Resources */,
 				A58BB0D12A2839E200C834A3 /* LoadingView.xib in Resources */,
 				A5E45C872A2DA891004EC86B /* AccountImageSettingsViewController.xib in Resources */,
 				A58BB0DF2A289D7700C834A3 /* AccountSettingsViewController.xib in Resources */,
@@ -797,6 +812,7 @@
 				A5C297F62A52B77A006FE376 /* GoalRegistrationViewModel.swift in Sources */,
 				A54C21022A4EC59600A62691 /* FirebaseFirestoreService.swift in Sources */,
 				A54BD92C2A53B4D300FAF51C /* DoubleCircleView.swift in Sources */,
+				A5DDC7B22A551A1E007B5558 /* TodoView.swift in Sources */,
 				A58BB0D32A2839F400C834A3 /* LoadingView.swift in Sources */,
 				A5E03C642A4C1C24002148F1 /* PlaceHolderTextView.swift in Sources */,
 				A54C21002A4E7EDF00A62691 /* FirebaseAuthService.swift in Sources */,
