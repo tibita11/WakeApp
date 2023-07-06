@@ -9,13 +9,20 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+struct GoalRegistrationViewModelInputs {
+    let startDatePickerObserver: Observable<Date?>
+    let endDatePickerObserver: Observable<Date?>
+}
+
 protocol GoalRegistrationViewModelOutputs {
     var errorAlertDriver: Driver<String> { get }
     var dismissScreenDriver: Driver<Void> { get }
+    var dateErrorDriver: Driver<String> { get }
 }
 
 protocol GoalRegistrationViewModelType {
     var outputs: GoalRegistrationViewModelOutputs { get }
+    func setUp(inputs: GoalRegistrationViewModelInputs)
 }
 
 class GoalRegistrationViewModel: GoalRegistrationViewModelType {
@@ -23,11 +30,34 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
     
     private let firestoreService = FirebaseFirestoreService()
     private let authService = FirebaseAuthService()
+    private let disposeBag = DisposeBag()
     private let errorAlertRelay = PublishRelay<String>()
     private let dismissScreenRelay = PublishRelay<Void>()
+    private let dateErrorRelay = PublishRelay<String>()
     
     init() {
         
+    }
+    
+    /// インスタンス化の際に実行する初期設定
+    ///
+    /// - Parameter inputs: 必須Observer
+    func setUp(inputs: GoalRegistrationViewModelInputs) {
+        // 終了日付が開始日付を上回る場合にエラーを表示
+        Observable.combineLatest(inputs.startDatePickerObserver,
+                                 inputs.endDatePickerObserver)
+        .map { startDate, endDate -> String in
+            if let startDate = startDate,
+               let endDate = endDate,
+               endDate > startDate {
+                return "開始日付は終了日より前でなければいけません。"
+            }
+            return ""
+        }
+        .subscribe(onNext: { [weak self] error in
+            self?.dateErrorRelay.accept(error)
+        })
+        .disposed(by: disposeBag)
     }
     
     /// FirestoreにGoalDataを保存
@@ -56,6 +86,10 @@ extension GoalRegistrationViewModel: GoalRegistrationViewModelOutputs {
     
     var dismissScreenDriver: Driver<Void> {
         dismissScreenRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var dateErrorDriver: Driver<String> {
+        dateErrorRelay.asDriver(onErrorDriveWith: .empty())
     }
     
 }

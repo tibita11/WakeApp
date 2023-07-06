@@ -12,23 +12,45 @@ import RxCocoa
 class GoalRegistrationViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var registrationButton: UIButton! {
+        didSet {
+            registrationButton.layer.cornerRadius = Const.LargeBlueButtonCorner
+        }
+    }
+    @IBOutlet weak var startDateTextField: UITextField!
+    @IBOutlet weak var endDateTextField: UITextField!
+    @IBOutlet weak var dateErrorLabel: UILabel!
     
     private var viewModel: GoalRegistrationViewModel!
     private let disposeBag = DisposeBag()
+    private var startDatePicker = UIDatePicker()
+    private var endDatePicker = UIDatePicker()
     
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUp()
+        setUpViewModel()
+        setUpPickerView()
     }
 
     
     // MARK: - Action
     
-    private func setUp() {
+    private func setUpViewModel() {
         viewModel = GoalRegistrationViewModel()
+        let startDatePickerObserver = startDatePicker.rx.controlEvent(.valueChanged)
+                    .map { [weak self] in
+                        self?.startDatePicker.date
+                    }
+        let endDatePickerObserver = endDatePicker.rx.controlEvent(.valueChanged)
+                    .map { [weak self] in
+                        self?.endDatePicker.date
+                    }
+        let inputs = GoalRegistrationViewModelInputs(startDatePickerObserver: startDatePickerObserver,
+                                                     endDatePickerObserver: endDatePickerObserver)
+        viewModel.setUp(inputs: inputs)
         
         // エラーアラート表示
         viewModel.outputs.errorAlertDriver
@@ -45,6 +67,24 @@ class GoalRegistrationViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        // 終了日付が開始日付を上回った場合のエラー
+        viewModel.outputs.dateErrorDriver
+            .drive(dateErrorLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+    }
+    
+    private func setUpPickerView() {
+        // 開始日付
+        startDatePicker.preferredDatePickerStyle = .wheels
+        startDatePicker.datePickerMode = .date
+        startDatePicker.locale = Locale(identifier: "ja_JP")
+        startDateTextField.inputView = startDatePicker
+        // 終了日付
+        endDatePicker.preferredDatePickerStyle = .wheels
+        endDatePicker.datePickerMode = .date
+        endDatePicker.locale = Locale(identifier: "ja_JP")
+        endDateTextField.inputView = endDatePicker
     }
     
     /// Firestoreに保存
