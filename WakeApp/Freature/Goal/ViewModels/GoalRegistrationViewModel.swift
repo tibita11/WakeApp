@@ -18,6 +18,8 @@ protocol GoalRegistrationViewModelOutputs {
     var errorAlertDriver: Driver<String> { get }
     var dismissScreenDriver: Driver<Void> { get }
     var dateErrorDriver: Driver<String> { get }
+    var startDateTextDriver: Driver<String> { get }
+    var endDateTextDriver: Driver<String> { get }
 }
 
 protocol GoalRegistrationViewModelType {
@@ -34,6 +36,13 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
     private let errorAlertRelay = PublishRelay<String>()
     private let dismissScreenRelay = PublishRelay<Void>()
     private let dateErrorRelay = PublishRelay<String>()
+    private let startDateTextRelay = PublishRelay<String>()
+    private let endDateTextRelay = PublishRelay<String>()
+    private lazy var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy年MM月dd日"
+        return dateFormatter
+    }()
     
     init() {
         
@@ -58,6 +67,22 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
             self?.dateErrorRelay.accept(error)
         })
         .disposed(by: disposeBag)
+        
+        // DateをTextに変換
+        inputs.startDatePickerObserver
+            .subscribe(onNext: { [weak self] date in
+                guard let self, let date else { return }
+                startDateTextRelay.accept(dateFormatter.string(from: date))
+            })
+            .disposed(by: disposeBag)
+        
+        // DateをTextに変換
+        inputs.endDatePickerObserver
+            .subscribe(onNext: { [weak self] date in
+                guard let self, let date else { return }
+                endDateTextRelay.accept(dateFormatter.string(from: date))
+            })
+            .disposed(by: disposeBag)
     }
     
     /// FirestoreにGoalDataを保存
@@ -92,4 +117,12 @@ extension GoalRegistrationViewModel: GoalRegistrationViewModelOutputs {
         dateErrorRelay.asDriver(onErrorDriveWith: .empty())
     }
     
+    var startDateTextDriver: Driver<String> {
+        startDateTextRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var endDateTextDriver: Driver<String> {
+        endDateTextRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
 }

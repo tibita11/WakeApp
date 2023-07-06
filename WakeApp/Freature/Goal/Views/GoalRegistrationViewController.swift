@@ -44,10 +44,12 @@ class GoalRegistrationViewController: UIViewController {
                     .map { [weak self] in
                         self?.startDatePicker.date
                     }
+                    .share()
         let endDatePickerObserver = endDatePicker.rx.controlEvent(.valueChanged)
                     .map { [weak self] in
                         self?.endDatePicker.date
                     }
+                    .share()
         let inputs = GoalRegistrationViewModelInputs(startDatePickerObserver: startDatePickerObserver,
                                                      endDatePickerObserver: endDatePickerObserver)
         viewModel.setUp(inputs: inputs)
@@ -70,6 +72,16 @@ class GoalRegistrationViewController: UIViewController {
         // 終了日付が開始日付を上回った場合のエラー
         viewModel.outputs.dateErrorDriver
             .drive(dateErrorLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // Date型を変換してバインド
+        viewModel.outputs.startDateTextDriver
+            .drive(startDateTextField.rx.text)
+            .disposed(by: disposeBag)
+        
+        // Date型を変換してバインド
+        viewModel.outputs.endDateTextDriver
+            .drive(endDateTextField.rx.text)
             .disposed(by: disposeBag)
         
     }
