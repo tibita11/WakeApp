@@ -27,6 +27,7 @@ class GoalsEditingViewController: UIViewController {
             retryButton.addTarget(self, action: #selector(tapRetryButton), for: .touchUpInside)
         }
     }
+    @IBOutlet weak var introductionView: UIView!
     
     private var viewModel: GoalsEditingViewModel!
     private let disposeBag = DisposeBag()
@@ -50,6 +51,13 @@ class GoalsEditingViewController: UIViewController {
         
         // itemをcollectionViewに表示
         viewModel.outputs.goalDataDriver
+            .do(onNext: { [weak self] items in
+                if items.isEmpty {
+                    self?.introductionView.isHidden = false
+                } else {
+                    self?.introductionView.isHidden = true
+                }
+            })
             .drive(collectionView.rx.items(cellIdentifier: "GoalCollectionViewCell", cellType: GoalCollectionViewCell.self)) { [weak self] row, element, cell in
                 cell.titleLabel.text = element.title
                 cell.setBaseViewWidth(to: self!.collectionView.bounds.width)
