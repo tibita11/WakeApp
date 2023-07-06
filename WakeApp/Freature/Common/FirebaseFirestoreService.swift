@@ -11,14 +11,14 @@ import RxSwift
 
 enum FirebaseFirestoreServiceError: LocalizedError {
     case noUserData
-    case noGoalData
+    case noInstance
     
     var errorDescription: String? {
         switch self {
         case .noUserData:
             return "データが取得できませんでした。\nアプリを再起動して再ログインをお願いします。"
-        case .noGoalData:
-            return "データが登録されていません。"
+        case .noInstance:
+            return "インスタンスの割り当てが解除されました。"
         }
     }
 }
@@ -149,19 +149,19 @@ class FirebaseFirestoreService {
     /// - Parameter uid: 取得先のドキュメント名
     func getGoalData(uid: String) -> Observable<[GoalData]> {
         return Observable.create { [weak self] observer in
-            let listener = self!.firestore.collection(self!.users).document(uid).collection(self!.goals)
+            guard let self else {
+                observer.onError(FirebaseFirestoreServiceError.noInstance)
+                return Disposables.create()
+            }
+            
+            let listener = firestore.collection(users).document(uid).collection(goals)
                 .addSnapshotListener { snapshot, error in
                     if let error {
                         observer.onError(error)
                         return
                     }
                     
-                    guard let documents = snapshot?.documents else {
-                        // データが空の場合
-                        observer.onError(FirebaseFirestoreServiceError.noGoalData)
-                        return
-                    }
-                    
+                    let documents = snapshot?.documents ?? []
                     let goals = documents.map {
                         let title = $0["title"] as? String ?? {
                             assertionFailure("Stringにキャストできませんでした。")
@@ -169,7 +169,6 @@ class FirebaseFirestoreService {
                         }()
                         return GoalData(title: title)
                     }
-                    
                     observer.onNext(goals)
                 }
             

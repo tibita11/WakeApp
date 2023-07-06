@@ -86,6 +86,14 @@ class GoalsEditingViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        // エラーアラート表示
+        viewModel.outputs.errorAlertDriver
+            .drive(onNext: { [weak self] error in
+                guard let self else { return }
+                present(createErrorAlert(title: error), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
         // 初期データの取得
         viewModel.getGoalData()
     }

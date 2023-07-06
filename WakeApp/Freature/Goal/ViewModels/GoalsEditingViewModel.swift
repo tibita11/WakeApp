@@ -13,6 +13,7 @@ protocol GoalsEditingViewModelOutputs {
     var goalDataDriver: Driver<[GoalData]> { get }
     var isHiddenErrorDriver: Driver<Bool> { get }
     var networkErrorDriver: Driver<Void> { get }
+    var errorAlertDriver: Driver<String> { get }
 }
 
 protocol GoalsEditingViewModelType {
@@ -28,6 +29,7 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
     private let goalDataRelay = PublishRelay<[GoalData]>()
     private let isHiddenErrorRelay = PublishRelay<Bool>()
     private let networkErrorRelay = PublishRelay<Void>()
+    private let errorAlertRelay = PublishRelay<String>()
     
     init() {
 
@@ -49,27 +51,15 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
                 .subscribe(onNext: { [weak self] goalData in
                     // goadDataをView側に通知
                     self?.goalDataRelay.accept(goalData)
-                }, onError: { error in
-                    // オフラインチェック
-                    if Network.shared.isOnline() {
-                        if let error = error as? FirebaseFirestoreServiceError {
-                            // データが存在しない
-                            // 目標を追加することを促すViewを表示
-                            print("データが存在しません。")
-                        } else {
-                            // 不明なエラー
-                            // エラーが起きたことを通知する
-                            // それと一緒にやり直せる環境（再試行ボタン）は表示する
-                            assertionFailure("Error: GoalDataの読み込み失敗")
-                        }
-                    } else {
-                        // 再試行ボタンをUI側に通知
-                        print("オフライン")
-                    }
+                }, onError: { [weak self] error in
+                    print("Error: \(error.localizedDescription)")
+                    // アラート表示
+                    self?.errorAlertRelay.accept(Const.errorText)
                 })
                 .disposed(by: disposeBag)
-        } catch {
-            
+        } catch let error {
+            // アラート表示
+            errorAlertRelay.accept(error.localizedDescription)
         }
     }
 }
@@ -89,5 +79,10 @@ extension GoalsEditingViewModel: GoalsEditingViewModelOutputs {
     var networkErrorDriver: Driver<Void> {
         networkErrorRelay.asDriver(onErrorDriveWith: .empty())
     }
+    
+    var errorAlertDriver: Driver<String> {
+        errorAlertRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
    
 }
