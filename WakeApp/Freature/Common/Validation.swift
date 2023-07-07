@@ -118,3 +118,13 @@ struct UserNameValidator: Validator {
         self.validations = [EmptyValidation(value: value)]
     }
 }
+
+/// 目標名バリデーションチェックに使用する
+struct TitleValidator: Validator {
+    var validations: [Validation]
+    init(value: String) {
+        // バリデーションチェックを増やしたい場合に追加する
+        self.validations = [EmptyValidation(value: value)]
+    }
+}
+

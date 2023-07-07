@@ -12,6 +12,7 @@ import RxCocoa
 struct GoalRegistrationViewModelInputs {
     let startDatePickerObserver: Observable<Date?>
     let endDatePickerObserver: Observable<Date?>
+    let titleTextFieldObserver: Observable<String?>
 }
 
 protocol GoalRegistrationViewModelOutputs {
@@ -20,6 +21,8 @@ protocol GoalRegistrationViewModelOutputs {
     var dateErrorDriver: Driver<String> { get }
     var startDateTextDriver: Driver<String> { get }
     var endDateTextDriver: Driver<String> { get }
+    var titleErrorDriver: Driver<String> { get }
+    var registerButtonDriver: Driver<Bool> { get }
 }
 
 protocol GoalRegistrationViewModelType {
@@ -35,9 +38,10 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
     private let disposeBag = DisposeBag()
     private let errorAlertRelay = PublishRelay<String>()
     private let dismissScreenRelay = PublishRelay<Void>()
-    private let dateErrorRelay = PublishRelay<String>()
     private let startDateTextRelay = PublishRelay<String>()
     private let endDateTextRelay = PublishRelay<String>()
+    private let dateErrorRelay = BehaviorRelay(value: "※ 開始日・終了日は必須項目です。")
+    private let titleErrorRelay = BehaviorRelay(value: "※ 目標名は必須項目です。")
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy年MM月dd日"
@@ -83,6 +87,20 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
                 endDateTextRelay.accept(dateFormatter.string(from: date))
             })
             .disposed(by: disposeBag)
+        
+        // Titleのバリデーションチェック
+        inputs.titleTextFieldObserver
+            .skip(2)
+            .subscribe(onNext: { [weak self] title in
+                guard let self, let title else { return }
+                switch TitleValidator(value: title).validate() {
+                case .valid:
+                    titleErrorRelay.accept("")
+                case .invalid(let error):
+                    titleErrorRelay.accept(error.localizedDescription)
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     /// FirestoreにGoalDataを保存
@@ -124,5 +142,17 @@ extension GoalRegistrationViewModel: GoalRegistrationViewModelOutputs {
     var endDateTextDriver: Driver<String> {
         endDateTextRelay.asDriver(onErrorDriveWith: .empty())
     }
-
+    
+    var titleErrorDriver: Driver<String> {
+        titleErrorRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var registerButtonDriver: Driver<Bool> {
+        Observable.combineLatest(dateErrorRelay, titleErrorRelay)
+            .map { dateError, titleError -> Bool in
+                return dateError.isEmpty && titleError.isEmpty
+            }
+            .asDriver(onErrorDriveWith: .empty())
+    }
+    
 }

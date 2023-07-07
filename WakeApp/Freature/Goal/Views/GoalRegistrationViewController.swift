@@ -20,6 +20,7 @@ class GoalRegistrationViewController: UIViewController {
     @IBOutlet weak var startDateTextField: UITextField!
     @IBOutlet weak var endDateTextField: UITextField!
     @IBOutlet weak var dateErrorLabel: UILabel!
+    @IBOutlet weak var titleErrorLabel: UILabel!
     @IBOutlet weak var statusSegmentedControl: UISegmentedControl!
     
     private var viewModel: GoalRegistrationViewModel!
@@ -52,7 +53,8 @@ class GoalRegistrationViewController: UIViewController {
                     }
                     .share()
         let inputs = GoalRegistrationViewModelInputs(startDatePickerObserver: startDatePickerObserver,
-                                                     endDatePickerObserver: endDatePickerObserver)
+                                                     endDatePickerObserver: endDatePickerObserver,
+                                                     titleTextFieldObserver: titleTextField.rx.text.asObservable())
         viewModel.setUp(inputs: inputs)
         
         // エラーアラート表示
@@ -83,6 +85,19 @@ class GoalRegistrationViewController: UIViewController {
         // Date型を変換してバインド
         viewModel.outputs.endDateTextDriver
             .drive(endDateTextField.rx.text)
+            .disposed(by: disposeBag)
+        
+        // 目標名が空欄の場合のエラー
+        viewModel.outputs.titleErrorDriver
+            .drive(titleErrorLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // バリデーションがOKの場合、登録ボタンをEnabledに変更
+        viewModel.outputs.registerButtonDriver
+            .drive(onNext: { [weak self] bool in
+                self?.registrationButton.isEnabled = bool
+                self?.registrationButton.backgroundColor = bool ? Const.mainBlueColor : UIColor.systemGray2
+            })
             .disposed(by: disposeBag)
         
     }
