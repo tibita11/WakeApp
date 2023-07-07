@@ -50,7 +50,8 @@ class GoalsEditingViewController: UIViewController {
     
     private func setUp() {
         // 別の方法でセルの大きさを変えてみる
-        collectionView.register(UINib(nibName: "GoalCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "GoalCollectionViewCell")
+        collectionView.register(UINib(nibName: "GoalCollectionViewCell", bundle: nil),
+                                forCellWithReuseIdentifier: "GoalCollectionViewCell")
         
         viewModel = GoalsEditingViewModel()
         
@@ -69,6 +70,18 @@ class GoalsEditingViewController: UIViewController {
                 cell.titleLabel.text = element.title
                 cell.startDateLabel.text = dateFormatter.string(from: element.startDate)
                 cell.endDateLabel.text = dateFormatter.string(from: element.endDate)
+                // 達成状況
+                switch element.status {
+                case 0:
+                    cell.statusLabel.text = "未達成"
+                    cell.statusLabel.textColor = UIColor.systemGray2
+                case 1:
+                    cell.statusLabel.text = "達成"
+                    cell.statusLabel.textColor = UIColor.red
+                default:
+                    break
+                }
+                
                 cell.setBaseViewWidth(to: collectionView.bounds.width)
                 
                 // Todoの設定

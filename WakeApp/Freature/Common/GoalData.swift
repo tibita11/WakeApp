@@ -11,4 +11,5 @@ struct GoalData {
     let title: String
     let startDate: Date
     let endDate: Date
+    let status: Int
 }

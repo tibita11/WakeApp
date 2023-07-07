@@ -20,6 +20,7 @@ class GoalRegistrationViewController: UIViewController {
     @IBOutlet weak var startDateTextField: UITextField!
     @IBOutlet weak var endDateTextField: UITextField!
     @IBOutlet weak var dateErrorLabel: UILabel!
+    @IBOutlet weak var statusSegmentedControl: UISegmentedControl!
     
     private var viewModel: GoalRegistrationViewModel!
     private let disposeBag = DisposeBag()
@@ -105,7 +106,10 @@ class GoalRegistrationViewController: UIViewController {
             return
         }
         
-        let goalData = GoalData(title: title, startDate: startDatePicker.date, endDate: endDatePicker.date)
+        let goalData = GoalData(title: title,
+                                startDate: startDatePicker.date,
+                                endDate: endDatePicker.date,
+                                status: statusSegmentedControl.selectedSegmentIndex)
         viewModel.saveGoadlData(date: goalData)
     }
 }

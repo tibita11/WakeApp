@@ -142,7 +142,8 @@ class FirebaseFirestoreService {
             .setData([
                 "title" : goalData.title,
                 "startDate" : Timestamp(date: goalData.startDate),
-                "endDate" : Timestamp(date: goalData.endDate)
+                "endDate" : Timestamp(date: goalData.endDate),
+                "status" : goalData.status
             ])
     }
     
@@ -157,6 +158,7 @@ class FirebaseFirestoreService {
             }
             
             let listener = firestore.collection(users).document(uid).collection(goals)
+                .order(by: "startDate", descending: true)
                 .addSnapshotListener { snapshot, error in
                     if let error {
                         observer.onError(error)
@@ -181,9 +183,15 @@ class FirebaseFirestoreService {
                             return Timestamp()
                         }()
                         
+                        let status = $0["status"] as? Int ?? {
+                            assertionFailure("Intにキャストできませんでした。")
+                            return 0
+                        }()
+                        
                         return GoalData(title: title,
                                         startDate: startDate.dateValue(),
-                                        endDate: endDate.dateValue())
+                                        endDate: endDate.dateValue(),
+                                        status: status)
                     }
                     observer.onNext(goals)
                 }

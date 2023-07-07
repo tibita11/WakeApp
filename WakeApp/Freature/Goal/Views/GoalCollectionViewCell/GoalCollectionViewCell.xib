@@ -171,6 +171,7 @@
                 <outlet property="baseViewWidth" destination="Ywh-QM-gyb" id="tpi-YV-Gnb"/>
                 <outlet property="endDateLabel" destination="pxc-Hf-RhF" id="i14-no-VWn"/>
                 <outlet property="startDateLabel" destination="9HQ-2W-Zpx" id="RiG-yl-mBE"/>
+                <outlet property="statusLabel" destination="3lH-DY-ovs" id="FLi-bu-cfT"/>
                 <outlet property="titleLabel" destination="jph-Uc-M0E" id="eub-gi-Xzs"/>
             </connections>
             <point key="canvasLocation" x="129.7709923664122" y="-11.267605633802818"/>

@@ -15,6 +15,7 @@
                 <outlet property="endDateTextField" destination="Lqo-w9-VsV" id="SjZ-ah-SDb"/>
                 <outlet property="registrationButton" destination="lh7-cJ-8ip" id="gYy-YG-4cE"/>
                 <outlet property="startDateTextField" destination="JyM-Jh-6S4" id="DyL-4E-1eE"/>
+                <outlet property="statusSegmentedControl" destination="dJ5-Hi-ahd" id="KBD-d3-3dS"/>
                 <outlet property="titleTextField" destination="1R5-WU-W9T" id="Z2h-Ej-KzA"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -25,7 +26,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="dyW-LR-20k">
-                    <rect key="frame" x="56.666666666666657" y="109" width="280" height="285.66666666666669"/>
+                    <rect key="frame" x="56.666666666666657" y="109.00000000000003" width="280" height="341.66666666666674"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="目標登録" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rAc-ng-9Jw">
                             <rect key="frame" x="91.333333333333343" y="0.0" width="97.333333333333343" height="28.666666666666668"/>
@@ -34,7 +35,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Yof-EQ-RX3">
-                            <rect key="frame" x="0.0" y="78.666666666666657" width="280" height="113"/>
+                            <rect key="frame" x="0.0" y="78.666666666666657" width="280" height="169"/>
                             <subviews>
                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="目標名" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1R5-WU-W9T">
                                     <rect key="frame" x="0.0" y="0.0" width="280" height="34"/>
@@ -76,6 +77,13 @@
                                         <constraint firstItem="yvK-lE-uME" firstAttribute="leading" secondItem="rLK-m9-Xm8" secondAttribute="leading" id="tBD-pu-juU"/>
                                     </constraints>
                                 </stackView>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dJ5-Hi-ahd">
+                                    <rect key="frame" x="0.0" y="138.00000000000003" width="117" height="32"/>
+                                    <segments>
+                                        <segment title="未達成"/>
+                                        <segment title="達成"/>
+                                    </segments>
+                                </segmentedControl>
                             </subviews>
                             <constraints>
                                 <constraint firstItem="rLK-m9-Xm8" firstAttribute="leading" secondItem="Yof-EQ-RX3" secondAttribute="leading" id="484-uK-sl5"/>
@@ -85,7 +93,7 @@
                             </constraints>
                         </stackView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lh7-cJ-8ip">
-                            <rect key="frame" x="0.0" y="241.66666666666669" width="280" height="44"/>
+                            <rect key="frame" x="0.0" y="297.66666666666669" width="280" height="44"/>
                             <color key="backgroundColor" red="0.074509803920000006" green="0.1843137255" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="280" id="KUn-Ua-TAW"/>
