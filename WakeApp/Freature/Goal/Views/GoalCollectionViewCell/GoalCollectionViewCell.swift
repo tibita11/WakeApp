@@ -20,6 +20,8 @@ class GoalCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var baseView: UIView!
     @IBOutlet weak var baseViewWidth: NSLayoutConstraint!
     @IBOutlet weak var baseViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var startDateLabel: UILabel!
+    @IBOutlet weak var endDateLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

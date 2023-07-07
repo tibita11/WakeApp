@@ -140,7 +140,9 @@ class FirebaseFirestoreService {
     func saveGoalData(uid: String, goalData: GoalData) {
         firestore.collection(users).document(uid).collection(goals).document()
             .setData([
-                "title" : goalData.title
+                "title" : goalData.title,
+                "startDate" : Timestamp(date: goalData.startDate),
+                "endDate" : Timestamp(date: goalData.endDate)
             ])
     }
     
@@ -163,11 +165,25 @@ class FirebaseFirestoreService {
                     
                     let documents = snapshot?.documents ?? []
                     let goals = documents.map {
+                        
                         let title = $0["title"] as? String ?? {
                             assertionFailure("Stringにキャストできませんでした。")
                             return ""
                         }()
-                        return GoalData(title: title)
+                        
+                        let startDate = $0["startDate"] as? Timestamp ?? {
+                            assertionFailure("Timestampにキャストできませんでした。")
+                            return Timestamp()
+                        }()
+                        
+                        let endDate = $0["endDate"] as? Timestamp ?? {
+                            assertionFailure("Timestampにキャストできませんでした。")
+                            return Timestamp()
+                        }()
+                        
+                        return GoalData(title: title,
+                                        startDate: startDate.dateValue(),
+                                        endDate: endDate.dateValue())
                     }
                     observer.onNext(goals)
                 }

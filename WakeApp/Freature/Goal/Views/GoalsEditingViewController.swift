@@ -31,6 +31,11 @@ class GoalsEditingViewController: UIViewController {
     
     private var viewModel: GoalsEditingViewModel!
     private let disposeBag = DisposeBag()
+    private lazy var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy年MM月dd日"
+        return dateFormatter
+    }()
     
     // MARK: - View Life Cycle
     
@@ -58,9 +63,13 @@ class GoalsEditingViewController: UIViewController {
                     self?.introductionView.isHidden = true
                 }
             })
-            .drive(collectionView.rx.items(cellIdentifier: "GoalCollectionViewCell", cellType: GoalCollectionViewCell.self)) { [weak self] row, element, cell in
+            .drive(collectionView.rx.items(cellIdentifier: "GoalCollectionViewCell",
+                                           cellType: GoalCollectionViewCell.self)) { [weak self] row, element, cell in
+                guard let self else { return }
                 cell.titleLabel.text = element.title
-                cell.setBaseViewWidth(to: self!.collectionView.bounds.width)
+                cell.startDateLabel.text = dateFormatter.string(from: element.startDate)
+                cell.endDateLabel.text = dateFormatter.string(from: element.endDate)
+                cell.setBaseViewWidth(to: collectionView.bounds.width)
                 
                 // Todoの設定
                 let total = 3
@@ -72,7 +81,7 @@ class GoalsEditingViewController: UIViewController {
                     let todoView = TodoView()
                     todoView.frame = CGRect(x: 0,
                                             y: num * itemHeight + 10,
-                                            width: Int(self!.collectionView.bounds.width),
+                                            width: Int(collectionView.bounds.width),
                                             height: itemHeight)
                     cell.baseView.addSubview(todoView)
                 }

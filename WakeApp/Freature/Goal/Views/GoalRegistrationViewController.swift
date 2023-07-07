@@ -105,7 +105,7 @@ class GoalRegistrationViewController: UIViewController {
             return
         }
         
-        let goalData = GoalData(title: title)
+        let goalData = GoalData(title: title, startDate: startDatePicker.date, endDate: endDatePicker.date)
         viewModel.saveGoadlData(date: goalData)
     }
 }
