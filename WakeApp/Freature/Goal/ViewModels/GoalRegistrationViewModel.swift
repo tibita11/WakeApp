@@ -23,6 +23,7 @@ protocol GoalRegistrationViewModelOutputs {
     var endDateTextDriver: Driver<String> { get }
     var titleErrorDriver: Driver<String> { get }
     var registerButtonDriver: Driver<Bool> { get }
+    var unsentAlertDriver: Driver<Void> { get }
 }
 
 protocol GoalRegistrationViewModelType {
@@ -42,6 +43,7 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
     private let endDateTextRelay = PublishRelay<String>()
     private let dateErrorRelay = BehaviorRelay(value: "※ 開始日・終了日は必須項目です。")
     private let titleErrorRelay = BehaviorRelay(value: "※ 目標名は必須項目です。")
+    private let unsentAlertRelay = PublishRelay<Void>()
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy年MM月dd日"
@@ -62,7 +64,7 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
         .map { startDate, endDate -> String in
             if let startDate = startDate,
                let endDate = endDate,
-               endDate > startDate {
+               endDate < startDate {
                 return "開始日付は終了日より前でなければいけません。"
             }
             return ""
@@ -109,8 +111,12 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
     func saveGoadlData(date: GoalData) {
         do {
             let userID = try authService.getCurrenUserID()
-            // 画面を閉じる
-            dismissScreenRelay.accept(())
+            // オフラインチェック
+            if Network.shared.isOnline() {
+                dismissScreenRelay.accept(())
+            } else {
+                unsentAlertRelay.accept(())
+            }
             firestoreService.saveGoalData(uid: userID, goalData: date)
         } catch let error {
             // uidが取得できない場合、再ログインを促す
@@ -153,6 +159,10 @@ extension GoalRegistrationViewModel: GoalRegistrationViewModelOutputs {
                 return dateError.isEmpty && titleError.isEmpty
             }
             .asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var unsentAlertDriver: Driver<Void> {
+        unsentAlertRelay.asDriver(onErrorDriveWith: .empty())
     }
     
 }

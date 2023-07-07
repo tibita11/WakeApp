@@ -100,6 +100,18 @@ class GoalRegistrationViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        // 未送信アラート表示
+        viewModel.outputs.unsentAlertDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+                    guard let self else { return }
+                    dismiss(animated: true)
+                }
+               present(createUnsentAlert(action: action), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     private func setUpPickerView() {
@@ -117,11 +129,7 @@ class GoalRegistrationViewController: UIViewController {
     
     /// Firestoreに保存
     @IBAction func tapRegistrationButton(_ sender: Any) {
-        guard let title = titleTextField.text else {
-            return
-        }
-        
-        let goalData = GoalData(title: title,
+        let goalData = GoalData(title: titleTextField.text!,
                                 startDate: startDatePicker.date,
                                 endDate: endDatePicker.date,
                                 status: statusSegmentedControl.selectedSegmentIndex)
