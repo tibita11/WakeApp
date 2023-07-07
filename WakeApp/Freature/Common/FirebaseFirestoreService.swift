@@ -168,6 +168,8 @@ class FirebaseFirestoreService {
                     let documents = snapshot?.documents ?? []
                     let goals = documents.map {
                         
+                        let documentID = $0.documentID
+                        
                         let title = $0["title"] as? String ?? {
                             assertionFailure("Stringにキャストできませんでした。")
                             return ""
@@ -188,7 +190,8 @@ class FirebaseFirestoreService {
                             return 0
                         }()
                         
-                        return GoalData(title: title,
+                        return GoalData(documentID: documentID,
+                                        title: title,
                                         startDate: startDate.dateValue(),
                                         endDate: endDate.dateValue(),
                                         status: status)

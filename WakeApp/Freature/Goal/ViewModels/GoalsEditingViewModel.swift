@@ -14,6 +14,7 @@ protocol GoalsEditingViewModelOutputs {
     var isHiddenErrorDriver: Driver<Bool> { get }
     var networkErrorDriver: Driver<Void> { get }
     var errorAlertDriver: Driver<String> { get }
+    var transitionToGoalRegistrationDriver: Driver<String> { get }
 }
 
 protocol GoalsEditingViewModelType {
@@ -26,10 +27,11 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
     private let firestoreService = FirebaseFirestoreService()
     private let authService = FirebaseAuthService()
     private let disposeBag = DisposeBag()
-    private let goalDataRelay = PublishRelay<[GoalData]>()
+    private let goalDataRelay = BehaviorRelay<[GoalData]>(value: [])
     private let isHiddenErrorRelay = PublishRelay<Bool>()
     private let networkErrorRelay = PublishRelay<Void>()
     private let errorAlertRelay = PublishRelay<String>()
+    private let transitionToGoalRegistrationRelay = PublishRelay<String>()
     
     init() {
 
@@ -62,6 +64,15 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
             errorAlertRelay.accept(error.localizedDescription)
         }
     }
+    
+    /// 取得したItemから指定番目のドキュメントIDを取得
+    ///
+    /// - Parameter num: ドキュメントIDが必要な行数
+    func getDocumentID(num: Int) {
+        let items = goalDataRelay.value
+        let documentID = items[num].documentID
+        transitionToGoalRegistrationRelay.accept(documentID)
+    }
 }
 
 
@@ -84,5 +95,8 @@ extension GoalsEditingViewModel: GoalsEditingViewModelOutputs {
         errorAlertRelay.asDriver(onErrorDriveWith: .empty())
     }
     
+    var transitionToGoalRegistrationDriver: Driver<String> {
+        transitionToGoalRegistrationRelay.asDriver(onErrorDriveWith: .empty())
+    }
    
 }

@@ -70,6 +70,9 @@ class GoalsEditingViewController: UIViewController {
                 cell.titleLabel.text = element.title
                 cell.startDateLabel.text = dateFormatter.string(from: element.startDate)
                 cell.endDateLabel.text = dateFormatter.string(from: element.endDate)
+                // タップされた場合に該当ドキュメントの編集画面に移るため保持
+                cell.editButton.tag = row
+                cell.delegate = self
                 // 達成状況
                 switch element.status {
                 case 0:
@@ -124,6 +127,15 @@ class GoalsEditingViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        // ドキュメント名を初期値とした登録画面への遷移
+        viewModel.outputs.transitionToGoalRegistrationDriver
+            .drive(onNext: { [weak self] documentID in
+                guard let self else { return }
+                let vc = GoalRegistrationViewController(documentID: documentID)
+                present(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
         // 初期データの取得
         viewModel.getGoalData()
     }
@@ -139,4 +151,13 @@ class GoalsEditingViewController: UIViewController {
         viewModel.getGoalData()
     }
     
+}
+
+
+// MARK: - GoalCollectionViewCellDelegate
+
+extension GoalsEditingViewController: GoalCollectionViewCellDelegate {
+    func getDocumentID(num: Int) {
+        viewModel.getDocumentID(num: num)
+    }
 }

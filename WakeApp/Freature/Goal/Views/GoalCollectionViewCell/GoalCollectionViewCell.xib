@@ -89,6 +89,9 @@
                                                         <rect key="frame" x="53.333333333333307" y="0.0" width="21.666666666666664" height="22"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" image="pencil" catalog="system"/>
+                                                        <connections>
+                                                            <action selector="tapEditButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="wE8-Jt-GHl"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
@@ -169,6 +172,7 @@
                 <outlet property="baseView" destination="RfH-OD-IAG" id="RhN-O8-vB6"/>
                 <outlet property="baseViewHeight" destination="Mhc-s7-4HY" id="rqL-Ol-j0C"/>
                 <outlet property="baseViewWidth" destination="Ywh-QM-gyb" id="tpi-YV-Gnb"/>
+                <outlet property="editButton" destination="cAn-al-yFk" id="jzL-0K-hZb"/>
                 <outlet property="endDateLabel" destination="pxc-Hf-RhF" id="i14-no-VWn"/>
                 <outlet property="startDateLabel" destination="9HQ-2W-Zpx" id="RiG-yl-mBE"/>
                 <outlet property="statusLabel" destination="3lH-DY-ovs" id="FLi-bu-cfT"/>

@@ -36,6 +36,19 @@ class GoalRegistrationViewController: UIViewController {
         setUpViewModel()
         setUpPickerView()
     }
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(documentID: String) {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 
     
     // MARK: - Action

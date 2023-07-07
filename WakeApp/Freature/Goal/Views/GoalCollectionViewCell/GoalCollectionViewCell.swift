@@ -7,6 +7,13 @@
 
 import UIKit
 
+protocol GoalCollectionViewCellDelegate: AnyObject {
+    /// 一覧表示されている場合にタグ番目のDocumentIDを取得
+    ///
+    /// - Parameter num: EditButtonに登録されているタグ
+    func getDocumentID(num: Int)
+}
+
 class GoalCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
@@ -23,6 +30,9 @@ class GoalCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var startDateLabel: UILabel!
     @IBOutlet weak var endDateLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var editButton: UIButton!
+    
+    weak var delegate: GoalCollectionViewCellDelegate!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,4 +47,7 @@ class GoalCollectionViewCell: UICollectionViewCell {
         baseViewHeight.constant = height
     }
 
+    @IBAction func tapEditButton(_ sender: Any) {
+        delegate.getDocumentID(num: editButton.tag)
+    }
 }
