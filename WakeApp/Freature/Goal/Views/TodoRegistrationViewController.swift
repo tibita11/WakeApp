@@ -77,6 +77,16 @@ class TodoRegistrationViewController: UIViewController {
         viewModel.outputs.dateErrorTextDriver
             .drive(dateErrorLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        // エラーがない場合のみ、登録ボタンをタップ可能にする
+        viewModel.outputs.registerButtonDriver
+            .drive(onNext: { [weak self] bool in
+                guard let self else { return }
+                registerButton.isEnabled = bool
+                registerButton.backgroundColor
+                    = bool ? Const.mainBlueColor : UIColor.systemGray2
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setUpDatePicker() {

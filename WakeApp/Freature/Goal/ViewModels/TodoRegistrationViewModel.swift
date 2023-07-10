@@ -20,6 +20,7 @@ protocol TodoRegistrationViewModelOutputs {
     var startDateTextDriver: Driver<String> { get }
     var endDateTextDriver: Driver<String> { get }
     var dateErrorTextDriver: Driver<String> { get }
+    var registerButtonDriver: Driver<Bool> { get }
 }
 
 protocol TodoRegistrationViewModelType {
@@ -107,6 +108,17 @@ extension TodoRegistrationViewModel: TodoRegistrationViewModelOutputs {
     
     var dateErrorTextDriver: Driver<String> {
         dateErrorTextRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var registerButtonDriver: Driver<Bool> {
+        Observable.combineLatest(titleErrorTextRelay, dateErrorTextRelay)
+            .map { titleError, dateError -> Bool in
+                if titleError.isEmpty && dateError.isEmpty {
+                    return true
+                }
+                return false
+            }
+            .asDriver(onErrorDriveWith: .empty())
     }
     
 }
