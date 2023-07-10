@@ -129,9 +129,9 @@ class GoalsEditingViewController: UIViewController {
         
         // ドキュメント名を初期値とした登録画面への遷移
         viewModel.outputs.transitionToGoalRegistrationDriver
-            .drive(onNext: { [weak self] documentID in
+            .drive(onNext: { [weak self] goalData in
                 guard let self else { return }
-                let vc = GoalRegistrationViewController(documentID: documentID)
+                let vc = GoalRegistrationViewController(goalData: goalData)
                 present(vc, animated: true)
             })
             .disposed(by: disposeBag)
@@ -158,6 +158,7 @@ class GoalsEditingViewController: UIViewController {
 
 extension GoalsEditingViewController: GoalCollectionViewCellDelegate {
     func getDocumentID(num: Int) {
-        viewModel.getDocumentID(num: num)
+        let documentID = viewModel.getDocumentID(num: num)
+        viewModel.getGoalData(documentID: documentID)
     }
 }

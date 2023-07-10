@@ -92,7 +92,7 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
         
         // Titleのバリデーションチェック
         inputs.titleTextFieldObserver
-            .skip(2)
+            .skip(1)
             .subscribe(onNext: { [weak self] title in
                 guard let self, let title else { return }
                 switch TitleValidator(value: title).validate() {
@@ -108,7 +108,7 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
     /// FirestoreにGoalDataを保存
     ///
     /// - Parameter data: 保存するデータ
-    func saveGoadlData(date: GoalData) {
+    func saveGoalData(data: GoalData) {
         do {
             let userID = try authService.getCurrenUserID()
             // オフラインチェック
@@ -117,7 +117,28 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
             } else {
                 unsentAlertRelay.accept(())
             }
-            firestoreService.saveGoalData(uid: userID, goalData: date)
+            firestoreService.saveGoalData(uid: userID, goalData: data)
+        } catch let error {
+            // uidが取得できない場合、再ログインを促す
+            errorAlertRelay.accept(error.localizedDescription)
+        }
+    }
+    
+    /// Firestoreのデータを更新
+    ///
+    /// - Parameters:
+    ///   - documentID: 更新するドキュメントID
+    ///   - data: 更新するデータ
+    func updateGoalData(documentID: String, data: GoalData) {
+        do {
+            let userID = try authService.getCurrenUserID()
+            // オフラインチェック
+            if Network.shared.isOnline() {
+                dismissScreenRelay.accept(())
+            } else {
+                unsentAlertRelay.accept(())
+            }
+            firestoreService.updateGoalData(uid: userID, documentID: documentID, goalData: data)
         } catch let error {
             // uidが取得できない場合、再ログインを促す
             errorAlertRelay.accept(error.localizedDescription)

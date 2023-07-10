@@ -9,12 +9,35 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+/// 新規と更新で画面を共有するため、判別用に準備
+enum GoalRegistrationStatus {
+    case create
+    case update
+}
+
 class GoalRegistrationViewController: UIViewController {
 
+    @IBOutlet weak var headingLabel: UILabel! {
+        didSet {
+            if status == .update {
+                headingLabel.text = "目標編集"
+            }
+        }
+    }
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var registrationButton: UIButton! {
         didSet {
             registrationButton.layer.cornerRadius = Const.LargeBlueButtonCorner
+            
+            switch status {
+            case .create:
+                registrationButton.addTarget(self, action: #selector(tapRegistrationButton), for: .touchUpInside)
+            case .update:
+                registrationButton.addTarget(self, action: #selector(tapUpdateButton), for: .touchUpInside)
+                registrationButton.setTitle("更新", for: .normal)
+            default:
+                break
+            }
         }
     }
     @IBOutlet weak var startDateTextField: UITextField!
@@ -22,26 +45,31 @@ class GoalRegistrationViewController: UIViewController {
     @IBOutlet weak var dateErrorLabel: UILabel!
     @IBOutlet weak var titleErrorLabel: UILabel!
     @IBOutlet weak var statusSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var deleteButton: UIButton! {
+        didSet {
+            if status == .update {
+                deleteButton.isHidden = false
+            }
+        }
+    }
     
     private var viewModel: GoalRegistrationViewModel!
     private let disposeBag = DisposeBag()
     private var startDatePicker = UIDatePicker()
     private var endDatePicker = UIDatePicker()
+    private var status: GoalRegistrationStatus!
+    private var goalData: GoalData? = nil
     
     // MARK: - View Life Cycle
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setUpViewModel()
-        setUpPickerView()
-    }
-    
     init() {
+        status = .create
         super.init(nibName: nil, bundle: nil)
     }
     
-    init(documentID: String) {
+    init(goalData: GoalData) {
+        self.status = .update
+        self.goalData = goalData
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -49,9 +77,30 @@ class GoalRegistrationViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setUpViewModel()
+        setUpPickerView()
+        setUpInitialData()
+    }
 
     
     // MARK: - Action
+    
+    /// 更新の場合に、初期値をセット
+    private func setUpInitialData() {
+        if status == .update {
+            guard let goalData else { return }
+            titleTextField.text = goalData.title
+            titleTextField.sendActions(for: .valueChanged)
+            startDatePicker.date = goalData.startDate
+            startDatePicker.sendActions(for: .valueChanged)
+            endDatePicker.date = goalData.endDate
+            endDatePicker.sendActions(for: .valueChanged)
+            statusSegmentedControl.selectedSegmentIndex = goalData.status
+        }
+    }
     
     private func setUpViewModel() {
         viewModel = GoalRegistrationViewModel()
@@ -141,11 +190,21 @@ class GoalRegistrationViewController: UIViewController {
     }
     
     /// Firestoreに保存
-    @IBAction func tapRegistrationButton(_ sender: Any) {
+    @objc private func tapRegistrationButton() {
         let goalData = GoalData(title: titleTextField.text!,
                                 startDate: startDatePicker.date,
                                 endDate: endDatePicker.date,
                                 status: statusSegmentedControl.selectedSegmentIndex)
-        viewModel.saveGoadlData(date: goalData)
+        viewModel.saveGoalData(data: goalData)
+    }
+    
+    /// Firestoreのデータを更新
+    @objc private func tapUpdateButton() {
+        guard let goalData else { return }
+        let newGoalData = GoalData(title: titleTextField.text!,
+                                startDate: startDatePicker.date,
+                                endDate: endDatePicker.date,
+                                status: statusSegmentedControl.selectedSegmentIndex)
+        viewModel.updateGoalData(documentID: goalData.documentID, data: newGoalData)
     }
 }

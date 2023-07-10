@@ -14,7 +14,7 @@ protocol GoalsEditingViewModelOutputs {
     var isHiddenErrorDriver: Driver<Bool> { get }
     var networkErrorDriver: Driver<Void> { get }
     var errorAlertDriver: Driver<String> { get }
-    var transitionToGoalRegistrationDriver: Driver<String> { get }
+    var transitionToGoalRegistrationDriver: Driver<GoalData> { get }
 }
 
 protocol GoalsEditingViewModelType {
@@ -31,7 +31,7 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
     private let isHiddenErrorRelay = PublishRelay<Bool>()
     private let networkErrorRelay = PublishRelay<Void>()
     private let errorAlertRelay = PublishRelay<String>()
-    private let transitionToGoalRegistrationRelay = PublishRelay<String>()
+    private let transitionToGoalRegistrationRelay = PublishRelay<GoalData>()
     
     init() {
 
@@ -68,10 +68,38 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
     /// 取得したItemから指定番目のドキュメントIDを取得
     ///
     /// - Parameter num: ドキュメントIDが必要な行数
-    func getDocumentID(num: Int) {
+    func getDocumentID(num: Int) -> String {
         let items = goalDataRelay.value
-        let documentID = items[num].documentID
-        transitionToGoalRegistrationRelay.accept(documentID)
+        return items[num].documentID
+    }
+    
+    /// 指定したドキュメントIDのGoalData取得
+    ///
+    /// - Parameter documentID: 取得するドキュメント名
+    func getGoalData(documentID: String) {
+        do {
+            let userID = try authService.getCurrenUserID()
+            firestoreService.getGoalData(uid: userID, documentID: documentID)
+                .subscribe(onNext: { [weak self] goalData in
+                    // 取得後は遷移
+                    self?.transitionToGoalRegistrationRelay.accept(goalData)
+                }, onError: { [weak self] error in
+                    // エラーは遷移せずにアラート表示
+                    if Network.shared.isOnline() {
+                        // 一律でアラートを表示する
+                        print("Error: \(error.localizedDescription)")
+                        self?.errorAlertRelay.accept(Const.errorText)
+                    } else {
+                        // オフライン
+                        print("Error: \(error.localizedDescription)")
+                        self?.networkErrorRelay.accept(())
+                    }
+                })
+                .disposed(by: disposeBag)
+        } catch let error {
+            // uidが取得できない場合は、再ログインを促す
+            errorAlertRelay.accept(error.localizedDescription)
+        }
     }
 }
 
@@ -95,7 +123,7 @@ extension GoalsEditingViewModel: GoalsEditingViewModelOutputs {
         errorAlertRelay.asDriver(onErrorDriveWith: .empty())
     }
     
-    var transitionToGoalRegistrationDriver: Driver<String> {
+    var transitionToGoalRegistrationDriver: Driver<GoalData> {
         transitionToGoalRegistrationRelay.asDriver(onErrorDriveWith: .empty())
     }
    

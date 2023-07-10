@@ -12,7 +12,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GoalRegistrationViewController" customModule="WakeApp" customModuleProvider="target">
             <connections>
                 <outlet property="dateErrorLabel" destination="yvK-lE-uME" id="QKT-pX-hvk"/>
+                <outlet property="deleteButton" destination="n9l-hl-VXJ" id="v6Q-4Q-UWe"/>
                 <outlet property="endDateTextField" destination="Lqo-w9-VsV" id="SjZ-ah-SDb"/>
+                <outlet property="headingLabel" destination="rAc-ng-9Jw" id="oFj-4A-3sW"/>
                 <outlet property="registrationButton" destination="lh7-cJ-8ip" id="gYy-YG-4cE"/>
                 <outlet property="startDateTextField" destination="JyM-Jh-6S4" id="DyL-4E-1eE"/>
                 <outlet property="statusSegmentedControl" destination="dJ5-Hi-ahd" id="KBD-d3-3dS"/>
@@ -26,17 +28,40 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="dyW-LR-20k">
-                    <rect key="frame" x="56.666666666666657" y="109" width="280" height="361"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="dyW-LR-20k">
+                    <rect key="frame" x="56.666666666666657" y="108.99999999999997" width="280" height="342.33333333333326"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="目標登録" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rAc-ng-9Jw">
-                            <rect key="frame" x="91.333333333333343" y="0.0" width="97.333333333333343" height="28.666666666666668"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bdh-HX-Nsy">
+                            <rect key="frame" x="0.0" y="0.0" width="280" height="30"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="目標登録" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rAc-ng-9Jw">
+                                    <rect key="frame" x="91.333333333333343" y="0.6666666666666714" width="97.333333333333343" height="28.666666666666668"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button hidden="YES" opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n9l-hl-VXJ">
+                                    <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="n9l-hl-VXJ" secondAttribute="height" multiplier="1:1" id="Yvb-bh-vAB"/>
+                                    </constraints>
+                                    <color key="tintColor" systemColor="systemRedColor"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" image="trash" catalog="system"/>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstItem="n9l-hl-VXJ" firstAttribute="leading" secondItem="Bdh-HX-Nsy" secondAttribute="leading" id="4m1-Py-vJD"/>
+                                <constraint firstItem="rAc-ng-9Jw" firstAttribute="centerY" secondItem="Bdh-HX-Nsy" secondAttribute="centerY" id="8cB-Gj-qBN"/>
+                                <constraint firstAttribute="height" constant="30" id="FPp-Du-OXV"/>
+                                <constraint firstItem="rAc-ng-9Jw" firstAttribute="centerX" secondItem="Bdh-HX-Nsy" secondAttribute="centerX" id="Gof-h9-Hj9"/>
+                                <constraint firstAttribute="bottom" secondItem="n9l-hl-VXJ" secondAttribute="bottom" id="LDs-zZ-PoU"/>
+                                <constraint firstItem="n9l-hl-VXJ" firstAttribute="top" secondItem="Bdh-HX-Nsy" secondAttribute="top" id="WtX-Fa-h8Z"/>
+                            </constraints>
+                        </view>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Yof-EQ-RX3">
-                            <rect key="frame" x="0.0" y="78.666666666666643" width="280" height="188.33333333333337"/>
+                            <rect key="frame" x="0.0" y="70.000000000000014" width="280" height="188.33333333333337"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="kkC-TK-BwS">
                                     <rect key="frame" x="0.0" y="0.0" width="280" height="53.333333333333336"/>
@@ -64,7 +89,7 @@
                                     </constraints>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="rLK-m9-Xm8">
-                                    <rect key="frame" x="0.0" y="78.333333333333343" width="280" height="54"/>
+                                    <rect key="frame" x="0.0" y="78.333333333333314" width="280" height="54"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="bPM-Ck-fTm">
                                             <rect key="frame" x="0.0" y="0.0" width="280" height="34"/>
@@ -99,7 +124,7 @@
                                     </constraints>
                                 </stackView>
                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="dJ5-Hi-ahd">
-                                    <rect key="frame" x="0.0" y="157.33333333333334" width="117" height="32"/>
+                                    <rect key="frame" x="0.0" y="157.33333333333331" width="117" height="32"/>
                                     <segments>
                                         <segment title="未達成"/>
                                         <segment title="達成"/>
@@ -114,7 +139,7 @@
                             </constraints>
                         </stackView>
                         <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lh7-cJ-8ip">
-                            <rect key="frame" x="0.0" y="317" width="280" height="44"/>
+                            <rect key="frame" x="0.0" y="298.33333333333331" width="280" height="44"/>
                             <color key="backgroundColor" systemColor="systemGray2Color"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="280" id="KUn-Ua-TAW"/>
@@ -125,14 +150,13 @@
                             <state key="normal" title="登録">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
-                            <connections>
-                                <action selector="tapRegistrationButton:" destination="-1" eventType="touchUpInside" id="iJg-Pz-nYF"/>
-                            </connections>
                         </button>
                     </subviews>
                     <constraints>
                         <constraint firstItem="Yof-EQ-RX3" firstAttribute="leading" secondItem="dyW-LR-20k" secondAttribute="leading" id="Ewk-b0-V3C"/>
                         <constraint firstAttribute="trailing" secondItem="Yof-EQ-RX3" secondAttribute="trailing" id="H8j-q7-qI9"/>
+                        <constraint firstItem="Bdh-HX-Nsy" firstAttribute="leading" secondItem="dyW-LR-20k" secondAttribute="leading" id="S1S-eO-Kge"/>
+                        <constraint firstAttribute="trailing" secondItem="Bdh-HX-Nsy" secondAttribute="trailing" id="b92-Ty-YaD"/>
                     </constraints>
                 </stackView>
             </subviews>
@@ -146,6 +170,7 @@
         </view>
     </objects>
     <resources>
+        <image name="trash" catalog="system" width="117" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -12,6 +12,7 @@ import RxSwift
 enum FirebaseFirestoreServiceError: LocalizedError {
     case noUserData
     case noInstance
+    case noGoalData
     
     var errorDescription: String? {
         switch self {
@@ -19,6 +20,8 @@ enum FirebaseFirestoreServiceError: LocalizedError {
             return "データが取得できませんでした。\nアプリを再起動して再ログインをお願いします。"
         case .noInstance:
             return "インスタンスの割り当てが解除されました。"
+        case .noGoalData:
+            return "データが取得できませんでした。"
         }
     }
 }
@@ -147,9 +150,25 @@ class FirebaseFirestoreService {
             ])
     }
     
+    /// GoalDataを更新
+    ///
+    /// - Parameters:
+    ///   - uid: 保存先のドキュメント名
+    ///   - documentID: 保存先のドキュメント名
+    ///   - goalData: 保存するデータ
+    func updateGoalData(uid: String, documentID: String, goalData: GoalData) {
+        firestore.collection(users).document(uid).collection(goals).document(documentID)
+            .setData([
+                "title" : goalData.title,
+                "startDate" : Timestamp(date: goalData.startDate),
+                "endDate" : Timestamp(date: goalData.endDate),
+                "status" : goalData.status
+            ])
+    }
+    
     /// Firestoreから目標を取得
     ///
-    /// - Parameter uid: 取得先のドキュメント名
+    /// - Parameter uid: 取得先のコレクション名
     func getGoalData(uid: String) -> Observable<[GoalData]> {
         return Observable.create { [weak self] observer in
             guard let self else {
@@ -202,6 +221,65 @@ class FirebaseFirestoreService {
             return Disposables.create {
                 listener.remove()
             }
+        }
+    }
+    
+    /// Firestoreから指定したドキュメントIDの目標を取得
+    ///
+    /// - Parameters:
+    ///   - uid: 取得先のコレクション名
+    ///   - documentID: ドキュメントを指定
+    func getGoalData(uid: String, documentID: String) -> Observable<GoalData> {
+        return Observable.create { [weak self] observer in
+            guard let self else {
+                observer.onError(FirebaseFirestoreServiceError.noInstance)
+                return Disposables.create()
+            }
+            
+            firestore.collection(users).document(uid).collection(goals)
+                .document(documentID)
+                .getDocument { snapshot, error in
+                    if let error {
+                        observer.onError(error)
+                        return
+                    }
+                    
+                    guard let data = snapshot?.data() else {
+                        // 指定したデータが無いことは想定外であるので、エラーを通知
+                        observer.onError(FirebaseFirestoreServiceError.noGoalData)
+                        return
+                    }
+                    
+                    let title = data["title"] as? String ?? {
+                        assertionFailure("Stringにキャストできませんでした。")
+                        return ""
+                    }()
+                    
+                    let startDate = data["startDate"] as? Timestamp ?? {
+                        assertionFailure("Timestampにキャストできませんでした。")
+                        return Timestamp()
+                    }()
+                    
+                    let endDate = data["endDate"] as? Timestamp ?? {
+                        assertionFailure("Timestampにキャストできませんでした。")
+                        return Timestamp()
+                    }()
+                    
+                    let status = data["status"] as? Int ?? {
+                        assertionFailure("Intにキャストできませんでした。")
+                        return 0
+                    }()
+                    
+                    let goalData = GoalData(documentID: documentID,
+                                            title: title,
+                                            startDate: startDate.dateValue(),
+                                            endDate: endDate.dateValue(),
+                                            status: status)
+                    
+                    observer.onNext(goalData)
+                }
+            
+            return Disposables.create()
         }
     }
     
