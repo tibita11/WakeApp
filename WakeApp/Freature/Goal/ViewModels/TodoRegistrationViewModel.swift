@@ -19,6 +19,7 @@ protocol TodoRegistrationViewModelOutputs {
     var titleErrorTextDriver: Driver<String> { get }
     var startDateTextDriver: Driver<String> { get }
     var endDateTextDriver: Driver<String> { get }
+    var dateErrorTextDriver: Driver<String> { get }
 }
 
 protocol TodoRegistrationViewModelType {
@@ -33,6 +34,7 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
     private let titleErrorTextRelay = PublishRelay<String>()
     private let startDateTextRelay = PublishRelay<String>()
     private let endDateTextRelay = PublishRelay<String>()
+    private let dateErrorTextRelay = PublishRelay<String>()
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy年MM月dd日"
@@ -52,6 +54,19 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
                 case .invalid (let error):
                     titleErrorTextRelay.accept(error.localizedDescription)
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        // 終了日付が開始日付よりも小さい場合はエラーを返す
+        Observable.combineLatest(inputs.startDatePickerObserver, inputs.endDatePickerObserver)
+            .map { startDate, endDate -> String in
+                if let startDate, let endDate, startDate > endDate {
+                    return "開始日付は終了日より前でなければいけません。"
+                }
+                return ""
+            }
+            .subscribe(onNext: { [weak self] error in
+                self?.dateErrorTextRelay.accept(error)
             })
             .disposed(by: disposeBag)
         
@@ -88,6 +103,10 @@ extension TodoRegistrationViewModel: TodoRegistrationViewModelOutputs {
     
     var endDateTextDriver: Driver<String> {
         endDateTextRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var dateErrorTextDriver: Driver<String> {
+        dateErrorTextRelay.asDriver(onErrorDriveWith: .empty())
     }
     
 }

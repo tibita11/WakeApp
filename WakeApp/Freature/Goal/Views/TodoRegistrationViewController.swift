@@ -45,10 +45,12 @@ class TodoRegistrationViewController: UIViewController {
             .map { [weak self] in
                 self?.startDatePicker.date
             }
+            .share()
         let endDateObserver = endDatePicker.rx.controlEvent(.valueChanged)
             .map { [weak self] in
                 self?.endDatePicker.date
             }
+            .share()
         let inputs = TodoRegistrationViewModelInputs(
             titleTextFieldObserver: titleTextField.rx.text.asObservable(),
             startDatePickerObserver: startDateObserver,
@@ -69,6 +71,11 @@ class TodoRegistrationViewController: UIViewController {
         // Text変換後の終了日付をバインド
         viewModel.outputs.endDateTextDriver
             .drive(endDateTextField.rx.text)
+            .disposed(by: disposeBag)
+        
+        // 終了日付が開始日付よりも小さい場合に表示されるエラー
+        viewModel.outputs.dateErrorTextDriver
+            .drive(dateErrorLabel.rx.text)
             .disposed(by: disposeBag)
     }
     
