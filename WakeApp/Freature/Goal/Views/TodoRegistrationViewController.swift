@@ -18,9 +18,14 @@ class TodoRegistrationViewController: UIViewController {
     }
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var titleErrorLabel: UILabel!
+    @IBOutlet weak var startDateTextField: UITextField!
+    @IBOutlet weak var endDateTextField: UITextField!
+    @IBOutlet weak var dateErrorLabel: UILabel!
     
     private let viewModel = TodoRegistrationViewModel()
     private let disposeBag = DisposeBag()
+    private let startDatePicker = UIDatePicker()
+    private let endDatePicker = UIDatePicker()
     
     
     // MARK: - View Life Cycle
@@ -29,21 +34,55 @@ class TodoRegistrationViewController: UIViewController {
         super.viewDidLoad()
 
         setUpViewModel()
+        setUpDatePicker()
     }
     
     
     // MARK: - Action
     
     private func setUpViewModel() {
+        let startDateObserver = startDatePicker.rx.controlEvent(.valueChanged)
+            .map { [weak self] in
+                self?.startDatePicker.date
+            }
+        let endDateObserver = endDatePicker.rx.controlEvent(.valueChanged)
+            .map { [weak self] in
+                self?.endDatePicker.date
+            }
         let inputs = TodoRegistrationViewModelInputs(
-            titleTextFieldObserver: titleTextField.rx.text.asObservable()
+            titleTextFieldObserver: titleTextField.rx.text.asObservable(),
+            startDatePickerObserver: startDateObserver,
+            endDatePickerObserver: endDateObserver
         )
         viewModel.setUp(inputs: inputs)
         
         // Titleバリデーション結果をバインド
-        viewModel.outputs.titleErrorTextDeriver
+        viewModel.outputs.titleErrorTextDriver
             .drive(titleErrorLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        // Text変換後の開始日付をバインド
+        viewModel.outputs.startDateTextDriver
+            .drive(startDateTextField.rx.text)
+            .disposed(by: disposeBag)
+        
+        // Text変換後の終了日付をバインド
+        viewModel.outputs.endDateTextDriver
+            .drive(endDateTextField.rx.text)
+            .disposed(by: disposeBag)
+    }
+    
+    private func setUpDatePicker() {
+        // 開始日付
+        startDatePicker.preferredDatePickerStyle = .wheels
+        startDatePicker.datePickerMode = .date
+        startDatePicker.locale = Locale(identifier: "ja_JP")
+        startDateTextField.inputView = startDatePicker
+        // 終了日付
+        endDatePicker.preferredDatePickerStyle = .wheels
+        endDatePicker.datePickerMode = .date
+        endDatePicker.locale = Locale(identifier: "ja_JP")
+        endDateTextField.inputView = endDatePicker
     }
     
     

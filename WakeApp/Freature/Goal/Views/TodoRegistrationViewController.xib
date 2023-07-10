@@ -11,7 +11,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TodoRegistrationViewController" customModule="WakeApp" customModuleProvider="target">
             <connections>
+                <outlet property="dateErrorLabel" destination="NOX-TC-55k" id="bMF-PO-p5w"/>
+                <outlet property="endDateTextField" destination="ZsG-QU-Loy" id="1IP-JO-ajK"/>
                 <outlet property="registerButton" destination="vxJ-wm-BQZ" id="6rP-Wc-ein"/>
+                <outlet property="startDateTextField" destination="dSi-Ph-sIk" id="eUw-e4-kaB"/>
                 <outlet property="titleErrorLabel" destination="0rH-9n-hD1" id="6cl-fu-VTY"/>
                 <outlet property="titleTextField" destination="9an-P6-k21" id="PW5-CM-xZr"/>
                 <outlet property="view" destination="YLy-Lc-PlE" id="mqV-cC-fKL"/>
