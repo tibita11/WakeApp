@@ -105,18 +105,22 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
             .disposed(by: disposeBag)
     }
     
+    /// ネットワークによって遷移方法を変更
+    private func networkCheck() {
+        if Network.shared.isOnline() {
+            dismissScreenRelay.accept(())
+        } else {
+            unsentAlertRelay.accept(())
+        }
+    }
+    
     /// FirestoreにGoalDataを保存
     ///
     /// - Parameter data: 保存するデータ
     func saveGoalData(data: GoalData) {
         do {
             let userID = try authService.getCurrenUserID()
-            // オフラインチェック
-            if Network.shared.isOnline() {
-                dismissScreenRelay.accept(())
-            } else {
-                unsentAlertRelay.accept(())
-            }
+            networkCheck()
             firestoreService.saveGoalData(uid: userID, goalData: data)
         } catch let error {
             // uidが取得できない場合、再ログインを促す
@@ -132,13 +136,22 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
     func updateGoalData(documentID: String, data: GoalData) {
         do {
             let userID = try authService.getCurrenUserID()
-            // オフラインチェック
-            if Network.shared.isOnline() {
-                dismissScreenRelay.accept(())
-            } else {
-                unsentAlertRelay.accept(())
-            }
+            networkCheck()
             firestoreService.updateGoalData(uid: userID, documentID: documentID, goalData: data)
+        } catch let error {
+            // uidが取得できない場合、再ログインを促す
+            errorAlertRelay.accept(error.localizedDescription)
+        }
+    }
+    
+    /// Firestoreのデータを削除
+    ///
+    /// - Parameter documentID: 削除するドキュメントID
+    func deleteGoalData(documentID: String) {
+        do {
+            let userID = try authService.getCurrenUserID()
+            networkCheck()
+            firestoreService.deleteGoalData(uid: userID, documentID: documentID)
         } catch let error {
             // uidが取得できない場合、再ログインを促す
             errorAlertRelay.accept(error.localizedDescription)

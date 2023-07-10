@@ -207,4 +207,27 @@ class GoalRegistrationViewController: UIViewController {
                                 status: statusSegmentedControl.selectedSegmentIndex)
         viewModel.updateGoalData(documentID: goalData.documentID, data: newGoalData)
     }
+    
+    @IBAction func tapDeleteButton(_ sender: Any) {
+        present(createDeleteAlert(), animated: true)
+    }
+    
+    /// 削除ボタンタップ時の確認アラート
+    ///
+    /// - Returns : 作成したアラートコントローラ
+    private func createDeleteAlert() -> UIAlertController {
+        let title = "「\(goalData!.title)」を削除してよろしいですか？"
+        let alertController = UIAlertController(title: title,
+                                                message: nil,
+                                                preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "はい", style: .default) { [weak self] _ in
+            guard let self else { return }
+            // 削除処理に移る
+            viewModel.deleteGoalData(documentID: goalData!.documentID)
+        }
+        let cancelAction = UIAlertAction(title: "いいえ", style: .cancel)
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        return alertController
+    }
 }

@@ -283,5 +283,15 @@ class FirebaseFirestoreService {
         }
     }
     
+    /// 指定したドキュメントを削除
+    ///
+    /// - Parameters:
+    ///   - uid: ドキュメント名
+    ///   - documentID: ドキュメント名
+    func deleteGoalData(uid: String, documentID: String) {
+        firestore.collection(users).document(uid).collection(goals)
+            .document(documentID).delete()
+    }
+    
 
 }
