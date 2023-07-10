@@ -161,4 +161,10 @@ extension GoalsEditingViewController: GoalCollectionViewCellDelegate {
         let documentID = viewModel.getDocumentID(num: num)
         viewModel.getGoalData(documentID: documentID)
     }
+    
+    func transtionToRegistrationView() {
+        let vc = TodoRegistrationViewController()
+        present(vc, animated: true)
+    }
+    
 }

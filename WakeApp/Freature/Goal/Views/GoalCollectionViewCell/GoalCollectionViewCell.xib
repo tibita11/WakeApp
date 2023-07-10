@@ -134,6 +134,9 @@
                                                     <imageReference key="image" image="plus" catalog="system" symbolScale="small"/>
                                                     <fontDescription key="titleFontDescription" type="system" pointSize="10"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="tapAdditionButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="6fg-VD-lS0"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>

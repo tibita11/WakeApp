@@ -36,6 +36,8 @@
 		A58BB0D32A2839F400C834A3 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58BB0D22A2839F400C834A3 /* LoadingView.swift */; };
 		A58BB0DE2A289D7700C834A3 /* AccountSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58BB0DC2A289D7700C834A3 /* AccountSettingsViewController.swift */; };
 		A58BB0DF2A289D7700C834A3 /* AccountSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A58BB0DD2A289D7700C834A3 /* AccountSettingsViewController.xib */; };
+		A58F6CCD2A5BCE62008339F8 /* TodoRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58F6CCB2A5BCE62008339F8 /* TodoRegistrationViewController.swift */; };
+		A58F6CCE2A5BCE62008339F8 /* TodoRegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A58F6CCC2A5BCE62008339F8 /* TodoRegistrationViewController.xib */; };
 		A59EEE6A2A216A1200C60128 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE692A216A1200C60128 /* AppDelegate.swift */; };
 		A59EEE6C2A216A1200C60128 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE6B2A216A1200C60128 /* SceneDelegate.swift */; };
 		A59EEE732A216A1300C60128 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A59EEE722A216A1300C60128 /* Assets.xcassets */; };
@@ -125,6 +127,8 @@
 		A58BB0D22A2839F400C834A3 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		A58BB0DC2A289D7700C834A3 /* AccountSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingsViewController.swift; sourceTree = "<group>"; };
 		A58BB0DD2A289D7700C834A3 /* AccountSettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountSettingsViewController.xib; sourceTree = "<group>"; };
+		A58F6CCB2A5BCE62008339F8 /* TodoRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRegistrationViewController.swift; sourceTree = "<group>"; };
+		A58F6CCC2A5BCE62008339F8 /* TodoRegistrationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodoRegistrationViewController.xib; sourceTree = "<group>"; };
 		A59EEE662A216A1200C60128 /* WakeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WakeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A59EEE692A216A1200C60128 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A59EEE6B2A216A1200C60128 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -405,6 +409,8 @@
 				A51CC1622A52B00A0039EA9A /* GoalsEditingViewController.xib */,
 				A51CC1652A52B2A00039EA9A /* GoalRegistrationViewController.swift */,
 				A51CC1662A52B2A00039EA9A /* GoalRegistrationViewController.xib */,
+				A58F6CCB2A5BCE62008339F8 /* TodoRegistrationViewController.swift */,
+				A58F6CCC2A5BCE62008339F8 /* TodoRegistrationViewController.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -645,6 +651,7 @@
 				A58BB0CF2A282AEB00C834A3 /* OutgoingEmailViewController.xib in Resources */,
 				A5E45C832A2D7C5F004EC86B /* RecordViewController.xib in Resources */,
 				A555A76F2A249FF000B09B03 /* GoogleService-Info.plist in Resources */,
+				A58F6CCE2A5BCE62008339F8 /* TodoRegistrationViewController.xib in Resources */,
 				A59EEE762A216A1300C60128 /* LaunchScreen.storyboard in Resources */,
 				A5FF51652A4C000A000AEC7F /* ProfileEditingViewController.xib in Resources */,
 				A5C297FA2A52C4D4006FE376 /* GoalCollectionViewCell.xib in Resources */,
@@ -817,6 +824,7 @@
 				A5E03C642A4C1C24002148F1 /* PlaceHolderTextView.swift in Sources */,
 				A54C21002A4E7EDF00A62691 /* FirebaseAuthService.swift in Sources */,
 				A51CC1632A52B00A0039EA9A /* GoalsEditingViewController.swift in Sources */,
+				A58F6CCD2A5BCE62008339F8 /* TodoRegistrationViewController.swift in Sources */,
 				A555A7712A24A20B00B09B03 /* AccountRegistrationViewModel.swift in Sources */,
 				A5B42CE12A49907000F64F4B /* TriangleView.swift in Sources */,
 				A5ECAA122A450743007FDEDF /* MainTabBarController.swift in Sources */,
