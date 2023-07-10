@@ -32,6 +32,7 @@ class FirebaseFirestoreService {
     // コレクション
     private let users = "Users"
     private let goals = "Goals"
+    private let todos = "Todos"
 
     
     // MARK: - Action
@@ -293,5 +294,21 @@ class FirebaseFirestoreService {
             .document(documentID).delete()
     }
     
+    /// TodoDateの保存
+    ///
+    /// - Parameters:
+    ///   - uid: Usersコレクションに保存されているドキュメント名
+    ///   - documentID: Goalsコレクションに保存されているドキュメント名
+    ///   - todoData: 保存するデータ
+    func saveTodoData(uid: String, documentID: String, todoData: TodoData) {
+        firestore.collection(users).document(uid).collection(goals)
+            .document(documentID).collection(todos).document()
+            .setData([
+                "title" : todoData.title,
+                "startDate" : todoData.startDate,
+                "endDate" : todoData.endDate,
+                "status" : todoData.status
+            ])
+    }
 
 }

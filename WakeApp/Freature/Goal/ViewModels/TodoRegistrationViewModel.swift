@@ -21,6 +21,9 @@ protocol TodoRegistrationViewModelOutputs {
     var endDateTextDriver: Driver<String> { get }
     var dateErrorTextDriver: Driver<String> { get }
     var registerButtonDriver: Driver<Bool> { get }
+    var errorAlertDriver: Driver<String> { get }
+    var dismissDriver: Driver<Void> { get }
+    var unsentAlertDriver: Driver<Void> { get }
 }
 
 protocol TodoRegistrationViewModelType {
@@ -36,6 +39,11 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
     private let startDateTextRelay = PublishRelay<String>()
     private let endDateTextRelay = PublishRelay<String>()
     private let dateErrorTextRelay = PublishRelay<String>()
+    private let errorAlertRelay = PublishRelay<String>()
+    private let dismissRelay = PublishRelay<Void>()
+    private let unsentAlertRelay = PublishRelay<Void>()
+    private let authService = FirebaseAuthService()
+    private let firestoreService = FirebaseFirestoreService()
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy年MM月dd日"
@@ -88,6 +96,28 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
             .disposed(by: disposeBag)
     }
     
+    /// TodoDataを保存
+    ///
+    /// - Parameters:
+    ///   - documentID: Goalsコレクションに保存されているドキュメント名
+    ///   - todoData: 保存するデータ
+    func saveTodoData(documentID: String, todoData: TodoData) {
+        do {
+            let userID = try authService.getCurrenUserID()
+            // ネットワークチェック
+            if Network.shared.isOnline() {
+                dismissRelay.accept(())
+            } else {
+                unsentAlertRelay.accept(())
+            }
+            
+            firestoreService.saveTodoData(uid: userID, documentID: documentID, todoData: todoData)
+        } catch let error {
+           // uidが存在しない場合は、再ログインを促す
+            errorAlertRelay.accept(error.localizedDescription)
+        }
+    }
+    
 }
 
 
@@ -119,6 +149,18 @@ extension TodoRegistrationViewModel: TodoRegistrationViewModelOutputs {
                 return false
             }
             .asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var errorAlertDriver: Driver<String> {
+        errorAlertRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var dismissDriver: Driver<Void> {
+        dismissRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var unsentAlertDriver: Driver<Void> {
+        unsentAlertRelay.asDriver(onErrorDriveWith: .empty())
     }
     
 }

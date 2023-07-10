@@ -15,6 +15,7 @@
                 <outlet property="endDateTextField" destination="ZsG-QU-Loy" id="1IP-JO-ajK"/>
                 <outlet property="registerButton" destination="vxJ-wm-BQZ" id="6rP-Wc-ein"/>
                 <outlet property="startDateTextField" destination="dSi-Ph-sIk" id="eUw-e4-kaB"/>
+                <outlet property="statusSegmentedControl" destination="itP-mv-v1X" id="W2n-ql-QvW"/>
                 <outlet property="titleErrorLabel" destination="0rH-9n-hD1" id="6cl-fu-VTY"/>
                 <outlet property="titleTextField" destination="9an-P6-k21" id="PW5-CM-xZr"/>
                 <outlet property="view" destination="YLy-Lc-PlE" id="mqV-cC-fKL"/>
@@ -180,6 +181,9 @@
                             <state key="normal" title="登録">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
+                            <connections>
+                                <action selector="tapRegisterButton:" destination="-1" eventType="touchUpInside" id="a9W-TW-tsg"/>
+                            </connections>
                         </button>
                     </subviews>
                     <constraints>

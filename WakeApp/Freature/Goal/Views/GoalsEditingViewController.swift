@@ -72,6 +72,8 @@ class GoalsEditingViewController: UIViewController {
                 cell.endDateLabel.text = dateFormatter.string(from: element.endDate)
                 // タップされた場合に該当ドキュメントの編集画面に移るため保持
                 cell.editButton.tag = row
+                // Todo登録時にドキュメントIDが必要なため保持
+                cell.additionButton.tag = row
                 cell.delegate = self
                 // 達成状況
                 switch element.status {
@@ -162,8 +164,9 @@ extension GoalsEditingViewController: GoalCollectionViewCellDelegate {
         viewModel.getGoalData(documentID: documentID)
     }
     
-    func transtionToRegistrationView() {
-        let vc = TodoRegistrationViewController()
+    func transtionToRegistrationView(num: Int) {
+        let documentID = viewModel.getDocumentID(num: num)
+        let vc = TodoRegistrationViewController(documentID: documentID)
         present(vc, animated: true)
     }
     

@@ -48,6 +48,7 @@
 		A59EEE8D2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE8C2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift */; };
 		A59EEEA02A21867000C60128 /* StartingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE9E2A21867000C60128 /* StartingViewController.swift */; };
 		A59EEEA12A21867000C60128 /* StartingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A59EEE9F2A21867000C60128 /* StartingViewController.xib */; };
+		A5AB7EFD2A5BF56800905FBD /* TodoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5AB7EFC2A5BF56800905FBD /* TodoData.swift */; };
 		A5B42CE12A49907000F64F4B /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B42CE02A49907000F64F4B /* TriangleView.swift */; };
 		A5C297F12A52B5CB006FE376 /* GoalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C297F02A52B5CB006FE376 /* GoalData.swift */; };
 		A5C297F62A52B77A006FE376 /* GoalRegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C297F52A52B77A006FE376 /* GoalRegistrationViewModel.swift */; };
@@ -144,6 +145,7 @@
 		A59EEE8C2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		A59EEE9E2A21867000C60128 /* StartingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingViewController.swift; sourceTree = "<group>"; };
 		A59EEE9F2A21867000C60128 /* StartingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartingViewController.xib; sourceTree = "<group>"; };
+		A5AB7EFC2A5BF56800905FBD /* TodoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoData.swift; sourceTree = "<group>"; };
 		A5B42CE02A49907000F64F4B /* TriangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
 		A5C297F02A52B5CB006FE376 /* GoalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalData.swift; sourceTree = "<group>"; };
 		A5C297F52A52B77A006FE376 /* GoalRegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRegistrationViewModel.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				A58BB0CA2A28225000C834A3 /* FirebaseStorageService.swift */,
 				A5C297F02A52B5CB006FE376 /* GoalData.swift */,
 				A54BD92B2A53B4D300FAF51C /* DoubleCircleView.swift */,
+				A5AB7EFC2A5BF56800905FBD /* TodoData.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -821,6 +824,7 @@
 				A58BB0CE2A282AEB00C834A3 /* OutgoingEmailViewController.swift in Sources */,
 				A5C297F62A52B77A006FE376 /* GoalRegistrationViewModel.swift in Sources */,
 				A58F6CD02A5BD783008339F8 /* TodoRegistrationViewModel.swift in Sources */,
+				A5AB7EFD2A5BF56800905FBD /* TodoData.swift in Sources */,
 				A54C21022A4EC59600A62691 /* FirebaseFirestoreService.swift in Sources */,
 				A54BD92C2A53B4D300FAF51C /* DoubleCircleView.swift in Sources */,
 				A5DDC7B22A551A1E007B5558 /* TodoView.swift in Sources */,

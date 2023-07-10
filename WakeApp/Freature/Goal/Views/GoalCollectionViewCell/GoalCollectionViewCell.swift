@@ -13,8 +13,10 @@ protocol GoalCollectionViewCellDelegate: AnyObject {
     /// - Parameter num: EditButtonに登録されているタグ
     func getDocumentID(num: Int)
     
-    /// やることを登録する画面へ遷移
-    func transtionToRegistrationView()
+    /// Todo登録画面へ遷移
+    ///
+    /// - Parameter num: additionButtonに登録されているタグ
+    func transtionToRegistrationView(num: Int)
 }
 
 class GoalCollectionViewCell: UICollectionViewCell {
@@ -55,7 +57,7 @@ class GoalCollectionViewCell: UICollectionViewCell {
     }
     
     @IBAction func tapAdditionButton(_ sender: Any) {
-        delegate.transtionToRegistrationView()
+        delegate.transtionToRegistrationView(num: additionButton.tag)
     }
     
 }

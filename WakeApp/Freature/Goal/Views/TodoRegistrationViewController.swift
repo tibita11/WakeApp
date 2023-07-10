@@ -21,14 +21,25 @@ class TodoRegistrationViewController: UIViewController {
     @IBOutlet weak var startDateTextField: UITextField!
     @IBOutlet weak var endDateTextField: UITextField!
     @IBOutlet weak var dateErrorLabel: UILabel!
+    @IBOutlet weak var statusSegmentedControl: UISegmentedControl!
     
     private let viewModel = TodoRegistrationViewModel()
     private let disposeBag = DisposeBag()
     private let startDatePicker = UIDatePicker()
     private let endDatePicker = UIDatePicker()
+    private let documentID: String!
     
     
     // MARK: - View Life Cycle
+    
+    init(documentID: String) {
+        self.documentID = documentID
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,6 +98,34 @@ class TodoRegistrationViewController: UIViewController {
                     = bool ? Const.mainBlueColor : UIColor.systemGray2
             })
             .disposed(by: disposeBag)
+        
+        // ErrorAlert表示
+        viewModel.outputs.errorAlertDriver
+            .drive(onNext: { [weak self] error in
+                guard let self else { return }
+                present(createErrorAlert(title: error), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        // 画面を閉じる
+        viewModel.outputs.dismissDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                dismiss(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        // オフライン時の送信待ちアラート表示
+        viewModel.outputs.unsentAlertDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                let okAction = UIAlertAction(title: "OK", style: .default) {
+                    [weak self] _ in
+                    self?.dismiss(animated: true)
+                }
+                present(createUnsentAlert(action: okAction), animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setUpDatePicker() {
@@ -102,5 +141,13 @@ class TodoRegistrationViewController: UIViewController {
         endDateTextField.inputView = endDatePicker
     }
     
+    @IBAction func tapRegisterButton(_ sender: Any) {
+        let todoData = TodoData(title: titleTextField.text!,
+                                startDate: startDatePicker.date,
+                                endDate: endDatePicker.date,
+                                status: statusSegmentedControl.selectedSegmentIndex)
+        
+        viewModel.saveTodoData(documentID: documentID, todoData: todoData)
+    }
     
 }
