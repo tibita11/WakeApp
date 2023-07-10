@@ -38,6 +38,7 @@
 		A58BB0DF2A289D7700C834A3 /* AccountSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A58BB0DD2A289D7700C834A3 /* AccountSettingsViewController.xib */; };
 		A58F6CCD2A5BCE62008339F8 /* TodoRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58F6CCB2A5BCE62008339F8 /* TodoRegistrationViewController.swift */; };
 		A58F6CCE2A5BCE62008339F8 /* TodoRegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A58F6CCC2A5BCE62008339F8 /* TodoRegistrationViewController.xib */; };
+		A58F6CD02A5BD783008339F8 /* TodoRegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58F6CCF2A5BD783008339F8 /* TodoRegistrationViewModel.swift */; };
 		A59EEE6A2A216A1200C60128 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE692A216A1200C60128 /* AppDelegate.swift */; };
 		A59EEE6C2A216A1200C60128 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE6B2A216A1200C60128 /* SceneDelegate.swift */; };
 		A59EEE732A216A1300C60128 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A59EEE722A216A1300C60128 /* Assets.xcassets */; };
@@ -129,6 +130,7 @@
 		A58BB0DD2A289D7700C834A3 /* AccountSettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountSettingsViewController.xib; sourceTree = "<group>"; };
 		A58F6CCB2A5BCE62008339F8 /* TodoRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRegistrationViewController.swift; sourceTree = "<group>"; };
 		A58F6CCC2A5BCE62008339F8 /* TodoRegistrationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodoRegistrationViewController.xib; sourceTree = "<group>"; };
+		A58F6CCF2A5BD783008339F8 /* TodoRegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRegistrationViewModel.swift; sourceTree = "<group>"; };
 		A59EEE662A216A1200C60128 /* WakeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WakeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A59EEE692A216A1200C60128 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A59EEE6B2A216A1200C60128 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 			children = (
 				A5F13EDB2A5309B3000878D5 /* GoalsEditingViewModel.swift */,
 				A5C297F52A52B77A006FE376 /* GoalRegistrationViewModel.swift */,
+				A58F6CCF2A5BD783008339F8 /* TodoRegistrationViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -817,6 +820,7 @@
 				A5F13EDC2A5309B3000878D5 /* GoalsEditingViewModel.swift in Sources */,
 				A58BB0CE2A282AEB00C834A3 /* OutgoingEmailViewController.swift in Sources */,
 				A5C297F62A52B77A006FE376 /* GoalRegistrationViewModel.swift in Sources */,
+				A58F6CD02A5BD783008339F8 /* TodoRegistrationViewModel.swift in Sources */,
 				A54C21022A4EC59600A62691 /* FirebaseFirestoreService.swift in Sources */,
 				A54BD92C2A53B4D300FAF51C /* DoubleCircleView.swift in Sources */,
 				A5DDC7B22A551A1E007B5558 /* TodoView.swift in Sources */,

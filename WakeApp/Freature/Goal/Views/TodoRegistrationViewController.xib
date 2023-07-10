@@ -12,6 +12,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TodoRegistrationViewController" customModule="WakeApp" customModuleProvider="target">
             <connections>
                 <outlet property="registerButton" destination="vxJ-wm-BQZ" id="6rP-Wc-ein"/>
+                <outlet property="titleErrorLabel" destination="0rH-9n-hD1" id="6cl-fu-VTY"/>
+                <outlet property="titleTextField" destination="9an-P6-k21" id="PW5-CM-xZr"/>
                 <outlet property="view" destination="YLy-Lc-PlE" id="mqV-cC-fKL"/>
             </connections>
         </placeholder>
