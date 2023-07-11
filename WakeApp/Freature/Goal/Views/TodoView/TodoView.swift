@@ -18,6 +18,7 @@ class TodoView: UIView {
             concentrationView.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
         }
     }
+    @IBOutlet weak var titleLabel: UILabel!
     
     override init(frame: CGRect) {
         super.init(frame: frame)

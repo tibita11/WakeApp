@@ -13,20 +13,14 @@ struct GoalData {
     let startDate: Date
     let endDate: Date
     let status: Int
+    let todos: [TodoData]
     
-    init(documentID: String, title: String, startDate: Date, endDate: Date, status: Int) {
+    init(documentID: String = "", title: String, startDate: Date, endDate: Date, status: Int, todos: [TodoData] = []) {
         self.documentID = documentID
         self.title = title
         self.startDate = startDate
         self.endDate = endDate
         self.status = status
-    }
-    
-    init(title: String, startDate: Date, endDate: Date, status: Int) {
-        self.documentID = ""
-        self.title = title
-        self.startDate = startDate
-        self.endDate = endDate
-        self.status = status
+        self.todos = todos
     }
 }

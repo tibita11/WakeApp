@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TodoView" customModule="WakeApp" customModuleProvider="target">
             <connections>
                 <outlet property="concentrationView" destination="kfR-C7-7qq" id="qHD-ZM-6oZ"/>
+                <outlet property="titleLabel" destination="1Gq-eS-9LV" id="DSY-Bm-jjc"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

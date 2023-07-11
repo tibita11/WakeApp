@@ -90,19 +90,23 @@ class GoalsEditingViewController: UIViewController {
                 cell.setBaseViewWidth(to: collectionView.bounds.width)
                 
                 // Todoの設定
-                let total = 3
+                let total = element.todos.count
                 let itemHeight = 130
                 let space = 10
                 cell.setBaseViewHeight(to: CGFloat((total * itemHeight) + (2 * space)))
-
-                for num in 0...total - 1 {
-                    let todoView = TodoView()
-                    todoView.frame = CGRect(x: 0,
-                                            y: num * itemHeight + 10,
-                                            width: Int(collectionView.bounds.width),
-                                            height: itemHeight)
-                    cell.baseView.addSubview(todoView)
+                
+                if total != 0 {
+                    for num in 0...total - 1 {
+                        let todoView = TodoView()
+                        todoView.titleLabel.text = element.todos[num].title
+                        todoView.frame = CGRect(x: 0,
+                                                y: num * itemHeight + 10,
+                                                width: Int(collectionView.bounds.width),
+                                                height: itemHeight)
+                        cell.baseView.addSubview(todoView)
+                    }
                 }
+                
             }
             .disposed(by: disposeBag)
         

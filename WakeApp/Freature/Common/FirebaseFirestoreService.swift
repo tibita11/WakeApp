@@ -186,37 +186,87 @@ class FirebaseFirestoreService {
                     }
                     
                     let documents = snapshot?.documents ?? []
-                    let goals = documents.map {
+                    var goals: [GoalData] = []
+                    // この処理が全て終わるのを待つ
+                    let mainGroup = DispatchGroup()
+                    for document in documents {
+                        mainGroup.enter()
                         
-                        let documentID = $0.documentID
+                        let documentID = document.documentID
+                        let data = document.data()
                         
-                        let title = $0["title"] as? String ?? {
+                        
+                        let title = data["title"] as? String ?? {
                             assertionFailure("Stringにキャストできませんでした。")
                             return ""
                         }()
                         
-                        let startDate = $0["startDate"] as? Timestamp ?? {
+                        let startDate = data["startDate"] as? Timestamp ?? {
                             assertionFailure("Timestampにキャストできませんでした。")
                             return Timestamp()
                         }()
                         
-                        let endDate = $0["endDate"] as? Timestamp ?? {
+                        let endDate = data["endDate"] as? Timestamp ?? {
                             assertionFailure("Timestampにキャストできませんでした。")
                             return Timestamp()
                         }()
                         
-                        let status = $0["status"] as? Int ?? {
+                        let status = data["status"] as? Int ?? {
                             assertionFailure("Intにキャストできませんでした。")
                             return 0
                         }()
                         
-                        return GoalData(documentID: documentID,
-                                        title: title,
-                                        startDate: startDate.dateValue(),
-                                        endDate: endDate.dateValue(),
-                                        status: status)
+                        // Todosコレクションを同時に取得
+                        var todos: [TodoData] = []
+                        document.reference.collection("Todos").getDocuments { snapshot, error in
+                            if let error {
+                                observer.onError(error)
+                                mainGroup.leave()
+                                return
+                            }
+                            
+                            let documents = snapshot?.documents ?? []
+                            for document in documents {
+                                let data = document.data()
+                                let title = data["title"] as? String ?? {
+                                    assertionFailure("Stringにキャストできませんでした。")
+                                    return ""
+                                }()
+                                
+                                let startDate = data["startDate"] as? Timestamp ?? {
+                                    assertionFailure("Timestampにキャストできませんでした。")
+                                    return Timestamp()
+                                }()
+                                
+                                let endDate = data["endDate"] as? Timestamp ?? {
+                                    assertionFailure("Timestampにキャストできませんでした。")
+                                    return Timestamp()
+                                }()
+                                
+                                let status = data["status"] as? Int ?? {
+                                    assertionFailure("Intにキャストできませんでした。")
+                                    return 0
+                                }()
+                                
+                                todos.append(TodoData(title: title,
+                                                      startDate: startDate.dateValue(),
+                                                      endDate: endDate.dateValue(),
+                                                      status: status))
+                            }
+                            
+                            goals.append(GoalData(documentID: documentID,
+                                                  title: title,
+                                                  startDate: startDate.dateValue(),
+                                                  endDate: endDate.dateValue(),
+                                                  status: status, todos: todos))
+                            
+                            mainGroup.leave()
+                        }
                     }
-                    observer.onNext(goals)
+                    
+                    mainGroup.notify(queue: .main) {
+                        observer.onNext(goals)
+                    }
                 }
             
             return Disposables.create {
