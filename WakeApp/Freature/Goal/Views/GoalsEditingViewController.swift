@@ -94,26 +94,43 @@ class GoalsEditingViewController: UIViewController {
                     break
                 }
                 
-                cell.setBaseViewWidth(to: collectionView.bounds.width)
-                
                 // Todoの設定
                 let total = element.todos.count
                 let itemHeight = 130
                 let space = 10
-                cell.setBaseViewHeight(to: CGFloat((total * itemHeight) + (2 * space)))
+                // 高さと幅を指定
+                let width = collectionView.bounds.width
+                let height = CGFloat((total * itemHeight) + (2 * space))
+                cell.setBaseViewWidth(to: width)
+                cell.setBaseViewHeight(to: height)
+                let todoContainerView = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height))
                 
                 if total != 0 {
                     for num in 0...total - 1 {
                         let todoView = TodoView()
                         todoView.titleLabel.text = element.todos[num].title
+                        todoView.startDateLabel.text = dateFormatter.string(from: element.todos[num].startDate)
+                        todoView.endDateLabel.text = dateFormatter.string(from: element.todos[num].endDate)
+                        if element.todos[num].status == 0 {
+                            todoView.statusLabel.text = "未達成"
+                            todoView.statusLabel.textColor = .systemGray2
+                        } else {
+                            todoView.statusLabel.text = "達成"
+                            todoView.statusLabel.textColor = .red
+                        }
                         todoView.frame = CGRect(x: 0,
                                                 y: num * itemHeight + 10,
                                                 width: Int(collectionView.bounds.width),
                                                 height: itemHeight)
-                        cell.baseView.addSubview(todoView)
+                        todoContainerView.tag = 100
+                        todoContainerView.addSubview(todoView)
                     }
                 }
-                
+                // 再利用を考慮するため、前回分を削除する
+                if let viewToRemove = cell.baseView.viewWithTag(100) {
+                    viewToRemove.removeFromSuperview()
+                }
+                cell.baseView.addSubview(todoContainerView)
             }
             .disposed(by: disposeBag)
         

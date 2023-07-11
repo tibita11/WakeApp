@@ -12,6 +12,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TodoView" customModule="WakeApp" customModuleProvider="target">
             <connections>
                 <outlet property="concentrationView" destination="kfR-C7-7qq" id="qHD-ZM-6oZ"/>
+                <outlet property="editButton" destination="0kq-SK-J8V" id="0aZ-ef-gEG"/>
+                <outlet property="endDateLabel" destination="wqL-Mz-aRx" id="icJ-8g-9rR"/>
+                <outlet property="startDateLabel" destination="UpU-NG-2Ql" id="kj1-bl-UXj"/>
+                <outlet property="statusLabel" destination="XbI-8a-f75" id="kBy-os-lJf"/>
                 <outlet property="titleLabel" destination="1Gq-eS-9LV" id="DSY-Bm-jjc"/>
             </connections>
         </placeholder>
@@ -74,16 +78,16 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="J4v-2u-lp5">
-                                    <rect key="frame" x="275" y="9" width="75" height="22"/>
+                                    <rect key="frame" x="275" y="0.0" width="75" height="40"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-達成-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XbI-8a-f75">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="22"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XbI-8a-f75">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" systemColor="systemRedColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0kq-SK-J8V">
-                                            <rect key="frame" x="55" y="0.0" width="20" height="22"/>
+                                            <rect key="frame" x="55" y="0.0" width="20" height="40"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="20" id="MN3-CT-q1f"/>
                                             </constraints>

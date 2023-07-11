@@ -19,6 +19,10 @@ class TodoView: UIView {
         }
     }
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var startDateLabel: UILabel!
+    @IBOutlet weak var endDateLabel: UILabel!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
