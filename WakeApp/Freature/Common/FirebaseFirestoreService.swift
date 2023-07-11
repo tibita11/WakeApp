@@ -33,7 +33,7 @@ class FirebaseFirestoreService {
     private let users = "Users"
     private let goals = "Goals"
     private let todos = "Todos"
-
+    
     
     // MARK: - Action
     
@@ -176,7 +176,7 @@ class FirebaseFirestoreService {
                 observer.onError(FirebaseFirestoreServiceError.noInstance)
                 return Disposables.create()
             }
-                        
+            
             firestore.collection(users).document(uid).collection(goals)
                 .order(by: "startDate", descending: true)
                 .getDocuments { snapshot, error in
@@ -189,78 +189,87 @@ class FirebaseFirestoreService {
                     var goals: [GoalData] = []
                     // この処理が全て終わるのを待つ
                     let mainGroup = DispatchGroup()
+                    let dispatchQueue = DispatchQueue(label: "queue")
+                    
                     for document in documents {
-                        mainGroup.enter()
+                        let dispatchSemaphore = DispatchSemaphore(value: 0)
                         
-                        let documentID = document.documentID
-                        let data = document.data()
-                        
-                        
-                        let title = data["title"] as? String ?? {
-                            assertionFailure("Stringにキャストできませんでした。")
-                            return ""
-                        }()
-                        
-                        let startDate = data["startDate"] as? Timestamp ?? {
-                            assertionFailure("Timestampにキャストできませんでした。")
-                            return Timestamp()
-                        }()
-                        
-                        let endDate = data["endDate"] as? Timestamp ?? {
-                            assertionFailure("Timestampにキャストできませんでした。")
-                            return Timestamp()
-                        }()
-                        
-                        let status = data["status"] as? Int ?? {
-                            assertionFailure("Intにキャストできませんでした。")
-                            return 0
-                        }()
-                        
-                        // Todosコレクションを同時に取得
-                        var todos: [TodoData] = []
-                        document.reference.collection("Todos").getDocuments { snapshot, error in
-                            if let error {
-                                observer.onError(error)
-                                mainGroup.leave()
-                                return
-                            }
+                        dispatchQueue.async(group: mainGroup) {
+                            mainGroup.enter()
                             
-                            let documents = snapshot?.documents ?? []
-                            for document in documents {
-                                let data = document.data()
-                                let title = data["title"] as? String ?? {
-                                    assertionFailure("Stringにキャストできませんでした。")
-                                    return ""
-                                }()
+                            let documentID = document.documentID
+                            let data = document.data()
+                            
+                            
+                            let title = data["title"] as? String ?? {
+                                assertionFailure("Stringにキャストできませんでした。")
+                                return ""
+                            }()
+                            
+                            let startDate = data["startDate"] as? Timestamp ?? {
+                                assertionFailure("Timestampにキャストできませんでした。")
+                                return Timestamp()
+                            }()
+                            
+                            let endDate = data["endDate"] as? Timestamp ?? {
+                                assertionFailure("Timestampにキャストできませんでした。")
+                                return Timestamp()
+                            }()
+                            
+                            let status = data["status"] as? Int ?? {
+                                assertionFailure("Intにキャストできませんでした。")
+                                return 0
+                            }()
+                            
+                            // Todosコレクションを同時に取得
+                            var todos: [TodoData] = []
+                            document.reference.collection("Todos").getDocuments { snapshot, error in
+                                if let error {
+                                    observer.onError(error)
+                                    mainGroup.leave()
+                                    dispatchSemaphore.signal()
+                                    return
+                                }
                                 
-                                let startDate = data["startDate"] as? Timestamp ?? {
-                                    assertionFailure("Timestampにキャストできませんでした。")
-                                    return Timestamp()
-                                }()
+                                let documents = snapshot?.documents ?? []
+                                for document in documents {
+                                    let data = document.data()
+                                    let title = data["title"] as? String ?? {
+                                        assertionFailure("Stringにキャストできませんでした。")
+                                        return ""
+                                    }()
+                                    
+                                    let startDate = data["startDate"] as? Timestamp ?? {
+                                        assertionFailure("Timestampにキャストできませんでした。")
+                                        return Timestamp()
+                                    }()
+                                    
+                                    let endDate = data["endDate"] as? Timestamp ?? {
+                                        assertionFailure("Timestampにキャストできませんでした。")
+                                        return Timestamp()
+                                    }()
+                                    
+                                    let status = data["status"] as? Int ?? {
+                                        assertionFailure("Intにキャストできませんでした。")
+                                        return 0
+                                    }()
+                                    
+                                    todos.append(TodoData(title: title,
+                                                          startDate: startDate.dateValue(),
+                                                          endDate: endDate.dateValue(),
+                                                          status: status))
+                                }
                                 
-                                let endDate = data["endDate"] as? Timestamp ?? {
-                                    assertionFailure("Timestampにキャストできませんでした。")
-                                    return Timestamp()
-                                }()
-                                
-                                let status = data["status"] as? Int ?? {
-                                    assertionFailure("Intにキャストできませんでした。")
-                                    return 0
-                                }()
-                                
-                                todos.append(TodoData(title: title,
+                                goals.append(GoalData(documentID: documentID,
+                                                      title: title,
                                                       startDate: startDate.dateValue(),
                                                       endDate: endDate.dateValue(),
-                                                      status: status))
+                                                      status: status, todos: todos))
+                                
+                                mainGroup.leave()
+                                dispatchSemaphore.signal()
                             }
-                            
-                            goals.append(GoalData(documentID: documentID,
-                                                  title: title,
-                                                  startDate: startDate.dateValue(),
-                                                  endDate: endDate.dateValue(),
-                                                  status: status, todos: todos))
-                            
-                            mainGroup.leave()
+                            dispatchSemaphore.wait()
                         }
                     }
                     
@@ -359,5 +368,5 @@ class FirebaseFirestoreService {
                 "status" : todoData.status
             ])
     }
-
+    
 }
