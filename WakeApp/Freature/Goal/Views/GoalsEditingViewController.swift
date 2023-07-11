@@ -45,6 +45,13 @@ class GoalsEditingViewController: UIViewController {
         setUp()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // 初期データの取得
+        viewModel.getGoalData()
+    }
+    
     
     // MARK: - Action
     
@@ -138,18 +145,16 @@ class GoalsEditingViewController: UIViewController {
             .drive(onNext: { [weak self] goalData in
                 guard let self else { return }
                 let vc = GoalRegistrationViewController(goalData: goalData)
-                present(vc, animated: true)
+                navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
         
-        // 初期データの取得
-        viewModel.getGoalData()
     }
     
     /// 目標追加画面に遷移
     @IBAction func tapAdditionButton(_ sender: Any) {
         let vc = GoalRegistrationViewController()
-        present(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     /// GoalDataを再取得
@@ -171,7 +176,7 @@ extension GoalsEditingViewController: GoalCollectionViewCellDelegate {
     func transtionToRegistrationView(num: Int) {
         let documentID = viewModel.getDocumentID(num: num)
         let vc = TodoRegistrationViewController(documentID: documentID)
-        present(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }

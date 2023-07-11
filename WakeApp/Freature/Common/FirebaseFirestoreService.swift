@@ -176,10 +176,10 @@ class FirebaseFirestoreService {
                 observer.onError(FirebaseFirestoreServiceError.noInstance)
                 return Disposables.create()
             }
-            
-            let listener = firestore.collection(users).document(uid).collection(goals)
+                        
+            firestore.collection(users).document(uid).collection(goals)
                 .order(by: "startDate", descending: true)
-                .addSnapshotListener { snapshot, error in
+                .getDocuments { snapshot, error in
                     if let error {
                         observer.onError(error)
                         return
@@ -266,12 +266,11 @@ class FirebaseFirestoreService {
                     
                     mainGroup.notify(queue: .main) {
                         observer.onNext(goals)
+                        observer.onCompleted()
                     }
                 }
             
-            return Disposables.create {
-                listener.remove()
-            }
+            return Disposables.create()
         }
     }
     

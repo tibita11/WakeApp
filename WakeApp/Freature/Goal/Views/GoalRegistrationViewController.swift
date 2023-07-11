@@ -130,7 +130,7 @@ class GoalRegistrationViewController: UIViewController {
         // 画面を閉じる
         viewModel.outputs.dismissScreenDriver
             .drive(onNext: { [weak self] in
-                self?.dismiss(animated: true)
+                self?.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -168,7 +168,7 @@ class GoalRegistrationViewController: UIViewController {
                 guard let self else { return }
                 let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
                     guard let self else { return }
-                    dismiss(animated: true)
+                    navigationController?.popViewController(animated: true)
                 }
                present(createUnsentAlert(action: action), animated: true)
             })

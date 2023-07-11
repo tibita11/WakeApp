@@ -111,7 +111,7 @@ class TodoRegistrationViewController: UIViewController {
         viewModel.outputs.dismissDriver
             .drive(onNext: { [weak self] in
                 guard let self else { return }
-                dismiss(animated: true)
+                navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -121,7 +121,7 @@ class TodoRegistrationViewController: UIViewController {
                 guard let self else { return }
                 let okAction = UIAlertAction(title: "OK", style: .default) {
                     [weak self] _ in
-                    self?.dismiss(animated: true)
+                    self?.navigationController?.popViewController(animated: true)
                 }
                 present(createUnsentAlert(action: okAction), animated: true)
             })
