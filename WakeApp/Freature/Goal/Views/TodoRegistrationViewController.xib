@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="dateErrorLabel" destination="NOX-TC-55k" id="bMF-PO-p5w"/>
                 <outlet property="endDateTextField" destination="ZsG-QU-Loy" id="1IP-JO-ajK"/>
+                <outlet property="headerLabel" destination="3Ad-nh-dDE" id="84G-jD-oD3"/>
                 <outlet property="registerButton" destination="vxJ-wm-BQZ" id="6rP-Wc-ein"/>
                 <outlet property="startDateTextField" destination="dSi-Ph-sIk" id="eUw-e4-kaB"/>
                 <outlet property="statusSegmentedControl" destination="itP-mv-v1X" id="W2n-ql-QvW"/>
@@ -182,7 +183,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
                             <connections>
-                                <action selector="tapRegisterButton:" destination="-1" eventType="touchUpInside" id="a9W-TW-tsg"/>
+                                <action selector="tapRegisterButton:" destination="-1" eventType="touchUpInside" id="yAN-D4-Wx4"/>
                             </connections>
                         </button>
                     </subviews>

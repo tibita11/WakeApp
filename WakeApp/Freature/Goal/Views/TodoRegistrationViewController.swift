@@ -9,8 +9,14 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+enum ActionType {
+    case update
+    case create
+}
+
 class TodoRegistrationViewController: UIViewController {
 
+    @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var registerButton: UIButton! {
         didSet {
             registerButton.layer.cornerRadius = Const.LargeBlueButtonCorner
@@ -31,17 +37,20 @@ class TodoRegistrationViewController: UIViewController {
     private var parentDocumentID: String? = nil
     /// 更新のため、現在情報を保持
     private var todoData: TodoData? = nil
+    private let actionType: ActionType!
     
     
     // MARK: - View Life Cycle
     
     init(todoData: TodoData) {
         self.todoData = todoData
+        self.actionType = .update
         super.init(nibName: nil, bundle: nil)
     }
     
     init(parentDocumentID: String) {
         self.parentDocumentID = parentDocumentID
+        self.actionType = .create
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -54,10 +63,32 @@ class TodoRegistrationViewController: UIViewController {
 
         setUpViewModel()
         setUpDatePicker()
+        setUpInitialData()
     }
     
     
     // MARK: - Action
+    
+    private func setUpInitialData() {
+        guard let todoData else {
+            return
+        }
+        
+        // 更新の場合の初期値
+        if actionType == .update {
+            headerLabel.text = "やること更新"
+            registerButton.setTitle("更新", for: .normal)
+            registerButton.addTarget(self, action: #selector(tapUpdateButton), for: .touchUpInside)
+            
+            titleTextField.text = todoData.title
+            titleTextField.sendActions(for: .valueChanged)
+            startDatePicker.date = todoData.startDate
+            startDatePicker.sendActions(for: .valueChanged)
+            endDatePicker.date = todoData.endDate
+            endDatePicker.sendActions(for: .valueChanged)
+            statusSegmentedControl.selectedSegmentIndex = todoData.status
+        }
+    }
     
     private func setUpViewModel() {
         let startDateObserver = startDatePicker.rx.controlEvent(.valueChanged)
@@ -157,6 +188,10 @@ class TodoRegistrationViewController: UIViewController {
                                 status: statusSegmentedControl.selectedSegmentIndex)
         
         viewModel.saveTodoData(documentID: parentDocumentID, todoData: todoData)
+    }
+    
+    @objc private func tapUpdateButton() {
+
     }
     
 }
