@@ -14,6 +14,7 @@
                 <outlet property="dateErrorLabel" destination="NOX-TC-55k" id="bMF-PO-p5w"/>
                 <outlet property="deleteButton" destination="YfI-rc-fbI" id="vwl-hv-30D"/>
                 <outlet property="endDateTextField" destination="ZsG-QU-Loy" id="1IP-JO-ajK"/>
+                <outlet property="focusSwitch" destination="obY-Er-LcI" id="eVh-JV-zrI"/>
                 <outlet property="headerLabel" destination="3Ad-nh-dDE" id="84G-jD-oD3"/>
                 <outlet property="registerButton" destination="vxJ-wm-BQZ" id="6rP-Wc-ein"/>
                 <outlet property="startDateTextField" destination="dSi-Ph-sIk" id="eUw-e4-kaB"/>

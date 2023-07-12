@@ -29,6 +29,7 @@ class TodoRegistrationViewController: UIViewController {
     @IBOutlet weak var dateErrorLabel: UILabel!
     @IBOutlet weak var statusSegmentedControl: UISegmentedControl!
     @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var focusSwitch: UISwitch!
     
     private let viewModel = TodoRegistrationViewModel()
     private let disposeBag = DisposeBag()
@@ -188,8 +189,7 @@ class TodoRegistrationViewController: UIViewController {
                                 startDate: startDatePicker.date,
                                 endDate: endDatePicker.date,
                                 status: statusSegmentedControl.selectedSegmentIndex)
-        
-        viewModel.saveTodoData(documentID: parentDocumentID, todoData: todoData)
+        viewModel.saveTodoData(parentDocumentID: parentDocumentID, todoData: todoData, isFocus: focusSwitch.isOn)
     }
     
     @objc private func tapUpdateButton() {

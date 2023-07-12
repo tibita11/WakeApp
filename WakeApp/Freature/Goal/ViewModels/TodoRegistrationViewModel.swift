@@ -101,10 +101,19 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
     /// - Parameters:
     ///   - documentID: Goalsコレクションに保存されているドキュメント名
     ///   - todoData: 保存するデータ
-    func saveTodoData(documentID: String, todoData: TodoData) {
+    ///   - isFocus: Focusコレクションに登録するか否か
+    func saveTodoData(parentDocumentID: String, todoData: TodoData, isFocus: Bool) {
         do {
             let userID = try authService.getCurrenUserID()
-            firestoreService.saveTodoData(uid: userID, documentID: documentID, todoData: todoData)
+            // TodoDataの保存
+            let todoReference = firestoreService
+                .createTodReference(uid: userID, parentDocumentID: parentDocumentID)
+            firestoreService.saveTodoData(reference: todoReference, todoData: todoData)
+            // FocusコレクションにTodoDataの参照先を登録
+            if isFocus {
+                let focusReference = firestoreService.createFocusReference(uid: userID)
+                firestoreService.saveFocusData(reference: focusReference, focusData: todoReference)
+            }
             checkNetwork()
         } catch let error {
            // uidが存在しない場合は、再ログインを促す

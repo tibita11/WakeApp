@@ -33,6 +33,7 @@ class FirebaseFirestoreService {
     private let users = "Users"
     private let goals = "Goals"
     private let todos = "Todos"
+    private let focuses = "Focuses"
     
     
     // MARK: - Action
@@ -297,21 +298,50 @@ class FirebaseFirestoreService {
             .document(documentID).delete()
     }
     
-    /// TodoDateの保存
+    /// ドキュメントの参照先を作成
     ///
     /// - Parameters:
-    ///   - uid: Usersコレクションに保存されているドキュメント名
-    ///   - documentID: Goalsコレクションに保存されているドキュメント名
-    ///   - todoData: 保存するデータ
-    func saveTodoData(uid: String, documentID: String, todoData: TodoData) {
-        firestore.collection(users).document(uid).collection(goals)
-            .document(documentID).collection(todos).document()
-            .setData([
+    ///   - uid: Usersコレクション-ドキュメント名
+    ///   - parentDocumentID: 親コレクション-ドキュメント名
+    ///
+    ///  - Returns: 参照先
+    func createTodReference(uid: String, parentDocumentID: String) -> DocumentReference {
+        return firestore
+            .collection(users).document(uid)
+            .collection(goals).document(parentDocumentID)
+            .collection(todos).document()
+    }
+    
+    /// 参照先にTodoDataを保存
+    ///
+    /// - Parameters:
+    ///   - reference: 保存先
+    ///   - todoData: 保存データ
+    func saveTodoData(reference: DocumentReference, todoData: TodoData) {
+        reference.setData([
                 "title" : todoData.title,
                 "startDate" : todoData.startDate,
                 "endDate" : todoData.endDate,
                 "status" : todoData.status
             ])
+    }
+    
+    /// ドキュメントの参照先を作成
+    ///
+    /// - Parameter uid: CurrentUserID
+    func createFocusReference(uid: String) -> DocumentReference {
+        return firestore.collection(focuses).document(uid)
+    }
+    
+    /// 参照先にFocusDataを保存
+    ///
+    /// - Parameters:
+    ///   - reference: 保存先
+    ///   - focusData: 保存するTodoデータの参照先
+    func saveFocusData(reference: DocumentReference, focusData: DocumentReference) {
+        reference.setData([
+            "reference" : focusData
+        ])
     }
     
     /// TodoDataの更新
