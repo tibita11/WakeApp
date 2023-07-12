@@ -330,4 +330,16 @@ class FirebaseFirestoreService {
             ])
     }
     
+    /// TodoDataの削除
+    ///
+    /// - Parameters:
+    ///   - uid:  Usersコレクションに保存されているドキュメント名
+    ///   - todoData: 削除するデータ
+    func deleteTodoData(uid: String, todoData: TodoData) {
+        firestore.collection(users).document(uid)
+            .collection(goals).document(todoData.parentDocumentID)
+            .collection(todos).document(todoData.documentID)
+            .delete()
+    }
+    
 }

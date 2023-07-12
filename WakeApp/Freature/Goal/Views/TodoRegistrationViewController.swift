@@ -28,6 +28,7 @@ class TodoRegistrationViewController: UIViewController {
     @IBOutlet weak var endDateTextField: UITextField!
     @IBOutlet weak var dateErrorLabel: UILabel!
     @IBOutlet weak var statusSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var deleteButton: UIButton!
     
     private let viewModel = TodoRegistrationViewModel()
     private let disposeBag = DisposeBag()
@@ -76,6 +77,7 @@ class TodoRegistrationViewController: UIViewController {
         
         // 更新の場合の初期値
         if actionType == .update {
+            deleteButton.isHidden = false
             headerLabel.text = "やること編集"
             registerButton.setTitle("更新", for: .normal)
             registerButton.addTarget(self, action: #selector(tapUpdateButton), for: .touchUpInside)
@@ -200,6 +202,24 @@ class TodoRegistrationViewController: UIViewController {
                                endDate: endDatePicker.date,
                                status: statusSegmentedControl.selectedSegmentIndex)
         viewModel.updateTodoData(todoData: newData)
+    }
+    
+    @IBAction func tapDeleteButton(_ sender: Any) {
+        present(createDeleteAlert(), animated: true)
+    }
+    
+    func createDeleteAlert() -> UIAlertController {
+        let title = todoData?.title ?? ""
+        let alertController = UIAlertController(title: "「\(title)」を削除してよろしいですか？", message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "はい", style: .default) {
+            [weak self] _ in
+            guard let self, let todoData else { return }
+            viewModel.deleteTodoData(todoData: todoData)
+        }
+        let cancelAction = UIAlertAction(title: "いいえ", style: .cancel)
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        return alertController
     }
     
 }

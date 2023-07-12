@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TodoRegistrationViewController" customModule="WakeApp" customModuleProvider="target">
             <connections>
                 <outlet property="dateErrorLabel" destination="NOX-TC-55k" id="bMF-PO-p5w"/>
+                <outlet property="deleteButton" destination="YfI-rc-fbI" id="vwl-hv-30D"/>
                 <outlet property="endDateTextField" destination="ZsG-QU-Loy" id="1IP-JO-ajK"/>
                 <outlet property="headerLabel" destination="3Ad-nh-dDE" id="84G-jD-oD3"/>
                 <outlet property="registerButton" destination="vxJ-wm-BQZ" id="6rP-Wc-ein"/>
@@ -47,6 +48,9 @@
                                     <color key="tintColor" systemColor="systemRedColor"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal" image="trash" catalog="system"/>
+                                    <connections>
+                                        <action selector="tapDeleteButton:" destination="-1" eventType="touchUpInside" id="HqR-Us-AMV"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>

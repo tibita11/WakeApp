@@ -137,6 +137,20 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
         }
     }
     
+    /// TodoDataを削除
+    ///
+    /// - Parameter todoData: 削除するデータ
+    func deleteTodoData(todoData: TodoData) {
+        do {
+            let userID = try authService.getCurrenUserID()
+            firestoreService.deleteTodoData(uid: userID, todoData: todoData)
+            checkNetwork()
+        } catch let error {
+            // uidが存在しない場合は、再ログインを促す
+             errorAlertRelay.accept(error.localizedDescription)
+        }
+    }
+    
 }
 
 
