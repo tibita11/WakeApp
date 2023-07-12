@@ -223,7 +223,8 @@ class FirebaseFirestoreService {
                             
                             // Todosコレクションを同時に取得
                             var todos: [TodoData] = []
-                            document.reference.collection("Todos").getDocuments { snapshot, error in
+                            document.reference.collection("Todos")
+                                .order(by: "startDate", descending: true).getDocuments { snapshot, error in
                                 if let error {
                                     observer.onError(error)
                                     mainGroup.leave()
