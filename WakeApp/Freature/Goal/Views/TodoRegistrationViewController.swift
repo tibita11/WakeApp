@@ -76,7 +76,7 @@ class TodoRegistrationViewController: UIViewController {
         
         // 更新の場合の初期値
         if actionType == .update {
-            headerLabel.text = "やること更新"
+            headerLabel.text = "やること編集"
             registerButton.setTitle("更新", for: .normal)
             registerButton.addTarget(self, action: #selector(tapUpdateButton), for: .touchUpInside)
             
@@ -191,7 +191,15 @@ class TodoRegistrationViewController: UIViewController {
     }
     
     @objc private func tapUpdateButton() {
-
+        guard let todoData else { return }
+        
+        let newData = TodoData(parentDocumentID: todoData.parentDocumentID,
+                               documentID: todoData.documentID,
+                               title: titleTextField.text!,
+                               startDate: startDatePicker.date,
+                               endDate: endDatePicker.date,
+                               status: statusSegmentedControl.selectedSegmentIndex)
+        viewModel.updateTodoData(todoData: newData)
     }
     
 }

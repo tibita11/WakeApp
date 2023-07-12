@@ -313,4 +313,21 @@ class FirebaseFirestoreService {
             ])
     }
     
+    /// TodoDataの更新
+    ///
+    /// - Parameters:
+    ///   - uid: Usersコレクションに保存されているドキュメント名
+    ///   - todoData: 更新後のデータ
+    func updateTodoData(uid: String, todoData: TodoData) {
+        firestore.collection(users).document(uid)
+            .collection(goals).document(todoData.parentDocumentID)
+            .collection(todos).document(todoData.documentID)
+            .setData([
+                "title" : todoData.title,
+                "startDate" : todoData.startDate,
+                "endDate" : todoData.endDate,
+                "status" : todoData.status
+            ])
+    }
+    
 }

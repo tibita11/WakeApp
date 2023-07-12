@@ -104,17 +104,36 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
     func saveTodoData(documentID: String, todoData: TodoData) {
         do {
             let userID = try authService.getCurrenUserID()
-            // ネットワークチェック
-            if Network.shared.isOnline() {
-                dismissRelay.accept(())
-            } else {
-                unsentAlertRelay.accept(())
-            }
-            
             firestoreService.saveTodoData(uid: userID, documentID: documentID, todoData: todoData)
+            checkNetwork()
         } catch let error {
            // uidが存在しない場合は、再ログインを促す
             errorAlertRelay.accept(error.localizedDescription)
+        }
+    }
+    
+    /// TodoDataを更新
+    ///
+    /// - Parameter todoData: 更新後のデータ
+    func updateTodoData(todoData: TodoData) {
+        do {
+            let userID = try authService.getCurrenUserID()
+            firestoreService.updateTodoData(uid: userID, todoData: todoData)
+            checkNetwork()
+        } catch let error {
+            // uidが存在しない場合は、再ログインを促す
+             errorAlertRelay.accept(error.localizedDescription)
+        }
+    }
+    
+    /// オフラインとオンラインで処理を判別
+    private func checkNetwork() {
+        if Network.shared.isOnline() {
+            // 戻る
+            dismissRelay.accept(())
+        } else {
+            // 送信待ちアラート
+            unsentAlertRelay.accept(())
         }
     }
     
