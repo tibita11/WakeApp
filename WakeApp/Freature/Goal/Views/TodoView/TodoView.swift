@@ -13,7 +13,7 @@ protocol TodoViewDelegate: AnyObject {
     /// - Parameters:
     ///   - section: セル作成時に代入したGoalsコレクションのrow番目
     ///   - num: EditiButtonに登録されているタグ
-    func getDocumentID(section: Int, num: Int)
+    func getTodoData(section: Int, row: Int)
 }
 
 class TodoView: UIView {
@@ -54,7 +54,7 @@ class TodoView: UIView {
     
     @IBAction func tapEditButton(_ sender: Any) {
         guard let section else { return }
-        delegate.getDocumentID(section: section, num: editButton.tag)
+        delegate.getTodoData(section: section, row: editButton.tag)
     }
     
 }

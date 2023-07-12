@@ -198,13 +198,12 @@ class GoalsEditingViewController: UIViewController {
 // MARK: - GoalCollectionViewCellDelegate
 
 extension GoalsEditingViewController: GoalCollectionViewCellDelegate {
-    func getDocumentID(num: Int) {
-        let documentID = viewModel.getDocumentID(num: num)
-        viewModel.getGoalData(documentID: documentID)
+    func getGoalData(row: Int) {
+        viewModel.getGoalData(row: row)
     }
     
     func transtionToRegistrationView(num: Int) {
-        let documentID = viewModel.getDocumentID(num: num)
+        let documentID = viewModel.getDocumentID(row: num)
         let vc = TodoRegistrationViewController(parentDocumentID: documentID)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -215,7 +214,7 @@ extension GoalsEditingViewController: GoalCollectionViewCellDelegate {
 // MARK: - TodoViewDelegate
 
 extension GoalsEditingViewController: TodoViewDelegate {
-    func getDocumentID(section: Int, num: Int) {
-        viewModel.getTodoData(section: section, row: num)
+    func getTodoData(section: Int, row: Int) {
+        viewModel.getTodoData(section: section, row: row)
     }
 }

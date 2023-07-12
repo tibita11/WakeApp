@@ -70,38 +70,18 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
     /// 取得したItemから指定番目のドキュメントIDを取得
     ///
     /// - Parameter num: ドキュメントIDが必要な行数
-    func getDocumentID(num: Int) -> String {
+    func getDocumentID(row: Int) -> String {
         let items = goalDataRelay.value
-        return items[num].documentID
+        return items[row].documentID
     }
     
-    /// 指定したドキュメントIDのGoalData取得
+    /// GoalDataを取得後に更新画面に遷移
     ///
-    /// - Parameter documentID: 取得するドキュメント名
-    func getGoalData(documentID: String) {
-        do {
-            let userID = try authService.getCurrenUserID()
-            firestoreService.getGoalData(uid: userID, documentID: documentID)
-                .subscribe(onNext: { [weak self] goalData in
-                    // 取得後は遷移
-                    self?.transitionToGoalRegistrationRelay.accept(goalData)
-                }, onError: { [weak self] error in
-                    // エラーは遷移せずにアラート表示
-                    if Network.shared.isOnline() {
-                        // 一律でアラートを表示する
-                        print("Error: \(error.localizedDescription)")
-                        self?.errorAlertRelay.accept(Const.errorText)
-                    } else {
-                        // オフライン
-                        print("Error: \(error.localizedDescription)")
-                        self?.networkErrorRelay.accept(())
-                    }
-                })
-                .disposed(by: disposeBag)
-        } catch let error {
-            // uidが取得できない場合は、再ログインを促す
-            errorAlertRelay.accept(error.localizedDescription)
-        }
+    /// - Parameter row: Goalsコレクションのドキュメント
+    func getGoalData(row: Int) {
+        let items = goalDataRelay.value
+        let goalData = items[row]
+        transitionToGoalRegistrationRelay.accept(goalData)
     }
     
     /// TodoDataを取得後に更新画面に遷移

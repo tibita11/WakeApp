@@ -11,7 +11,7 @@ protocol GoalCollectionViewCellDelegate: AnyObject {
     /// 一覧表示されている場合にタグ番目のDocumentIDを取得
     ///
     /// - Parameter num: EditButtonに登録されているタグ
-    func getDocumentID(num: Int)
+    func getGoalData(row: Int)
     
     /// Todo登録画面へ遷移
     ///
@@ -53,7 +53,7 @@ class GoalCollectionViewCell: UICollectionViewCell {
     }
 
     @IBAction func tapEditButton(_ sender: Any) {
-        delegate.getDocumentID(num: editButton.tag)
+        delegate.getGoalData(row: editButton.tag)
     }
     
     @IBAction func tapAdditionButton(_ sender: Any) {

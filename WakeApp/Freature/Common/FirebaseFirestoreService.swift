@@ -286,65 +286,6 @@ class FirebaseFirestoreService {
         }
     }
     
-    /// Firestoreから指定したドキュメントIDの目標を取得
-    ///
-    /// - Parameters:
-    ///   - uid: 取得先のコレクション名
-    ///   - documentID: ドキュメントを指定
-    func getGoalData(uid: String, documentID: String) -> Observable<GoalData> {
-        return Observable.create { [weak self] observer in
-            guard let self else {
-                observer.onError(FirebaseFirestoreServiceError.noInstance)
-                return Disposables.create()
-            }
-            
-            firestore.collection(users).document(uid).collection(goals)
-                .document(documentID)
-                .getDocument { snapshot, error in
-                    if let error {
-                        observer.onError(error)
-                        return
-                    }
-                    
-                    guard let data = snapshot?.data() else {
-                        // 指定したデータが無いことは想定外であるので、エラーを通知
-                        observer.onError(FirebaseFirestoreServiceError.noGoalData)
-                        return
-                    }
-                    
-                    let title = data["title"] as? String ?? {
-                        assertionFailure("Stringにキャストできませんでした。")
-                        return ""
-                    }()
-                    
-                    let startDate = data["startDate"] as? Timestamp ?? {
-                        assertionFailure("Timestampにキャストできませんでした。")
-                        return Timestamp()
-                    }()
-                    
-                    let endDate = data["endDate"] as? Timestamp ?? {
-                        assertionFailure("Timestampにキャストできませんでした。")
-                        return Timestamp()
-                    }()
-                    
-                    let status = data["status"] as? Int ?? {
-                        assertionFailure("Intにキャストできませんでした。")
-                        return 0
-                    }()
-                    
-                    let goalData = GoalData(documentID: documentID,
-                                            title: title,
-                                            startDate: startDate.dateValue(),
-                                            endDate: endDate.dateValue(),
-                                            status: status)
-                    
-                    observer.onNext(goalData)
-                }
-            
-            return Disposables.create()
-        }
-    }
-    
     /// 指定したドキュメントを削除
     ///
     /// - Parameters:
