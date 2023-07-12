@@ -15,6 +15,7 @@ protocol GoalsEditingViewModelOutputs {
     var networkErrorDriver: Driver<Void> { get }
     var errorAlertDriver: Driver<String> { get }
     var transitionToGoalRegistrationDriver: Driver<GoalData> { get }
+    var transitionToTodoRegistrationDriver: Driver<TodoData> { get }
 }
 
 protocol GoalsEditingViewModelType {
@@ -32,6 +33,7 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
     private let networkErrorRelay = PublishRelay<Void>()
     private let errorAlertRelay = PublishRelay<String>()
     private let transitionToGoalRegistrationRelay = PublishRelay<GoalData>()
+    private let transitionToTodoRegistrationRelay = PublishRelay<TodoData>()
     
     init() {
 
@@ -101,6 +103,18 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
             errorAlertRelay.accept(error.localizedDescription)
         }
     }
+    
+    /// TodoDataを取得後に更新画面に遷移
+    ///
+    /// - Parameters:
+    ///   - section: Goalsコレクションのドキュメント
+    ///   - row: Todosコレクションのドキュメント
+    func getTodoData(section: Int, row: Int) {
+        let items = goalDataRelay.value
+        let todoData = items[section].todos[row]
+        transitionToTodoRegistrationRelay.accept(todoData)
+    }
+    
 }
 
 
@@ -125,6 +139,10 @@ extension GoalsEditingViewModel: GoalsEditingViewModelOutputs {
     
     var transitionToGoalRegistrationDriver: Driver<GoalData> {
         transitionToGoalRegistrationRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var transitionToTodoRegistrationDriver: Driver<TodoData> {
+        transitionToTodoRegistrationRelay.asDriver(onErrorDriveWith: .empty())
     }
    
 }

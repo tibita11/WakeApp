@@ -197,7 +197,7 @@ class FirebaseFirestoreService {
                         dispatchQueue.async(group: mainGroup) {
                             mainGroup.enter()
                             
-                            let documentID = document.documentID
+                            let goalsDocumentID = document.documentID
                             let data = document.data()
                             
                             
@@ -233,6 +233,7 @@ class FirebaseFirestoreService {
                                 
                                 let documents = snapshot?.documents ?? []
                                 for document in documents {
+                                    let todosDocumentID = document.documentID
                                     let data = document.data()
                                     let title = data["title"] as? String ?? {
                                         assertionFailure("Stringにキャストできませんでした。")
@@ -254,13 +255,15 @@ class FirebaseFirestoreService {
                                         return 0
                                     }()
                                     
-                                    todos.append(TodoData(title: title,
+                                    todos.append(TodoData(parentDocumentID: goalsDocumentID,
+                                                          documentID: todosDocumentID,
+                                                          title: title,
                                                           startDate: startDate.dateValue(),
                                                           endDate: endDate.dateValue(),
                                                           status: status))
                                 }
                                 
-                                goals.append(GoalData(documentID: documentID,
+                                goals.append(GoalData(documentID: goalsDocumentID,
                                                       title: title,
                                                       startDate: startDate.dateValue(),
                                                       endDate: endDate.dateValue(),

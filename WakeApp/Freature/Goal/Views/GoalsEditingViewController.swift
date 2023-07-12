@@ -108,6 +108,9 @@ class GoalsEditingViewController: UIViewController {
                 if total != 0 {
                     for num in 0...total - 1 {
                         let todoView = TodoView()
+                        todoView.section = row
+                        todoView.editButton.tag = num
+                        todoView.delegate = self
                         todoView.titleLabel.text = element.todos[num].title
                         todoView.startDateLabel.text = dateFormatter.string(from: element.todos[num].startDate)
                         todoView.endDateLabel.text = dateFormatter.string(from: element.todos[num].endDate)
@@ -166,6 +169,16 @@ class GoalsEditingViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        // Todo登録画面に初期値を代入して遷移
+        viewModel.outputs.transitionToTodoRegistrationDriver
+            .drive(onNext: { [weak self] todoData in
+                guard let self else { return }
+                let vc = TodoRegistrationViewController(todoData: todoData)
+                navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        
     }
     
     /// 目標追加画面に遷移
@@ -192,8 +205,17 @@ extension GoalsEditingViewController: GoalCollectionViewCellDelegate {
     
     func transtionToRegistrationView(num: Int) {
         let documentID = viewModel.getDocumentID(num: num)
-        let vc = TodoRegistrationViewController(documentID: documentID)
+        let vc = TodoRegistrationViewController(parentDocumentID: documentID)
         navigationController?.pushViewController(vc, animated: true)
     }
     
+}
+
+
+// MARK: - TodoViewDelegate
+
+extension GoalsEditingViewController: TodoViewDelegate {
+    func getDocumentID(section: Int, num: Int) {
+        viewModel.getTodoData(section: section, row: num)
+    }
 }

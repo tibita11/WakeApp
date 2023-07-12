@@ -27,13 +27,21 @@ class TodoRegistrationViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let startDatePicker = UIDatePicker()
     private let endDatePicker = UIDatePicker()
-    private let documentID: String!
+    /// 登録のため、親コレクションのドキュメントIDを保持
+    private var parentDocumentID: String? = nil
+    /// 更新のため、現在情報を保持
+    private var todoData: TodoData? = nil
     
     
     // MARK: - View Life Cycle
     
-    init(documentID: String) {
-        self.documentID = documentID
+    init(todoData: TodoData) {
+        self.todoData = todoData
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(parentDocumentID: String) {
+        self.parentDocumentID = parentDocumentID
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -142,12 +150,13 @@ class TodoRegistrationViewController: UIViewController {
     }
     
     @IBAction func tapRegisterButton(_ sender: Any) {
+        guard let parentDocumentID else { return }
         let todoData = TodoData(title: titleTextField.text!,
                                 startDate: startDatePicker.date,
                                 endDate: endDatePicker.date,
                                 status: statusSegmentedControl.selectedSegmentIndex)
         
-        viewModel.saveTodoData(documentID: documentID, todoData: todoData)
+        viewModel.saveTodoData(documentID: parentDocumentID, todoData: todoData)
     }
     
 }

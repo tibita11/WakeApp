@@ -7,6 +7,15 @@
 
 import UIKit
 
+protocol TodoViewDelegate: AnyObject {
+    /// タグ番目のDocumentIDを取得
+    ///
+    /// - Parameters:
+    ///   - section: セル作成時に代入したGoalsコレクションのrow番目
+    ///   - num: EditiButtonに登録されているタグ
+    func getDocumentID(section: Int, num: Int)
+}
+
 class TodoView: UIView {
     
     @IBOutlet weak var concentrationView: UIView! {
@@ -23,6 +32,9 @@ class TodoView: UIView {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var startDateLabel: UILabel!
     @IBOutlet weak var endDateLabel: UILabel!
+    /// GoalsコレクションのDocumentIDを取得する際に使用する
+    var section: Int? = nil
+    weak var delegate: TodoViewDelegate!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,6 +50,11 @@ class TodoView: UIView {
         let view = Bundle.main.loadNibNamed("TodoView", owner: self, options: nil)?.first as! UIView
         view.frame = self.bounds
         self.addSubview(view)
+    }
+    
+    @IBAction func tapEditButton(_ sender: Any) {
+        guard let section else { return }
+        delegate.getDocumentID(section: section, num: editButton.tag)
     }
     
 }
