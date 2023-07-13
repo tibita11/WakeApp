@@ -11,9 +11,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TodoView" customModule="WakeApp" customModuleProvider="target">
             <connections>
-                <outlet property="concentrationView" destination="kfR-C7-7qq" id="qHD-ZM-6oZ"/>
                 <outlet property="editButton" destination="0kq-SK-J8V" id="0aZ-ef-gEG"/>
                 <outlet property="endDateLabel" destination="wqL-Mz-aRx" id="icJ-8g-9rR"/>
+                <outlet property="focusStackView" destination="UHk-wQ-FKH" id="qHx-pJ-iP4"/>
+                <outlet property="focusView" destination="kfR-C7-7qq" id="esp-Zr-peQ"/>
                 <outlet property="startDateLabel" destination="UpU-NG-2Ql" id="kj1-bl-UXj"/>
                 <outlet property="statusLabel" destination="XbI-8a-f75" id="kBy-os-lJf"/>
                 <outlet property="titleLabel" destination="1Gq-eS-9LV" id="DSY-Bm-jjc"/>
@@ -107,7 +108,7 @@
                                 <constraint firstAttribute="height" constant="40" id="YzD-IA-CZk"/>
                             </constraints>
                         </stackView>
-                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UHk-wQ-FKH">
+                        <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UHk-wQ-FKH">
                             <rect key="frame" x="0.0" y="40" width="350" height="25"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PFd-HZ-1Gb">
@@ -136,9 +137,12 @@
                                     </constraints>
                                 </view>
                             </subviews>
+                            <constraints>
+                                <constraint firstItem="PFd-HZ-1Gb" firstAttribute="leading" secondItem="UHk-wQ-FKH" secondAttribute="leading" id="dP0-nJ-PJk"/>
+                            </constraints>
                         </stackView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3sm-cG-CdZ">
-                            <rect key="frame" x="0.0" y="65" width="350" height="0.0"/>
+                            <rect key="frame" x="0.0" y="40" width="350" height="25"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
                     </subviews>

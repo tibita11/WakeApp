@@ -107,14 +107,15 @@ class GoalsEditingViewController: UIViewController {
                 
                 if total != 0 {
                     for num in 0...total - 1 {
+                        let todoData = element.todos[num]
                         let todoView = TodoView()
                         todoView.section = row
                         todoView.editButton.tag = num
                         todoView.delegate = self
-                        todoView.titleLabel.text = element.todos[num].title
-                        todoView.startDateLabel.text = dateFormatter.string(from: element.todos[num].startDate)
-                        todoView.endDateLabel.text = dateFormatter.string(from: element.todos[num].endDate)
-                        if element.todos[num].status == 0 {
+                        todoView.titleLabel.text = todoData.title
+                        todoView.startDateLabel.text = dateFormatter.string(from: todoData.startDate)
+                        todoView.endDateLabel.text = dateFormatter.string(from: todoData.endDate)
+                        if todoData.status == 0 {
                             todoView.statusLabel.text = "未達成"
                             todoView.statusLabel.textColor = .systemGray2
                         } else {
@@ -125,6 +126,7 @@ class GoalsEditingViewController: UIViewController {
                                                 y: num * itemHeight + 10,
                                                 width: Int(collectionView.bounds.width),
                                                 height: itemHeight)
+                        todoView.focusStackView.isHidden = !todoData.isFocus
                         todoContainerView.tag = 100
                         todoContainerView.addSubview(todoView)
                     }

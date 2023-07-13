@@ -15,13 +15,15 @@ struct TodoData {
     let startDate: Date
     let endDate: Date
     let status: Int
+    let isFocus: Bool
     
-    init(parentDocumentID: String = "", documentID: String = "", title: String, startDate: Date, endDate: Date, status: Int) {
+    init(parentDocumentID: String = "", documentID: String = "", title: String, startDate: Date, endDate: Date, status: Int, isFocus: Bool = false) {
         self.parentDocumentID = parentDocumentID
         self.documentID = documentID
         self.title = title
         self.startDate = startDate
         self.endDate = endDate
         self.status = status
+        self.isFocus = isFocus
     }
 }

@@ -18,13 +18,14 @@ protocol TodoViewDelegate: AnyObject {
 
 class TodoView: UIView {
     
-    @IBOutlet weak var concentrationView: UIView! {
+    @IBOutlet weak var focusStackView: UIStackView!
+    @IBOutlet weak var focusView: UIView! {
         didSet {
-            concentrationView.layer.cornerRadius = 10
-            concentrationView.layer.shadowColor = UIColor.black.cgColor
-            concentrationView.layer.shadowOpacity = 0.3
-            concentrationView.layer.shadowRadius = 3.0
-            concentrationView.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
+            focusView.layer.cornerRadius = 10
+            focusView.layer.shadowColor = UIColor.black.cgColor
+            focusView.layer.shadowOpacity = 0.3
+            focusView.layer.shadowRadius = 3.0
+            focusView.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
         }
     }
     @IBOutlet weak var titleLabel: UILabel!
