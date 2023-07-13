@@ -114,6 +114,8 @@ class ProfileViewController: UIViewController {
                 cell.titleLabel.text = element.title
                 cell.startDateLabel.text = dateFormatter.string(from: element.startDate)
                 cell.endDateLabel.text = dateFormatter.string(from: element.endDate)
+                cell.editButton.isHidden = true
+                cell.additionStackView.isHidden = true
                 // 達成状況
                 switch element.status {
                 case 0:
@@ -145,6 +147,7 @@ class ProfileViewController: UIViewController {
                         todoView.titleLabel.text = todoData.title
                         todoView.startDateLabel.text = dateFormatter.string(from: todoData.startDate)
                         todoView.endDateLabel.text = dateFormatter.string(from: todoData.endDate)
+                        todoView.editButton.isHidden = true
                         if todoData.status == 0 {
                             todoView.statusLabel.text = "未達成"
                             todoView.statusLabel.textColor = .systemGray2

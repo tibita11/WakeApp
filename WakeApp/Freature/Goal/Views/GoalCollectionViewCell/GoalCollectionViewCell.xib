@@ -172,6 +172,7 @@
             </constraints>
             <connections>
                 <outlet property="additionButton" destination="Fnx-cq-mfe" id="8oG-1T-xjD"/>
+                <outlet property="additionStackView" destination="dYH-kb-ZAM" id="w1s-Ba-ls3"/>
                 <outlet property="baseView" destination="RfH-OD-IAG" id="RhN-O8-vB6"/>
                 <outlet property="baseViewHeight" destination="Mhc-s7-4HY" id="rqL-Ol-j0C"/>
                 <outlet property="baseViewWidth" destination="Ywh-QM-gyb" id="tpi-YV-Gnb"/>

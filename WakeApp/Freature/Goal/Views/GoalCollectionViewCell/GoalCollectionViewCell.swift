@@ -22,6 +22,8 @@ protocol GoalCollectionViewCellDelegate: AnyObject {
 class GoalCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
+    /// 追加ボタンを非表示にする際に使用する
+    @IBOutlet weak var additionStackView: UIStackView!
     @IBOutlet weak var additionButton: UIButton! {
         didSet {
             additionButton.layer.borderColor = UIColor.black.cgColor
