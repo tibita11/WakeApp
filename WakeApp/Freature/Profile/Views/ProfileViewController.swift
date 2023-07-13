@@ -37,6 +37,7 @@ class ProfileViewController: UIViewController {
     private let errorStackView = UIStackView()
     private let errorLabel = UILabel()
     private let retryButton = UIButton()
+    private var collectionView: UICollectionView!
     
     private var viewModel: ProfileViewModel!
     private let disposeBag = DisposeBag()
@@ -49,6 +50,12 @@ class ProfileViewController: UIViewController {
         
         setUpLayout()
         setUpViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        viewModel.getInitalData()
     }
     
     
@@ -100,7 +107,7 @@ class ProfileViewController: UIViewController {
     
     /// UserDataの再取得
     @objc private func tapRetryButton() {
-        viewModel.getUserData()
+        viewModel.getInitalData()
     }
     
     
@@ -113,6 +120,7 @@ class ProfileViewController: UIViewController {
         setUpCircleView()
         setUpProfileContainerView()
         setUpNavigationButton()
+        setUpCollectionView()
         setUpErrorTextStackView()
     }
     
@@ -285,6 +293,26 @@ class ProfileViewController: UIViewController {
         config.baseForegroundColor = .black
         retryButton.configuration = config
         retryButton.addTarget(self, action: #selector(tapRetryButton), for: .touchUpInside)
+    }
+    
+    /// GoalDataを載せるCollectionView
+    private func setUpCollectionView() {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.estimatedItemSize = CGSize(width: 100, height: 100)
+        // 上部のプロフィール箇所の高さ
+        let y = circleContainerView.frame.maxY + 30
+        // タブの高さ
+        let tabHeight = tabBarController?.tabBar.bounds.height ?? 0
+        // CollectionViewの高さ
+        let height = view.bounds.height - y - tabHeight
+        
+        collectionView = UICollectionView(frame: CGRect(x: 0,
+                                                        y: y,
+                                                        width: view.bounds.width,
+                                                        height: height),
+                                          collectionViewLayout: flowLayout)
+        
+        view.addSubview(collectionView)
     }
     
     

@@ -32,43 +32,69 @@ class ProfileViewModel: ProfileViewModelType {
     private let futureRelay = PublishRelay<String>()
     private let errorAlertRelay = PublishRelay<String>()
     private let networkErrorAlertRelay = PublishRelay<Void>()
+    /// 再試行ボタン非表示の切り替え
     private let isHiddenErrorRelay = PublishRelay<Bool>()
     private let disposeBag = DisposeBag()
+    /// 初回時のみ実行するメソッドが存在するため、判別のために保持
+    private var didCall = false
     
     
     // MARK: - Action
     
-    init() {
-        getUserData()
+    /// 初期値をセット
+    func getInitalData() {
+        do {
+            let userID = try firebaseAuthService.getCurrenUserID()
+            firebaseFirestoreService.getGoalData(uid: userID)
+                .subscribe(onNext: { [weak self] goalData in
+                    guard let self else { return }
+                    // goalDataをView側にバインド
+                    
+                    // UserData取得
+                    if !didCall {
+                        getUserData()
+                    }
+                    isHiddenErrorRelay.accept(true)
+                    
+                }, onError: { [weak self] error in
+                    guard let self else { return }
+                    if Network.shared.isOnline() {
+                        // オンラインの場合、想定外エラー
+                        errorAlertRelay.accept(Const.errorText)
+                        print("Error: \(error.localizedDescription)")
+                    } else {
+                        // オフラインの場合、再試行ボタン
+                        networkErrorAlertRelay.accept(())
+                        isHiddenErrorRelay.accept(false)
+                    }
+                })
+                .disposed(by: disposeBag)
+        } catch let error {
+            // UserIDが取得できない場合、再ログインを促す
+            errorAlertRelay.accept(error.localizedDescription)
+        }
     }
     
-    func getUserData() {
+    /// 初回時のみ実行
+    private func getUserData() {
         do {
             let userID = try firebaseAuthService.getCurrenUserID()
             firebaseFirestoreService.getUserData(uid: userID)
                 .subscribe(onNext: { [weak self] userData in
                     guard let self else { return }
+                    print("")
                     nameRelay.accept(userData.name)
                     imageUrlRelay.accept(userData.imageURL)
                     futureRelay.accept(userData.future)
-                    // 再試行ボタン非表示
-                    isHiddenErrorRelay.accept(true)
+                    // 初回時のみ
+                    if !didCall {
+                        didCall = true
+                    }
+                    
                 }, onError: { [weak self] error in
                     guard let self else { return }
-                    // エラー処理
-                    if Network.shared.isOnline() {
-                        // エラーが出た場合は、コード側のミス
-                        print("Error: \(error.localizedDescription)")
-                        let errorText = "エラーが起きました。\nしばらくしてから再度お試しください。"
-                        errorAlertRelay.accept(errorText)
-                        // 再試行ボタン表示
-                        isHiddenErrorRelay.accept(false)
-                    } else {
-                        // オフライン
-                        networkErrorAlertRelay.accept(())
-                        // 再試行ボタン表示
-                        isHiddenErrorRelay.accept(false)
-                    }
+                    errorAlertRelay.accept(Const.errorText)
+                    print("Error: \(error.localizedDescription)")
                 })
                 .disposed(by: disposeBag)
         } catch let error {
