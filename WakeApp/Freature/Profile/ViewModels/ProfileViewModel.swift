@@ -16,6 +16,7 @@ protocol ProfileViewModelOutputs {
     var errorAlertDriver: Driver<String> { get }
     var networkErrorAlertDriver: Driver<Void> { get }
     var isHiddenErrorDriver: Driver<Bool> { get }
+    var goalDataDriver: Driver<[GoalData]> { get }
 }
 
 protocol ProfileViewModelType {
@@ -37,6 +38,7 @@ class ProfileViewModel: ProfileViewModelType {
     private let disposeBag = DisposeBag()
     /// 初回時のみ実行するメソッドが存在するため、判別のために保持
     private var didCall = false
+    private let goalDataRelay = PublishRelay<[GoalData]>()
     
     
     // MARK: - Action
@@ -49,7 +51,7 @@ class ProfileViewModel: ProfileViewModelType {
                 .subscribe(onNext: { [weak self] goalData in
                     guard let self else { return }
                     // goalDataをView側にバインド
-                    
+                    goalDataRelay.accept(goalData)
                     // UserData取得
                     if !didCall {
                         getUserData()
@@ -133,5 +135,8 @@ extension ProfileViewModel: ProfileViewModelOutputs {
         isHiddenErrorRelay.asDriver(onErrorDriveWith: .empty())
     }
     
+    var goalDataDriver: Driver<[GoalData]> {
+        goalDataRelay.asDriver(onErrorDriveWith: .empty())
+    }
     
 }

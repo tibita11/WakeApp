@@ -41,6 +41,11 @@ class ProfileViewController: UIViewController {
     
     private var viewModel: ProfileViewModel!
     private let disposeBag = DisposeBag()
+    private lazy var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy年MM月dd日"
+        return dateFormatter
+    }()
     
     
     // MARK: - View Life Cycle
@@ -62,6 +67,9 @@ class ProfileViewController: UIViewController {
     // MARK: - Action
     
     private func setUpViewModel() {
+        collectionView.register(UINib(nibName: "GoalCollectionViewCell", bundle: nil),
+                                forCellWithReuseIdentifier: "GoalCollectionViewCell")
+        
         viewModel = ProfileViewModel()
         
         viewModel.outputs.nameDriver
@@ -97,6 +105,70 @@ class ProfileViewController: UIViewController {
         viewModel.outputs.isHiddenErrorDriver
             .drive(errorStackView.rx.isHidden)
             .disposed(by: disposeBag)
+        
+        // CollectionViewCellの表示
+        viewModel.outputs.goalDataDriver
+            .drive(collectionView.rx.items(cellIdentifier: "GoalCollectionViewCell",
+                                           cellType: GoalCollectionViewCell.self)) { [weak self] row, element, cell in
+                guard let self else { return }
+                cell.titleLabel.text = element.title
+                cell.startDateLabel.text = dateFormatter.string(from: element.startDate)
+                cell.endDateLabel.text = dateFormatter.string(from: element.endDate)
+                // 達成状況
+                switch element.status {
+                case 0:
+                    cell.statusLabel.text = "未達成"
+                    cell.statusLabel.textColor = UIColor.systemGray2
+                case 1:
+                    cell.statusLabel.text = "達成"
+                    cell.statusLabel.textColor = UIColor.red
+                default:
+                    break
+                }
+                
+                // Todoの設定
+                let total = element.todos.count
+                let itemHeight = 130
+                let space = 10
+                // 高さと幅を指定
+                let width = collectionView.bounds.width
+                let height = CGFloat((total * itemHeight) + (2 * space))
+                cell.setBaseViewWidth(to: width)
+                cell.setBaseViewHeight(to: height)
+                let todoContainerView = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height))
+                
+                if total != 0 {
+                    for num in 0...total - 1 {
+                        let todoData = element.todos[num]
+                        let todoView = TodoView()
+                        todoView.section = row
+                        todoView.titleLabel.text = todoData.title
+                        todoView.startDateLabel.text = dateFormatter.string(from: todoData.startDate)
+                        todoView.endDateLabel.text = dateFormatter.string(from: todoData.endDate)
+                        if todoData.status == 0 {
+                            todoView.statusLabel.text = "未達成"
+                            todoView.statusLabel.textColor = .systemGray2
+                        } else {
+                            todoView.statusLabel.text = "達成"
+                            todoView.statusLabel.textColor = .red
+                        }
+                        todoView.frame = CGRect(x: 0,
+                                                y: num * itemHeight + 10,
+                                                width: Int(collectionView.bounds.width),
+                                                height: itemHeight)
+                        todoView.focusStackView.isHidden = !todoData.isFocus
+                        todoContainerView.tag = 100
+                        todoContainerView.addSubview(todoView)
+                    }
+                }
+                // 再利用を考慮するため、前回分を削除する
+                if let viewToRemove = cell.baseView.viewWithTag(100) {
+                    viewToRemove.removeFromSuperview()
+                }
+                cell.baseView.addSubview(todoContainerView)
+            }
+            .disposed(by: disposeBag)
+        
         
     }
     
@@ -306,9 +378,9 @@ class ProfileViewController: UIViewController {
         // CollectionViewの高さ
         let height = view.bounds.height - y - tabHeight
         
-        collectionView = UICollectionView(frame: CGRect(x: 0,
+        collectionView = UICollectionView(frame: CGRect(x: 30,
                                                         y: y,
-                                                        width: view.bounds.width,
+                                                        width: view.bounds.width - 60,
                                                         height: height),
                                           collectionViewLayout: flowLayout)
         
