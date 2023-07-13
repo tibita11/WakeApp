@@ -90,6 +90,7 @@ class TodoRegistrationViewController: UIViewController {
             endDatePicker.date = todoData.endDate
             endDatePicker.sendActions(for: .valueChanged)
             statusSegmentedControl.selectedSegmentIndex = todoData.status
+            focusSwitch.setOn(todoData.isFocus, animated: false)
         }
     }
     
@@ -200,8 +201,9 @@ class TodoRegistrationViewController: UIViewController {
                                title: titleTextField.text!,
                                startDate: startDatePicker.date,
                                endDate: endDatePicker.date,
-                               status: statusSegmentedControl.selectedSegmentIndex)
-        viewModel.updateTodoData(todoData: newData)
+                               status: statusSegmentedControl.selectedSegmentIndex,
+                               isFocus: focusSwitch.isOn)
+        viewModel.updateTodoData(previousFocusValue: todoData.isFocus, todoData: newData)
     }
     
     @IBAction func tapDeleteButton(_ sender: Any) {

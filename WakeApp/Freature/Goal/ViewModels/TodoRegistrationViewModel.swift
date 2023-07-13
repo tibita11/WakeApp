@@ -123,11 +123,28 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
     
     /// TodoDataを更新
     ///
-    /// - Parameter todoData: 更新後のデータ
-    func updateTodoData(todoData: TodoData) {
+    /// - Parameters:
+    ///   - previousFocusValue: 比較のため、Focus初期値の値
+    ///   - todoData: 更新データ
+    func updateTodoData(previousFocusValue: Bool, todoData: TodoData) {
         do {
             let userID = try authService.getCurrenUserID()
-            firestoreService.updateTodoData(uid: userID, todoData: todoData)
+            // TodoData更新
+            let todoReference = firestoreService.createTodoReference(uid: userID,
+                                                                     parentDocumentID: todoData.parentDocumentID,
+                                                                     documentID: todoData.documentID)
+            firestoreService.updateTodoData(reference: todoReference, todoData: todoData)
+            // 変更に応じてFocusコレクション更新
+            if previousFocusValue != todoData.isFocus {
+                let focusReference = firestoreService.createFocusReference(uid: userID)
+                if todoData.isFocus {
+                    // 更新処理
+                    firestoreService.saveFocusData(reference: focusReference, focusData: todoReference)
+                } else {
+                    // 削除処理
+                    firestoreService.deleteFocusData(reference: focusReference)
+                }
+            }
             checkNetwork()
         } catch let error {
             // uidが存在しない場合は、再ログインを促す

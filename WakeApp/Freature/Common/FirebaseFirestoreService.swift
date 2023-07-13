@@ -335,12 +335,39 @@ class FirebaseFirestoreService {
             .collection(todos).document()
     }
     
+    /// ドキュメントの参照先を作成
+    ///
+    /// - Parameters:
+    ///   - uid: Usersコレクション-ドキュメント名
+    ///   - parentDocumentID: 親コレクション-ドキュメント名
+    ///   - documentID: 保存先ドキュメント名
+    func createTodoReference(uid: String, parentDocumentID: String, documentID: String) -> DocumentReference {
+        return firestore
+            .collection(users).document(uid)
+            .collection(goals).document(parentDocumentID)
+            .collection(todos).document(documentID)
+    }
+    
     /// 参照先にTodoDataを保存
     ///
     /// - Parameters:
     ///   - reference: 保存先
     ///   - todoData: 保存データ
     func saveTodoData(reference: DocumentReference, todoData: TodoData) {
+        reference.setData([
+            "title" : todoData.title,
+            "startDate" : todoData.startDate,
+            "endDate" : todoData.endDate,
+            "status" : todoData.status
+        ])
+    }
+    
+    /// TodoDataの更新
+    ///
+    /// - Parameters:
+    ///   - eference: 保存先
+    ///   - todoData: 更新データ
+    func updateTodoData(reference: DocumentReference, todoData: TodoData) {
         reference.setData([
             "title" : todoData.title,
             "startDate" : todoData.startDate,
@@ -367,21 +394,11 @@ class FirebaseFirestoreService {
         ])
     }
     
-    /// TodoDataの更新
+    /// Focusesコレクションの削除
     ///
-    /// - Parameters:
-    ///   - uid: Usersコレクションに保存されているドキュメント名
-    ///   - todoData: 更新後のデータ
-    func updateTodoData(uid: String, todoData: TodoData) {
-        firestore.collection(users).document(uid)
-            .collection(goals).document(todoData.parentDocumentID)
-            .collection(todos).document(todoData.documentID)
-            .setData([
-                "title" : todoData.title,
-                "startDate" : todoData.startDate,
-                "endDate" : todoData.endDate,
-                "status" : todoData.status
-            ])
+    /// - Parameter reference: 削除先
+    func deleteFocusData(reference: DocumentReference) {
+        reference.delete()
     }
     
     /// TodoDataの削除
