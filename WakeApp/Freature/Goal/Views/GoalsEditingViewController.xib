@@ -56,7 +56,7 @@
                     </constraints>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="pQG-dn-HsP">
-                    <rect key="frame" x="15" y="185.66666666666669" width="363" height="617.33333333333326"/>
+                    <rect key="frame" x="0.0" y="185.66666666666669" width="393" height="617.33333333333326"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Znj-U5-tjo">
                         <size key="itemSize" width="128" height="128"/>
@@ -130,9 +130,9 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="pQG-dn-HsP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="27R-hE-UxN"/>
+                <constraint firstItem="pQG-dn-HsP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="27R-hE-UxN"/>
                 <constraint firstItem="BLw-sw-xP7" firstAttribute="top" secondItem="22q-Jo-lfS" secondAttribute="bottom" constant="10" id="MgA-Fr-8ph"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="pQG-dn-HsP" secondAttribute="trailing" constant="15" id="Q3h-KC-Hrz"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="pQG-dn-HsP" secondAttribute="trailing" id="Q3h-KC-Hrz"/>
                 <constraint firstItem="mF2-0W-x7Z" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Uwx-dt-smJ"/>
                 <constraint firstItem="UmJ-kC-agc" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="V5t-S0-gNT"/>
                 <constraint firstItem="ieO-zZ-dM1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="YyJ-M1-XXs"/>

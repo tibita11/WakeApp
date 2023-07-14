@@ -33,7 +33,7 @@ class GoalsEditingViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy年MM月dd日"
+        dateFormatter.dateFormat = "yyyy年M月d日"
         return dateFormatter
     }()
     
@@ -87,9 +87,11 @@ class GoalsEditingViewController: UIViewController {
                 case 0:
                     cell.statusLabel.text = "未達成"
                     cell.statusLabel.textColor = UIColor.systemGray2
+                    cell.setUpNotAchievedColor()
                 case 1:
-                    cell.statusLabel.text = "達成"
+                    cell.statusLabel.text = "達成🎉"
                     cell.statusLabel.textColor = UIColor.red
+                    cell.setUpAchievedColor()
                 default:
                     break
                 }
@@ -99,7 +101,7 @@ class GoalsEditingViewController: UIViewController {
                 let itemHeight = 130
                 let space = 10
                 // 高さと幅を指定
-                let width = collectionView.bounds.width
+                let width = collectionView.bounds.width - 40
                 let height = CGFloat((total * itemHeight) + (2 * space))
                 cell.setBaseViewWidth(to: width)
                 cell.setBaseViewHeight(to: height)
@@ -119,14 +121,14 @@ class GoalsEditingViewController: UIViewController {
                             todoView.statusLabel.text = "未達成"
                             todoView.statusLabel.textColor = .systemGray2
                         } else {
-                            todoView.statusLabel.text = "達成"
+                            todoView.statusLabel.text = "達成🎉"
                             todoView.statusLabel.textColor = .red
                         }
                         todoView.frame = CGRect(x: 0,
                                                 y: num * itemHeight + 10,
-                                                width: Int(collectionView.bounds.width),
+                                                width: Int(width),
                                                 height: itemHeight)
-                        todoView.focusStackView.isHidden = !todoData.isFocus
+                        todoView.focusView.isHidden = !todoData.isFocus
                         todoContainerView.tag = 100
                         todoContainerView.addSubview(todoView)
                     }

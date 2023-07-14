@@ -18,7 +18,6 @@ protocol TodoViewDelegate: AnyObject {
 
 class TodoView: UIView {
     
-    @IBOutlet weak var focusStackView: UIStackView!
     @IBOutlet weak var focusView: UIView! {
         didSet {
             focusView.layer.cornerRadius = 10
@@ -30,6 +29,11 @@ class TodoView: UIView {
     }
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var statusView: UIView! {
+        didSet {
+            statusView.layer.cornerRadius = statusView.bounds.width / 2
+        }
+    }
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var startDateLabel: UILabel!
     @IBOutlet weak var endDateLabel: UILabel!

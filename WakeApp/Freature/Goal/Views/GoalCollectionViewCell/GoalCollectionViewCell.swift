@@ -38,12 +38,15 @@ class GoalCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var endDateLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var editButton: UIButton!
+    /// グラデーションを設定するView
+    @IBOutlet weak var gradientView: GradientView!
+    private var gradientLayer: CAGradientLayer!
     
     weak var delegate: GoalCollectionViewCellDelegate!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        setUpGradientView()
     }
     
     func setBaseViewWidth(to width: CGFloat) {
@@ -60,6 +63,37 @@ class GoalCollectionViewCell: UICollectionViewCell {
     
     @IBAction func tapAdditionButton(_ sender: Any) {
         delegate.transtionToRegistrationView(num: additionButton.tag)
+    }
+    
+    private func setUpGradientView() {
+        gradientView.layer.cornerRadius = 15
+        gradientView.layer.masksToBounds = true
+        
+        gradientLayer = CAGradientLayer()
+        gradientLayer.startPoint = CGPoint.init(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint.init(x: 1, y: 1)
+        gradientView.layer.insertSublayer(gradientLayer, at: 0)
+        
+        gradientView.didLayoutSubView = { [weak self] bounds in
+            // layerのframe情報をgradientViewのもので更新
+            self?.gradientLayer.frame = bounds
+        }
+    }
+    
+    /// 目標達成の場合のグラデーション
+    func setUpAchievedColor() {
+        let topColor = UIColor(red: 230/255, green: 219/255, blue: 255/255, alpha: 0.8).cgColor
+        let bottopColor = UIColor(red: 0, green: 163/255, blue: 255/255, alpha: 0.4).cgColor
+        let gradientColors: [CGColor] = [topColor, bottopColor]
+        gradientLayer.colors = gradientColors
+    }
+    
+    /// 目標未達成の場合のグラデーション
+    func setUpNotAchievedColor() {
+        let topColor = UIColor(red: 242/255, green: 242/255, blue: 242/255, alpha: 0.8).cgColor
+        let bottopColor = UIColor(red: 146/255, green: 146/255, blue: 146/255, alpha: 0.4).cgColor
+        let gradientColors: [CGColor] = [topColor, bottopColor]
+        gradientLayer.colors = gradientColors
     }
     
 }
