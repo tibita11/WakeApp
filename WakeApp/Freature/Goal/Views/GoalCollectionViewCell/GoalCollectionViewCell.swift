@@ -82,17 +82,13 @@ class GoalCollectionViewCell: UICollectionViewCell {
     
     /// 目標達成の場合のグラデーション
     func setUpAchievedColor() {
-        let topColor = UIColor(red: 230/255, green: 219/255, blue: 255/255, alpha: 0.8).cgColor
-        let bottopColor = UIColor(red: 0, green: 163/255, blue: 255/255, alpha: 0.4).cgColor
-        let gradientColors: [CGColor] = [topColor, bottopColor]
+        let gradientColors: [CGColor] = [Const.brueGradationTopColor, Const.brueGradationBottomColor]
         gradientLayer.colors = gradientColors
     }
     
     /// 目標未達成の場合のグラデーション
     func setUpNotAchievedColor() {
-        let topColor = UIColor(red: 242/255, green: 242/255, blue: 242/255, alpha: 0.8).cgColor
-        let bottopColor = UIColor(red: 146/255, green: 146/255, blue: 146/255, alpha: 0.4).cgColor
-        let gradientColors: [CGColor] = [topColor, bottopColor]
+        let gradientColors: [CGColor] = [Const.grayGradationTopColor, Const.grayGradationBottomColor]
         gradientLayer.colors = gradientColors
     }
     
