@@ -112,8 +112,19 @@ class ProfileViewController: UIViewController {
                                            cellType: GoalCollectionViewCell.self)) { [weak self] row, element, cell in
                 guard let self else { return }
                 cell.titleLabel.text = element.title
-                cell.startDateLabel.text = dateFormatter.string(from: element.startDate)
-                cell.endDateLabel.text = dateFormatter.string(from: element.endDate)
+                // 年齢表示
+                var startDateText = dateFormatter.string(from: element.startDate)
+                if let age = viewModel.calculateAge(at: element.startDate) {
+                    startDateText += "  \(String(age))歳"
+                }
+                cell.startDateLabel.text = startDateText
+                
+                var endDateText = dateFormatter.string(from: element.endDate)
+                if let age = viewModel.calculateAge(at: element.endDate) {
+                    endDateText += "  \(String(age))歳"
+                }
+                cell.endDateLabel.text = endDateText
+                
                 cell.editButton.isHidden = true
                 cell.additionStackView.isHidden = true
                 // 達成状況

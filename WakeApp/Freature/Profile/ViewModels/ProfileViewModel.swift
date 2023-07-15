@@ -39,6 +39,7 @@ class ProfileViewModel: ProfileViewModelType {
     /// 初回時のみ実行するメソッドが存在するため、判別のために保持
     private var didCall = false
     private let goalDataRelay = PublishRelay<[GoalData]>()
+    private var birthDay: Date? = nil
     
     
     // MARK: - Action
@@ -88,6 +89,7 @@ class ProfileViewModel: ProfileViewModelType {
                     nameRelay.accept(userData.name)
                     imageUrlRelay.accept(userData.imageURL)
                     futureRelay.accept(userData.future)
+                    birthDay = userData.birthday
                     // 初回時のみ
                     if !didCall {
                         didCall = true
@@ -103,6 +105,25 @@ class ProfileViewModel: ProfileViewModelType {
             // UserIDが取得できない場合、再ログインを促す
             errorAlertRelay.accept(error.localizedDescription)
         }
+    }
+    
+    /// 年齢を算出する
+    ///
+    /// - Parameter date: 算出する日付
+    ///
+    /// - Returns: nilの場合は誕生日の設定がされていない
+    func calculateAge(at date: Date) -> Int? {
+        // 誕生日と日付から年齢を算出する処理を実行
+        guard let birthDay else {
+            return nil
+        }
+        let calender = Calendar.current
+        let ageComponents = calender.dateComponents([.year], from: birthDay, to: date)
+        let age = ageComponents.year ?? {
+            assertionFailure("年齢計算に失敗しました。")
+            return nil
+        }()
+        return age
     }
     
 }
