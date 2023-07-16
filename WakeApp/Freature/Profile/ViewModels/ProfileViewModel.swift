@@ -44,8 +44,17 @@ class ProfileViewModel: ProfileViewModelType {
     
     // MARK: - Action
     
-    /// 初期値をセット
     func getInitalData() {
+        if didCall {
+            // 初回の場合はUserDataとGoalDataを取得
+            getGoalData()
+        } else {
+            // 初回以降はGoalDataのみ
+            getUserData()
+        }
+    }
+    
+    private func getGoalData() {
         do {
             let userID = try firebaseAuthService.getCurrenUserID()
             firebaseFirestoreService.getGoalData(uid: userID)
@@ -53,10 +62,6 @@ class ProfileViewModel: ProfileViewModelType {
                     guard let self else { return }
                     // goalDataをView側にバインド
                     goalDataRelay.accept(goalData)
-                    // UserData取得
-                    if !didCall {
-                        getUserData()
-                    }
                     isHiddenErrorRelay.accept(true)
                     
                 }, onError: { [weak self] error in
@@ -85,7 +90,9 @@ class ProfileViewModel: ProfileViewModelType {
             firebaseFirestoreService.getUserData(uid: userID)
                 .subscribe(onNext: { [weak self] userData in
                     guard let self else { return }
-                    print("")
+                    // オフライン時のエラーが被る可能性があるので、完了後に実行
+                    getGoalData()
+                    
                     nameRelay.accept(userData.name)
                     imageUrlRelay.accept(userData.imageURL)
                     futureRelay.accept(userData.future)
@@ -94,7 +101,7 @@ class ProfileViewModel: ProfileViewModelType {
                     if !didCall {
                         didCall = true
                     }
-                    
+
                 }, onError: { [weak self] error in
                     guard let self else { return }
                     errorAlertRelay.accept(Const.errorText)
