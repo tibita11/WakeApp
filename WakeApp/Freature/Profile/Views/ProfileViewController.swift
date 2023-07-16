@@ -15,7 +15,7 @@ class ProfileViewController: UIViewController {
     /// 円形のViewを乗せるためのView
     private let circleContainerView = UIView()
     /// 色付きの円形View
-    private let circleView = UIView()
+    private let circleView = GradientView()
     private let profileContainerView = UIView()
     private let imageView = UIImageView()
     private let stackView = UIStackView()
@@ -38,6 +38,7 @@ class ProfileViewController: UIViewController {
     private let errorLabel = UILabel()
     private let retryButton = UIButton()
     private var collectionView: UICollectionView!
+    private var gradientLayer: CAGradientLayer!
     
     private var viewModel: ProfileViewModel!
     private let disposeBag = DisposeBag()
@@ -221,7 +222,18 @@ class ProfileViewController: UIViewController {
         circleView.translatesAutoresizingMaskIntoConstraints = false
         let width = circleContainerView.bounds.width
         circleView.layer.cornerRadius = width
-        circleView.backgroundColor = Const.lightBlueColor
+        circleView.layer.masksToBounds = true
+        // グラデーション
+        gradientLayer = CAGradientLayer()
+        let gradientColors: [CGColor] = [Const.brueGradationTopColor, Const.brueGradationBottomColor]
+        gradientLayer.colors = gradientColors
+        gradientLayer.startPoint = CGPoint.init(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint.init(x: 1, y: 0)
+        circleView.layer.insertSublayer(gradientLayer, at: 0)
+        circleView.didLayoutSubView = { [weak self] bouds in
+            self?.gradientLayer.frame = bouds
+        }
+        
         circleContainerView.addSubview(circleView)
         
         NSLayoutConstraint.activate([
@@ -282,7 +294,7 @@ class ProfileViewController: UIViewController {
     private func setUpNameLabel() {
         nameLable.translatesAutoresizingMaskIntoConstraints = false
         nameLable.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        nameLable.textColor = .white
+        nameLable.textColor = .black
         nameLable.textAlignment = .left
         
         NSLayoutConstraint.activate([
