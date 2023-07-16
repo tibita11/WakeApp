@@ -69,6 +69,7 @@ class ProfileViewModel: ProfileViewModelType {
                     if Network.shared.isOnline() {
                         // オンラインの場合、想定外エラー
                         errorAlertRelay.accept(Const.errorText)
+                        isHiddenErrorRelay.accept(true)
                         print("Error: \(error.localizedDescription)")
                     } else {
                         // オフラインの場合、再試行ボタン
@@ -101,11 +102,19 @@ class ProfileViewModel: ProfileViewModelType {
                     if !didCall {
                         didCall = true
                     }
-
+                    isHiddenErrorRelay.accept(true)
                 }, onError: { [weak self] error in
                     guard let self else { return }
-                    errorAlertRelay.accept(Const.errorText)
-                    print("Error: \(error.localizedDescription)")
+                    if Network.shared.isOnline() {
+                        // オンラインの場合、想定外エラー
+                        errorAlertRelay.accept(Const.errorText)
+                        isHiddenErrorRelay.accept(true)
+                        print("Error: \(error.localizedDescription)")
+                    } else {
+                        // オフラインの場合、再試行ボタン
+                        networkErrorAlertRelay.accept(())
+                        isHiddenErrorRelay.accept(false)
+                    }
                 })
                 .disposed(by: disposeBag)
         } catch let error {

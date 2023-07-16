@@ -49,7 +49,7 @@ class GoalsEditingViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // 初期データの取得
-        viewModel.getGoalData()
+        viewModel.getInitialData()
     }
     
     
@@ -75,8 +75,18 @@ class GoalsEditingViewController: UIViewController {
                                            cellType: GoalCollectionViewCell.self)) { [weak self] row, element, cell in
                 guard let self else { return }
                 cell.titleLabel.text = element.title
-                cell.startDateLabel.text = dateFormatter.string(from: element.startDate)
-                cell.endDateLabel.text = dateFormatter.string(from: element.endDate)
+                // 年齢表示
+                var startDateText = dateFormatter.string(from: element.startDate)
+                if let age = viewModel.calculateAge(at: element.startDate) {
+                    startDateText += "  \(String(age))歳"
+                }
+                cell.startDateLabel.text = startDateText
+                
+                var endDateText = dateFormatter.string(from: element.endDate)
+                if let age = viewModel.calculateAge(at: element.endDate) {
+                    endDateText += "  \(String(age))歳"
+                }
+                cell.endDateLabel.text = endDateText
                 // タップされた場合に該当ドキュメントの編集画面に移るため保持
                 cell.editButton.tag = row
                 // Todo登録時にドキュメントIDが必要なため保持
@@ -193,7 +203,7 @@ class GoalsEditingViewController: UIViewController {
     
     /// GoalDataを再取得
     @objc private func tapRetryButton() {
-        viewModel.getGoalData()
+        viewModel.getInitialData()
     }
     
 }

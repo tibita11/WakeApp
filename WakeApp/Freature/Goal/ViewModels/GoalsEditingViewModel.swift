@@ -34,31 +34,64 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
     private let errorAlertRelay = PublishRelay<String>()
     private let transitionToGoalRegistrationRelay = PublishRelay<GoalData>()
     private let transitionToTodoRegistrationRelay = PublishRelay<TodoData>()
+    private var birthDay: Date? = nil
     
-    init() {
-
+    func getInitialData() {
+        getUserData()
     }
     
-    
-    func getGoalData() {
-        // オフラインチェック
-        if Network.shared.isOnline() {
-            isHiddenErrorRelay.accept(true)
-        } else {
-            networkErrorRelay.accept(())
-            isHiddenErrorRelay.accept(false)
+    private func getUserData() {
+        do {
+            let userID = try authService.getCurrenUserID()
+            firestoreService.getUserData(uid: userID)
+                .subscribe(onNext: { [weak self] userData in
+                    guard let self else { return }
+                    // オフライン時のエラーが被る可能性があるので、完了後に実行
+                    getGoalData()
+                    
+                    birthDay = userData.birthday
+                    isHiddenErrorRelay.accept(true)
+                }, onError: { [weak self] error in
+                    guard let self else { return }
+                    if Network.shared.isOnline() {
+                        // オンラインの場合、想定外エラー
+                        errorAlertRelay.accept(Const.errorText)
+                        isHiddenErrorRelay.accept(true)
+                        print("Error: \(error.localizedDescription)")
+                    } else {
+                        // オフラインの場合、再試行ボタン
+                        networkErrorRelay.accept(())
+                        isHiddenErrorRelay.accept(false)
+                    }
+                })
+                .disposed(by: disposeBag)
+        } catch let error {
+            // UserIDが取得できない場合、再ログインを促す
+            errorAlertRelay.accept(error.localizedDescription)
         }
-        
+    }
+    
+    private func getGoalData() {
         do {
             let userID = try authService.getCurrenUserID()
             firestoreService.getGoalData(uid: userID)
                 .subscribe(onNext: { [weak self] goalData in
+                    guard let self else { return }
                     // goadDataをView側に通知
-                    self?.goalDataRelay.accept(goalData)
+                    goalDataRelay.accept(goalData)
+                    isHiddenErrorRelay.accept(true)
                 }, onError: { [weak self] error in
-                    print("Error: \(error.localizedDescription)")
-                    // アラート表示
-                    self?.errorAlertRelay.accept(Const.errorText)
+                    guard let self else { return }
+                    if Network.shared.isOnline() {
+                        // オンラインの場合、想定外エラー
+                        errorAlertRelay.accept(Const.errorText)
+                        isHiddenErrorRelay.accept(true)
+                        print("Error: \(error.localizedDescription)")
+                    } else {
+                        // オフラインの場合、再試行ボタン
+                        networkErrorRelay.accept(())
+                        isHiddenErrorRelay.accept(false)
+                    }
                 })
                 .disposed(by: disposeBag)
         } catch let error {
@@ -93,6 +126,25 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
         let items = goalDataRelay.value
         let todoData = items[section].todos[row]
         transitionToTodoRegistrationRelay.accept(todoData)
+    }
+    
+    /// 年齢を算出する
+    ///
+    /// - Parameter date: 算出する日付
+    ///
+    /// - Returns: nilの場合は誕生日の設定がされていない
+    func calculateAge(at date: Date) -> Int? {
+        // 誕生日と日付から年齢を算出する処理を実行
+        guard let birthDay else {
+            return nil
+        }
+        let calender = Calendar.current
+        let ageComponents = calender.dateComponents([.year], from: birthDay, to: date)
+        let age = ageComponents.year ?? {
+            assertionFailure("年齢計算に失敗しました。")
+            return nil
+        }()
+        return age
     }
     
 }
