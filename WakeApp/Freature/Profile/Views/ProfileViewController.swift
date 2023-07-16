@@ -213,7 +213,7 @@ class ProfileViewController: UIViewController {
     }
     
     private func setUpContainerView() {
-        circleContainerView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height / 3)
+        circleContainerView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height / 3.5)
         view.addSubview(circleContainerView)
     }
     
@@ -240,7 +240,7 @@ class ProfileViewController: UIViewController {
             profileContainerView.topAnchor.constraint(equalTo: circleContainerView.topAnchor, constant: heightToNavBar),
             profileContainerView.leadingAnchor.constraint(equalTo: circleContainerView.leadingAnchor, constant: 60),
             profileContainerView.trailingAnchor.constraint(equalTo: circleContainerView.trailingAnchor, constant: -60),
-            profileContainerView.bottomAnchor.constraint(equalTo: circleContainerView.bottomAnchor, constant: -40)
+            profileContainerView.bottomAnchor.constraint(equalTo: circleContainerView.bottomAnchor, constant: -30)
         ])
         // パーツ
         setUpImageView()
@@ -263,7 +263,7 @@ class ProfileViewController: UIViewController {
         profileContainerView.addSubview(stackView)
         stackView.addArrangedSubview(nameLable)
         stackView.addArrangedSubview(futureContainerView)
-        stackView.spacing = 20
+        stackView.spacing = 10
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .fill
@@ -388,7 +388,7 @@ class ProfileViewController: UIViewController {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.estimatedItemSize = CGSize(width: 100, height: 100)
         // 上部のプロフィール箇所の高さ
-        let y = circleContainerView.frame.maxY + 30
+        let y = circleContainerView.frame.maxY + 10
         // タブの高さ
         let tabHeight = tabBarController?.tabBar.bounds.height ?? 0
         // CollectionViewの高さ
