@@ -18,6 +18,7 @@ class RecordViewController: UIViewController {
     private let toDoTitleView = UIView()
     private let toDoTitleLabel = UILabel()
     private var gradientLayer: CAGradientLayer!
+    private let additionButton = UIButton()
     /// NavigationBarの高さ
     private var heightToNavBar: CGFloat {
         var height: CGFloat = 0
@@ -86,6 +87,10 @@ class RecordViewController: UIViewController {
 
     }
     
+    @objc private func tapAdditionButton() {
+        
+    }
+    
     // MARK: - Layout
     
     private func setUpLayout() {
@@ -96,6 +101,7 @@ class RecordViewController: UIViewController {
         setUpNavigationButton()
         setUpToDoTitleView()
         setUpNetworkErrorView(networkErrorView)
+        setUpAdditionButton()
     }
     
     private func setUpContainerView() {
@@ -168,6 +174,28 @@ class RecordViewController: UIViewController {
             toDoTitleLabel.centerXAnchor.constraint(equalTo: toDoTitleView.centerXAnchor),
             toDoTitleLabel.topAnchor.constraint(equalTo: toDoTitleView.topAnchor),
             toDoTitleLabel.bottomAnchor.constraint(equalTo: toDoTitleView.bottomAnchor)
+        ])
+    }
+    
+    private func setUpAdditionButton() {
+        let buttonSize = 60.0
+        let rightSpacing = 30.0
+        let bottomSpacing = 50.0
+        let tabBarHeight = self.tabBarController?.tabBar.bounds.height ?? 0
+        additionButton.translatesAutoresizingMaskIntoConstraints = false
+        additionButton.setImage(UIImage(systemName: "pencil"), for: .normal)
+        additionButton.backgroundColor = Const.mainBlueColor
+        additionButton.tintColor = .white
+        additionButton.layer.cornerRadius = buttonSize / 2
+        additionButton.layer.masksToBounds = true
+        additionButton.addTarget(self, action: #selector(tapAdditionButton), for: .touchUpInside)
+        view.addSubview(additionButton)
+        
+        NSLayoutConstraint.activate([
+            additionButton.widthAnchor.constraint(equalToConstant: buttonSize),
+            additionButton.heightAnchor.constraint(equalToConstant: buttonSize),
+            additionButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -rightSpacing),
+            additionButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(tabBarHeight + bottomSpacing))
         ])
     }
     
