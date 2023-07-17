@@ -38,7 +38,6 @@ class RecordViewModel: RecordViewModelType {
                 do {
                     // 返り値がnilの場合は、Titleを空欄で表示して、後の処理はしない
                     guard let toDoReference = try await firestoreService.getFocusData(reference: focusReference) else {
-                        print("toDoReferenceはnilでした。")
                         toDoTitleTextRelay.accept("")
                         return
                     }

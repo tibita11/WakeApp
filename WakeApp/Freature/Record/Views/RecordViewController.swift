@@ -178,7 +178,7 @@ class RecordViewController: UIViewController {
 
 extension RecordViewController: NetworkErrorViewDelegate {
     func retryAction() {
-        
+        viewModel.getInitialData()
     }
 }
 
@@ -195,7 +195,7 @@ extension UIViewController {
         self.view.addSubview(networkErrorView)
         
         NSLayoutConstraint.activate([
-            networkErrorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(tabBarHeight + viewSpacing)),
+            networkErrorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(tabBarHeight + viewSpacing*3)),
             networkErrorView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: viewSpacing),
             networkErrorView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -viewSpacing),
             networkErrorView.heightAnchor.constraint(equalToConstant: viewHeight)
