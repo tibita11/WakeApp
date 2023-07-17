@@ -30,6 +30,7 @@
 		A563A15B2A4D7E570017B545 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = A563A15A2A4D7E570017B545 /* Network.swift */; };
 		A56AB9FC2A612D79008BABF3 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56AB9FB2A612D79008BABF3 /* GradientView.swift */; };
 		A57213812A25E4DA001E5F81 /* AppleAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57213802A25E4DA001E5F81 /* AppleAuthenticator.swift */; };
+		A586DD302A63E5F900FA0B52 /* RecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A586DD2F2A63E5F900FA0B52 /* RecordViewModel.swift */; };
 		A58BB0CB2A28225000C834A3 /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58BB0CA2A28225000C834A3 /* FirebaseStorageService.swift */; };
 		A58BB0CE2A282AEB00C834A3 /* OutgoingEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58BB0CC2A282AEB00C834A3 /* OutgoingEmailViewController.swift */; };
 		A58BB0CF2A282AEB00C834A3 /* OutgoingEmailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A58BB0CD2A282AEB00C834A3 /* OutgoingEmailViewController.xib */; };
@@ -49,6 +50,7 @@
 		A59EEE8D2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE8C2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift */; };
 		A59EEEA02A21867000C60128 /* StartingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE9E2A21867000C60128 /* StartingViewController.swift */; };
 		A59EEEA12A21867000C60128 /* StartingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A59EEE9F2A21867000C60128 /* StartingViewController.xib */; };
+		A59EFD982A64D930008AA40F /* NetworkErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EFD972A64D930008AA40F /* NetworkErrorView.swift */; };
 		A5AB7EFD2A5BF56800905FBD /* TodoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5AB7EFC2A5BF56800905FBD /* TodoData.swift */; };
 		A5B42CE12A49907000F64F4B /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B42CE02A49907000F64F4B /* TriangleView.swift */; };
 		A5C297F12A52B5CB006FE376 /* GoalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C297F02A52B5CB006FE376 /* GoalData.swift */; };
@@ -123,6 +125,7 @@
 		A56AB9FB2A612D79008BABF3 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		A572137F2A25DD8E001E5F81 /* WakeApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WakeApp.entitlements; sourceTree = "<group>"; };
 		A57213802A25E4DA001E5F81 /* AppleAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuthenticator.swift; sourceTree = "<group>"; };
+		A586DD2F2A63E5F900FA0B52 /* RecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewModel.swift; sourceTree = "<group>"; };
 		A58BB0CA2A28225000C834A3 /* FirebaseStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageService.swift; sourceTree = "<group>"; };
 		A58BB0CC2A282AEB00C834A3 /* OutgoingEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingEmailViewController.swift; sourceTree = "<group>"; };
 		A58BB0CD2A282AEB00C834A3 /* OutgoingEmailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OutgoingEmailViewController.xib; sourceTree = "<group>"; };
@@ -146,6 +149,7 @@
 		A59EEE8C2A216A1300C60128 /* WakeAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		A59EEE9E2A21867000C60128 /* StartingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingViewController.swift; sourceTree = "<group>"; };
 		A59EEE9F2A21867000C60128 /* StartingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartingViewController.xib; sourceTree = "<group>"; };
+		A59EFD972A64D930008AA40F /* NetworkErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorView.swift; sourceTree = "<group>"; };
 		A5AB7EFC2A5BF56800905FBD /* TodoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoData.swift; sourceTree = "<group>"; };
 		A5B42CE02A49907000F64F4B /* TriangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
 		A5C297F02A52B5CB006FE376 /* GoalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalData.swift; sourceTree = "<group>"; };
@@ -241,6 +245,7 @@
 				A5C297F02A52B5CB006FE376 /* GoalData.swift */,
 				A54BD92B2A53B4D300FAF51C /* DoubleCircleView.swift */,
 				A5AB7EFC2A5BF56800905FBD /* TodoData.swift */,
+				A59EFD972A64D930008AA40F /* NetworkErrorView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -493,6 +498,7 @@
 		A5E45C7E2A2D7C44004EC86B /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				A586DD2F2A63E5F900FA0B52 /* RecordViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -810,6 +816,7 @@
 				A5E839F42A2721B8002D21FA /* Validation.swift in Sources */,
 				A5ECAA182A4508D9007FDEDF /* ProfileViewController.swift in Sources */,
 				A58BB0CB2A28225000C834A3 /* FirebaseStorageService.swift in Sources */,
+				A59EFD982A64D930008AA40F /* NetworkErrorView.swift in Sources */,
 				A5FF515D2A49D0E6000AEC7F /* ProfileViewModel.swift in Sources */,
 				A59EEEA02A21867000C60128 /* StartingViewController.swift in Sources */,
 				A5FF51642A4C000A000AEC7F /* ProfileEditingViewController.swift in Sources */,
@@ -833,6 +840,7 @@
 				A54C21002A4E7EDF00A62691 /* FirebaseAuthService.swift in Sources */,
 				A51CC1632A52B00A0039EA9A /* GoalsEditingViewController.swift in Sources */,
 				A58F6CCD2A5BCE62008339F8 /* TodoRegistrationViewController.swift in Sources */,
+				A586DD302A63E5F900FA0B52 /* RecordViewModel.swift in Sources */,
 				A555A7712A24A20B00B09B03 /* AccountRegistrationViewModel.swift in Sources */,
 				A5B42CE12A49907000F64F4B /* TriangleView.swift in Sources */,
 				A5ECAA122A450743007FDEDF /* MainTabBarController.swift in Sources */,

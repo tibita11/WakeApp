@@ -6,15 +6,18 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class RecordViewController: UIViewController {
     /// 円形のViewを乗せるためのView
     private let circleContainerView = UIView()
     /// 色付きの円形View
-    private let circleView = UIView()
+    private let circleView = GradientView()
     private var settingsButton = UIBarButtonItem()
     private let toDoTitleView = UIView()
     private let toDoTitleLabel = UILabel()
+    private var gradientLayer: CAGradientLayer!
     /// NavigationBarの高さ
     private var heightToNavBar: CGFloat {
         var height: CGFloat = 0
@@ -28,6 +31,13 @@ class RecordViewController: UIViewController {
     private lazy var initViewLayout : Void = {
         setUpLayout()
     }()
+    private lazy var networkErrorView: NetworkErrorView = {
+        let view = NetworkErrorView()
+        view.delegate = self
+        return view
+    }()
+    private let viewModel = RecordViewModel()
+    private let disposeBag = DisposeBag()
     
     
     // MARK: - View Life Cycle
@@ -35,6 +45,13 @@ class RecordViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setUpViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        viewModel.getInitialData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -44,6 +61,26 @@ class RecordViewController: UIViewController {
     }
     
     // MARK: - Action
+    
+    private func setUpViewModel() {
+        // エラーアラート表示
+        viewModel.outputs.errorAlertDriver
+            .drive(onNext: { [weak self] error in
+                guard let self else { return }
+                present(createErrorAlert(title: error), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        // ToDoTitle表示
+        viewModel.outputs.toDoTitleTextDriver
+            .drive(toDoTitleLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // 再試行ボタン表示
+        viewModel.outputs.networkErrorHiddenDriver
+            .drive(networkErrorView.rx.isHidden)
+            .disposed(by: disposeBag)
+    }
     
     @objc private func tapSettingsButton() {
 
@@ -58,6 +95,7 @@ class RecordViewController: UIViewController {
         setUpCircleView()
         setUpNavigationButton()
         setUpToDoTitleView()
+        setUpNetworkErrorView(networkErrorView)
     }
     
     private func setUpContainerView() {
@@ -69,7 +107,18 @@ class RecordViewController: UIViewController {
         circleView.translatesAutoresizingMaskIntoConstraints = false
         let width = circleContainerView.bounds.width
         circleView.layer.cornerRadius = width
-        circleView.backgroundColor = Const.lightBlueColor
+        circleView.layer.masksToBounds = true
+        // グラデーション
+        gradientLayer = CAGradientLayer()
+        let gradientColors: [CGColor] = [Const.brueGradationTopColor, Const.brueGradationBottomColor]
+        gradientLayer.colors = gradientColors
+        gradientLayer.startPoint = CGPoint.init(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint.init(x: 1, y: 0)
+        circleView.layer.insertSublayer(gradientLayer, at: 0)
+        circleView.didLayoutSubView = { [weak self] bouds in
+            self?.gradientLayer.frame = bouds
+        }
+        
         circleContainerView.addSubview(circleView)
         
         NSLayoutConstraint.activate([
@@ -90,6 +139,10 @@ class RecordViewController: UIViewController {
         toDoTitleView.translatesAutoresizingMaskIntoConstraints = false
         toDoTitleView.backgroundColor = .systemBackground
         toDoTitleView.layer.cornerRadius = 5
+        toDoTitleView.layer.shadowColor = UIColor.black.cgColor
+        toDoTitleView.layer.shadowOpacity = 0.3
+        toDoTitleView.layer.shadowRadius = 3.0
+        toDoTitleView.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
         circleContainerView.addSubview(toDoTitleView)
         
         NSLayoutConstraint.activate([
@@ -118,4 +171,34 @@ class RecordViewController: UIViewController {
         ])
     }
     
+}
+
+
+// MARK: - NetworkErrorViewDelegate
+
+extension RecordViewController: NetworkErrorViewDelegate {
+    func retryAction() {
+        
+    }
+}
+
+
+// MARK: - UIViewController
+
+extension UIViewController {
+    func setUpNetworkErrorView(_ networkErrorView: NetworkErrorView) {
+        let tabBarHeight = self.tabBarController?.tabBar.bounds.height ?? 0
+        let viewSpacing = 10.0
+        let viewHeight = 50.0
+        // ベースViewの作成
+        networkErrorView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(networkErrorView)
+        
+        NSLayoutConstraint.activate([
+            networkErrorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(tabBarHeight + viewSpacing)),
+            networkErrorView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: viewSpacing),
+            networkErrorView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -viewSpacing),
+            networkErrorView.heightAnchor.constraint(equalToConstant: viewHeight)
+        ])
+    }
 }

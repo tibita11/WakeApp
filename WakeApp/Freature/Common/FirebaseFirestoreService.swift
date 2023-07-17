@@ -348,6 +348,19 @@ class FirebaseFirestoreService {
             .collection(todos).document(documentID)
     }
     
+    /// 参照先のTodoDataを取得
+    ///
+    /// - Parameter reference: 参照先
+    func getTodoData(reference: DocumentReference) async throws -> String {
+        let snapshot = try await reference.getDocument()
+        let data = snapshot.data()
+        let title = data?["title"] as? String ?? {
+            assertionFailure("Stringにキャストできませんでした。")
+            return ""
+        }()
+        return title
+    }
+    
     /// 参照先にTodoDataを保存
     ///
     /// - Parameters:
@@ -381,6 +394,18 @@ class FirebaseFirestoreService {
     /// - Parameter uid: CurrentUserID
     func createFocusReference(uid: String) -> DocumentReference {
         return firestore.collection(focuses).document(uid)
+    }
+    
+    /// 参照先からFocusDataを取得
+    ///
+    /// - Parameters:
+    ///   - reference: 取得先
+    ///
+    /// - Returns: Todoへの参照先 nilの場合は登録なし
+    func getFocusData(reference: DocumentReference) async throws -> DocumentReference? {
+        let snapshot = try await reference.getDocument()
+        let data = snapshot.data()
+        return data?["reference"] as? DocumentReference
     }
     
     /// 参照先にFocusDataを保存
