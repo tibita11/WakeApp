@@ -13,6 +13,7 @@ protocol RecordViewModelOutputs {
     var errorAlertDriver: Driver<String> { get }
     var toDoTitleTextDriver: Driver<String> { get }
     var networkErrorHiddenDriver: Driver<Bool> { get }
+    var recordsDriver: Driver<[SectionOfRecordData]> { get }
 }
 
 protocol RecordViewModelType {
@@ -26,6 +27,13 @@ class RecordViewModel: RecordViewModelType {
     private let errorAlertRelay = PublishRelay<String>()
     private let toDoTitleTextRelay = PublishRelay<String>()
     private let networkErrorHiddenRelay = PublishRelay<Bool>()
+    private let recordsRelay = PublishRelay<[SectionOfRecordData]>()
+
+    private lazy var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy年M月d日"
+        return dateFormatter
+    }()
     
     func getInitialData() {
         // 開始時に非表示
@@ -43,9 +51,10 @@ class RecordViewModel: RecordViewModelType {
                     }
                     // nilでない場合は、Todoにアクセス
                     async let title: String = firestoreService.getTodoData(reference: toDoReference)
-                    async let recordsData: [RecordData] = firestoreService.getRecordsData(toDoReference: toDoReference)
+                    async let records: [RecordData] = firestoreService.getRecordsData(toDoReference: toDoReference)
                     try await toDoTitleTextRelay.accept(title)
-                    let sectionData = try await sectionData(recordsData: recordsData)
+                    let section = try await divideIntoTheSection(recordsData: records)
+                    recordsRelay.accept(section)
                     
                 } catch let error {
                     if Network.shared.isOnline() {
@@ -66,21 +75,36 @@ class RecordViewModel: RecordViewModelType {
     
     /// 日付毎にSectionを分ける
     ///
-    /// - Parameter recordsData: 日付毎に分けたいRecordDataの配列
+    /// - Parameter recordsData: RecordDataの配列
     ///
-    /// - Returns: 日付と対になるRecorData配列
-    func sectionData(recordsData: [RecordData]) -> [Date : [RecordData]]{
-        var sections: [Date: [RecordData]] = [:]
-        for recordData in recordsData {
-            let date = Calendar.current.startOfDay(for: recordData.date)
-            if sections[date] != nil {
-                sections[date]?.append(recordData)
+    /// - Returns: CollectionViewに表示する配列
+    func divideIntoTheSection(recordsData: [RecordData]) -> [SectionOfRecordData] {
+        var section: [SectionOfRecordData] = []
+        var currentDate = ""
+        var currentArray: [RecordData] = []
+        
+        for record in recordsData {
+            let dateString = dateFormatter.string(from: record.date)
+            
+            if currentDate.isEmpty {
+                currentDate = dateString
+                currentArray = [record]
+            } else if currentDate == dateString {
+                currentArray.append(record)
             } else {
-                sections[date] = [recordData]
+                section.append(SectionOfRecordData(header: currentDate, items: currentArray))
+                currentDate = dateString
+                currentArray = [record]
             }
         }
-        return sections
+        
+        if !currentDate.isEmpty {
+            section.append(SectionOfRecordData(header: currentDate, items: currentArray))
+        }
+        
+        return section
     }
+    
 }
 
 
@@ -97,6 +121,10 @@ extension RecordViewModel: RecordViewModelOutputs {
     
     var networkErrorHiddenDriver: Driver<Bool> {
         networkErrorHiddenRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var recordsDriver: Driver<[SectionOfRecordData]> {
+        recordsRelay.asDriver(onErrorDriveWith: .empty())
     }
     
 }

@@ -14,6 +14,7 @@ target 'WakeApp' do
   pod 'Kingfisher'
   pod 'CropViewController'
   pod 'IQKeyboardManagerSwift'
+  pod 'RxDataSources'
 
   # Pods for WakeApp
 

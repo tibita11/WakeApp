@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 class RecordViewController: UIViewController {
     /// 円形のViewを乗せるためのView
@@ -32,13 +33,36 @@ class RecordViewController: UIViewController {
     private lazy var initViewLayout : Void = {
         setUpLayout()
     }()
+    
     private lazy var networkErrorView: NetworkErrorView = {
         let view = NetworkErrorView()
         view.delegate = self
         return view
     }()
+    
+    private lazy var collectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSize(width: self.view.bounds.width, height: 100)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.register(UINib(nibName: "RecordDataCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
+        collectionView.register(UINib(nibName: "HeaderCollectionReusableView", bundle: nil),
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header")
+        collectionView.rx.setDelegate(self).disposed(by: disposeBag)
+        return collectionView
+    }()
+    
     private let viewModel = RecordViewModel()
     private let disposeBag = DisposeBag()
+    
+    private let dataSource = RxCollectionViewSectionedReloadDataSource<SectionOfRecordData> (configureCell: { dataSource, collectionView, indexPath, item in
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! RecordDataCollectionViewCell
+        cell.commentLabel.text = item.comment
+        return cell
+    }, configureSupplementaryView: { dataSource, collectionView, kind, index in
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: index) as! HeaderCollectionReusableView
+        header.dateLabel.text = dataSource[index.section].header
+        return header
+    })
     
     
     // MARK: - View Life Cycle
@@ -81,6 +105,11 @@ class RecordViewController: UIViewController {
         viewModel.outputs.networkErrorHiddenDriver
             .drive(networkErrorView.rx.isHidden)
             .disposed(by: disposeBag)
+        
+        // CollectionView表示
+        viewModel.outputs.recordsDriver
+            .drive(collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
     }
     
     @objc private func tapSettingsButton() {
@@ -101,6 +130,7 @@ class RecordViewController: UIViewController {
         setUpNavigationButton()
         setUpToDoTitleView()
         setUpNetworkErrorView(networkErrorView)
+        setUpCollectionView()
         setUpAdditionButton()
     }
     
@@ -177,6 +207,19 @@ class RecordViewController: UIViewController {
         ])
     }
     
+    private func setUpCollectionView() {
+        let tabBarHeight = self.tabBarController?.tabBar.bounds.height ?? 0
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(collectionView)
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: circleContainerView.bottomAnchor, constant: 10),
+            collectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            collectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -tabBarHeight)
+        ])
+    }
+    
     private func setUpAdditionButton() {
         let buttonSize = 60.0
         let rightSpacing = 30.0
@@ -207,6 +250,15 @@ class RecordViewController: UIViewController {
 extension RecordViewController: NetworkErrorViewDelegate {
     func retryAction() {
         viewModel.getInitialData()
+    }
+}
+
+
+// MARK: - UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
+
+extension RecordViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: self.view.bounds.width, height: 100)
     }
 }
 

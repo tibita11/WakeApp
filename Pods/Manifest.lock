@@ -609,6 +609,7 @@ PODS:
     - BoringSSL-GRPC/Interface (= 0.0.24)
   - BoringSSL-GRPC/Interface (0.0.24)
   - CropViewController (2.6.1)
+  - Differentiator (5.0.0)
   - FirebaseAppCheckInterop (10.7.0)
   - FirebaseAuth (10.4.0):
     - FirebaseCore (~> 10.0)
@@ -735,6 +736,10 @@ PODS:
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
+  - RxDataSources (5.0.0):
+    - Differentiator (~> 5.0)
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxRelay (6.5.0):
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
@@ -748,6 +753,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - Kingfisher
   - RxCocoa
+  - RxDataSources
   - RxSwift
 
 SPEC REPOS:
@@ -756,6 +762,7 @@ SPEC REPOS:
     - AppAuth
     - BoringSSL-GRPC
     - CropViewController
+    - Differentiator
     - FirebaseAppCheckInterop
     - FirebaseAuth
     - FirebaseAuthInterop
@@ -777,6 +784,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - RxCocoa
+    - RxDataSources
     - RxRelay
     - RxSwift
 
@@ -785,6 +793,7 @@ SPEC CHECKSUMS:
   AppAuth: e48b432bb4ba88b10cb2bcc50d7f3af21e78b9c2
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   CropViewController: 58fb440f30dac788b129d2a1f24cffdcb102669c
+  Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   FirebaseAppCheckInterop: 8e907eea79958960a8bd2058e067f31e03a7914b
   FirebaseAuth: 5608282535d6f2dc902b2b88a379aaf6912fb837
   FirebaseAuthInterop: 46201190fe90ef1f581513eb0f9fa3d7820e7d6d
@@ -806,9 +815,10 @@ SPEC CHECKSUMS:
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
 
-PODFILE CHECKSUM: 65bb0d94999a4357c7057220740ff7c71bf1f205
+PODFILE CHECKSUM: 8e4ee675188f7f1eaefb23cacd4f22b55f9e5968
 
 COCOAPODS: 1.11.3
