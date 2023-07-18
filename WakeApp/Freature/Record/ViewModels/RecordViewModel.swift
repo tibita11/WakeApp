@@ -42,8 +42,11 @@ class RecordViewModel: RecordViewModelType {
                         return
                     }
                     // nilでない場合は、Todoにアクセス
-                    let title = try await firestoreService.getTodoData(reference: toDoReference)
-                    toDoTitleTextRelay.accept(title)
+                    async let title: String = firestoreService.getTodoData(reference: toDoReference)
+                    async let recordsData: [RecordData] = firestoreService.getRecordsData(toDoReference: toDoReference)
+                    try await toDoTitleTextRelay.accept(title)
+                    let sectionData = try await sectionData(recordsData: recordsData)
+                    
                 } catch let error {
                     if Network.shared.isOnline() {
                         print("Error: \(error.localizedDescription)")
@@ -59,6 +62,24 @@ class RecordViewModel: RecordViewModelType {
             // uidが取得できない場合、再ログインを促す
             errorAlertRelay.accept(error.localizedDescription)
         }
+    }
+    
+    /// 日付毎にSectionを分ける
+    ///
+    /// - Parameter recordsData: 日付毎に分けたいRecordDataの配列
+    ///
+    /// - Returns: 日付と対になるRecorData配列
+    func sectionData(recordsData: [RecordData]) -> [Date : [RecordData]]{
+        var sections: [Date: [RecordData]] = [:]
+        for recordData in recordsData {
+            let date = Calendar.current.startOfDay(for: recordData.date)
+            if sections[date] != nil {
+                sections[date]?.append(recordData)
+            } else {
+                sections[date] = [recordData]
+            }
+        }
+        return sections
     }
 }
 

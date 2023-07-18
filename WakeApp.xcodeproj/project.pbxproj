@@ -51,6 +51,7 @@
 		A59EEEA02A21867000C60128 /* StartingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EEE9E2A21867000C60128 /* StartingViewController.swift */; };
 		A59EEEA12A21867000C60128 /* StartingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A59EEE9F2A21867000C60128 /* StartingViewController.xib */; };
 		A59EFD982A64D930008AA40F /* NetworkErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EFD972A64D930008AA40F /* NetworkErrorView.swift */; };
+		A59EFD9A2A658537008AA40F /* RecordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59EFD992A658537008AA40F /* RecordData.swift */; };
 		A5AB7EFD2A5BF56800905FBD /* TodoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5AB7EFC2A5BF56800905FBD /* TodoData.swift */; };
 		A5B42CE12A49907000F64F4B /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B42CE02A49907000F64F4B /* TriangleView.swift */; };
 		A5C297F12A52B5CB006FE376 /* GoalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C297F02A52B5CB006FE376 /* GoalData.swift */; };
@@ -150,6 +151,7 @@
 		A59EEE9E2A21867000C60128 /* StartingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingViewController.swift; sourceTree = "<group>"; };
 		A59EEE9F2A21867000C60128 /* StartingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartingViewController.xib; sourceTree = "<group>"; };
 		A59EFD972A64D930008AA40F /* NetworkErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorView.swift; sourceTree = "<group>"; };
+		A59EFD992A658537008AA40F /* RecordData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordData.swift; sourceTree = "<group>"; };
 		A5AB7EFC2A5BF56800905FBD /* TodoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoData.swift; sourceTree = "<group>"; };
 		A5B42CE02A49907000F64F4B /* TriangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
 		A5C297F02A52B5CB006FE376 /* GoalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalData.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				A54BD92B2A53B4D300FAF51C /* DoubleCircleView.swift */,
 				A5AB7EFC2A5BF56800905FBD /* TodoData.swift */,
 				A59EFD972A64D930008AA40F /* NetworkErrorView.swift */,
+				A59EFD992A658537008AA40F /* RecordData.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -808,6 +811,7 @@
 				A59EEE6A2A216A1200C60128 /* AppDelegate.swift in Sources */,
 				A512D5042A22F0910034D4D9 /* IntroductionViewController.swift in Sources */,
 				A5ECAA1C2A453416007FDEDF /* SplashViewController.swift in Sources */,
+				A59EFD9A2A658537008AA40F /* RecordData.swift in Sources */,
 				A58BB0DE2A289D7700C834A3 /* AccountSettingsViewController.swift in Sources */,
 				A5FF51602A4BFB13000AEC7F /* ProfileSettingsTableViewController.swift in Sources */,
 				A5E45C862A2DA891004EC86B /* AccountImageSettingsViewController.swift in Sources */,

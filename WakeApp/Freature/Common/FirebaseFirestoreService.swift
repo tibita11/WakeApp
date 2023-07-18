@@ -34,6 +34,7 @@ class FirebaseFirestoreService {
     private let goals = "Goals"
     private let todos = "Todos"
     private let focuses = "Focuses"
+    private let records = "Records"
     
     
     // MARK: - Action
@@ -436,6 +437,38 @@ class FirebaseFirestoreService {
             .collection(goals).document(todoData.parentDocumentID)
             .collection(todos).document(todoData.documentID)
             .delete()
+    }
+    
+    /// RecordDataの取得
+    ///
+    /// - Parameter toDoReference: 取得するRecordDataの親コレクション参照先
+    ///
+    /// - Returns: 取得したRecordDataの配列
+    func getRecordsData(toDoReference: DocumentReference) async throws -> [RecordData] {
+        let snapshot = try await toDoReference.collection(records)
+            .order(by: "date", descending: true)
+            .getDocuments()
+        // 全て取得
+        let documents = snapshot.documents
+        var records: [RecordData] = []
+        for document in documents {
+            let data = document.data()
+            
+            let date = data["date"] as? Timestamp ?? {
+                assertionFailure("Timestampにキャストできませんでした。")
+                return Timestamp()
+            }()
+            
+            let comment = data["comment"] as? String ?? {
+                assertionFailure("Stringにキャストできませんでした。")
+                return ""
+            }()
+            
+            let recordData = RecordData(date: date.dateValue(), comment: comment)
+            records.append(recordData)
+        }
+        
+        return records
     }
     
 }
