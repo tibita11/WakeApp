@@ -120,7 +120,8 @@ class RecordViewController: UIViewController {
     }
     
     @objc private func tapAdditionButton() {
-        
+        let vc = RecordAdditionViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     // MARK: - Layout
