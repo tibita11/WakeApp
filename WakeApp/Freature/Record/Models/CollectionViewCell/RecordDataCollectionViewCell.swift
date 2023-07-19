@@ -19,12 +19,12 @@ class RecordDataCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var commentView: UIView! {
         didSet {
             commentView.backgroundColor = Const.silverColor
-            commentView.layer.cornerRadius = 10
+            commentView.layer.cornerRadius = 15
             
             commentView.layer.shadowColor = UIColor.black.cgColor
             commentView.layer.shadowOpacity = 0.3
-            commentView.layer.shadowRadius = 3.0
-            commentView.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
+            commentView.layer.shadowRadius = 2.0
+            commentView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
         }
     }
     
