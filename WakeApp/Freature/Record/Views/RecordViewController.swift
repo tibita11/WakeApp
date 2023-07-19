@@ -20,6 +20,7 @@ class RecordViewController: UIViewController {
     private let toDoTitleLabel = UILabel()
     private var gradientLayer: CAGradientLayer!
     private let additionButton = UIButton()
+    private let introductionStackView = UIStackView()
     /// NavigationBarの高さ
     private var heightToNavBar: CGFloat {
         var height: CGFloat = 0
@@ -113,6 +114,10 @@ class RecordViewController: UIViewController {
         viewModel.outputs.recordsDriver
             .drive(collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+        viewModel.outputs.introductionHiddenDriver
+            .drive(introductionStackView.rx.isHidden)
+            .disposed(by: disposeBag)
     }
     
     @objc private func tapSettingsButton() {
@@ -136,6 +141,7 @@ class RecordViewController: UIViewController {
         setUpNetworkErrorView(networkErrorView)
         setUpCollectionView()
         setUpAdditionButton()
+        setUpIntroductionStackView()
     }
     
     private func setUpContainerView() {
@@ -246,6 +252,44 @@ class RecordViewController: UIViewController {
             additionButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -rightSpacing),
             additionButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(tabBarHeight + bottomSpacing))
         ])
+    }
+    
+    private func setUpIntroductionStackView() {
+        introductionStackView.translatesAutoresizingMaskIntoConstraints = false
+        introductionStackView.axis = .vertical
+        introductionStackView.spacing = 15
+        introductionStackView.alignment = .center
+        introductionStackView.distribution = .fill
+        let imageView = setUpIntroductionImageView()
+        let label = setUpIntroductionLabel()
+        introductionStackView.addArrangedSubview(imageView)
+        introductionStackView.addArrangedSubview(label)
+        self.view.addSubview(introductionStackView)
+        
+        NSLayoutConstraint.activate([
+            introductionStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            introductionStackView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            introductionStackView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            introductionStackView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            introductionStackView.heightAnchor.constraint(equalToConstant: 200)
+        ])
+    }
+    
+    private func setUpIntroductionImageView() -> UIImageView {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "Book")
+        imageView.bounds.size = CGSize(width: 100, height: 100)
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }
+    
+    private func setUpIntroductionLabel() -> UILabel {
+        let label = UILabel()
+        label.text = "集中項目を登録して、\n進捗やつぶやきを記録しよう！"
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12)
+        return label
     }
     
 }

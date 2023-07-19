@@ -14,6 +14,7 @@ protocol RecordViewModelOutputs {
     var toDoTitleTextDriver: Driver<String> { get }
     var networkErrorHiddenDriver: Driver<Bool> { get }
     var recordsDriver: Driver<[SectionOfRecordData]> { get }
+    var introductionHiddenDriver: Driver<Bool> { get }
 }
 
 protocol RecordViewModelType {
@@ -28,6 +29,7 @@ class RecordViewModel: RecordViewModelType {
     private let toDoTitleTextRelay = PublishRelay<String>()
     private let networkErrorHiddenRelay = PublishRelay<Bool>()
     private let recordsRelay = PublishRelay<[SectionOfRecordData]>()
+    private let introductionHiddenRelay = PublishRelay<Bool>()
 
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -39,6 +41,7 @@ class RecordViewModel: RecordViewModelType {
     func getInitialData() {
         // 開始時に非表示
         networkErrorHiddenRelay.accept(true)
+        introductionHiddenRelay.accept(true)
         
         do {
             let userID = try authService.getCurrenUserID()
@@ -47,8 +50,9 @@ class RecordViewModel: RecordViewModelType {
                 do {
                     // 返り値がnilの場合は、Titleを空欄で表示して、後の処理はしない
                     guard let toDoReference = try await firestoreService.getFocusData(reference: focusReference) else {
-                        toDoTitleTextRelay.accept("")
+                        toDoTitleTextRelay.accept("目標達成までコツコツと😊")
                         recordsRelay.accept([])
+                        introductionHiddenRelay.accept(false)
                         return
                     }
                     // nilでない場合は、Todoにアクセス
@@ -127,6 +131,10 @@ extension RecordViewModel: RecordViewModelOutputs {
     
     var recordsDriver: Driver<[SectionOfRecordData]> {
         recordsRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var introductionHiddenDriver: Driver<Bool> {
+        introductionHiddenRelay.asDriver(onErrorDriveWith: .empty())
     }
     
 }
