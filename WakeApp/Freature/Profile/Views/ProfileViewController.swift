@@ -39,6 +39,7 @@ class ProfileViewController: UIViewController {
     private let retryButton = UIButton()
     private var collectionView: UICollectionView!
     private var gradientLayer: CAGradientLayer!
+    private let introductionStackView = UIStackView()
     
     private var viewModel: ProfileViewModel!
     private let disposeBag = DisposeBag()
@@ -109,6 +110,9 @@ class ProfileViewController: UIViewController {
         
         // CollectionViewCellの表示
         viewModel.outputs.goalDataDriver
+            .do(onNext: { [weak self] items in
+                self?.introductionStackView.isHidden = !items.isEmpty
+            })
             .drive(collectionView.rx.items(cellIdentifier: "GoalCollectionViewCell",
                                            cellType: GoalCollectionViewCell.self)) { [weak self] row, element, cell in
                 guard let self else { return }
@@ -210,6 +214,7 @@ class ProfileViewController: UIViewController {
         setUpProfileContainerView()
         setUpNavigationButton()
         setUpCollectionView()
+        setUpIntroductionStackView()
         setUpErrorTextStackView()
     }
     
@@ -347,6 +352,44 @@ class ProfileViewController: UIViewController {
         settingsButton = UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: .plain, target: self, action: #selector(tapSettingsButton))
         settingsButton.tintColor = .white
         parent?.navigationItem.rightBarButtonItem = settingsButton
+    }
+    
+    private func setUpIntroductionStackView() {
+        introductionStackView.translatesAutoresizingMaskIntoConstraints = false
+        introductionStackView.axis = .vertical
+        introductionStackView.spacing = 15
+        introductionStackView.alignment = .center
+        introductionStackView.distribution = .fill
+        let imageView = setUpIntroductionImageView()
+        let label = setUpIntroductionLabel()
+        introductionStackView.addArrangedSubview(imageView)
+        introductionStackView.addArrangedSubview(label)
+        self.view.addSubview(introductionStackView)
+        
+        NSLayoutConstraint.activate([
+            introductionStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            introductionStackView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            introductionStackView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            introductionStackView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            introductionStackView.heightAnchor.constraint(equalToConstant: 200)
+        ])
+    }
+    
+    private func setUpIntroductionImageView() -> UIImageView {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "Goal")
+        imageView.bounds.size = CGSize(width: 100, height: 100)
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }
+    
+    private func setUpIntroductionLabel() -> UILabel {
+        let label = UILabel()
+        label.text = "目標達成に向けて、\n道筋を考えよう！"
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12)
+        return label
     }
     
     /// エラー文言と再試行ボタン

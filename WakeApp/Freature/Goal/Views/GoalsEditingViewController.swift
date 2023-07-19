@@ -65,11 +65,7 @@ class GoalsEditingViewController: UIViewController {
         // itemをcollectionViewに表示
         viewModel.outputs.goalDataDriver
             .do(onNext: { [weak self] items in
-                if items.isEmpty {
-                    self?.introductionView.isHidden = false
-                } else {
-                    self?.introductionView.isHidden = true
-                }
+                self?.introductionView.isHidden = !items.isEmpty
             })
             .drive(collectionView.rx.items(cellIdentifier: "GoalCollectionViewCell",
                                            cellType: GoalCollectionViewCell.self)) { [weak self] row, element, cell in

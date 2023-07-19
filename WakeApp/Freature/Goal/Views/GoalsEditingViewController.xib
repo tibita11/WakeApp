@@ -102,16 +102,16 @@
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UmJ-kC-agc">
                     <rect key="frame" x="46.666666666666657" y="276" width="300" height="300"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Goal" translatesAutoresizingMaskIntoConstraints="NO" id="QNN-uo-Feq">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Navi" translatesAutoresizingMaskIntoConstraints="NO" id="QNN-uo-Feq">
                             <rect key="frame" x="85" y="10" width="130" height="130"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="130" id="y7V-ep-vrz"/>
                                 <constraint firstAttribute="width" constant="130" id="yuO-Ae-mpl"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="目標を追加して、 達成するために&quot;やること&quot;を登録しよう！" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lUl-5r-Kgk">
-                            <rect key="frame" x="14.666666666666657" y="170" width="270.33333333333337" height="33.666666666666657"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="「達成目標」と「やること」を登録して、 一つずつ達成していきましょう！" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lUl-5r-Kgk">
+                            <rect key="frame" x="33.333333333333343" y="170" width="233.00000000000003" height="28.666666666666657"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -150,7 +150,7 @@
         </view>
     </objects>
     <resources>
-        <image name="Goal" width="1200" height="1200"/>
+        <image name="Navi" width="1200" height="1200"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
