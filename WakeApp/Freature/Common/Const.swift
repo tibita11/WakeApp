@@ -18,6 +18,7 @@ class Const {
     static let brueGradationBottomColor = UIColor(red: 0, green: 163/255, blue: 255/255, alpha: 0.6).cgColor
     static let grayGradationTopColor = UIColor(red: 242/255, green: 242/255, blue: 242/255, alpha: 0.8).cgColor
     static let grayGradationBottomColor = UIColor(red: 146/255, green: 146/255, blue: 146/255, alpha: 0.4).cgColor
+    static let silverColor = UIColor(red: 239/255, green: 239/255, blue: 239/255, alpha: 1)
     static let LargeBlueButtonCorner = 20.0
     static let defaultProfileImages = ["diving.png", "icecream.png", "jump.png", "kid.png", "summer.png", "watermelon.png"]
     static let iconImage = ["appstore.png"]

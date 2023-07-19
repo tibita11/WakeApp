@@ -31,7 +31,8 @@ class RecordViewModel: RecordViewModelType {
 
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy年M月d日"
+        dateFormatter.locale = Locale(identifier: "ja_JP")
+        dateFormatter.dateFormat = "yyyy/M/d(E)"
         return dateFormatter
     }()
     

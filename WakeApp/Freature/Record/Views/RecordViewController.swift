@@ -42,7 +42,9 @@ class RecordViewController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSize(width: self.view.bounds.width, height: 100)
+        flowLayout.estimatedItemSize = CGSize(width: 300, height: 100)
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 5, right: 0)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.register(UINib(nibName: "RecordDataCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "Cell")
         collectionView.register(UINib(nibName: "HeaderCollectionReusableView", bundle: nil),
@@ -57,6 +59,7 @@ class RecordViewController: UIViewController {
     private let dataSource = RxCollectionViewSectionedReloadDataSource<SectionOfRecordData> (configureCell: { dataSource, collectionView, indexPath, item in
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! RecordDataCollectionViewCell
         cell.commentLabel.text = item.comment
+        cell.baseViewWidth.constant = collectionView.bounds.width
         return cell
     }, configureSupplementaryView: { dataSource, collectionView, kind, index in
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: index) as! HeaderCollectionReusableView
@@ -209,13 +212,15 @@ class RecordViewController: UIViewController {
     
     private func setUpCollectionView() {
         let tabBarHeight = self.tabBarController?.tabBar.bounds.height ?? 0
+        let rightSpacing = 30.0
+        let topSpacing = 20.0
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: circleContainerView.bottomAnchor, constant: 10),
-            collectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            collectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            collectionView.topAnchor.constraint(equalTo: circleContainerView.bottomAnchor, constant: topSpacing),
+            collectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: rightSpacing),
+            collectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -rightSpacing),
             collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -tabBarHeight)
         ])
     }
@@ -256,9 +261,9 @@ extension RecordViewController: NetworkErrorViewDelegate {
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
 
-extension RecordViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {    
+extension RecordViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: self.view.bounds.width, height: 100)
+        return CGSize(width: self.collectionView.bounds.width, height: 30)
     }
 }
 

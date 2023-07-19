@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,22 +15,38 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7VI-Me-4Ys">
-                    <rect key="frame" x="160" y="25" width="0.0" height="0.0"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7VI-Me-4Ys">
+                    <rect key="frame" x="60" y="25" width="250" height="0.0"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ClL-7Q-QSb" customClass="DoubleCircleView" customModule="WakeApp" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="5" width="40" height="40"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="ClL-7Q-QSb" secondAttribute="height" multiplier="1:1" id="4y8-s4-DZE"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
             <constraints>
-                <constraint firstItem="7VI-Me-4Ys" firstAttribute="centerX" secondItem="U6b-Vx-4bR" secondAttribute="centerX" id="RWT-tI-WFd"/>
-                <constraint firstItem="7VI-Me-4Ys" firstAttribute="centerY" secondItem="U6b-Vx-4bR" secondAttribute="centerY" id="gm2-e1-N2V"/>
+                <constraint firstItem="7VI-Me-4Ys" firstAttribute="leading" secondItem="ClL-7Q-QSb" secondAttribute="trailing" constant="20" id="630-nW-HQe"/>
+                <constraint firstItem="ClL-7Q-QSb" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" id="D3q-eb-IYq"/>
+                <constraint firstAttribute="bottom" secondItem="ClL-7Q-QSb" secondAttribute="bottom" constant="5" id="PF6-ga-ZNf"/>
+                <constraint firstItem="7VI-Me-4Ys" firstAttribute="centerY" secondItem="U6b-Vx-4bR" secondAttribute="centerY" id="cPX-6G-bkd"/>
+                <constraint firstAttribute="trailing" secondItem="7VI-Me-4Ys" secondAttribute="trailing" constant="10" id="iYe-FD-ExZ"/>
+                <constraint firstItem="ClL-7Q-QSb" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" constant="5" id="ynl-ZN-AKz"/>
             </constraints>
             <connections>
                 <outlet property="dateLabel" destination="7VI-Me-4Ys" id="x6w-kM-17V"/>
             </connections>
-            <point key="canvasLocation" x="39" y="-11"/>
+            <point key="canvasLocation" x="38.167938931297705" y="-11.267605633802818"/>
         </collectionReusableView>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
