@@ -13,7 +13,6 @@
             <connections>
                 <outlet property="collectionView" destination="pQG-dn-HsP" id="YqN-8V-8cK"/>
                 <outlet property="collectionViewFlowLayout" destination="Znj-U5-tjo" id="2vy-pd-1Sb"/>
-                <outlet property="introductionView" destination="UmJ-kC-agc" id="Oaj-v2-EvI"/>
                 <outlet property="networkErrorView" destination="mF2-0W-x7Z" id="bUx-YX-R9g"/>
                 <outlet property="retryButton" destination="GbC-V7-tGV" id="f8j-65-cEy"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -99,33 +98,6 @@
                         <constraint firstItem="GbC-V7-tGV" firstAttribute="centerX" secondItem="mF2-0W-x7Z" secondAttribute="centerX" id="yl0-S1-Agk"/>
                     </constraints>
                 </view>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UmJ-kC-agc">
-                    <rect key="frame" x="46.666666666666657" y="276" width="300" height="300"/>
-                    <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Navi" translatesAutoresizingMaskIntoConstraints="NO" id="QNN-uo-Feq">
-                            <rect key="frame" x="85" y="10" width="130" height="130"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="130" id="y7V-ep-vrz"/>
-                                <constraint firstAttribute="width" constant="130" id="yuO-Ae-mpl"/>
-                            </constraints>
-                        </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="「達成目標」と「やること」を登録して、 一つずつ達成していきましょう！" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lUl-5r-Kgk">
-                            <rect key="frame" x="33.333333333333343" y="170" width="233.00000000000003" height="28.666666666666657"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="300" id="9uY-mL-UjP"/>
-                        <constraint firstItem="lUl-5r-Kgk" firstAttribute="centerX" secondItem="UmJ-kC-agc" secondAttribute="centerX" id="Hck-GO-cE1"/>
-                        <constraint firstItem="lUl-5r-Kgk" firstAttribute="top" secondItem="QNN-uo-Feq" secondAttribute="bottom" constant="30" id="Oao-9S-caz"/>
-                        <constraint firstAttribute="width" constant="300" id="V44-Y2-9W3"/>
-                        <constraint firstItem="QNN-uo-Feq" firstAttribute="centerX" secondItem="UmJ-kC-agc" secondAttribute="centerX" id="ZLp-MZ-KA3"/>
-                        <constraint firstItem="QNN-uo-Feq" firstAttribute="top" secondItem="UmJ-kC-agc" secondAttribute="top" constant="10" id="ZeW-BJ-jBe"/>
-                    </constraints>
-                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -134,11 +106,9 @@
                 <constraint firstItem="BLw-sw-xP7" firstAttribute="top" secondItem="22q-Jo-lfS" secondAttribute="bottom" constant="10" id="MgA-Fr-8ph"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="pQG-dn-HsP" secondAttribute="trailing" id="Q3h-KC-Hrz"/>
                 <constraint firstItem="mF2-0W-x7Z" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Uwx-dt-smJ"/>
-                <constraint firstItem="UmJ-kC-agc" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="V5t-S0-gNT"/>
                 <constraint firstItem="ieO-zZ-dM1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="YyJ-M1-XXs"/>
                 <constraint firstItem="22q-Jo-lfS" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="15" id="bUR-Qy-BQY"/>
                 <constraint firstAttribute="trailing" secondItem="ieO-zZ-dM1" secondAttribute="trailing" constant="30" id="dhr-t0-QbF"/>
-                <constraint firstItem="UmJ-kC-agc" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="iOT-7y-Y8D"/>
                 <constraint firstItem="pQG-dn-HsP" firstAttribute="top" secondItem="ieO-zZ-dM1" secondAttribute="bottom" constant="15" id="iiw-cC-qsH"/>
                 <constraint firstItem="ieO-zZ-dM1" firstAttribute="top" secondItem="BLw-sw-xP7" secondAttribute="bottom" constant="5" id="irQ-cg-fqr"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="BLw-sw-xP7" secondAttribute="trailing" constant="30" id="mId-5N-VAc"/>
@@ -150,7 +120,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Navi" width="1200" height="1200"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

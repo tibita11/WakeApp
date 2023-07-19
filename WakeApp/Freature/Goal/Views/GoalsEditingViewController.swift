@@ -27,7 +27,6 @@ class GoalsEditingViewController: UIViewController {
             retryButton.addTarget(self, action: #selector(tapRetryButton), for: .touchUpInside)
         }
     }
-    @IBOutlet weak var introductionView: UIView!
     
     private var viewModel: GoalsEditingViewModel!
     private let disposeBag = DisposeBag()
@@ -35,6 +34,11 @@ class GoalsEditingViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy年M月d日"
         return dateFormatter
+    }()
+    
+    private let introductionStackView = UIStackView()
+    private lazy var initViewLayout: Void = {
+        setUpLayout()
     }()
     
     // MARK: - View Life Cycle
@@ -52,6 +56,12 @@ class GoalsEditingViewController: UIViewController {
         viewModel.getInitialData()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        _ = initViewLayout
+    }
+    
     
     // MARK: - Action
     
@@ -65,7 +75,7 @@ class GoalsEditingViewController: UIViewController {
         // itemをcollectionViewに表示
         viewModel.outputs.goalDataDriver
             .do(onNext: { [weak self] items in
-                self?.introductionView.isHidden = !items.isEmpty
+                self?.introductionStackView.isHidden = !items.isEmpty
             })
             .drive(collectionView.rx.items(cellIdentifier: "GoalCollectionViewCell",
                                            cellType: GoalCollectionViewCell.self)) { [weak self] row, element, cell in
@@ -200,6 +210,51 @@ class GoalsEditingViewController: UIViewController {
     /// GoalDataを再取得
     @objc private func tapRetryButton() {
         viewModel.getInitialData()
+    }
+    
+    
+    // MARK: - Layout
+    
+    private func setUpLayout() {
+        setUpIntroductionStackView()
+    }
+    
+    private func setUpIntroductionStackView() {
+        introductionStackView.translatesAutoresizingMaskIntoConstraints = false
+        introductionStackView.axis = .vertical
+        introductionStackView.spacing = 15
+        introductionStackView.alignment = .center
+        introductionStackView.distribution = .fill
+        let imageView = setUpIntroductionImageView()
+        let label = setUpIntroductionLabel()
+        introductionStackView.addArrangedSubview(imageView)
+        introductionStackView.addArrangedSubview(label)
+        self.view.addSubview(introductionStackView)
+        
+        NSLayoutConstraint.activate([
+            introductionStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            introductionStackView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            introductionStackView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            introductionStackView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            introductionStackView.heightAnchor.constraint(equalToConstant: 200)
+        ])
+    }
+    
+    private func setUpIntroductionImageView() -> UIImageView {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "Navi")
+        imageView.bounds.size = CGSize(width: 100, height: 100)
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }
+    
+    private func setUpIntroductionLabel() -> UILabel {
+        let label = UILabel()
+        label.text = "「達成目標」と「やること」を登録して、\n一つずつ達成していきましょう！"
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12)
+        return label
     }
     
 }
