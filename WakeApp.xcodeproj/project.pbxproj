@@ -66,6 +66,7 @@
 		A5D0AFF72A66770D002A64D8 /* HeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5D0AFF52A66770D002A64D8 /* HeaderCollectionReusableView.xib */; };
 		A5DC4D972A677A010039F10F /* RecordAdditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DC4D952A677A010039F10F /* RecordAdditionViewController.swift */; };
 		A5DC4D982A677A010039F10F /* RecordAdditionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5DC4D962A677A010039F10F /* RecordAdditionViewController.xib */; };
+		A5DC4D9A2A678CAA0039F10F /* RecordAdditionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DC4D992A678CAA0039F10F /* RecordAdditionViewModel.swift */; };
 		A5DDC7B22A551A1E007B5558 /* TodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DDC7B12A551A1E007B5558 /* TodoView.swift */; };
 		A5DDC7B42A551A2E007B5558 /* TodoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5DDC7B32A551A2E007B5558 /* TodoView.xib */; };
 		A5E03C642A4C1C24002148F1 /* PlaceHolderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E03C632A4C1C24002148F1 /* PlaceHolderTextView.swift */; };
@@ -173,6 +174,7 @@
 		A5D0AFF52A66770D002A64D8 /* HeaderCollectionReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderCollectionReusableView.xib; sourceTree = "<group>"; };
 		A5DC4D952A677A010039F10F /* RecordAdditionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordAdditionViewController.swift; sourceTree = "<group>"; };
 		A5DC4D962A677A010039F10F /* RecordAdditionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecordAdditionViewController.xib; sourceTree = "<group>"; };
+		A5DC4D992A678CAA0039F10F /* RecordAdditionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordAdditionViewModel.swift; sourceTree = "<group>"; };
 		A5DDC7B12A551A1E007B5558 /* TodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoView.swift; sourceTree = "<group>"; };
 		A5DDC7B32A551A2E007B5558 /* TodoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodoView.xib; sourceTree = "<group>"; };
 		A5E03C632A4C1C24002148F1 /* PlaceHolderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderTextView.swift; sourceTree = "<group>"; };
@@ -529,6 +531,7 @@
 			isa = PBXGroup;
 			children = (
 				A586DD2F2A63E5F900FA0B52 /* RecordViewModel.swift */,
+				A5DC4D992A678CAA0039F10F /* RecordAdditionViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -882,6 +885,7 @@
 				A586DD302A63E5F900FA0B52 /* RecordViewModel.swift in Sources */,
 				A555A7712A24A20B00B09B03 /* AccountRegistrationViewModel.swift in Sources */,
 				A5B42CE12A49907000F64F4B /* TriangleView.swift in Sources */,
+				A5DC4D9A2A678CAA0039F10F /* RecordAdditionViewModel.swift in Sources */,
 				A5ECAA122A450743007FDEDF /* MainTabBarController.swift in Sources */,
 				A5D0AFEE2A666969002A64D8 /* SectionOfRecordData.swift in Sources */,
 				A5C297F12A52B5CB006FE376 /* GoalData.swift in Sources */,

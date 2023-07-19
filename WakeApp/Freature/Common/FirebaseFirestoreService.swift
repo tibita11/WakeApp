@@ -471,4 +471,17 @@ class FirebaseFirestoreService {
         return records
     }
     
+    /// RecordDataの保存
+    ///
+    /// - Parameters:
+    ///   - toDoReference: 保存するRecordDataの親コレクション参照先
+    ///   - recordData: 保存データ
+    func saveRecordData(toDoReference: DocumentReference, recordData: RecordData) {
+        toDoReference.collection(records).document()
+            .setData([
+                "date" : recordData.date,
+                "comment" : recordData.comment
+            ])
+    }
+    
 }
