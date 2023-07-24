@@ -352,10 +352,13 @@ class FirebaseFirestoreService {
     /// 参照先のTodoDataを取得
     ///
     /// - Parameter reference: 参照先
-    func getTodoData(reference: DocumentReference) async throws -> String {
+    func getTodoData(reference: DocumentReference) async throws -> String? {
         let snapshot = try await reference.getDocument()
-        let data = snapshot.data()
-        let title = data?["title"] as? String ?? {
+        guard let data = snapshot.data() else {
+            return nil
+        }
+        
+        let title = data["title"] as? String ?? {
             assertionFailure("Stringにキャストできませんでした。")
             return ""
         }()

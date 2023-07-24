@@ -38,6 +38,15 @@ class RecordViewModel: RecordViewModelType {
         return dateFormatter
     }()
     
+    
+    // MARK: - Action
+    
+    private func setUpDefaultData() {
+        toDoTitleTextRelay.accept("目標達成までコツコツと😊")
+        recordsRelay.accept([])
+        introductionHiddenRelay.accept(false)
+    }
+    
     func getInitialData() {
         // 開始時に非表示
         networkErrorHiddenRelay.accept(true)
@@ -48,17 +57,21 @@ class RecordViewModel: RecordViewModelType {
             let focusReference = firestoreService.createFocusReference(uid: userID)
             Task {
                 do {
-                    // 返り値がnilの場合は、Titleを空欄で表示して、後の処理はしない
+                    // 返り値がnilの場合は、後の処理はしない
                     guard let toDoReference = try await firestoreService.getFocusData(reference: focusReference) else {
-                        toDoTitleTextRelay.accept("目標達成までコツコツと😊")
-                        recordsRelay.accept([])
-                        introductionHiddenRelay.accept(false)
+                        setUpDefaultData()
                         return
                     }
                     // nilでない場合は、Todoにアクセス
-                    async let title: String = firestoreService.getTodoData(reference: toDoReference)
+                    async let title: String? = firestoreService.getTodoData(reference: toDoReference)
                     async let records: [RecordData] = firestoreService.getRecordsData(toDoReference: toDoReference)
-                    try await toDoTitleTextRelay.accept(title)
+                    // Todoが取得できない場合は、後の処理はしない
+                    guard let title = try await title else {
+                        setUpDefaultData()
+                        return
+                    }
+                            
+                    toDoTitleTextRelay.accept(title)
                     let section = try await divideIntoTheSection(recordsData: records)
                     recordsRelay.accept(section)
                     
