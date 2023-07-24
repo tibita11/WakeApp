@@ -638,6 +638,16 @@ PODS:
     - "gRPC-C++ (~> 1.44.0)"
     - leveldb-library (~> 1.22)
     - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseFunctions (10.9.0):
+    - FirebaseAppCheckInterop (~> 10.0)
+    - FirebaseAuthInterop (~> 10.0)
+    - FirebaseCore (~> 10.0)
+    - FirebaseCoreExtension (~> 10.0)
+    - FirebaseMessagingInterop (~> 10.0)
+    - FirebaseSharedSwift (~> 10.0)
+    - GTMSessionFetcher/Core (< 4.0, >= 2.1)
+  - FirebaseMessagingInterop (10.12.0)
+  - FirebaseSharedSwift (10.12.0)
   - FirebaseStorage (10.7.0):
     - FirebaseAppCheckInterop (~> 10.0)
     - FirebaseAuthInterop (~> 10.0)
@@ -748,6 +758,7 @@ DEPENDENCIES:
   - CropViewController
   - FirebaseAuth
   - FirebaseFirestore
+  - FirebaseFunctions
   - FirebaseStorage
   - GoogleSignIn
   - IQKeyboardManagerSwift
@@ -770,6 +781,9 @@ SPEC REPOS:
     - FirebaseCoreExtension
     - FirebaseCoreInternal
     - FirebaseFirestore
+    - FirebaseFunctions
+    - FirebaseMessagingInterop
+    - FirebaseSharedSwift
     - FirebaseStorage
     - GoogleSignIn
     - GoogleUtilities
@@ -801,6 +815,9 @@ SPEC CHECKSUMS:
   FirebaseCoreExtension: f17247ba8c61e4d3c8d136b5e2de3cb4ac6a85b6
   FirebaseCoreInternal: e301297f4c15a17489e48ed722d733b1578e0c02
   FirebaseFirestore: 07d6c8950584d3c15f2fa1a58f8783a246ca95f7
+  FirebaseFunctions: e8da9bbc42bd6e2089cb5f563dddf6501c68b6f0
+  FirebaseMessagingInterop: 9009d471dc63cb9e5a7d170e7c107fb78c469f19
+  FirebaseSharedSwift: c4eb72d435973c77d6f155f05c963933dcba35a7
   FirebaseStorage: 4841efa304543e1f9e4ca116c559c7a1ea2a9d0f
   GoogleSignIn: b232380cf495a429b8095d3178a8d5855b42e842
   GoogleUtilities: c2bdc4cf2ce786c4d2e6b3bcfd599a25ca78f06f
@@ -819,6 +836,6 @@ SPEC CHECKSUMS:
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
 
-PODFILE CHECKSUM: 8e4ee675188f7f1eaefb23cacd4f22b55f9e5968
+PODFILE CHECKSUM: 02c1b05cda30de41b13bc312e1b130f95e29aab1
 
 COCOAPODS: 1.11.3

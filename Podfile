@@ -8,6 +8,7 @@ target 'WakeApp' do
   pod 'FirebaseAuth'
   pod 'FirebaseFirestore'
   pod 'FirebaseStorage'
+  pod 'FirebaseFunctions'
   pod 'GoogleSignIn'
   pod 'RxSwift'
   pod 'RxCocoa'

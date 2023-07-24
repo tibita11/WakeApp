@@ -11,6 +11,7 @@ import GoogleSignIn
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
+import FirebaseFunctions
 import IQKeyboardManagerSwift
 
 @main
@@ -37,7 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        settings.isPersistenceEnabled = false
 //        settings.isSSLEnabled = false
 //        Firestore.firestore().settings = settings
-//
+        
+//        Functions.functions().useEmulator(withHost: "localhost", port: 5001)
 //        Storage.storage().useEmulator(withHost: "localhost", port: 9199)
         //ED -テスト用
         

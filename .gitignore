@@ -38,6 +38,7 @@ DerivedData/
 WakeApp/GoogleService-Info.plist
 firebase.json
 firestore-debug.log
+firebase-debug 2.log
 firestore.indexes.json
 firestore.rules
 storage.rules
@@ -45,3 +46,4 @@ ui-debug.log
 .firebaserc
 .firebase/hosting.cHVibGlj.cache
 public/*
+functions/*
