@@ -92,6 +92,8 @@ class RecordViewController: UIViewController {
     // MARK: - Action
     
     private func setUpViewModel() {
+        let inputs = RecordViewModelInputs(itemSelectedObserver: collectionView.rx.itemSelected.asObservable())
+        viewModel.setUp(inputs: inputs)
         // エラーアラート表示
         viewModel.outputs.errorAlertDriver
             .drive(onNext: { [weak self] error in
@@ -117,6 +119,14 @@ class RecordViewController: UIViewController {
         
         viewModel.outputs.introductionHiddenDriver
             .drive(introductionStackView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.transitionToEditDriver
+            .drive(onNext: { [weak self] recordData in
+                guard let self else { return }
+                let vc = RecordAdditionViewController(recordData: recordData)
+                navigationController?.pushViewController(vc, animated: true)
+            })
             .disposed(by: disposeBag)
     }
     

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -265,6 +265,7 @@
 				A5AB7EFC2A5BF56800905FBD /* TodoData.swift */,
 				A59EFD972A64D930008AA40F /* NetworkErrorView.swift */,
 				A59EFD992A658537008AA40F /* RecordData.swift */,
+				A5D0AFED2A666969002A64D8 /* SectionOfRecordData.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -478,7 +479,6 @@
 				A5D0AFF02A66759D002A64D8 /* RecordDataCollectionViewCell.xib */,
 				A5D0AFF42A66770D002A64D8 /* HeaderCollectionReusableView.swift */,
 				A5D0AFF52A66770D002A64D8 /* HeaderCollectionReusableView.xib */,
-				A5D0AFED2A666969002A64D8 /* SectionOfRecordData.swift */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";

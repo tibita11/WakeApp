@@ -9,26 +9,34 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+struct RecordViewModelInputs {
+    let itemSelectedObserver: Observable<IndexPath>
+}
+
 protocol RecordViewModelOutputs {
     var errorAlertDriver: Driver<String> { get }
     var toDoTitleTextDriver: Driver<String> { get }
     var networkErrorHiddenDriver: Driver<Bool> { get }
     var recordsDriver: Driver<[SectionOfRecordData]> { get }
     var introductionHiddenDriver: Driver<Bool> { get }
+    var transitionToEditDriver: Driver<RecordData> { get }
 }
 
 protocol RecordViewModelType {
     var outputs: RecordViewModelOutputs { get }
+    func setUp(inputs: RecordViewModelInputs)
 }
 
 class RecordViewModel: RecordViewModelType {
     var outputs: RecordViewModelOutputs { self }
+    private let disposeBag = DisposeBag()
     private let authService = FirebaseAuthService()
     private let firestoreService = FirebaseFirestoreService()
     private let errorAlertRelay = PublishRelay<String>()
     private let toDoTitleTextRelay = PublishRelay<String>()
     private let networkErrorHiddenRelay = PublishRelay<Bool>()
-    private let recordsRelay = PublishRelay<[SectionOfRecordData]>()
+    private let recordsRelay = BehaviorRelay<[SectionOfRecordData]>(value: [])
+    private let transitionToEditRelay = PublishRelay<RecordData>()
     private let introductionHiddenRelay = PublishRelay<Bool>()
 
     private lazy var dateFormatter: DateFormatter = {
@@ -40,6 +48,17 @@ class RecordViewModel: RecordViewModelType {
     
     
     // MARK: - Action
+    
+    func setUp(inputs: RecordViewModelInputs) {
+        inputs.itemSelectedObserver
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let self else { return }
+                let value = recordsRelay.value
+                let recordData = value[indexPath.section].items[indexPath.row]
+                transitionToEditRelay.accept(recordData)
+            })
+            .disposed(by: disposeBag)
+    }
     
     private func setUpDefaultData() {
         toDoTitleTextRelay.accept("目標達成までコツコツと😊")
@@ -148,6 +167,10 @@ extension RecordViewModel: RecordViewModelOutputs {
     
     var introductionHiddenDriver: Driver<Bool> {
         introductionHiddenRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var transitionToEditDriver: Driver<RecordData> {
+        transitionToEditRelay.asDriver(onErrorDriveWith: .empty())
     }
     
 }

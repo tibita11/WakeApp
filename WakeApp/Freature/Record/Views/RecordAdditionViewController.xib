@@ -25,8 +25,11 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="gEs-la-TB2">
                     <rect key="frame" x="0.0" y="89" width="393" height="679"/>
                     <subviews>
-                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="sVI-l4-Kok">
+                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="compact" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVI-l4-Kok">
                             <rect key="frame" x="0.0" y="0.0" width="393" height="50"/>
+                            <date key="date" timeIntervalSinceReferenceDate="711881726.314942">
+                                <!--2023-07-24 08:55:26 +0000-->
+                            </date>
                             <locale key="locale" localeIdentifier="ja_JP"/>
                         </datePicker>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="7nh-GT-QAh" customClass="PlaceHolderTextView" customModule="WakeApp" customModuleProvider="target">
@@ -49,7 +52,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
                             <connections>
-                                <action selector="tapRegisterButton:" destination="-1" eventType="touchUpInside" id="tDJ-3P-ooJ"/>
+                                <action selector="tapRegisterButton:" destination="-1" eventType="touchUpInside" id="s2p-ha-qIm"/>
                             </connections>
                         </button>
                     </subviews>
