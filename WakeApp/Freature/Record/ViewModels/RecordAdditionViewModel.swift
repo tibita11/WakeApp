@@ -62,6 +62,39 @@ class RecordAdditionViewModel: RecordAdditionViewModelType {
             errorAlertRelay.accept(error.localizedDescription)
         }
     }
+    
+    /// - Parameters:
+    ///   - documentID: 更新するドキュメントID
+    ///   - recordData: 更新データ
+    func updateRecordData(documentID: String, recordData: RecordData) {
+        do {
+            // Focusコレクションのデータを取得して、recordData参照先を取得する
+            let userID = try authService.getCurrenUserID()
+            let focusReference = firestoreService.createFocusReference(uid: userID)
+            Task {
+                do {
+                    guard let toDoReference = try await firestoreService.getFocusData(reference: focusReference) else {
+                        assertionFailure("focusDataが存在しませんでした。")
+                        return
+                    }
+                    let recordReference = firestoreService.createRecordReference(toDoReference: toDoReference,
+                                                                                 documentID: documentID)
+                    firestoreService.updateRecordData(recordReference: recordReference, recordData: recordData)
+                    backNavigationRelay.accept(())
+                } catch let error {
+                    if Network.shared.isOnline() {
+                        print("Error: \(error.localizedDescription)")
+                        errorAlertRelay.accept(Const.errorText)
+                    } else {
+                        networkErrorAlertRelay.accept(())
+                    }
+                }
+            }
+        } catch let error {
+            // uidが取得できない場合、再ログインを促す
+            errorAlertRelay.accept(error.localizedDescription)
+        }
+    }
 }
 
 

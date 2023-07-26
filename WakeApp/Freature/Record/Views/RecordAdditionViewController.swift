@@ -27,9 +27,14 @@ class RecordAdditionViewController: UIViewController {
     @IBOutlet weak var registerButton: UIButton! {
         didSet {
             registerButton.layer.cornerRadius = Const.LargeBlueButtonCorner
-            if actionType == .update {
+            switch actionType {
+            case .create:
+                registerButton.addTarget(self, action: #selector(tapRegisterButton), for: .touchUpInside)
+            case .update:
                 registerButton.setTitle("更新", for: .normal)
                 registerButton.addTarget(self, action: #selector(tapUpdateButton), for: .touchUpInside)
+            default:
+                break
             }
         }
     }
@@ -78,10 +83,15 @@ class RecordAdditionViewController: UIViewController {
     // MARK: - Action
     
     @objc private func tapUpdateButton() {
-
+        guard let recordData else {
+            assertionFailure("recordDataが存在しませんでした。")
+            return
+        }
+        let newData = RecordData(date: datePicker.date, comment: textView.text)
+        viewModel.updateRecordData(documentID: recordData.documentID, recordData: newData)
     }
     
-    @IBAction func tapRegisterButton(_ sender: Any) {
+    @objc private func tapRegisterButton(_ sender: Any) {
         guard let text = textView.text else { return }
         let data = RecordData(date: datePicker.date, comment: text)
         viewModel.saveRecordData(recordData: data)

@@ -442,6 +442,18 @@ class FirebaseFirestoreService {
             .delete()
     }
     
+    /// ドキュメントの参照先を作成
+    ///
+    /// - Parameters:
+    ///   - toDoReference: Focusコレクションに保存されている参照先
+    ///   - documentID: 保存先ドキュメント名
+    ///
+    ///  - Returns: 参照先
+    func createRecordReference(toDoReference: DocumentReference, documentID: String) -> DocumentReference {
+        // ここでtoDoreferenceがからであるとエラーが出ている
+        return toDoReference.collection(records).document(documentID)
+    }
+    
     /// RecordDataの取得
     ///
     /// - Parameter toDoReference: 取得するRecordDataの親コレクション参照先
@@ -455,8 +467,8 @@ class FirebaseFirestoreService {
         let documents = snapshot.documents
         var records: [RecordData] = []
         for document in documents {
+            let documentID = document.documentID
             let data = document.data()
-            
             let date = data["date"] as? Timestamp ?? {
                 assertionFailure("Timestampにキャストできませんでした。")
                 return Timestamp()
@@ -467,7 +479,9 @@ class FirebaseFirestoreService {
                 return ""
             }()
             
-            let recordData = RecordData(date: date.dateValue(), comment: comment)
+            let recordData = RecordData(documentID: documentID,
+                                        date: date.dateValue(),
+                                        comment: comment)
             records.append(recordData)
         }
         
@@ -485,6 +499,18 @@ class FirebaseFirestoreService {
                 "date" : recordData.date,
                 "comment" : recordData.comment
             ])
+    }
+    
+    /// RecordDataの更新
+    ///
+    /// - Parameters:
+    ///   - recordReference: 保存先
+    ///   - recordData: 更新データ
+    func updateRecordData(recordReference: DocumentReference, recordData: RecordData) {
+        recordReference.setData([
+            "date" : recordData.date,
+            "comment" : recordData.comment
+        ])
     }
     
 }

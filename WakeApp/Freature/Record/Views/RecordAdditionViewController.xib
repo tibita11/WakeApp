@@ -27,8 +27,8 @@
                     <subviews>
                         <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="compact" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVI-l4-Kok">
                             <rect key="frame" x="0.0" y="0.0" width="393" height="50"/>
-                            <date key="date" timeIntervalSinceReferenceDate="711881726.314942">
-                                <!--2023-07-24 08:55:26 +0000-->
+                            <date key="date" timeIntervalSinceReferenceDate="712054910.91074097">
+                                <!--2023-07-26 09:01:50 +0000-->
                             </date>
                             <locale key="locale" localeIdentifier="ja_JP"/>
                         </datePicker>
@@ -51,9 +51,6 @@
                             <state key="normal" title="登録">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
-                            <connections>
-                                <action selector="tapRegisterButton:" destination="-1" eventType="touchUpInside" id="s2p-ha-qIm"/>
-                            </connections>
                         </button>
                     </subviews>
                     <constraints>
