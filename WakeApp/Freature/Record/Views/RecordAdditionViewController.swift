@@ -77,6 +77,10 @@ class RecordAdditionViewController: UIViewController {
         super.viewDidLoad()
         
         setUpViewModel()
+        
+        if actionType == .update {
+            setUpNavigationButton()
+        }
     }
     
     
@@ -118,6 +122,27 @@ class RecordAdditionViewController: UIViewController {
                 present(createNetworkErrorAlert(), animated: true)
             })
             .disposed(by: disposeBag)
+    }
+    
+    private func setUpNavigationButton() {
+        let deleteButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(tapDeleteButton))
+        navigationItem.rightBarButtonItem = deleteButton
+    }
+    
+    @objc private func tapDeleteButton() {
+        guard let recordData else {
+            assertionFailure("recordDataが存在しませんでした。")
+            return
+        }
+        // 確認アラートを表示する
+        let alertController = UIAlertController(title: "記録を削除してよろしいですか？", message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "はい", style: .default) { [weak self] _ in
+            self?.viewModel.deleteRecordData(documentID: recordData.documentID)
+        }
+        let cancelAction = UIAlertAction(title: "いいえ", style: .cancel)
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
     }
     
 }

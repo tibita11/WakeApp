@@ -513,4 +513,9 @@ class FirebaseFirestoreService {
         ])
     }
     
+    /// - Parameter recordReference: 削除する参照先
+    func deleteRecordData(recordReference: DocumentReference) {
+        recordReference.delete()
+    }
+    
 }
