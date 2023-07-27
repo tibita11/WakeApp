@@ -9,24 +9,47 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+struct RecordAdditionViewModelInputs {
+    let textViewObserver: Observable<String?>
+}
+
 protocol RecordAdditionViewModelOutputs {
     var backNavigationDriver: Driver<Void> { get }
     var errorAlertDriver: Driver<String> { get }
     var networkErrorAlertDriver: Driver<Void> { get }
+    var isRegisterButtonEnabledDriver: Driver<Bool> { get }
 }
 
 protocol RecordAdditionViewModelType {
     var outputs: RecordAdditionViewModelOutputs { get }
+    func setUp(inputs: RecordAdditionViewModelInputs)
 }
 
 class RecordAdditionViewModel: RecordAdditionViewModelType {
     var outputs: RecordAdditionViewModelOutputs { self }
     
+    private let disposeBag = DisposeBag()
     private let authService = FirebaseAuthService()
     private let firestoreService = FirebaseFirestoreService()
     private let backNavigationRelay = PublishRelay<Void>()
     private let errorAlertRelay = PublishRelay<String>()
     private let networkErrorAlertRelay = PublishRelay<Void>()
+    private let isRegisterButtonEnabledRelay = PublishRelay<Bool>()
+    
+    func setUp(inputs: RecordAdditionViewModelInputs) {
+        inputs.textViewObserver
+            .subscribe(onNext: { [weak self] text in
+                guard let self, let text else { return }
+
+                switch TitleValidator(value: text).validate() {
+                case .valid:
+                    isRegisterButtonEnabledRelay.accept(true)
+                case .invalid:
+                    isRegisterButtonEnabledRelay.accept(false)
+                }
+            })
+            .disposed(by: disposeBag)
+    }
     
     /// Focusコレクションに登録されているTodoに登録
     ///
@@ -142,6 +165,10 @@ extension RecordAdditionViewModel: RecordAdditionViewModelOutputs {
     
     var networkErrorAlertDriver: Driver<Void> {
         networkErrorAlertRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var isRegisterButtonEnabledDriver: Driver<Bool> {
+        isRegisterButtonEnabledRelay.asDriver(onErrorDriveWith: .empty())
     }
     
 }

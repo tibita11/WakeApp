@@ -27,8 +27,8 @@
                     <subviews>
                         <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="compact" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVI-l4-Kok">
                             <rect key="frame" x="0.0" y="0.0" width="393" height="50"/>
-                            <date key="date" timeIntervalSinceReferenceDate="712054910.91074097">
-                                <!--2023-07-26 09:01:50 +0000-->
+                            <date key="date" timeIntervalSinceReferenceDate="712118519.04491305">
+                                <!--2023-07-27 02:41:59 +0000-->
                             </date>
                             <locale key="locale" localeIdentifier="ja_JP"/>
                         </datePicker>
@@ -39,9 +39,9 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IcX-AJ-iyq">
+                        <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IcX-AJ-iyq">
                             <rect key="frame" x="56.666666666666657" y="635" width="280" height="44"/>
-                            <color key="backgroundColor" red="0.074509803920000006" green="0.1843137255" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" systemColor="systemGray2Color"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="280" id="13g-kx-Al8"/>
                                 <constraint firstAttribute="height" constant="44" id="Mac-AM-Jds"/>
@@ -76,6 +76,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

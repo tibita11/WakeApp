@@ -41,11 +41,6 @@ class RecordAdditionViewController: UIViewController {
     @IBOutlet weak var textView: PlaceHolderTextView! {
         didSet {
             textView.placeHolder = "進捗や今の気持ちを書いてみましょう！"
-            if actionType == .update {
-                guard let recordData else { return }
-                textView.placeHolderLabel.alpha = 0
-                textView.text = recordData.comment
-            }
         }
     }
     
@@ -80,6 +75,7 @@ class RecordAdditionViewController: UIViewController {
         
         if actionType == .update {
             setUpNavigationButton()
+            setUpTextView()
         }
     }
     
@@ -102,6 +98,9 @@ class RecordAdditionViewController: UIViewController {
     }
     
     private func setUpViewModel() {
+        let inputs = RecordAdditionViewModelInputs(textViewObserver: textView.rx.text.asObservable())
+        viewModel.setUp(inputs: inputs)
+        
         viewModel.outputs.backNavigationDriver
             .drive(onNext: { [weak self] in
                 guard let self else { return }
@@ -120,6 +119,14 @@ class RecordAdditionViewController: UIViewController {
             .drive(onNext: { [weak self] in
                 guard let self else { return }
                 present(createNetworkErrorAlert(), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.isRegisterButtonEnabledDriver
+            .drive(onNext: { [weak self] bool in
+                guard let self else { return }
+                registerButton.isEnabled = bool
+                registerButton.backgroundColor = bool ? Const.mainBlueColor : .systemGray2
             })
             .disposed(by: disposeBag)
     }
@@ -143,6 +150,12 @@ class RecordAdditionViewController: UIViewController {
         alertController.addAction(okAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
+    }
+    
+    private func setUpTextView() {
+        guard let recordData else { return }
+        textView.placeHolderLabel.alpha = 0
+        textView.text = recordData.comment
     }
     
 }

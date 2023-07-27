@@ -119,7 +119,7 @@ struct UserNameValidator: Validator {
     }
 }
 
-/// 目標名バリデーションチェックに使用する
+/// テキストに文字を入力する際に使用する
 struct TitleValidator: Validator {
     var validations: [Validation]
     init(value: String) {
