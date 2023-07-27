@@ -22,5 +22,7 @@ class Const {
     static let LargeBlueButtonCorner = 20.0
     static let defaultProfileImages = ["diving.png", "icecream.png", "jump.png", "kid.png", "summer.png", "watermelon.png"]
     static let iconImage = ["appstore.png"]
+    
     static let errorText = "エラーが起きました。\nしばらくしてから再度お試しください。"
+    static let reLogain = "エラーが起きました。\nアプリを再起動して再ログインをお願いします。"
 }

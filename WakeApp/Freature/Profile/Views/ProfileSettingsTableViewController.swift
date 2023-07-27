@@ -6,15 +6,62 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class ProfileSettingsTableViewController: UITableViewController {
     
-    private let settins = ["プロフィールを編集する", "目標を編集する"]
+    private let settins = ["プロフィールを編集する", "目標を編集する", "サインアウト", "退会する"]
+    private let viewModel = ProfileSettingsTableViewModel()
+    private let disposeBag = DisposeBag()
+    
+    // MARK: - View Life Cycle
         
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "profileSettingsCell")
+        setUpViewModel()
+    }
+    
+    // MARK: - Action
+    
+    private func setUpViewModel() {
+        viewModel.outputs.networkErrorAlertDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                present(createNetworkErrorAlert(), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.errorAlertDriver
+            .drive(onNext: { [weak self] error in
+                guard let self else { return }
+                present(createErrorAlert(title: error), animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.navigateToStartingViewDriver
+            .drive(onNext: { [weak self] in
+                guard let self else { return }
+                let vc = StartingViewController()
+                navigationController?.viewControllers = [vc]
+            })
+            .disposed(by: disposeBag)
+        
+    }
+    
+    private func createUnsubscribeAlert() -> UIAlertController {
+        let title = "退会してよろしいですか。"
+        let message = "退会するとあなたのアカウントはシステムから削除され、使用できなくなります。"
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "はい", style: .default) { [weak self] _ in
+            self?.viewModel.unsubscribe()
+        }
+        let cancelAction = UIAlertAction(title: "いいえ", style: .cancel)
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        return alertController
     }
 
     // MARK: - Table view data source
@@ -43,54 +90,13 @@ class ProfileSettingsTableViewController: UITableViewController {
         case 1:
             let goalsEditingVC = GoalsEditingViewController()
             navigationController?.pushViewController(goalsEditingVC, animated: true)
+        case 2:
+            viewModel.signOut()
+        case 3:
+            tableView.deselectRow(at: indexPath, animated: true)
+            present(createUnsubscribeAlert(), animated: true)
         default:
             break
         }
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
 }

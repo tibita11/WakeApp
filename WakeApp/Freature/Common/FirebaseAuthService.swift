@@ -54,6 +54,15 @@ class FirebaseAuthService {
         try await auth.currentUser?.sendEmailVerification()
     }
     
+    func unsubscribe() async throws {
+        let user = auth.currentUser
+        try await user?.delete()
+    }
+    
+    func signOut() throws {
+        try auth.signOut()
+    }
+    
 }
 
 

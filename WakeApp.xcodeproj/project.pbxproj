@@ -59,6 +59,7 @@
 		A5C297F92A52C4D4006FE376 /* GoalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C297F72A52C4D4006FE376 /* GoalCollectionViewCell.swift */; };
 		A5C297FA2A52C4D4006FE376 /* GoalCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5C297F82A52C4D4006FE376 /* GoalCollectionViewCell.xib */; };
 		A5CFBD9C2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */; };
+		A5D0574E2A723EE900164DBB /* ProfileSettingsTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0574D2A723EE900164DBB /* ProfileSettingsTableViewModel.swift */; };
 		A5D0AFEE2A666969002A64D8 /* SectionOfRecordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0AFED2A666969002A64D8 /* SectionOfRecordData.swift */; };
 		A5D0AFF12A66759D002A64D8 /* RecordDataCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0AFEF2A66759D002A64D8 /* RecordDataCollectionViewCell.swift */; };
 		A5D0AFF22A66759D002A64D8 /* RecordDataCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5D0AFF02A66759D002A64D8 /* RecordDataCollectionViewCell.xib */; };
@@ -167,6 +168,7 @@
 		A5C297F72A52C4D4006FE376 /* GoalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCollectionViewCell.swift; sourceTree = "<group>"; };
 		A5C297F82A52C4D4006FE376 /* GoalCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GoalCollectionViewCell.xib; sourceTree = "<group>"; };
 		A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountImageSettingsViewModel.swift; sourceTree = "<group>"; };
+		A5D0574D2A723EE900164DBB /* ProfileSettingsTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsTableViewModel.swift; sourceTree = "<group>"; };
 		A5D0AFED2A666969002A64D8 /* SectionOfRecordData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionOfRecordData.swift; sourceTree = "<group>"; };
 		A5D0AFEF2A66759D002A64D8 /* RecordDataCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDataCollectionViewCell.swift; sourceTree = "<group>"; };
 		A5D0AFF02A66759D002A64D8 /* RecordDataCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecordDataCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -569,6 +571,7 @@
 			children = (
 				A5FF515C2A49D0E6000AEC7F /* ProfileViewModel.swift */,
 				A5E03C652A4C1FB3002148F1 /* ProfileEditingViewModel.swift */,
+				A5D0574D2A723EE900164DBB /* ProfileSettingsTableViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -876,6 +879,7 @@
 				A54C21022A4EC59600A62691 /* FirebaseFirestoreService.swift in Sources */,
 				A54BD92C2A53B4D300FAF51C /* DoubleCircleView.swift in Sources */,
 				A5DDC7B22A551A1E007B5558 /* TodoView.swift in Sources */,
+				A5D0574E2A723EE900164DBB /* ProfileSettingsTableViewModel.swift in Sources */,
 				A58BB0D32A2839F400C834A3 /* LoadingView.swift in Sources */,
 				A5DC4D972A677A010039F10F /* RecordAdditionViewController.swift in Sources */,
 				A5E03C642A4C1C24002148F1 /* PlaceHolderTextView.swift in Sources */,
