@@ -349,6 +349,7 @@ class ProfileViewController: UIViewController {
     
     private func setUpIntroductionStackView() {
         introductionStackView.translatesAutoresizingMaskIntoConstraints = false
+        introductionStackView.isHidden = true
         introductionStackView.axis = .vertical
         introductionStackView.spacing = 15
         introductionStackView.alignment = .center
