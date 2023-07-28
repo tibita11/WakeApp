@@ -64,6 +64,18 @@ class ProfileSettingsTableViewController: UITableViewController {
         alertController.addAction(cancelAction)
         return alertController
     }
+    
+    private func createSignOutAlert() -> UIAlertController {
+        let title = "サインアウトしてよろしいですか。"
+        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "はい", style: .default) { [weak self] _ in
+            self?.viewModel.signOut()
+        }
+        let cancelAction = UIAlertAction(title: "いいえ", style: .cancel)
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        return alertController
+    }
 
     // MARK: - Table view data source
 
@@ -98,7 +110,8 @@ class ProfileSettingsTableViewController: UITableViewController {
         } else if indexPath.section == 1 {
             switch indexPath.row {
             case 0:
-                viewModel.signOut()
+                tableView.deselectRow(at: indexPath, animated: true)
+                present(createSignOutAlert(), animated: true)
             case 1:
                 tableView.deselectRow(at: indexPath, animated: true)
                 present(createUnsubscribeAlert(), animated: true)
