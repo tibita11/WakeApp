@@ -40,6 +40,11 @@ class ProfileViewController: UIViewController {
     private var collectionView: UICollectionView!
     private var gradientLayer: CAGradientLayer!
     private let introductionStackView = UIStackView()
+    private lazy var networkErrorView: NetworkErrorView = {
+        let view = NetworkErrorView()
+        view.delegate = self
+        return view
+    }()
     
     private var viewModel: ProfileViewModel!
     private let disposeBag = DisposeBag()
@@ -95,17 +100,8 @@ class ProfileViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        // ネットワークエラー表示
-        viewModel.outputs.networkErrorAlertDriver
-            .drive(onNext: { [weak self] in
-                guard let self else { return }
-                present(createNetworkErrorAlert(), animated: true)
-            })
-            .disposed(by: disposeBag)
-        
-        // 再試行ボタンの表示状態
-        viewModel.outputs.isHiddenErrorDriver
-            .drive(errorStackView.rx.isHidden)
+        viewModel.outputs.networkErrorHiddenDriver
+            .drive(networkErrorView.rx.isHidden)
             .disposed(by: disposeBag)
         
         // CollectionViewCellの表示
@@ -213,8 +209,8 @@ class ProfileViewController: UIViewController {
         setUpCircleView()
         setUpProfileContainerView()
         setUpCollectionView()
+        setUpNetworkErrorView(networkErrorView)
         setUpIntroductionStackView()
-        setUpErrorTextStackView()
     }
     
     private func setUpContainerView() {
@@ -386,52 +382,6 @@ class ProfileViewController: UIViewController {
         return label
     }
     
-    /// エラー文言と再試行ボタン
-    private func setUpErrorTextStackView() {
-        errorStackView.translatesAutoresizingMaskIntoConstraints = false
-        errorStackView.isHidden = true
-        errorStackView.addArrangedSubview(errorLabel)
-        errorStackView.addArrangedSubview(retryButton)
-        errorStackView.axis = .vertical
-        errorStackView.spacing = 10
-        errorStackView.alignment = .center
-        errorStackView.distribution = .fill
-        view.addSubview(errorStackView)
-        
-        let height: CGFloat = tabBarController!.tabBar.frame.height + 10
-        
-        NSLayoutConstraint.activate([
-            errorStackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1),
-            errorStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            errorStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -height)
-        ])
-        
-        // パーツ
-        setUpErrorLabel()
-        setUpRetryButton()
-    }
-    
-    /// エラーテキスト表示
-    private func setUpErrorLabel() {
-        errorLabel.numberOfLines = 0
-        errorLabel.text = "エラーが起きました。\nしばらくしてから再度お試しください。"
-        errorLabel.textColor = .red
-        errorLabel.font = UIFont.systemFont(ofSize: 12)
-    }
-    
-    /// 再試行ボタン表示
-    private func setUpRetryButton() {
-        var config = UIButton.Configuration.plain()
-        let container = AttributeContainer([
-            .font: UIFont.systemFont(ofSize: 12)
-        ])
-        config.attributedTitle = AttributedString("再試行", attributes: container)
-        config.titleAlignment = .center
-        config.baseForegroundColor = .black
-        retryButton.configuration = config
-        retryButton.addTarget(self, action: #selector(tapRetryButton), for: .touchUpInside)
-    }
-    
     /// GoalDataを載せるCollectionView
     private func setUpCollectionView() {
         let flowLayout = UICollectionViewFlowLayout()
@@ -453,4 +403,13 @@ class ProfileViewController: UIViewController {
     }
     
     
+}
+
+
+// MARK: - NetworkErrorViewDelegate
+
+extension ProfileViewController: NetworkErrorViewDelegate {
+    func retryAction() {
+        viewModel.getInitalData()
+    }
 }

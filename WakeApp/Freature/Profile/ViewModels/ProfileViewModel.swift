@@ -14,9 +14,8 @@ protocol ProfileViewModelOutputs {
     var imageUrlDriver: Driver<String> { get }
     var futureDriver: Driver<String> { get }
     var errorAlertDriver: Driver<String> { get }
-    var networkErrorAlertDriver: Driver<Void> { get }
-    var isHiddenErrorDriver: Driver<Bool> { get }
     var goalDataDriver: Driver<[GoalData]> { get }
+    var networkErrorHiddenDriver: Driver<Bool> { get }
 }
 
 protocol ProfileViewModelType {
@@ -32,29 +31,30 @@ class ProfileViewModel: ProfileViewModelType {
     private let imageUrlRelay = PublishRelay<String>()
     private let futureRelay = PublishRelay<String>()
     private let errorAlertRelay = PublishRelay<String>()
-    private let networkErrorAlertRelay = PublishRelay<Void>()
-    /// 再試行ボタン非表示の切り替え
-    private let isHiddenErrorRelay = PublishRelay<Bool>()
     private let disposeBag = DisposeBag()
     /// 初回時のみ実行するメソッドが存在するため、判別のために保持
     private var didCall = false
     private let goalDataRelay = PublishRelay<[GoalData]>()
     private var birthDay: Date? = nil
+    private let networkErrorHiddenRelay = PublishRelay<Bool>()
     
     
     // MARK: - Action
     
     func getInitalData() {
         if didCall {
-            // 初回の場合はUserDataとGoalDataを取得
+            // 初回以降はGoalDataのみ
             getGoalData()
         } else {
-            // 初回以降はGoalDataのみ
+            // 初回の場合はUserDataとGoalDataを取得
             getUserData()
         }
     }
     
     private func getGoalData() {
+        // 非表示
+        networkErrorHiddenRelay.accept(true)
+        
         do {
             let userID = try firebaseAuthService.getCurrenUserID()
             firebaseFirestoreService.getGoalData(uid: userID)
@@ -62,19 +62,15 @@ class ProfileViewModel: ProfileViewModelType {
                     guard let self else { return }
                     // goalDataをView側にバインド
                     goalDataRelay.accept(goalData)
-                    isHiddenErrorRelay.accept(true)
                     
                 }, onError: { [weak self] error in
                     guard let self else { return }
                     if Network.shared.isOnline() {
-                        // オンラインの場合、想定外エラー
-                        errorAlertRelay.accept(Const.errorText)
-                        isHiddenErrorRelay.accept(true)
                         print("Error: \(error.localizedDescription)")
+                        errorAlertRelay.accept(Const.errorText)
                     } else {
-                        // オフラインの場合、再試行ボタン
-                        networkErrorAlertRelay.accept(())
-                        isHiddenErrorRelay.accept(false)
+                        print("オフラインエラー")
+                        networkErrorHiddenRelay.accept(false)
                     }
                 })
                 .disposed(by: disposeBag)
@@ -86,6 +82,8 @@ class ProfileViewModel: ProfileViewModelType {
     
     /// 初回時のみ実行
     private func getUserData() {
+        networkErrorHiddenRelay.accept(true)
+        
         do {
             let userID = try firebaseAuthService.getCurrenUserID()
             firebaseFirestoreService.getUserData(uid: userID)
@@ -102,18 +100,15 @@ class ProfileViewModel: ProfileViewModelType {
                     if !didCall {
                         didCall = true
                     }
-                    isHiddenErrorRelay.accept(true)
+                    
                 }, onError: { [weak self] error in
                     guard let self else { return }
                     if Network.shared.isOnline() {
-                        // オンラインの場合、想定外エラー
-                        errorAlertRelay.accept(Const.errorText)
-                        isHiddenErrorRelay.accept(true)
                         print("Error: \(error.localizedDescription)")
+                        errorAlertRelay.accept(Const.errorText)
                     } else {
-                        // オフラインの場合、再試行ボタン
-                        networkErrorAlertRelay.accept(())
-                        isHiddenErrorRelay.accept(false)
+                        print("オフラインエラー")
+                        networkErrorHiddenRelay.accept(false)
                     }
                 })
                 .disposed(by: disposeBag)
@@ -164,16 +159,12 @@ extension ProfileViewModel: ProfileViewModelOutputs {
         errorAlertRelay.asDriver(onErrorDriveWith: .empty())
     }
     
-    var networkErrorAlertDriver: Driver<Void> {
-        networkErrorAlertRelay.asDriver(onErrorDriveWith: .empty())
-    }
-    
-    var isHiddenErrorDriver: Driver<Bool> {
-        isHiddenErrorRelay.asDriver(onErrorDriveWith: .empty())
-    }
-    
     var goalDataDriver: Driver<[GoalData]> {
         goalDataRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var networkErrorHiddenDriver: Driver<Bool> {
+        networkErrorHiddenRelay.asDriver(onErrorDriveWith: .empty())
     }
     
 }
