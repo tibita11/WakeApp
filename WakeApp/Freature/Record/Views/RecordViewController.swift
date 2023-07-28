@@ -128,6 +128,10 @@ class RecordViewController: UIViewController {
                 navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
+        
+        viewModel.outputs.additionButtonHiddenDriver
+            .drive(additionButton.rx.isHidden)
+            .disposed(by: disposeBag)
     }
     
     @objc private func tapAdditionButton() {

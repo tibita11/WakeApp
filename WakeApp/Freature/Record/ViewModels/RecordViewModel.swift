@@ -20,6 +20,7 @@ protocol RecordViewModelOutputs {
     var recordsDriver: Driver<[SectionOfRecordData]> { get }
     var introductionHiddenDriver: Driver<Bool> { get }
     var transitionToEditDriver: Driver<RecordData> { get }
+    var additionButtonHiddenDriver: Driver<Bool> { get }
 }
 
 protocol RecordViewModelType {
@@ -38,6 +39,7 @@ class RecordViewModel: RecordViewModelType {
     private let recordsRelay = BehaviorRelay<[SectionOfRecordData]>(value: [])
     private let transitionToEditRelay = PublishRelay<RecordData>()
     private let introductionHiddenRelay = PublishRelay<Bool>()
+    private let additionButtonHiddenRelay = PublishRelay<Bool>()
 
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -70,6 +72,7 @@ class RecordViewModel: RecordViewModelType {
         // 開始時に非表示
         networkErrorHiddenRelay.accept(true)
         introductionHiddenRelay.accept(true)
+        additionButtonHiddenRelay.accept(true)
         
         do {
             let userID = try authService.getCurrenUserID()
@@ -93,11 +96,11 @@ class RecordViewModel: RecordViewModelType {
                     toDoTitleTextRelay.accept(title)
                     let section = try await divideIntoTheSection(recordsData: records)
                     recordsRelay.accept(section)
+                    additionButtonHiddenRelay.accept(false)
                     
                 } catch let error {
                     if Network.shared.isOnline() {
                         print("Error: \(error.localizedDescription)")
-                        // 一律したエラーアラートを表示
                         errorAlertRelay.accept(Const.errorText)
                     } else {
                         // 再試行ボタンを表示
@@ -173,4 +176,7 @@ extension RecordViewModel: RecordViewModelOutputs {
         transitionToEditRelay.asDriver(onErrorDriveWith: .empty())
     }
     
+    var additionButtonHiddenDriver: Driver<Bool> {
+        additionButtonHiddenRelay.asDriver(onErrorDriveWith: .empty())
+    }
 }
