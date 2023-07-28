@@ -10,8 +10,9 @@ import RxSwift
 import RxCocoa
 
 class ProfileSettingsTableViewController: UITableViewController {
+    private let sections = [["プロフィールを編集する", "目標を編集する"],
+                            ["サインアウト", "退会する"]]
     
-    private let settins = ["プロフィールを編集する", "目標を編集する", "サインアウト", "退会する"]
     private let viewModel = ProfileSettingsTableViewModel()
     private let disposeBag = DisposeBag()
     
@@ -67,36 +68,42 @@ class ProfileSettingsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return sections.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return settins.count
+        return sections[section].count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "profileSettingsCell", for: indexPath)
         var config = cell.defaultContentConfiguration()
-        config.text = settins[indexPath.row]
+        config.text = sections[indexPath.section][indexPath.row]
         cell.contentConfiguration = config
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 0:
-            let profileEditingVC = ProfileEditingViewController()
-            navigationController?.pushViewController(profileEditingVC, animated: true)
-        case 1:
-            let goalsEditingVC = GoalsEditingViewController()
-            navigationController?.pushViewController(goalsEditingVC, animated: true)
-        case 2:
-            viewModel.signOut()
-        case 3:
-            tableView.deselectRow(at: indexPath, animated: true)
-            present(createUnsubscribeAlert(), animated: true)
-        default:
-            break
+        if indexPath.section == 0 {
+            switch indexPath.row {
+            case 0:
+                let profileEditingVC = ProfileEditingViewController()
+                navigationController?.pushViewController(profileEditingVC, animated: true)
+            case 1:
+                let goalsEditingVC = GoalsEditingViewController()
+                navigationController?.pushViewController(goalsEditingVC, animated: true)
+            default: break
+            }
+            
+        } else if indexPath.section == 1 {
+            switch indexPath.row {
+            case 0:
+                viewModel.signOut()
+            case 1:
+                tableView.deselectRow(at: indexPath, animated: true)
+                present(createUnsubscribeAlert(), animated: true)
+            default: break
+            }
         }
     }
 }
