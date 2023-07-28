@@ -40,8 +40,6 @@ class GoalRegistrationViewController: UIViewController {
             }
         }
     }
-    @IBOutlet weak var startDateTextField: UITextField!
-    @IBOutlet weak var endDateTextField: UITextField!
     @IBOutlet weak var dateErrorLabel: UILabel!
     @IBOutlet weak var titleErrorLabel: UILabel!
     @IBOutlet weak var statusSegmentedControl: UISegmentedControl!
@@ -52,11 +50,11 @@ class GoalRegistrationViewController: UIViewController {
             }
         }
     }
+    @IBOutlet weak var startDatePicker: UIDatePicker!
+    @IBOutlet weak var endDatePicker: UIDatePicker!
     
     private var viewModel: GoalRegistrationViewModel!
     private let disposeBag = DisposeBag()
-    private var startDatePicker = UIDatePicker()
-    private var endDatePicker = UIDatePicker()
     private var status: GoalRegistrationStatus!
     private var goalData: GoalData? = nil
     
@@ -81,14 +79,12 @@ class GoalRegistrationViewController: UIViewController {
         super.viewDidLoad()
         
         setUpViewModel()
-        setUpPickerView()
         setUpInitialData()
     }
 
     
     // MARK: - Action
     
-    /// 更新の場合に、初期値をセット
     private func setUpInitialData() {
         if status == .update {
             guard let goalData else { return }
@@ -99,6 +95,9 @@ class GoalRegistrationViewController: UIViewController {
             endDatePicker.date = goalData.endDate
             endDatePicker.sendActions(for: .valueChanged)
             statusSegmentedControl.selectedSegmentIndex = goalData.status
+        } else {
+            startDatePicker.sendActions(for: .valueChanged)
+            endDatePicker.sendActions(for: .valueChanged)
         }
     }
     
@@ -139,16 +138,6 @@ class GoalRegistrationViewController: UIViewController {
             .drive(dateErrorLabel.rx.text)
             .disposed(by: disposeBag)
         
-        // Date型を変換してバインド
-        viewModel.outputs.startDateTextDriver
-            .drive(startDateTextField.rx.text)
-            .disposed(by: disposeBag)
-        
-        // Date型を変換してバインド
-        viewModel.outputs.endDateTextDriver
-            .drive(endDateTextField.rx.text)
-            .disposed(by: disposeBag)
-        
         // 目標名が空欄の場合のエラー
         viewModel.outputs.titleErrorDriver
             .drive(titleErrorLabel.rx.text)
@@ -174,19 +163,6 @@ class GoalRegistrationViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-    }
-    
-    private func setUpPickerView() {
-        // 開始日付
-        startDatePicker.preferredDatePickerStyle = .wheels
-        startDatePicker.datePickerMode = .date
-        startDatePicker.locale = Locale(identifier: "ja_JP")
-        startDateTextField.inputView = startDatePicker
-        // 終了日付
-        endDatePicker.preferredDatePickerStyle = .wheels
-        endDatePicker.datePickerMode = .date
-        endDatePicker.locale = Locale(identifier: "ja_JP")
-        endDateTextField.inputView = endDatePicker
     }
     
     /// Firestoreに保存

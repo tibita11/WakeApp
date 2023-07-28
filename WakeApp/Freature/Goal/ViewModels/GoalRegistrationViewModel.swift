@@ -19,8 +19,6 @@ protocol GoalRegistrationViewModelOutputs {
     var errorAlertDriver: Driver<String> { get }
     var dismissScreenDriver: Driver<Void> { get }
     var dateErrorDriver: Driver<String> { get }
-    var startDateTextDriver: Driver<String> { get }
-    var endDateTextDriver: Driver<String> { get }
     var titleErrorDriver: Driver<String> { get }
     var registerButtonDriver: Driver<Bool> { get }
     var unsentAlertDriver: Driver<Void> { get }
@@ -39,8 +37,6 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
     private let disposeBag = DisposeBag()
     private let errorAlertRelay = PublishRelay<String>()
     private let dismissScreenRelay = PublishRelay<Void>()
-    private let startDateTextRelay = PublishRelay<String>()
-    private let endDateTextRelay = PublishRelay<String>()
     private let dateErrorRelay = PublishRelay<String>()
     private let titleErrorRelay = PublishRelay<String>()
     private let unsentAlertRelay = PublishRelay<Void>()
@@ -69,22 +65,6 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
             self?.dateErrorRelay.accept(error)
         })
         .disposed(by: disposeBag)
-        
-        // DateをTextに変換
-        inputs.startDatePickerObserver
-            .subscribe(onNext: { [weak self] date in
-                guard let self, let date else { return }
-                startDateTextRelay.accept(dateFormatter.string(from: date))
-            })
-            .disposed(by: disposeBag)
-        
-        // DateをTextに変換
-        inputs.endDatePickerObserver
-            .subscribe(onNext: { [weak self] date in
-                guard let self, let date else { return }
-                endDateTextRelay.accept(dateFormatter.string(from: date))
-            })
-            .disposed(by: disposeBag)
         
         // Titleのバリデーションチェック
         inputs.titleTextFieldObserver
@@ -169,14 +149,6 @@ extension GoalRegistrationViewModel: GoalRegistrationViewModelOutputs {
     
     var dateErrorDriver: Driver<String> {
         dateErrorRelay.asDriver(onErrorDriveWith: .empty())
-    }
-    
-    var startDateTextDriver: Driver<String> {
-        startDateTextRelay.asDriver(onErrorDriveWith: .empty())
-    }
-    
-    var endDateTextDriver: Driver<String> {
-        endDateTextRelay.asDriver(onErrorDriveWith: .empty())
     }
     
     var titleErrorDriver: Driver<String> {
