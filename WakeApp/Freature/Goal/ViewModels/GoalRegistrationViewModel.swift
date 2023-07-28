@@ -41,18 +41,14 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
     private let dismissScreenRelay = PublishRelay<Void>()
     private let startDateTextRelay = PublishRelay<String>()
     private let endDateTextRelay = PublishRelay<String>()
-    private let dateErrorRelay = BehaviorRelay(value: "※ 開始日・終了日は必須項目です。")
-    private let titleErrorRelay = BehaviorRelay(value: "※ 目標名は必須項目です。")
+    private let dateErrorRelay = PublishRelay<String>()
+    private let titleErrorRelay = PublishRelay<String>()
     private let unsentAlertRelay = PublishRelay<Void>()
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy年MM月dd日"
         return dateFormatter
     }()
-    
-    init() {
-        
-    }
     
     /// インスタンス化の際に実行する初期設定
     ///
