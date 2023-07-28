@@ -130,10 +130,6 @@ class RecordViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    @objc private func tapSettingsButton() {
-
-    }
-    
     @objc private func tapAdditionButton() {
         let vc = RecordAdditionViewController()
         navigationController?.pushViewController(vc, animated: true)
@@ -147,8 +143,8 @@ class RecordViewController: UIViewController {
         setUpContainerView()
         setUpCircleView()
         setUpToDoTitleView()
-        setUpNetworkErrorView(networkErrorView)
         setUpCollectionView()
+        setUpNetworkErrorView(networkErrorView)
         setUpAdditionButton()
         setUpIntroductionStackView()
     }
@@ -238,7 +234,7 @@ class RecordViewController: UIViewController {
     private func setUpAdditionButton() {
         let buttonSize = 60.0
         let rightSpacing = 30.0
-        let bottomSpacing = 50.0
+        let bottomSpacing = 60.0
         let tabBarHeight = self.tabBarController?.tabBar.bounds.height ?? 0
         additionButton.translatesAutoresizingMaskIntoConstraints = false
         additionButton.setImage(UIImage(systemName: "pencil"), for: .normal)
@@ -321,6 +317,7 @@ extension RecordViewController: UICollectionViewDelegate, UICollectionViewDelega
 extension UIViewController {
     func setUpNetworkErrorView(_ networkErrorView: NetworkErrorView) {
         let tabBarHeight = self.tabBarController?.tabBar.bounds.height ?? 0
+        let bottomSpacing = 5.0
         let viewSpacing = 10.0
         let viewHeight = 50.0
         // ベースViewの作成
@@ -328,7 +325,7 @@ extension UIViewController {
         self.view.addSubview(networkErrorView)
         
         NSLayoutConstraint.activate([
-            networkErrorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(tabBarHeight + viewSpacing*3)),
+            networkErrorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(tabBarHeight + bottomSpacing)),
             networkErrorView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: viewSpacing),
             networkErrorView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -viewSpacing),
             networkErrorView.heightAnchor.constraint(equalToConstant: viewHeight)
