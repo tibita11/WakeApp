@@ -36,7 +36,21 @@ class ProfileEditingViewController: UIViewController {
     }
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var birthdayTextField: UITextField!
-    @IBOutlet weak var errorTextStackView: UIStackView!
+    @IBOutlet weak var networkErrorView: UIView! {
+        didSet {
+            let view = NetworkErrorView()
+            view.delegate = self
+            view.translatesAutoresizingMaskIntoConstraints = false
+            networkErrorView.addSubview(view)
+            
+            NSLayoutConstraint.activate([
+                view.topAnchor.constraint(equalTo: networkErrorView.topAnchor),
+                view.leftAnchor.constraint(equalTo: networkErrorView.leftAnchor),
+                view.rightAnchor.constraint(equalTo: networkErrorView.rightAnchor),
+                view.bottomAnchor.constraint(equalTo: networkErrorView.bottomAnchor)
+            ])
+        }
+    }
     
     private var viewModel: ProfileEditingViewModel!
     private let disposeBag = DisposeBag()
@@ -104,28 +118,8 @@ class ProfileEditingViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        viewModel.outputs.networkErrorAlertDriver
-            .drive(onNext: { [weak self] in
-                guard let self else { return }
-                present(createNetworkErrorAlert(), animated: true)
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.outputs.isHiddenErrorDriver
-            .drive(errorTextStackView.rx.isHidden)
-            .disposed(by: disposeBag)
-        
-        // オフライン時の未送信処理
-        viewModel.outputs.unsentAlertDriver
-            .drive(onNext: { [weak self] in
-                guard let self else { return }
-                // アラートを表示する
-                let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-                    guard let self else { return }
-                    navigationController?.popToRootViewController(animated: true)
-                }
-                present(createUnsentAlert(action: action), animated: true)
-            })
+        viewModel.outputs.networkErrorHiddenDriver
+            .drive(networkErrorView.rx.isHidden)
             .disposed(by: disposeBag)
         
         // 登録時の処理
@@ -169,10 +163,6 @@ class ProfileEditingViewController: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    @IBAction func tapRetryButton(_ sender: Any) {
-        viewModel.getUserData()
-    }
-    
     @IBAction func tapRegisterButton(_ sender: Any) {
         guard let name = nameTextField.text else {
             return
@@ -188,6 +178,15 @@ class ProfileEditingViewController: UIViewController {
         viewModel.updateUserData(name: name, birthday: birthday, future: future)
     }
     
+}
+
+
+// MARK: - NetworkErrorViewDelegate
+
+extension ProfileEditingViewController: NetworkErrorViewDelegate {
+    func retryAction() {
+        viewModel.getUserData()
+    }
 }
 
 

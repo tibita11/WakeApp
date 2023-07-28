@@ -20,9 +20,7 @@ protocol ProfileEditingViewModelOutputs {
     var birthdayTextDriver: Driver<String> { get }
     var futureDriver: Driver<String> { get }
     var errorAlertDriver: Driver<String> { get }
-    var networkErrorAlertDriver: Driver<Void> { get }
-    var isHiddenErrorDriver: Driver<Bool> { get }
-    var unsentAlertDriver: Driver<Void> { get }
+    var networkErrorHiddenDriver: Driver<Bool> { get }
     var transitionToRootViewDriver: Driver<Void> { get }
 }
 
@@ -42,9 +40,7 @@ class ProfileEditingViewModel: ProfileEditingViewModelType {
     private let birthdayTextRelay = PublishRelay<String>()
     private let futureRelay = PublishRelay<String>()
     private let errorAlertRelay = PublishRelay<String>()
-    private let networkErrorAlertRelay = PublishRelay<Void>()
-    private let isHiddenError = PublishRelay<Bool>()
-    private let unsentAlertRelay = PublishRelay<Void>()
+    private let networkErrorHiddenRelay = PublishRelay<Bool>()
     private let transitionToRootViewRelay = PublishRelay<Void>()
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -66,13 +62,14 @@ class ProfileEditingViewModel: ProfileEditingViewModelType {
     
     /// UserDataの取得
     func getUserData() {
-        // 初期値を設定
+        // 非表示
+        networkErrorHiddenRelay.accept(true)
+        
         do {
             let userID = try firebaseAuthService.getCurrenUserID()
             firebaseFirestoreService.getUserData(uid: userID)
                 .subscribe(onNext: { [weak self] userData in
                     guard let self else { return }
-                    // UIに反映
                     imageUrlRelay.accept(userData.imageURL)
                     nameRelay.accept(userData.name)
                     futureRelay.accept(userData.future)
@@ -81,27 +78,18 @@ class ProfileEditingViewModel: ProfileEditingViewModelType {
                         birthdayTextRelay.accept(dateFormatter.string(from: birthday))
                         birthdayRelay.accept(birthday)
                     }
-                    // 再試行画面の非表示
-                    isHiddenError.accept(true)
+                    
                 }, onError: { [weak self] error in
                     guard let self else { return }
                     // エラー処理
                     if Network.shared.isOnline() {
-                        // エラーが出た場合は、コード側のミス
                         print("Error: \(error.localizedDescription)")
-                        let errorText = "エラーが起きました。\nしばらくしてから再度お試しください。"
-                        errorAlertRelay.accept(errorText)
-                        // 再試行画面の表示
-                        isHiddenError.accept(false)
+                        errorAlertRelay.accept(Const.errorText)
                     } else {
-                        // オフライン
-                        networkErrorAlertRelay.accept(())
-                        isHiddenError.accept(false)
+                        networkErrorHiddenRelay.accept(false)
                     }
-
                 })
                 .disposed(by: disposeBag)
-
         } catch let error {
             // UserIDが取得できない場合、再ログインを促す
             errorAlertRelay.accept(error.localizedDescription)
@@ -113,14 +101,7 @@ class ProfileEditingViewModel: ProfileEditingViewModelType {
             do {
                 let userID = try firebaseAuthService.getCurrenUserID()
                 firebaseFirestoreService.updateUserData(uid: userID, name: name, birthday: birthday, future: future ?? "")
-                
-                if Network.shared.isOnline() {
-                    // オンラインの場合、画面遷移
-                    transitionToRootViewRelay.accept(())
-                } else {
-                    // オフラインの場合、アラート表示
-                    unsentAlertRelay.accept(())
-                }
+                transitionToRootViewRelay.accept(())
             } catch let error as FirebaseAuthServiceError {
                 // 再ログイン促す
                 errorAlertRelay.accept(error.localizedDescription)
@@ -157,16 +138,8 @@ extension ProfileEditingViewModel: ProfileEditingViewModelOutputs {
         errorAlertRelay.asDriver(onErrorDriveWith: .empty())
     }
     
-    var networkErrorAlertDriver: Driver<Void> {
-        networkErrorAlertRelay.asDriver(onErrorDriveWith: .empty())
-    }
-    
-    var isHiddenErrorDriver: Driver<Bool> {
-        isHiddenError.asDriver(onErrorDriveWith: .empty())
-    }
-    
-    var unsentAlertDriver: Driver<Void> {
-        unsentAlertRelay.asDriver(onErrorDriveWith: .empty())
+    var networkErrorHiddenDriver: Driver<Bool> {
+        networkErrorHiddenRelay.asDriver(onErrorDriveWith: .empty())
     }
     
     var transitionToRootViewDriver: Driver<Void> {
