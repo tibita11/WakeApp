@@ -212,7 +212,6 @@ class ProfileViewController: UIViewController {
         setUpContainerView()
         setUpCircleView()
         setUpProfileContainerView()
-        setUpNavigationButton()
         setUpCollectionView()
         setUpIntroductionStackView()
         setUpErrorTextStackView()
@@ -346,12 +345,6 @@ class ProfileViewController: UIViewController {
             futureLabel.widthAnchor.constraint(equalTo: futureView.widthAnchor, multiplier: 1),
             futureLabel.heightAnchor.constraint(equalTo: futureView.heightAnchor, multiplier: 1)
         ])
-    }
-    
-    private func setUpNavigationButton() {
-        settingsButton = UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: .plain, target: self, action: #selector(tapSettingsButton))
-        settingsButton.tintColor = .white
-        parent?.navigationItem.rightBarButtonItem = settingsButton
     }
     
     private func setUpIntroductionStackView() {

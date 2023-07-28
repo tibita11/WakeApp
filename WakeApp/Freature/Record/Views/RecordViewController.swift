@@ -146,7 +146,6 @@ class RecordViewController: UIViewController {
         
         setUpContainerView()
         setUpCircleView()
-        setUpNavigationButton()
         setUpToDoTitleView()
         setUpNetworkErrorView(networkErrorView)
         setUpCollectionView()
@@ -183,12 +182,6 @@ class RecordViewController: UIViewController {
             circleView.widthAnchor.constraint(equalToConstant: width * 2),
             circleView.heightAnchor.constraint(equalToConstant: width * 2)
         ])
-    }
-    
-    private func setUpNavigationButton() {
-        settingsButton = UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: .plain, target: self, action: #selector(tapSettingsButton))
-        settingsButton.tintColor = .white
-        parent?.navigationItem.rightBarButtonItem = settingsButton
     }
     
     private func setUpToDoTitleView() {
