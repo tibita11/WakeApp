@@ -12,8 +12,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AccountImageSettingsViewController" customModule="WakeApp" customModuleProvider="target">
             <connections>
                 <outlet property="createButton" destination="w4t-de-svF" id="gLq-YM-PHN"/>
-                <outlet property="errorTextStackView" destination="2jD-HV-5js" id="ixf-wP-BWi"/>
                 <outlet property="imageChangeLargeButton" destination="V1D-Vl-Jp1" id="PbF-sN-1C2"/>
+                <outlet property="networkErrorView" destination="mnr-a4-5MH" id="F6K-yc-VKm"/>
                 <outlet property="selectedImageBaseView" destination="kwr-Rf-94K" id="XQP-6I-4vf"/>
                 <outlet property="selectedImageView" destination="vfP-Yd-5yb" id="UM4-Os-6kd"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -248,28 +248,13 @@
                                 </stackView>
                             </subviews>
                         </stackView>
-                        <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="2jD-HV-5js">
-                            <rect key="frame" x="34.666666666666671" y="415.66666666666669" width="220.66666666666663" height="5"/>
-                            <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="エラーが起きました。 しばらくしてから再度お試しください。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LqE-1q-bjC">
-                                    <rect key="frame" x="0.0" y="0.0" width="220.66666666666666" height="0.0"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                    <color key="textColor" systemColor="systemRedColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s55-Nb-BzC">
-                                    <rect key="frame" x="91.666666666666671" y="5" width="37.000000000000014" height="0.0"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                    <state key="normal" title="再試行">
-                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="tapRetryButton:" destination="-1" eventType="touchUpInside" id="gVa-a0-Ibp"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                        </stackView>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mnr-a4-5MH">
+                            <rect key="frame" x="0.0" y="415.66666666666669" width="290" height="50"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="UtA-vB-OMT"/>
+                            </constraints>
+                        </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w4t-de-svF">
                             <rect key="frame" x="5" y="428" width="280" height="44"/>
                             <color key="backgroundColor" red="0.074509803920000006" green="0.1843137255" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -283,6 +268,10 @@
                             </state>
                         </button>
                     </subviews>
+                    <constraints>
+                        <constraint firstItem="mnr-a4-5MH" firstAttribute="leading" secondItem="FF2-do-APQ" secondAttribute="leading" id="Hgk-IZ-o7F"/>
+                        <constraint firstAttribute="trailing" secondItem="mnr-a4-5MH" secondAttribute="trailing" id="maW-WO-LNH"/>
+                    </constraints>
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
@@ -301,9 +290,6 @@
         </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

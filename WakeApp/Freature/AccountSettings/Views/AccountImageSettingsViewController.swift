@@ -56,7 +56,23 @@ class AccountImageSettingsViewController: UIViewController {
             }
         }
     }
-    @IBOutlet weak var errorTextStackView: UIStackView!
+    @IBOutlet weak var networkErrorView: UIView! {
+        didSet {
+            let view = NetworkErrorView()
+            view.delegate = self
+            view.translatesAutoresizingMaskIntoConstraints = false
+            networkErrorView.addSubview(view)
+            
+            NSLayoutConstraint.activate([
+                view.topAnchor.constraint(equalTo: networkErrorView.topAnchor),
+                view.leftAnchor.constraint(equalTo: networkErrorView.leftAnchor),
+                view.rightAnchor.constraint(equalTo: networkErrorView.rightAnchor),
+                view.bottomAnchor.constraint(equalTo: networkErrorView.bottomAnchor)
+            ])
+        }
+    }
+    
+    
     private let viewModel = AccountImageSettingsViewModel()
     private let disposeBag = DisposeBag()
     private let imageChangeSmallButton = UIButton()
@@ -137,9 +153,8 @@ class AccountImageSettingsViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        // 通信エラーを表示
-        viewModel.output.isHiddenErrorDriver
-            .drive(errorTextStackView.rx.isHidden)
+        viewModel.output.networkErrorHiddenDriver
+            .drive(networkErrorView.rx.isHidden)
             .disposed(by: disposeBag)
         
         // Create時のエラーを表示
@@ -164,14 +179,6 @@ class AccountImageSettingsViewController: UIViewController {
             .drive(onNext: { [weak self] in
                 guard let self else { return }
                 navigationController?.popViewController(animated: true)
-            })
-            .disposed(by: disposeBag)
-        
-        // ネットワークエラー
-        viewModel.output.networkErrorAlertDriver
-            .drive(onNext: { [weak self] in
-                guard let self else { return }
-                present(createNetworkErrorAlert(), animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -208,11 +215,6 @@ class AccountImageSettingsViewController: UIViewController {
     
     @objc func tapDefaultImageButton(sender: UIButton) {
         viewModel.selectDefaultImage(index: sender.tag)
-    }
-    
-    @IBAction func tapRetryButton(_ sender: Any) {
-        errorTextStackView.isHidden = true
-        viewModel.setDefaultImage(status: status)
     }
     
     @objc private func createAccout() {
@@ -262,6 +264,15 @@ class AccountImageSettingsViewController: UIViewController {
     }
     
 
+}
+
+
+// MARK: - AccountImageSettingsViewController
+
+extension AccountImageSettingsViewController: NetworkErrorViewDelegate {
+    func retryAction() {
+        viewModel.setDefaultImage(status: status)
+    }
 }
 
 

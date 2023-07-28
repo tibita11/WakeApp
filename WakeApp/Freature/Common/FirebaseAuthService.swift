@@ -14,7 +14,7 @@ enum FirebaseAuthServiceError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .noUserUid:
-            return "ユーザー情報を取得できませんでした。\nアプリを再起動して再ログインをお願いします。"
+            return "ユーザー情報を取得できませんでした。\nアプリをサインアウトして再ログインをお願いします。"
         }
     }
 }

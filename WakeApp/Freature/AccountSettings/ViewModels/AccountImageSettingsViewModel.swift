@@ -38,13 +38,12 @@ protocol AccountImageSettingsViewModelOutput {
     var selectedImageDriver: Driver<UIImage> { get }
     var presentationDriver: Driver<UIViewController> { get }
     var showAlertDriver: Driver<Void> { get }
-    var isHiddenErrorDriver: Driver<Bool> { get }
     var showErrorAlertDriver: Driver<String> { get }
     var transitionToMainTabDriver: Driver<Void> { get }
     var transitionToEditingViewDriver: Driver<Void> { get }
-    var networkErrorAlertDriver: Driver<Void> { get }
     var waitingForUpdateAlertDriver: Driver<Void> { get }
     var waitingForCreateAlertDeiver: Driver<Void> { get }
+    var networkErrorHiddenDriver: Driver<Bool> { get }
 }
 
 protocol AccountImageSettingsViewModelType {
@@ -83,11 +82,10 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
     private let selectedImageRelay = PublishRelay<UIImage>()
     private let presentation = PublishRelay<UIViewController>()
     private let showAlert = PublishRelay<Void>()
-    private let isHiddenError = PublishRelay<Bool>()
+    private let networkErrorHiddenRelay = PublishRelay<Bool>()
     private let showErrorAlert = PublishRelay<String>()
     private let transitionToMainTabRelay = PublishRelay<Void>()
     private let transitionToEditingViewRelay = PublishRelay<Void>()
-    private let networkErrorAlert = PublishRelay<Void>()
     private let waitingForUpdateAlertRelay = PublishRelay<Void>()
     private let waitingForCreateAlertRelay = PublishRelay<Void>()
     
@@ -113,11 +111,12 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
         Task {
             // Storageにアクセスするためネットワーク状況を確認
             guard Network.shared.isOnline() else {
-                networkErrorAlert.accept(())
-                isHiddenError.accept(false)
+                networkErrorHiddenRelay.accept(false)
                 return
             }
-            
+            // 非表示
+            networkErrorHiddenRelay.accept(true)
+
             do {
                 let defaultImageUrls = try await firebaseStorageService
                     .getDefaultProfileImages(names: Const.defaultProfileImages)
@@ -134,16 +133,12 @@ class AccountImageSettingsViewModel: NSObject, AccountImageSettingsViewModelType
                     selectedImageUrl = URL(string: imageUrl)
                 }
                 defaultImageUrlsRelay.accept(defaultImageUrls)
-                isHiddenError.accept(true)
+                
             } catch let error as FirebaseAuthServiceError {
-                // 復旧不可、再ログインを促す
-                showErrorAlert.accept(error.localizedDescription)
-            } catch let error as FirebaseFirestoreServiceError {
-                // 復旧不可、再ログインを促す
+                // uidが取得できない場合、再ログインを促す
                 showErrorAlert.accept(error.localizedDescription)
             } catch {
-                // 再試行で復旧する可能性がある
-                isHiddenError.accept(false)
+                showErrorAlert.accept(Const.errorText)
             }
         }
     }
@@ -315,20 +310,12 @@ extension AccountImageSettingsViewModel: AccountImageSettingsViewModelOutput {
         showAlert.asDriver(onErrorDriveWith: .empty())
     }
     
-    var isHiddenErrorDriver: Driver<Bool> {
-        isHiddenError.asDriver(onErrorDriveWith: .empty())
-    }
-    
     var showErrorAlertDriver: Driver<String> {
         showErrorAlert.asDriver(onErrorDriveWith: .empty())
     }
     
     var transitionToMainTabDriver: Driver<Void> {
         transitionToMainTabRelay.asDriver(onErrorDriveWith: .empty())
-    }
-    
-    var networkErrorAlertDriver: Driver<Void> {
-        networkErrorAlert.asDriver(onErrorDriveWith: .empty())
     }
     
     var transitionToEditingViewDriver: Driver<Void> {
@@ -343,7 +330,9 @@ extension AccountImageSettingsViewModel: AccountImageSettingsViewModelOutput {
         waitingForCreateAlertRelay.asDriver(onErrorDriveWith: .empty())
     }
     
-    
+    var networkErrorHiddenDriver: Driver<Bool> {
+        networkErrorHiddenRelay.asDriver(onErrorDriveWith: .empty())
+    }
 }
 
 

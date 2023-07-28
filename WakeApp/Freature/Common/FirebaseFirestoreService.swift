@@ -126,12 +126,8 @@ class FirebaseFirestoreService {
     
     func getImageURL(uid: String) async throws -> String {
         let snapshot = try await firestore.collection(users).document(uid).getDocument()
-        
-        guard snapshot.exists, let data = snapshot.data() else {
-            throw FirebaseFirestoreServiceError.noUserData
-        }
-        
-        let imageURL = data["imageURL"] as? String ?? {
+        let data = snapshot.data()
+        let imageURL = data?["imageURL"] as? String ?? {
             assertionFailure("Stringにキャストできませんでした。")
             return ""
         }()
