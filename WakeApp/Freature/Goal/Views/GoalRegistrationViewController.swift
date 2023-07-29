@@ -150,19 +150,6 @@ class GoalRegistrationViewController: UIViewController {
                 self?.registrationButton.backgroundColor = bool ? Const.mainBlueColor : UIColor.systemGray2
             })
             .disposed(by: disposeBag)
-        
-        // 未送信アラート表示
-        viewModel.outputs.unsentAlertDriver
-            .drive(onNext: { [weak self] in
-                guard let self else { return }
-                let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-                    guard let self else { return }
-                    navigationController?.popViewController(animated: true)
-                }
-               present(createUnsentAlert(action: action), animated: true)
-            })
-            .disposed(by: disposeBag)
-        
     }
     
     /// Firestoreに保存

@@ -142,18 +142,6 @@ class TodoRegistrationViewController: UIViewController {
                 navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
-        
-        // オフライン時の送信待ちアラート表示
-        viewModel.outputs.unsentAlertDriver
-            .drive(onNext: { [weak self] in
-                guard let self else { return }
-                let okAction = UIAlertAction(title: "OK", style: .default) {
-                    [weak self] _ in
-                    self?.navigationController?.popViewController(animated: true)
-                }
-                present(createUnsentAlert(action: okAction), animated: true)
-            })
-            .disposed(by: disposeBag)
     }
     
     @IBAction func tapRegisterButton(_ sender: Any) {

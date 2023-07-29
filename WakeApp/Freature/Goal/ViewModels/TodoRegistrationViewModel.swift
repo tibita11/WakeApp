@@ -21,7 +21,6 @@ protocol TodoRegistrationViewModelOutputs {
     var registerButtonDriver: Driver<Bool> { get }
     var errorAlertDriver: Driver<String> { get }
     var dismissDriver: Driver<Void> { get }
-    var unsentAlertDriver: Driver<Void> { get }
 }
 
 protocol TodoRegistrationViewModelType {
@@ -37,7 +36,6 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
     private let dateErrorTextRelay = PublishRelay<String>()
     private let errorAlertRelay = PublishRelay<String>()
     private let dismissRelay = PublishRelay<Void>()
-    private let unsentAlertRelay = PublishRelay<Void>()
     private let authService = FirebaseAuthService()
     private let firestoreService = FirebaseFirestoreService()
     
@@ -89,7 +87,7 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
                 let focusReference = firestoreService.createFocusReference(uid: userID)
                 firestoreService.saveFocusData(reference: focusReference, focusData: todoReference)
             }
-            checkNetwork()
+            dismissRelay.accept(())
         } catch let error {
            // uidが存在しない場合は、再ログインを促す
             errorAlertRelay.accept(error.localizedDescription)
@@ -120,21 +118,10 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
                     firestoreService.deleteFocusData(reference: focusReference)
                 }
             }
-            checkNetwork()
+            dismissRelay.accept(())
         } catch let error {
             // uidが存在しない場合は、再ログインを促す
              errorAlertRelay.accept(error.localizedDescription)
-        }
-    }
-    
-    /// オフラインとオンラインで処理を判別
-    private func checkNetwork() {
-        if Network.shared.isOnline() {
-            // 戻る
-            dismissRelay.accept(())
-        } else {
-            // 送信待ちアラート
-            unsentAlertRelay.accept(())
         }
     }
     
@@ -145,7 +132,7 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
         do {
             let userID = try authService.getCurrenUserID()
             firestoreService.deleteTodoData(uid: userID, todoData: todoData)
-            checkNetwork()
+            dismissRelay.accept(())
         } catch let error {
             // uidが存在しない場合は、再ログインを促す
              errorAlertRelay.accept(error.localizedDescription)
@@ -184,9 +171,4 @@ extension TodoRegistrationViewModel: TodoRegistrationViewModelOutputs {
     var dismissDriver: Driver<Void> {
         dismissRelay.asDriver(onErrorDriveWith: .empty())
     }
-    
-    var unsentAlertDriver: Driver<Void> {
-        unsentAlertRelay.asDriver(onErrorDriveWith: .empty())
-    }
-    
 }

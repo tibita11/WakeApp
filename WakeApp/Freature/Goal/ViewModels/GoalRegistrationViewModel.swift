@@ -21,7 +21,6 @@ protocol GoalRegistrationViewModelOutputs {
     var dateErrorDriver: Driver<String> { get }
     var titleErrorDriver: Driver<String> { get }
     var registerButtonDriver: Driver<Bool> { get }
-    var unsentAlertDriver: Driver<Void> { get }
 }
 
 protocol GoalRegistrationViewModelType {
@@ -39,12 +38,6 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
     private let dismissScreenRelay = PublishRelay<Void>()
     private let dateErrorRelay = PublishRelay<String>()
     private let titleErrorRelay = PublishRelay<String>()
-    private let unsentAlertRelay = PublishRelay<Void>()
-    private lazy var dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy年MM月dd日"
-        return dateFormatter
-    }()
     
     /// インスタンス化の際に実行する初期設定
     ///
@@ -81,23 +74,14 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
             .disposed(by: disposeBag)
     }
     
-    /// ネットワークによって遷移方法を変更
-    private func networkCheck() {
-        if Network.shared.isOnline() {
-            dismissScreenRelay.accept(())
-        } else {
-            unsentAlertRelay.accept(())
-        }
-    }
-    
     /// FirestoreにGoalDataを保存
     ///
     /// - Parameter data: 保存するデータ
     func saveGoalData(data: GoalData) {
         do {
             let userID = try authService.getCurrenUserID()
-            networkCheck()
             firestoreService.saveGoalData(uid: userID, goalData: data)
+            dismissScreenRelay.accept(())
         } catch let error {
             // uidが取得できない場合、再ログインを促す
             errorAlertRelay.accept(error.localizedDescription)
@@ -112,8 +96,8 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
     func updateGoalData(documentID: String, data: GoalData) {
         do {
             let userID = try authService.getCurrenUserID()
-            networkCheck()
             firestoreService.updateGoalData(uid: userID, documentID: documentID, goalData: data)
+            dismissScreenRelay.accept(())
         } catch let error {
             // uidが取得できない場合、再ログインを促す
             errorAlertRelay.accept(error.localizedDescription)
@@ -126,8 +110,8 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
     func deleteGoalData(documentID: String) {
         do {
             let userID = try authService.getCurrenUserID()
-            networkCheck()
             firestoreService.deleteGoalData(uid: userID, documentID: documentID)
+            dismissScreenRelay.accept(())
         } catch let error {
             // uidが取得できない場合、再ログインを促す
             errorAlertRelay.accept(error.localizedDescription)
@@ -162,9 +146,4 @@ extension GoalRegistrationViewModel: GoalRegistrationViewModelOutputs {
             }
             .asDriver(onErrorDriveWith: .empty())
     }
-    
-    var unsentAlertDriver: Driver<Void> {
-        unsentAlertRelay.asDriver(onErrorDriveWith: .empty())
-    }
-    
 }
