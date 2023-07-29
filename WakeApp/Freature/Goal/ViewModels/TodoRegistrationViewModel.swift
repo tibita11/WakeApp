@@ -17,8 +17,6 @@ struct TodoRegistrationViewModelInputs {
 
 protocol TodoRegistrationViewModelOutputs {
     var titleErrorTextDriver: Driver<String> { get }
-    var startDateTextDriver: Driver<String> { get }
-    var endDateTextDriver: Driver<String> { get }
     var dateErrorTextDriver: Driver<String> { get }
     var registerButtonDriver: Driver<Bool> { get }
     var errorAlertDriver: Driver<String> { get }
@@ -36,19 +34,12 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
     
     private let disposeBag = DisposeBag()
     private let titleErrorTextRelay = PublishRelay<String>()
-    private let startDateTextRelay = PublishRelay<String>()
-    private let endDateTextRelay = PublishRelay<String>()
     private let dateErrorTextRelay = PublishRelay<String>()
     private let errorAlertRelay = PublishRelay<String>()
     private let dismissRelay = PublishRelay<Void>()
     private let unsentAlertRelay = PublishRelay<Void>()
     private let authService = FirebaseAuthService()
     private let firestoreService = FirebaseFirestoreService()
-    private lazy var dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy年MM月dd日"
-        return dateFormatter
-    }()
     
     func setUp(inputs: TodoRegistrationViewModelInputs) {
         // Titleのバリデーションチェック
@@ -76,22 +67,6 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
             }
             .subscribe(onNext: { [weak self] error in
                 self?.dateErrorTextRelay.accept(error)
-            })
-            .disposed(by: disposeBag)
-        
-        // 開始日付をテキストに変換
-        inputs.startDatePickerObserver
-            .subscribe(onNext: { [weak self] date in
-                guard let self, let date else { return }
-                startDateTextRelay.accept(dateFormatter.string(from: date))
-            })
-            .disposed(by: disposeBag)
-        
-        // 終了日付をテキストに変換
-        inputs.endDatePickerObserver
-            .subscribe(onNext: { [weak self] date in
-                guard let self, let date else { return }
-                endDateTextRelay.accept(dateFormatter.string(from: date))
             })
             .disposed(by: disposeBag)
     }
@@ -185,14 +160,6 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
 extension TodoRegistrationViewModel: TodoRegistrationViewModelOutputs {
     var titleErrorTextDriver: Driver<String> {
         titleErrorTextRelay.asDriver(onErrorDriveWith: .empty())
-    }
-    
-    var startDateTextDriver: Driver<String> {
-        startDateTextRelay.asDriver(onErrorDriveWith: .empty())
-    }
-    
-    var endDateTextDriver: Driver<String> {
-        endDateTextRelay.asDriver(onErrorDriveWith: .empty())
     }
     
     var dateErrorTextDriver: Driver<String> {

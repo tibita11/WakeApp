@@ -24,17 +24,15 @@ class TodoRegistrationViewController: UIViewController {
     }
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var titleErrorLabel: UILabel!
-    @IBOutlet weak var startDateTextField: UITextField!
-    @IBOutlet weak var endDateTextField: UITextField!
     @IBOutlet weak var dateErrorLabel: UILabel!
     @IBOutlet weak var statusSegmentedControl: UISegmentedControl!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var focusSwitch: UISwitch!
+    @IBOutlet weak var startDatePicker: UIDatePicker!
+    @IBOutlet weak var endDatePicker: UIDatePicker!
     
     private let viewModel = TodoRegistrationViewModel()
     private let disposeBag = DisposeBag()
-    private let startDatePicker = UIDatePicker()
-    private let endDatePicker = UIDatePicker()
     /// 登録のため、親コレクションのドキュメントIDを保持
     private var parentDocumentID: String? = nil
     /// 更新のため、現在情報を保持
@@ -64,7 +62,6 @@ class TodoRegistrationViewController: UIViewController {
         super.viewDidLoad()
 
         setUpViewModel()
-        setUpDatePicker()
         setUpInitialData()
     }
     
@@ -72,17 +69,12 @@ class TodoRegistrationViewController: UIViewController {
     // MARK: - Action
     
     private func setUpInitialData() {
-        guard let todoData else {
-            return
-        }
-        
-        // 更新の場合の初期値
         if actionType == .update {
+            guard let todoData else { return }
             deleteButton.isHidden = false
             headerLabel.text = "やること編集"
             registerButton.setTitle("更新", for: .normal)
             registerButton.addTarget(self, action: #selector(tapUpdateButton), for: .touchUpInside)
-            
             titleTextField.text = todoData.title
             titleTextField.sendActions(for: .valueChanged)
             startDatePicker.date = todoData.startDate
@@ -91,6 +83,9 @@ class TodoRegistrationViewController: UIViewController {
             endDatePicker.sendActions(for: .valueChanged)
             statusSegmentedControl.selectedSegmentIndex = todoData.status
             focusSwitch.setOn(todoData.isFocus, animated: false)
+        } else {
+            startDatePicker.sendActions(for: .valueChanged)
+            endDatePicker.sendActions(for: .valueChanged)
         }
     }
     
@@ -115,16 +110,6 @@ class TodoRegistrationViewController: UIViewController {
         // Titleバリデーション結果をバインド
         viewModel.outputs.titleErrorTextDriver
             .drive(titleErrorLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        // Text変換後の開始日付をバインド
-        viewModel.outputs.startDateTextDriver
-            .drive(startDateTextField.rx.text)
-            .disposed(by: disposeBag)
-        
-        // Text変換後の終了日付をバインド
-        viewModel.outputs.endDateTextDriver
-            .drive(endDateTextField.rx.text)
             .disposed(by: disposeBag)
         
         // 終了日付が開始日付よりも小さい場合に表示されるエラー
@@ -169,19 +154,6 @@ class TodoRegistrationViewController: UIViewController {
                 present(createUnsentAlert(action: okAction), animated: true)
             })
             .disposed(by: disposeBag)
-    }
-    
-    private func setUpDatePicker() {
-        // 開始日付
-        startDatePicker.preferredDatePickerStyle = .wheels
-        startDatePicker.datePickerMode = .date
-        startDatePicker.locale = Locale(identifier: "ja_JP")
-        startDateTextField.inputView = startDatePicker
-        // 終了日付
-        endDatePicker.preferredDatePickerStyle = .wheels
-        endDatePicker.datePickerMode = .date
-        endDatePicker.locale = Locale(identifier: "ja_JP")
-        endDateTextField.inputView = endDatePicker
     }
     
     @IBAction func tapRegisterButton(_ sender: Any) {
