@@ -11,8 +11,7 @@ import RxCocoa
 
 protocol GoalsEditingViewModelOutputs {
     var goalDataDriver: Driver<[GoalData]> { get }
-    var isHiddenErrorDriver: Driver<Bool> { get }
-    var networkErrorDriver: Driver<Void> { get }
+    var networkErrorHiddenDriver: Driver<Bool> { get }
     var errorAlertDriver: Driver<String> { get }
     var transitionToGoalRegistrationDriver: Driver<GoalData> { get }
     var transitionToTodoRegistrationDriver: Driver<TodoData> { get }
@@ -29,8 +28,7 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
     private let authService = FirebaseAuthService()
     private let disposeBag = DisposeBag()
     private let goalDataRelay = BehaviorRelay<[GoalData]>(value: [])
-    private let isHiddenErrorRelay = PublishRelay<Bool>()
-    private let networkErrorRelay = PublishRelay<Void>()
+    private let networkErrorHiddenRelay = PublishRelay<Bool>()
     private let errorAlertRelay = PublishRelay<String>()
     private let transitionToGoalRegistrationRelay = PublishRelay<GoalData>()
     private let transitionToTodoRegistrationRelay = PublishRelay<TodoData>()
@@ -41,6 +39,8 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
     }
     
     private func getUserData() {
+        networkErrorHiddenRelay.accept(true)
+        
         do {
             let userID = try authService.getCurrenUserID()
             firestoreService.getUserData(uid: userID)
@@ -50,18 +50,13 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
                     getGoalData()
                     
                     birthDay = userData.birthday
-                    isHiddenErrorRelay.accept(true)
                 }, onError: { [weak self] error in
                     guard let self else { return }
                     if Network.shared.isOnline() {
-                        // オンラインの場合、想定外エラー
                         errorAlertRelay.accept(Const.errorText)
-                        isHiddenErrorRelay.accept(true)
                         print("Error: \(error.localizedDescription)")
                     } else {
-                        // オフラインの場合、再試行ボタン
-                        networkErrorRelay.accept(())
-                        isHiddenErrorRelay.accept(false)
+                        networkErrorHiddenRelay.accept(false)
                     }
                 })
                 .disposed(by: disposeBag)
@@ -72,6 +67,8 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
     }
     
     private func getGoalData() {
+        networkErrorHiddenRelay.accept(true)
+        
         do {
             let userID = try authService.getCurrenUserID()
             firestoreService.getGoalData(uid: userID)
@@ -79,23 +76,18 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
                     guard let self else { return }
                     // goadDataをView側に通知
                     goalDataRelay.accept(goalData)
-                    isHiddenErrorRelay.accept(true)
                 }, onError: { [weak self] error in
                     guard let self else { return }
                     if Network.shared.isOnline() {
-                        // オンラインの場合、想定外エラー
                         errorAlertRelay.accept(Const.errorText)
-                        isHiddenErrorRelay.accept(true)
                         print("Error: \(error.localizedDescription)")
                     } else {
-                        // オフラインの場合、再試行ボタン
-                        networkErrorRelay.accept(())
-                        isHiddenErrorRelay.accept(false)
+                        networkErrorHiddenRelay.accept(false)
                     }
                 })
                 .disposed(by: disposeBag)
         } catch let error {
-            // アラート表示
+            // UserIDが取得できない場合、再ログインを促す
             errorAlertRelay.accept(error.localizedDescription)
         }
     }
@@ -157,12 +149,8 @@ extension GoalsEditingViewModel: GoalsEditingViewModelOutputs {
         goalDataRelay.asDriver(onErrorDriveWith: .empty())
     }
     
-    var isHiddenErrorDriver: Driver<Bool> {
-        isHiddenErrorRelay.asDriver(onErrorDriveWith: .empty())
-    }
-    
-    var networkErrorDriver: Driver<Void> {
-        networkErrorRelay.asDriver(onErrorDriveWith: .empty())
+    var networkErrorHiddenDriver: Driver<Bool> {
+        networkErrorHiddenRelay.asDriver(onErrorDriveWith: .empty())
     }
     
     var errorAlertDriver: Driver<String> {

@@ -19,12 +19,17 @@ class GoalsEditingViewController: UIViewController {
     }
     @IBOutlet weak var networkErrorView: UIView! {
         didSet {
-            networkErrorView.layer.cornerRadius = 15
-        }
-    }
-    @IBOutlet weak var retryButton: UIButton! {
-        didSet {
-            retryButton.addTarget(self, action: #selector(tapRetryButton), for: .touchUpInside)
+            let view = NetworkErrorView()
+            view.translatesAutoresizingMaskIntoConstraints = false
+            view.delegate = self
+            networkErrorView.addSubview(view)
+            
+            NSLayoutConstraint.activate([
+                view.topAnchor.constraint(equalTo: networkErrorView.topAnchor),
+                view.leftAnchor.constraint(equalTo: networkErrorView.leftAnchor),
+                view.rightAnchor.constraint(equalTo: networkErrorView.rightAnchor),
+                view.bottomAnchor.constraint(equalTo: networkErrorView.bottomAnchor)
+            ])
         }
     }
     
@@ -157,19 +162,8 @@ class GoalsEditingViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        // オフライン時の再試行ボタン表示
-        viewModel.outputs.isHiddenErrorDriver
-            .drive(onNext: { [weak self] bool in
-                self?.networkErrorView.isHidden = bool
-            })
-            .disposed(by: disposeBag)
-        
-        // ネットワークエラーアラート表示
-        viewModel.outputs.networkErrorDriver
-            .drive(onNext: { [weak self] in
-                guard let self else { return }
-                present(createNetworkErrorAlert(), animated: true)
-            })
+        viewModel.outputs.networkErrorHiddenDriver
+            .drive(networkErrorView.rx.isHidden)
             .disposed(by: disposeBag)
         
         // エラーアラート表示
@@ -282,5 +276,14 @@ extension GoalsEditingViewController: GoalCollectionViewCellDelegate {
 extension GoalsEditingViewController: TodoViewDelegate {
     func getTodoData(section: Int, row: Int) {
         viewModel.getTodoData(section: section, row: row)
+    }
+}
+
+
+// MARK: - NetworkErrorViewDelegate
+
+extension GoalsEditingViewController: NetworkErrorViewDelegate {
+    func retryAction() {
+        viewModel.getInitialData()
     }
 }
