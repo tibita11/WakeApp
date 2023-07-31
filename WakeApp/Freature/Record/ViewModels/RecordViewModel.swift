@@ -85,7 +85,7 @@ class RecordViewModel: RecordViewModelType {
                         return
                     }
                     // nilでない場合は、Todoにアクセス
-                    async let title: String? = firestoreService.getTodoData(reference: toDoReference)
+                    async let title: String? = firestoreService.getTodoTitle(reference: toDoReference)
                     async let records: [RecordData] = firestoreService.getRecordsData(toDoReference: toDoReference)
                     // Todoが取得できない場合は、後の処理はしない
                     guard let title = try await title else {

@@ -8,8 +8,6 @@
 import Foundation
 
 struct TodoData {
-    /// 親コレクションのドキュメントID
-    let parentDocumentID: String
     let documentID: String
     let title: String
     let startDate: Date
@@ -17,8 +15,7 @@ struct TodoData {
     let status: Int
     let isFocus: Bool
     
-    init(parentDocumentID: String = "", documentID: String = "", title: String, startDate: Date, endDate: Date, status: Int, isFocus: Bool = false) {
-        self.parentDocumentID = parentDocumentID
+    init(documentID: String = "", title: String, startDate: Date, endDate: Date, status: Int, isFocus: Bool = false) {
         self.documentID = documentID
         self.title = title
         self.startDate = startDate

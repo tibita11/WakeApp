@@ -34,6 +34,7 @@ class ProfileViewModel: ProfileViewModelType {
     private let disposeBag = DisposeBag()
     /// 初回時のみ実行するメソッドが存在するため、判別のために保持
     private var didCall = false
+    private var goalData: [GoalData] = []
     private let goalDataRelay = PublishRelay<[GoalData]>()
     private var birthDay: Date? = nil
     private let networkErrorHiddenRelay = PublishRelay<Bool>()
@@ -51,29 +52,37 @@ class ProfileViewModel: ProfileViewModelType {
         }
     }
     
-    private func getGoalData() {
+    func getGoalData(isInitialDataFetch: Bool = true) {
+        guard isInitialDataFetch || firebaseFirestoreService.checkLoadStatus() else {
+            return
+        }
         // 非表示
         networkErrorHiddenRelay.accept(true)
-        
         do {
             let userID = try firebaseAuthService.getCurrenUserID()
-            firebaseFirestoreService.getGoalData(uid: userID)
-                .subscribe(onNext: { [weak self] goalData in
-                    guard let self else { return }
-                    // goalDataをView側にバインド
+            
+            Task {
+                do {
+                    let items = try await firebaseFirestoreService.getGoalData(uid: userID,
+                                                                                isInitialDataFetch: isInitialDataFetch)
+                    if isInitialDataFetch {
+                        goalData = items
+                    } else {
+                        goalData.append(contentsOf: items)
+                    }
                     goalDataRelay.accept(goalData)
+                } catch let error {
+                    firebaseFirestoreService.setErrorToLoadStatus()
                     
-                }, onError: { [weak self] error in
-                    guard let self else { return }
                     if Network.shared.isOnline() {
                         print("Error: \(error.localizedDescription)")
                         errorAlertRelay.accept(Const.errorText)
                     } else {
-                        print("オフラインエラー")
                         networkErrorHiddenRelay.accept(false)
                     }
-                })
-                .disposed(by: disposeBag)
+                }
+            }
+            
         } catch let error {
             // UserIDが取得できない場合、再ログインを促す
             errorAlertRelay.accept(error.localizedDescription)

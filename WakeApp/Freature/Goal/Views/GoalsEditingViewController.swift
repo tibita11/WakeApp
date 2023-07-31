@@ -74,6 +74,7 @@ class GoalsEditingViewController: UIViewController {
         // 別の方法でセルの大きさを変えてみる
         collectionView.register(UINib(nibName: "GoalCollectionViewCell", bundle: nil),
                                 forCellWithReuseIdentifier: "GoalCollectionViewCell")
+        collectionView.delegate = self
         
         viewModel = GoalsEditingViewModel()
         
@@ -185,9 +186,10 @@ class GoalsEditingViewController: UIViewController {
         
         // Todo登録画面に初期値を代入して遷移
         viewModel.outputs.transitionToTodoRegistrationDriver
-            .drive(onNext: { [weak self] todoData in
+            .drive(onNext: { [weak self] (parentDocumentID, todoData) in
                 guard let self else { return }
-                let vc = TodoRegistrationViewController(todoData: todoData)
+                let vc = TodoRegistrationViewController(parentDocumentID: parentDocumentID,
+                                                        todoData: todoData)
                 navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)
@@ -285,5 +287,20 @@ extension GoalsEditingViewController: TodoViewDelegate {
 extension GoalsEditingViewController: NetworkErrorViewDelegate {
     func retryAction() {
         viewModel.getInitialData()
+    }
+}
+
+
+// MARK: - UICollectionViewDelegate
+
+extension GoalsEditingViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let currentOffsetY = scrollView.contentOffset.y
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.height
+        let distanceToBottom = maximumOffset - currentOffsetY
+
+        if distanceToBottom < 200 {
+            viewModel.getGoalData(isInitialDataFetch: false)
+        }
     }
 }

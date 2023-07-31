@@ -398,6 +398,7 @@ class ProfileViewController: UIViewController {
                                                         width: view.bounds.width,
                                                         height: height),
                                           collectionViewLayout: flowLayout)
+        collectionView.delegate = self
         
         view.addSubview(collectionView)
     }
@@ -411,5 +412,20 @@ class ProfileViewController: UIViewController {
 extension ProfileViewController: NetworkErrorViewDelegate {
     func retryAction() {
         viewModel.getInitalData()
+    }
+}
+
+
+// MARK: - UICollectionViewDelegate
+
+extension ProfileViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let currentOffsetY = scrollView.contentOffset.y
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.height
+        let distanceToBottom = maximumOffset - currentOffsetY
+
+        if distanceToBottom < 200 {
+            viewModel.getGoalData(isInitialDataFetch: false)
+        }
     }
 }

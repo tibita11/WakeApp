@@ -94,17 +94,12 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
         }
     }
     
-    /// TodoDataを更新
-    ///
-    /// - Parameters:
-    ///   - previousFocusValue: 比較のため、Focus初期値の値
-    ///   - todoData: 更新データ
-    func updateTodoData(previousFocusValue: Bool, todoData: TodoData) {
+    func updateTodoData(parentDocumentID: String, previousFocusValue: Bool, todoData: TodoData) {
         do {
             let userID = try authService.getCurrenUserID()
             // TodoData更新
             let todoReference = firestoreService.createTodoReference(uid: userID,
-                                                                     parentDocumentID: todoData.parentDocumentID,
+                                                                     parentDocumentID: parentDocumentID,
                                                                      documentID: todoData.documentID)
             firestoreService.updateTodoData(reference: todoReference, todoData: todoData)
             // 変更に応じてFocusコレクション更新
@@ -128,10 +123,12 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
     /// TodoDataを削除
     ///
     /// - Parameter todoData: 削除するデータ
-    func deleteTodoData(todoData: TodoData) {
+    func deleteTodoData(parentDocumentID: String, todoData: TodoData) {
         do {
             let userID = try authService.getCurrenUserID()
-            firestoreService.deleteTodoData(uid: userID, todoData: todoData)
+            firestoreService.deleteTodoData(uid: userID,
+                                            parentDocumentID: parentDocumentID,
+                                            todoData: todoData)
             dismissRelay.accept(())
         } catch let error {
             // uidが存在しない場合は、再ログインを促す

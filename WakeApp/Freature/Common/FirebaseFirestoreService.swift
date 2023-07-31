@@ -26,9 +26,18 @@ enum FirebaseFirestoreServiceError: LocalizedError {
     }
 }
 
+enum LoadStatus {
+    case error
+    case full
+    case fetching
+    case loadmore
+}
+
 class FirebaseFirestoreService {
     
     private let firestore = Firestore.firestore()
+    private var lastDocument: QueryDocumentSnapshot? = nil
+    private var loadStatus: LoadStatus = .loadmore
     // コレクション
     private let users = "Users"
     private let goals = "Goals"
@@ -165,147 +174,125 @@ class FirebaseFirestoreService {
             ])
     }
     
-    /// Firestoreから目標を取得
-    ///
-    /// - Parameter uid: 取得先のコレクション名
-    func getGoalData(uid: String) -> Observable<[GoalData]> {
-        return Observable.create { [weak self] observer in
-            guard let self else {
-                observer.onError(FirebaseFirestoreServiceError.noInstance)
-                return Disposables.create()
-            }
-            
-            // Focusに入っている参照先を取得する
-            firestore.collection(focuses).document(uid).getDocument { [weak self] snapshot, error in
-                guard let self else {
-                    observer.onError(FirebaseFirestoreServiceError.noInstance)
-                    return
-                }
-                
-                if let error {
-                    observer.onError(error)
-                    return
-                }
-                
-                let data = snapshot?.data()
-                // todoDocumentIDとの比較用
-                let focusReference = data?["reference"] as? DocumentReference
-                
-                firestore.collection(users).document(uid).collection(goals)
-                    .order(by: "startDate", descending: true)
-                    .getDocuments { snapshot, error in
-                        if let error {
-                            observer.onError(error)
-                            return
-                        }
-                        
-                        let documents = snapshot?.documents ?? []
-                        var goals: [GoalData] = []
-                        // この処理が全て終わるのを待つ
-                        let mainGroup = DispatchGroup()
-                        let dispatchQueue = DispatchQueue(label: "queue")
-                        
-                        for document in documents {
-                            let dispatchSemaphore = DispatchSemaphore(value: 0)
-                            
-                            dispatchQueue.async(group: mainGroup) {
-                                mainGroup.enter()
-                                
-                                let goalsDocumentID = document.documentID
-                                let data = document.data()
-                                
-                                
-                                let title = data["title"] as? String ?? {
-                                    assertionFailure("Stringにキャストできませんでした。")
-                                    return ""
-                                }()
-                                
-                                let startDate = data["startDate"] as? Timestamp ?? {
-                                    assertionFailure("Timestampにキャストできませんでした。")
-                                    return Timestamp()
-                                }()
-                                
-                                let endDate = data["endDate"] as? Timestamp ?? {
-                                    assertionFailure("Timestampにキャストできませんでした。")
-                                    return Timestamp()
-                                }()
-                                
-                                let status = data["status"] as? Int ?? {
-                                    assertionFailure("Intにキャストできませんでした。")
-                                    return 0
-                                }()
-                                
-                                // Todosコレクションを同時に取得
-                                var todos: [TodoData] = []
-                                document.reference.collection("Todos")
-                                    .order(by: "startDate", descending: true).getDocuments { snapshot, error in
-                                        if let error {
-                                            observer.onError(error)
-                                            mainGroup.leave()
-                                            dispatchSemaphore.signal()
-                                            return
-                                        }
-                                        
-                                        let documents = snapshot?.documents ?? []
-                                        for document in documents {
-                                            let todosDocumentID = document.documentID
-                                            let data = document.data()
-                                            let title = data["title"] as? String ?? {
-                                                assertionFailure("Stringにキャストできませんでした。")
-                                                return ""
-                                            }()
-                                            
-                                            let startDate = data["startDate"] as? Timestamp ?? {
-                                                assertionFailure("Timestampにキャストできませんでした。")
-                                                return Timestamp()
-                                            }()
-                                            
-                                            let endDate = data["endDate"] as? Timestamp ?? {
-                                                assertionFailure("Timestampにキャストできませんでした。")
-                                                return Timestamp()
-                                            }()
-                                            
-                                            let status = data["status"] as? Int ?? {
-                                                assertionFailure("Intにキャストできませんでした。")
-                                                return 0
-                                            }()
-                                            
-                                            var isFocus: Bool = false
-                                            if let path = focusReference?.path {
-                                                isFocus = path.contains(todosDocumentID)
-                                            }
-                                            
-                                            todos.append(TodoData(parentDocumentID: goalsDocumentID,
-                                                                  documentID: todosDocumentID,
-                                                                  title: title,
-                                                                  startDate: startDate.dateValue(),
-                                                                  endDate: endDate.dateValue(),
-                                                                  status: status,
-                                                                  isFocus: isFocus))
-                                        }
-                                        
-                                        goals.append(GoalData(documentID: goalsDocumentID,
-                                                              title: title,
-                                                              startDate: startDate.dateValue(),
-                                                              endDate: endDate.dateValue(),
-                                                              status: status, todos: todos))
-                                        
-                                        mainGroup.leave()
-                                        dispatchSemaphore.signal()
-                                    }
-                                dispatchSemaphore.wait()
-                            }
-                        }
-                        
-                        mainGroup.notify(queue: .main) {
-                            observer.onNext(goals)
-                            observer.onCompleted()
-                        }
-                    }
-            }
-            
-            return Disposables.create()
+    func createGoalReference(uid: String) -> CollectionReference {
+        return firestore.collection(users).document(uid).collection(goals)
+    }
+    
+    func getGoalDataDocuments(reference: CollectionReference, isInitialDataFetch: Bool) async throws -> QuerySnapshot {
+        if isInitialDataFetch {
+            return try await reference
+                .order(by: "startDate", descending: true)
+                .limit(to: 5)
+                .getDocuments()
+        } else {
+            return try await reference
+                .order(by: "startDate", descending: true)
+                .limit(to: 5)
+                .start(afterDocument: lastDocument!)
+                .getDocuments()
         }
+    }
+    
+    func setErrorToLoadStatus() {
+        loadStatus = .error
+    }
+    
+    func checkLoadStatus() -> Bool {
+        return loadStatus != .fetching && loadStatus != .full
+    }
+    
+    func getGoalData(uid: String, isInitialDataFetch: Bool) async throws -> [GoalData] {
+        loadStatus = .fetching
+        let goalReference = createGoalReference(uid: uid)
+        let focusReference = createFocusReference(uid: uid)
+        
+        let focusSanpshot = try await focusReference.getDocument()
+        let focusData = focusSanpshot.data()
+        let reference = focusData?["reference"] as? DocumentReference
+        let focusPath = reference?.path
+
+        let snapshot = try await getGoalDataDocuments(reference: goalReference,
+                                                      isInitialDataFetch: isInitialDataFetch)
+        
+        var goalDataArray: [GoalData] = []
+        for document in snapshot.documents {
+            let data = document.data()
+            let goalsDocumentID = document.documentID
+            let title = data["title"] as? String ?? {
+                assertionFailure("Stringにキャストできませんでした。")
+                return ""
+            }()
+            let startDate = data["startDate"] as? Timestamp ?? {
+                assertionFailure("Timestampにキャストできませんでした。")
+                return Timestamp()
+            }()
+            let endDate = data["endDate"] as? Timestamp ?? {
+                assertionFailure("Timestampにキャストできませんでした。")
+                return Timestamp()
+            }()
+            let status = data["status"] as? Int ?? {
+                assertionFailure("Intにキャストできませんでした。")
+                return 0
+            }()
+            let todoData = try await getTodoData(reference: document.reference.collection(todos), focusPath: focusPath)
+            
+            goalDataArray.append(GoalData(documentID: goalsDocumentID,
+                                          title: title,
+                                          startDate: startDate.dateValue(),
+                                          endDate: endDate.dateValue(),
+                                          status: status, todos: todoData))
+        }
+        
+        if snapshot.count == 0 {
+            lastDocument = nil
+            loadStatus = .full
+        } else {
+            lastDocument = snapshot.documents[snapshot.count - 1]
+            loadStatus = .loadmore
+        }
+        
+        return goalDataArray
+    }
+    
+    func getTodoData(reference: CollectionReference, focusPath: String?) async throws -> [TodoData] {
+        let snapshot = try await reference.getDocuments()
+        var todoDataArray: [TodoData] = []
+        for document in snapshot.documents {
+            let data = document.data()
+            let todosDocumentID = document.documentID
+            let title = data["title"] as? String ?? {
+                assertionFailure("Stringにキャストできませんでした。")
+                return ""
+            }()
+            
+            let startDate = data["startDate"] as? Timestamp ?? {
+                assertionFailure("Timestampにキャストできませんでした。")
+                return Timestamp()
+            }()
+            
+            let endDate = data["endDate"] as? Timestamp ?? {
+                assertionFailure("Timestampにキャストできませんでした。")
+                return Timestamp()
+            }()
+            
+            let status = data["status"] as? Int ?? {
+                assertionFailure("Intにキャストできませんでした。")
+                return 0
+            }()
+            
+            var isFocus: Bool = false
+            if let focusPath {
+                isFocus = focusPath.contains(todosDocumentID)
+            }
+            
+            todoDataArray.append(TodoData(documentID: todosDocumentID,
+                                  title: title,
+                                  startDate: startDate.dateValue(),
+                                  endDate: endDate.dateValue(),
+                                  status: status,
+                                  isFocus: isFocus))
+        }
+        return todoDataArray
     }
     
     /// 指定したドキュメントを削除
@@ -348,7 +335,7 @@ class FirebaseFirestoreService {
     /// 参照先のTodoDataを取得
     ///
     /// - Parameter reference: 参照先
-    func getTodoData(reference: DocumentReference) async throws -> String? {
+    func getTodoTitle(reference: DocumentReference) async throws -> String? {
         let snapshot = try await reference.getDocument()
         guard let data = snapshot.data() else {
             return nil
@@ -431,9 +418,9 @@ class FirebaseFirestoreService {
     /// - Parameters:
     ///   - uid:  Usersコレクションに保存されているドキュメント名
     ///   - todoData: 削除するデータ
-    func deleteTodoData(uid: String, todoData: TodoData) {
+    func deleteTodoData(uid: String, parentDocumentID: String, todoData: TodoData) {
         firestore.collection(users).document(uid)
-            .collection(goals).document(todoData.parentDocumentID)
+            .collection(goals).document(parentDocumentID)
             .collection(todos).document(todoData.documentID)
             .delete()
     }

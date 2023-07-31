@@ -14,7 +14,7 @@ protocol GoalsEditingViewModelOutputs {
     var networkErrorHiddenDriver: Driver<Bool> { get }
     var errorAlertDriver: Driver<String> { get }
     var transitionToGoalRegistrationDriver: Driver<GoalData> { get }
-    var transitionToTodoRegistrationDriver: Driver<TodoData> { get }
+    var transitionToTodoRegistrationDriver: Driver<(String, TodoData)> { get }
 }
 
 protocol GoalsEditingViewModelType {
@@ -31,8 +31,9 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
     private let networkErrorHiddenRelay = PublishRelay<Bool>()
     private let errorAlertRelay = PublishRelay<String>()
     private let transitionToGoalRegistrationRelay = PublishRelay<GoalData>()
-    private let transitionToTodoRegistrationRelay = PublishRelay<TodoData>()
+    private let transitionToTodoRegistrationRelay = PublishRelay<(String, TodoData)>()
     private var birthDay: Date? = nil
+    private var goalData: [GoalData] = []
     
     func getInitialData() {
         getUserData()
@@ -66,26 +67,38 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
         }
     }
     
-    private func getGoalData() {
+    func getGoalData(isInitialDataFetch: Bool = true) {
+        guard isInitialDataFetch || firestoreService.checkLoadStatus() else {
+            return
+        }
+        
         networkErrorHiddenRelay.accept(true)
         
         do {
             let userID = try authService.getCurrenUserID()
-            firestoreService.getGoalData(uid: userID)
-                .subscribe(onNext: { [weak self] goalData in
-                    guard let self else { return }
-                    // goadDataをView側に通知
+            
+            Task {
+                do {
+                    let items = try await firestoreService.getGoalData(uid: userID,
+                                                                        isInitialDataFetch: isInitialDataFetch)
+                    if isInitialDataFetch {
+                        goalData = items
+                    } else {
+                        goalData.append(contentsOf: items)
+                    }
                     goalDataRelay.accept(goalData)
-                }, onError: { [weak self] error in
-                    guard let self else { return }
+                    
+                } catch let error {
+                    firestoreService.setErrorToLoadStatus()
+                    
                     if Network.shared.isOnline() {
-                        errorAlertRelay.accept(Const.errorText)
                         print("Error: \(error.localizedDescription)")
+                        errorAlertRelay.accept(Const.errorText)
                     } else {
                         networkErrorHiddenRelay.accept(false)
                     }
-                })
-                .disposed(by: disposeBag)
+                }
+            }
         } catch let error {
             // UserIDが取得できない場合、再ログインを促す
             errorAlertRelay.accept(error.localizedDescription)
@@ -116,8 +129,9 @@ class GoalsEditingViewModel: GoalsEditingViewModelType {
     ///   - row: Todosコレクションのドキュメント
     func getTodoData(section: Int, row: Int) {
         let items = goalDataRelay.value
+        let parentDocumentID = items[section].documentID
         let todoData = items[section].todos[row]
-        transitionToTodoRegistrationRelay.accept(todoData)
+        transitionToTodoRegistrationRelay.accept((parentDocumentID, todoData))
     }
     
     /// 年齢を算出する
@@ -161,7 +175,7 @@ extension GoalsEditingViewModel: GoalsEditingViewModelOutputs {
         transitionToGoalRegistrationRelay.asDriver(onErrorDriveWith: .empty())
     }
     
-    var transitionToTodoRegistrationDriver: Driver<TodoData> {
+    var transitionToTodoRegistrationDriver: Driver<(String, TodoData)> {
         transitionToTodoRegistrationRelay.asDriver(onErrorDriveWith: .empty())
     }
    

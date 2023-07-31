@@ -34,7 +34,7 @@ class TodoRegistrationViewController: UIViewController {
     private let viewModel = TodoRegistrationViewModel()
     private let disposeBag = DisposeBag()
     /// 登録のため、親コレクションのドキュメントIDを保持
-    private var parentDocumentID: String? = nil
+    private var parentDocumentID: String!
     /// 更新のため、現在情報を保持
     private var todoData: TodoData? = nil
     private let actionType: ActionType!
@@ -42,7 +42,8 @@ class TodoRegistrationViewController: UIViewController {
     
     // MARK: - View Life Cycle
     
-    init(todoData: TodoData) {
+    init(parentDocumentID: String, todoData: TodoData) {
+        self.parentDocumentID = parentDocumentID
         self.todoData = todoData
         self.actionType = .update
         super.init(nibName: nil, bundle: nil)
@@ -156,14 +157,16 @@ class TodoRegistrationViewController: UIViewController {
     @objc private func tapUpdateButton() {
         guard let todoData else { return }
         
-        let newData = TodoData(parentDocumentID: todoData.parentDocumentID,
-                               documentID: todoData.documentID,
+        let newData = TodoData(documentID: todoData.documentID,
                                title: titleTextField.text!,
                                startDate: startDatePicker.date,
                                endDate: endDatePicker.date,
                                status: statusSegmentedControl.selectedSegmentIndex,
                                isFocus: focusSwitch.isOn)
-        viewModel.updateTodoData(previousFocusValue: todoData.isFocus, todoData: newData)
+        
+        viewModel.updateTodoData(parentDocumentID: parentDocumentID,
+                                 previousFocusValue: todoData.isFocus,
+                                 todoData: newData)
     }
     
     @IBAction func tapDeleteButton(_ sender: Any) {
@@ -176,7 +179,8 @@ class TodoRegistrationViewController: UIViewController {
         let okAction = UIAlertAction(title: "はい", style: .default) {
             [weak self] _ in
             guard let self, let todoData else { return }
-            viewModel.deleteTodoData(todoData: todoData)
+            viewModel.deleteTodoData(parentDocumentID: parentDocumentID,
+                                     todoData: todoData)
         }
         let cancelAction = UIAlertAction(title: "いいえ", style: .cancel)
         alertController.addAction(okAction)
