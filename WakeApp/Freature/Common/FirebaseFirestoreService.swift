@@ -187,7 +187,7 @@ class FirebaseFirestoreService {
         } else {
             return try await reference
                 .order(by: "startDate", descending: true)
-                .limit(to: 5)
+                .limit(to: 10)
                 .start(afterDocument: lastDocument!)
                 .getDocuments()
         }

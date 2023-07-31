@@ -424,7 +424,7 @@ extension ProfileViewController: UICollectionViewDelegate {
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.height
         let distanceToBottom = maximumOffset - currentOffsetY
 
-        if distanceToBottom < 200 {
+        if distanceToBottom < 500 {
             viewModel.getGoalData(isInitialDataFetch: false)
         }
     }
