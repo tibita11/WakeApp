@@ -20,6 +20,16 @@ class TodoRegistrationViewController: UIViewController {
     @IBOutlet weak var registerButton: UIButton! {
         didSet {
             registerButton.layer.cornerRadius = Const.LargeBlueButtonCorner
+            
+            switch actionType {
+            case .create:
+                registerButton.addTarget(self, action: #selector(tapRegisterButton), for: .touchUpInside)
+            case .update:
+                registerButton.setTitle("更新", for: .normal)
+                registerButton.addTarget(self, action: #selector(tapUpdateButton), for: .touchUpInside)
+            default:
+                break
+            }
         }
     }
     @IBOutlet weak var titleTextField: UITextField!
@@ -74,8 +84,6 @@ class TodoRegistrationViewController: UIViewController {
             guard let todoData else { return }
             deleteButton.isHidden = false
             headerLabel.text = "やること編集"
-            registerButton.setTitle("更新", for: .normal)
-            registerButton.addTarget(self, action: #selector(tapUpdateButton), for: .touchUpInside)
             titleTextField.text = todoData.title
             titleTextField.sendActions(for: .valueChanged)
             startDatePicker.date = todoData.startDate
@@ -145,7 +153,7 @@ class TodoRegistrationViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    @IBAction func tapRegisterButton(_ sender: Any) {
+    @objc private func tapRegisterButton() {
         guard let parentDocumentID else { return }
         let todoData = TodoData(title: titleTextField.text!,
                                 startDate: startDatePicker.date,

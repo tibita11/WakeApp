@@ -222,9 +222,6 @@
                             <state key="normal" title="登録">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
-                            <connections>
-                                <action selector="tapRegisterButton:" destination="-1" eventType="touchUpInside" id="yAN-D4-Wx4"/>
-                            </connections>
                         </button>
                     </subviews>
                     <constraints>
