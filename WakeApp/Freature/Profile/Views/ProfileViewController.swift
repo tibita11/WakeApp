@@ -158,6 +158,7 @@ class ProfileViewController: UIViewController {
                         let todoData = element.todos[num]
                         let todoView = TodoView()
                         todoView.section = row
+                        todoView.recordButton.tag = num
                         todoView.titleLabel.text = todoData.title
                         todoView.startDateLabel.text = dateFormatter.string(from: todoData.startDate)
                         todoView.endDateLabel.text = dateFormatter.string(from: todoData.endDate)
@@ -173,7 +174,7 @@ class ProfileViewController: UIViewController {
                                                 y: num * itemHeight + 10,
                                                 width: Int(width),
                                                 height: itemHeight)
-                        todoView.focusView.isHidden = !todoData.isFocus
+                        todoView.focusView.alpha = todoData.isFocus ? 1 : 0
                         todoContainerView.tag = 100
                         todoContainerView.addSubview(todoView)
                     }

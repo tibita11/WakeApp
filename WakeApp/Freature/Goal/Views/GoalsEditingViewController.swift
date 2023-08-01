@@ -134,6 +134,7 @@ class GoalsEditingViewController: UIViewController {
                         let todoData = element.todos[num]
                         let todoView = TodoView()
                         todoView.section = row
+                        todoView.recordView.alpha = 0
                         todoView.editButton.tag = num
                         todoView.delegate = self
                         todoView.titleLabel.text = todoData.title
@@ -150,7 +151,7 @@ class GoalsEditingViewController: UIViewController {
                                                 y: num * itemHeight + 10,
                                                 width: Int(width),
                                                 height: itemHeight)
-                        todoView.focusView.isHidden = !todoData.isFocus
+                        todoView.focusView.alpha = todoData.isFocus ? 1 : 0
                         todoContainerView.tag = 100
                         todoContainerView.addSubview(todoView)
                     }

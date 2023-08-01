@@ -37,6 +37,21 @@ class TodoView: UIView {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var startDateLabel: UILabel!
     @IBOutlet weak var endDateLabel: UILabel!
+    @IBOutlet weak var recordButton: UIButton! {
+        didSet {
+            recordButton.layer.masksToBounds = true
+            recordButton.layer.cornerRadius = 10
+        }
+    }
+    @IBOutlet weak var recordView: UIView! {
+        didSet {
+            recordView.layer.cornerRadius = 10
+            recordView.layer.shadowColor = UIColor.black.cgColor
+            recordView.layer.shadowOpacity = 0.3
+            recordView.layer.shadowRadius = 3.0
+            recordView.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
+        }
+    }
     /// GoalsコレクションのDocumentIDを取得する際に使用する
     var section: Int? = nil
     weak var delegate: TodoViewDelegate!
@@ -62,4 +77,7 @@ class TodoView: UIView {
         delegate.getTodoData(section: section, row: editButton.tag)
     }
     
+    @IBAction func tapRecordButton(_ sender: Any) {
+
+    }
 }
