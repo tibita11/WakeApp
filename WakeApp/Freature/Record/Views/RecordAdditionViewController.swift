@@ -156,7 +156,10 @@ class RecordAdditionViewController: UIViewController {
         // 確認アラートを表示する
         let alertController = UIAlertController(title: "記録を削除してよろしいですか？", message: nil, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "はい", style: .default) { [weak self] _ in
-            self?.viewModel.deleteRecordData(documentID: recordData.documentID)
+            guard let self else { return }
+            viewModel.deleteRecordData(goalDocumentID: goalDocumentID,
+                                             toDoDocumentID: toDoDocumentID,
+                                             documentID: recordData.documentID)
         }
         let cancelAction = UIAlertAction(title: "いいえ", style: .cancel)
         alertController.addAction(okAction)

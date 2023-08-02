@@ -116,34 +116,30 @@ class RecordAdditionViewModel: RecordAdditionViewModelType {
         }
     }
     
-    /// - Parameter documentID: 削除するドキュメントID
-    func deleteRecordData(documentID: String) {
-        do {
-            // Focusコレクションのデータを取得して、recordData参照先を取得する
-            let userID = try authService.getCurrenUserID()
-            let focusReference = firestoreService.createFocusReference(uid: userID)
-            Task {
-                do {
-                    guard let toDoReference = try await firestoreService.getFocusData(reference: focusReference) else {
-                        assertionFailure("focusDataが存在しませんでした。")
-                        return
-                    }
-                    let recordReference = firestoreService.createRecordReference(toDoReference: toDoReference,
-                                                                                 documentID: documentID)
-                    firestoreService.deleteRecordData(recordReference: recordReference)
-                    backNavigationRelay.accept(())
-                } catch {
-                    if Network.shared.isOnline() {
-                        print("Error: \(error.localizedDescription)")
-                        errorAlertRelay.accept(Const.errorText)
-                    } else {
-                        networkErrorAlertRelay.accept(())
-                    }
+    func deleteRecordData(goalDocumentID: String?, toDoDocumentID: String?, documentID: String) {
+        Task {
+            do {
+                guard let toDoReference = try await getToDoReference(goalDocumentID: goalDocumentID,
+                                                                     toDoDocumentID: toDoDocumentID) else {
+                    errorAlertRelay.accept(Const.errorText)
+                    return
+                }
+                let recordReference = firestoreService.createRecordReference(toDoReference: toDoReference,
+                                                                             documentID: documentID)
+                firestoreService.deleteRecordData(recordReference: recordReference)
+                backNavigationRelay.accept(())
+                
+            } catch let error as FirebaseAuthServiceError {
+                // uidが取得できない場合、再ログインを促す
+                errorAlertRelay.accept(error.localizedDescription)
+            } catch let error {
+                if Network.shared.isOnline() {
+                    print("Error: \(error.localizedDescription)")
+                    errorAlertRelay.accept(Const.errorText)
+                } else {
+                    networkErrorAlertRelay.accept(())
                 }
             }
-        } catch let error {
-            // uidが取得できない場合、再ログインを促す
-            errorAlertRelay.accept(error.localizedDescription)
         }
     }
 }
