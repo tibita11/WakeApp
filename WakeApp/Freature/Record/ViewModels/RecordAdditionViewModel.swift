@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import FirebaseFirestore
 
 struct RecordAdditionViewModelInputs {
     let textViewObserver: Observable<String?>
@@ -51,38 +52,43 @@ class RecordAdditionViewModel: RecordAdditionViewModelType {
             .disposed(by: disposeBag)
     }
     
+    func getToDoReference(goalDocumentID: String?, toDoDocumentID: String?) async throws -> DocumentReference? {
+        let userID = try authService.getCurrenUserID()
+        if let goalDocumentID, let toDoDocumentID {
+            return firestoreService.createTodoReference(uid: userID,
+                                                        parentDocumentID: goalDocumentID,
+                                                        documentID: toDoDocumentID)
+        } else {
+            let focusReference = firestoreService.createFocusReference(uid: userID)
+            return try await firestoreService.getFocusData(reference: focusReference)
+        }
+    }
+    
     /// Focusコレクションに登録されているTodoに登録
     ///
     /// - Parameter recordData: 保存データ
-    func saveRecordData(recordData: RecordData) {
-        do {
-            let userID = try authService.getCurrenUserID()
-            let focusReference = firestoreService.createFocusReference(uid: userID)
-            Task {
-                do {
-                    let toDoReference = try await firestoreService.getFocusData(reference: focusReference)
-                    
-                    if let toDoReference {
-                        // 参照先が取ってこれた場合のみ保存
-                        firestoreService.saveRecordData(toDoReference: toDoReference, recordData: recordData)
-                    } else {
-                        assertionFailure("ToDo参照先の取得に失敗しました。")
-                    }
-                    // 前の画面に戻る
-                    backNavigationRelay.accept(())
-                    
-                } catch let error {
-                    if Network.shared.isOnline() {
-                        print("Error: \(error.localizedDescription)")
-                        errorAlertRelay.accept(Const.errorText)
-                    } else {
-                        networkErrorAlertRelay.accept(())
-                    }
+    func saveRecordData(goalDocumentID: String?, toDoDocumentID: String?, recordData: RecordData) {
+        Task {
+            do {
+                guard let toDoReference = try await getToDoReference(goalDocumentID: goalDocumentID,
+                                                                     toDoDocumentID: toDoDocumentID) else {
+                    errorAlertRelay.accept(Const.errorText)
+                    return
+                }
+                firestoreService.saveRecordData(toDoReference: toDoReference, recordData: recordData)
+                backNavigationRelay.accept(())
+                
+            } catch let error as FirebaseAuthServiceError {
+                // uidが取得できない場合、再ログインを促す
+                errorAlertRelay.accept(error.localizedDescription)
+            } catch let error {
+                if Network.shared.isOnline() {
+                    print("Error: \(error.localizedDescription)")
+                    errorAlertRelay.accept(Const.errorText)
+                } else {
+                    networkErrorAlertRelay.accept(())
                 }
             }
-        } catch let error {
-            // uidが取得できない場合は、再ログインを促す
-            errorAlertRelay.accept(error.localizedDescription)
         }
     }
     

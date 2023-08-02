@@ -56,8 +56,8 @@ class RecordViewController: UIViewController {
     
     private let viewModel = RecordViewModel()
     private let disposeBag = DisposeBag()
-    private var parentDocumentID: String? = nil
-    private var documentID: String? = nil
+    private var goalDocumentID: String? = nil
+    private var toDoDocumentID: String? = nil
     
     private let dataSource = RxCollectionViewSectionedReloadDataSource<SectionOfRecordData> (configureCell: { dataSource, collectionView, indexPath, item in
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! RecordDataCollectionViewCell
@@ -74,8 +74,8 @@ class RecordViewController: UIViewController {
     // MARK: - View Life Cycle
     
     init(parentDocumentID: String, documentID: String) {
-        self.parentDocumentID = parentDocumentID
-        self.documentID = documentID
+        self.goalDocumentID = parentDocumentID
+        self.toDoDocumentID = documentID
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -96,8 +96,8 @@ class RecordViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        viewModel.getInitialData(parentDocumentID: parentDocumentID,
-                                 documentID: documentID)
+        viewModel.getInitialData(parentDocumentID: goalDocumentID,
+                                 documentID: toDoDocumentID)
     }
     
     override func viewDidLayoutSubviews() {
@@ -152,7 +152,8 @@ class RecordViewController: UIViewController {
     }
     
     @objc private func tapAdditionButton() {
-        let vc = RecordAdditionViewController()
+        let vc = RecordAdditionViewController(goalDocumentID: goalDocumentID,
+                                              toDoDocumentID: toDoDocumentID)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -319,8 +320,8 @@ class RecordViewController: UIViewController {
 
 extension RecordViewController: NetworkErrorViewDelegate {
     func retryAction() {
-        viewModel.getInitialData(parentDocumentID: parentDocumentID,
-                                 documentID: documentID)
+        viewModel.getInitialData(parentDocumentID: goalDocumentID,
+                                 documentID: toDoDocumentID)
     }
 }
 

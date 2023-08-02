@@ -48,19 +48,25 @@ class RecordAdditionViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let recordData: RecordData?
     private let actionType: ActionType!
+    private var goalDocumentID: String?
+    private var toDoDocumentID: String?
     
     
     // MARK: - View Life Cycle
     
-    init(recordData: RecordData) {
+    init(goalDocumentID: String? = nil, toDoDocumentID: String? = nil, recordData: RecordData) {
         self.recordData = recordData
         self.actionType = .update
+        self.goalDocumentID = goalDocumentID
+        self.toDoDocumentID = toDoDocumentID
         super.init(nibName: nil, bundle: nil)
     }
     
-    init() {
+    init(goalDocumentID: String? = nil, toDoDocumentID: String? = nil) {
         self.recordData = nil
         self.actionType = .create
+        self.goalDocumentID = goalDocumentID
+        self.toDoDocumentID = toDoDocumentID
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -94,7 +100,10 @@ class RecordAdditionViewController: UIViewController {
     @objc private func tapRegisterButton(_ sender: Any) {
         guard let text = textView.text else { return }
         let data = RecordData(date: datePicker.date, comment: text)
-        viewModel.saveRecordData(recordData: data)
+        
+        viewModel.saveRecordData(goalDocumentID: goalDocumentID,
+                                 toDoDocumentID: toDoDocumentID,
+                                 recordData: data)
     }
     
     private func setUpViewModel() {
