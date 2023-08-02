@@ -255,7 +255,7 @@ class FirebaseFirestoreService {
     }
     
     func getTodoData(reference: CollectionReference, focusPath: String?) async throws -> [TodoData] {
-        let snapshot = try await reference.getDocuments()
+        let snapshot = try await reference.order(by: "startDate", descending: true).getDocuments()
         var todoDataArray: [TodoData] = []
         for document in snapshot.documents {
             let data = document.data()
