@@ -175,6 +175,7 @@ class RecordViewController: UIViewController {
     
     private func setUpContainerView() {
         circleContainerView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height / 3.5)
+        circleContainerView.layer.masksToBounds = true
         view.addSubview(circleContainerView)
     }
     
