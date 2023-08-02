@@ -141,7 +141,9 @@ class RecordViewController: UIViewController {
         viewModel.outputs.transitionToEditDriver
             .drive(onNext: { [weak self] recordData in
                 guard let self else { return }
-                let vc = RecordAdditionViewController(recordData: recordData)
+                let vc = RecordAdditionViewController(goalDocumentID: goalDocumentID,
+                                                      toDoDocumentID: toDoDocumentID,
+                                                      recordData: recordData)
                 navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: disposeBag)

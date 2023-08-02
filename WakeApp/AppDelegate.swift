@@ -23,9 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         
-        let settings = Firestore.firestore().settings
-        settings.isPersistenceEnabled = false
-        Firestore.firestore().settings = settings
+//        let settings = Firestore.firestore().settings
+//        settings.isPersistenceEnabled = false
+//        Firestore.firestore().settings = settings
         
         IQKeyboardManager.shared.enable = true
         Network.shared.setUp()

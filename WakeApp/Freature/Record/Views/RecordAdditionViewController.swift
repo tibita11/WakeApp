@@ -94,7 +94,10 @@ class RecordAdditionViewController: UIViewController {
             return
         }
         let newData = RecordData(date: datePicker.date, comment: textView.text)
-        viewModel.updateRecordData(documentID: recordData.documentID, recordData: newData)
+        viewModel.updateRecordData(goalDocumentID: goalDocumentID,
+                                   toDoDocumentID: toDoDocumentID,
+                                   documentID: recordData.documentID,
+                                   recordData: newData)
     }
     
     @objc private func tapRegisterButton(_ sender: Any) {
