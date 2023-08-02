@@ -8,12 +8,7 @@
 import UIKit
 
 protocol TodoViewDelegate: AnyObject {
-    /// タグ番目のDocumentIDを取得
-    ///
-    /// - Parameters:
-    ///   - section: セル作成時に代入したGoalsコレクションのrow番目
-    ///   - num: EditiButtonに登録されているタグ
-    func getTodoData(section: Int, row: Int)
+    func transitionToNext(section: Int, row: Int)
 }
 
 class TodoView: UIView {
@@ -74,10 +69,11 @@ class TodoView: UIView {
     
     @IBAction func tapEditButton(_ sender: Any) {
         guard let section else { return }
-        delegate.getTodoData(section: section, row: editButton.tag)
+        delegate.transitionToNext(section: section, row: editButton.tag)
     }
     
     @IBAction func tapRecordButton(_ sender: Any) {
-
+        guard let section else { return }
+        delegate.transitionToNext(section: section, row: recordButton.tag)
     }
 }

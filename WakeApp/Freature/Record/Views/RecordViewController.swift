@@ -56,6 +56,8 @@ class RecordViewController: UIViewController {
     
     private let viewModel = RecordViewModel()
     private let disposeBag = DisposeBag()
+    private var parentDocumentID: String? = nil
+    private var documentID: String? = nil
     
     private let dataSource = RxCollectionViewSectionedReloadDataSource<SectionOfRecordData> (configureCell: { dataSource, collectionView, indexPath, item in
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! RecordDataCollectionViewCell
@@ -70,6 +72,20 @@ class RecordViewController: UIViewController {
     
     
     // MARK: - View Life Cycle
+    
+    init(parentDocumentID: String, documentID: String) {
+        self.parentDocumentID = parentDocumentID
+        self.documentID = documentID
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,7 +96,8 @@ class RecordViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        viewModel.getInitialData()
+        viewModel.getInitialData(parentDocumentID: parentDocumentID,
+                                 documentID: documentID)
     }
     
     override func viewDidLayoutSubviews() {
@@ -302,7 +319,8 @@ class RecordViewController: UIViewController {
 
 extension RecordViewController: NetworkErrorViewDelegate {
     func retryAction() {
-        viewModel.getInitialData()
+        viewModel.getInitialData(parentDocumentID: parentDocumentID,
+                                 documentID: documentID)
     }
 }
 

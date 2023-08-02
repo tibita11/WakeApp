@@ -35,7 +35,7 @@ class ProfileViewModel: ProfileViewModelType {
     /// 初回時のみ実行するメソッドが存在するため、判別のために保持
     private var didCall = false
     private var goalData: [GoalData] = []
-    private let goalDataRelay = PublishRelay<[GoalData]>()
+    private let goalDataRelay = BehaviorRelay<[GoalData]>(value: [])
     private var birthDay: Date? = nil
     private let networkErrorHiddenRelay = PublishRelay<Bool>()
     
@@ -144,6 +144,14 @@ class ProfileViewModel: ProfileViewModelType {
             return nil
         }()
         return age
+    }
+
+    func getDocumentID(section: Int, row: Int) -> (parentDocumentID: String, documentID: String){
+        let value = goalDataRelay.value
+        let section = value[section]
+        let parentDocumentID = section.documentID
+        let documentID = section.todos[row].documentID
+        return (parentDocumentID, documentID)
     }
     
 }

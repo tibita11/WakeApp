@@ -157,6 +157,7 @@ class ProfileViewController: UIViewController {
                     for num in 0...total - 1 {
                         let todoData = element.todos[num]
                         let todoView = TodoView()
+                        todoView.delegate = self
                         todoView.section = row
                         todoView.recordButton.tag = num
                         todoView.titleLabel.text = todoData.title
@@ -428,5 +429,18 @@ extension ProfileViewController: UICollectionViewDelegate {
         if distanceToBottom < 500 {
             viewModel.getGoalData(isInitialDataFetch: false)
         }
+    }
+}
+
+
+// MARK: - TodoViewDelegate
+
+extension ProfileViewController: TodoViewDelegate {
+    func transitionToNext(section: Int, row: Int) {
+        let docID = viewModel.getDocumentID(section: section, row: row)
+        let vc = RecordViewController(parentDocumentID: docID.parentDocumentID,
+                                      documentID: docID.documentID)
+        
+        self.parent?.navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import FirebaseFirestore
 
 struct RecordViewModelInputs {
     let itemSelectedObserver: Observable<IndexPath>
@@ -68,49 +69,57 @@ class RecordViewModel: RecordViewModelType {
         introductionHiddenRelay.accept(false)
     }
     
-    func getInitialData() {
+    func getToDoReference(parentDocumentID: String?, documentID: String?) async throws -> DocumentReference? {
+        let userID = try authService.getCurrenUserID()
+        if let parentDocumentID, let documentID {
+            return firestoreService.createTodoReference(uid: userID,
+                                                        parentDocumentID: parentDocumentID,
+                                                        documentID: documentID)
+        } else {
+            let focusReference = firestoreService.createFocusReference(uid: userID)
+            return try await firestoreService.getFocusData(reference: focusReference)
+        }
+    }
+    
+    func getInitialData(parentDocumentID: String?, documentID: String?) {
         // 開始時に非表示
         networkErrorHiddenRelay.accept(true)
         introductionHiddenRelay.accept(true)
         additionButtonHiddenRelay.accept(true)
         
-        do {
-            let userID = try authService.getCurrenUserID()
-            let focusReference = firestoreService.createFocusReference(uid: userID)
-            Task {
-                do {
-                    // 返り値がnilの場合は、後の処理はしない
-                    guard let toDoReference = try await firestoreService.getFocusData(reference: focusReference) else {
-                        setUpDefaultData()
-                        return
-                    }
-                    // nilでない場合は、Todoにアクセス
-                    async let title: String? = firestoreService.getTodoTitle(reference: toDoReference)
-                    async let records: [RecordData] = firestoreService.getRecordsData(toDoReference: toDoReference)
-                    // Todoが取得できない場合は、後の処理はしない
-                    guard let title = try await title else {
-                        setUpDefaultData()
-                        return
-                    }
-                            
-                    toDoTitleTextRelay.accept(title)
-                    let section = try await divideIntoTheSection(recordsData: records)
-                    recordsRelay.accept(section)
-                    additionButtonHiddenRelay.accept(false)
-                    
-                } catch let error {
-                    if Network.shared.isOnline() {
-                        print("Error: \(error.localizedDescription)")
-                        errorAlertRelay.accept(Const.errorText)
-                    } else {
-                        // 再試行ボタンを表示
-                        networkErrorHiddenRelay.accept(false)
-                    }
+        Task {
+            do {
+                guard let toDoReference = try await getToDoReference(parentDocumentID: parentDocumentID,
+                                                                     documentID: documentID) else {
+                    setUpDefaultData()
+                    return
+                }
+                // nilでない場合は、Todoにアクセス
+                async let title: String? = firestoreService.getTodoTitle(reference: toDoReference)
+                async let records: [RecordData] = firestoreService.getRecordsData(toDoReference: toDoReference)
+                // Todoが取得できない場合は、後の処理はしない
+                guard let title = try await title else {
+                    setUpDefaultData()
+                    return
+                }
+                
+                toDoTitleTextRelay.accept(title)
+                let section = try await divideIntoTheSection(recordsData: records)
+                recordsRelay.accept(section)
+                additionButtonHiddenRelay.accept(false)
+                
+            } catch let error as FirebaseAuthServiceError {
+                // uidが取得できない場合は、再ログインを促す
+                errorAlertRelay.accept(error.localizedDescription)
+            } catch let error {
+                if Network.shared.isOnline() {
+                    print("Error: \(error.localizedDescription)")
+                    errorAlertRelay.accept(Const.errorText)
+                } else {
+                    // オフラインの場合、再試行ボタン表示
+                    networkErrorHiddenRelay.accept(false)
                 }
             }
-        } catch let error {
-            // uidが取得できない場合、再ログインを促す
-            errorAlertRelay.accept(error.localizedDescription)
         }
     }
     

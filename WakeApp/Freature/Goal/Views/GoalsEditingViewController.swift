@@ -277,7 +277,7 @@ extension GoalsEditingViewController: GoalCollectionViewCellDelegate {
 // MARK: - TodoViewDelegate
 
 extension GoalsEditingViewController: TodoViewDelegate {
-    func getTodoData(section: Int, row: Int) {
+    func transitionToNext(section: Int, row: Int) {
         viewModel.getTodoData(section: section, row: row)
     }
 }
