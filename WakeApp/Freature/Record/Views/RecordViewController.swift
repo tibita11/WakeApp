@@ -256,7 +256,7 @@ class RecordViewController: UIViewController {
         let buttonSize = 60.0
         let rightSpacing = 30.0
         let bottomSpacing = 60.0
-        let tabBarHeight = self.tabBarController?.tabBar.bounds.height ?? 0
+        let tabBarHeight = self.tabBarController?.tabBar.bounds.height ?? 50
         additionButton.translatesAutoresizingMaskIntoConstraints = false
         additionButton.setImage(UIImage(systemName: "pencil"), for: .normal)
         additionButton.backgroundColor = Const.mainBlueColor
@@ -338,7 +338,7 @@ extension RecordViewController: UICollectionViewDelegate, UICollectionViewDelega
 
 extension UIViewController {
     func setUpNetworkErrorView(_ networkErrorView: NetworkErrorView) {
-        let tabBarHeight = self.tabBarController?.tabBar.bounds.height ?? 0
+        let tabBarHeight = self.tabBarController?.tabBar.bounds.height ?? 50
         let bottomSpacing = 5.0
         let viewSpacing = 10.0
         let viewHeight = 50.0
