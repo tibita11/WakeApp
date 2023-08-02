@@ -24,5 +24,5 @@ class Const {
     static let iconImage = ["appstore.png"]
     
     static let errorText = "エラーが起きました。\nしばらくしてから再度お試しください。"
-    static let reLogain = "エラーが起きました。\nアプリを再起動して再ログインをお願いします。"
+    static let reLogain = "エラーが起きました。\nアプリをサインアウトして再ログインをお願いします。"
 }

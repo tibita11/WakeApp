@@ -197,7 +197,7 @@
                 <outlet property="additionStackView" destination="dYH-kb-ZAM" id="w1s-Ba-ls3"/>
                 <outlet property="baseView" destination="RfH-OD-IAG" id="RhN-O8-vB6"/>
                 <outlet property="baseViewHeight" destination="Mhc-s7-4HY" id="rqL-Ol-j0C"/>
-                <outlet property="baseViewWidth" destination="Mhc-s7-4HY" id="hHk-L2-OPs"/>
+                <outlet property="baseViewWidth" destination="Sej-nq-ibZ" id="JCG-ot-ftw"/>
                 <outlet property="editButton" destination="cAn-al-yFk" id="jzL-0K-hZb"/>
                 <outlet property="endDateLabel" destination="pxc-Hf-RhF" id="i14-no-VWn"/>
                 <outlet property="gradientView" destination="Ifc-ha-Uzv" id="dun-qu-7nu"/>

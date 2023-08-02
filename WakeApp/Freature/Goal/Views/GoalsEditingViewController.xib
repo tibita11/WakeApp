@@ -54,7 +54,7 @@
                     </constraints>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="pQG-dn-HsP">
-                    <rect key="frame" x="0.0" y="185.66666666666669" width="393" height="617.33333333333326"/>
+                    <rect key="frame" x="20" y="185.66666666666669" width="353" height="617.33333333333326"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Znj-U5-tjo">
                         <size key="itemSize" width="128" height="128"/>
@@ -74,9 +74,9 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="pQG-dn-HsP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="27R-hE-UxN"/>
+                <constraint firstItem="pQG-dn-HsP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="27R-hE-UxN"/>
                 <constraint firstItem="BLw-sw-xP7" firstAttribute="top" secondItem="22q-Jo-lfS" secondAttribute="bottom" constant="10" id="MgA-Fr-8ph"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="pQG-dn-HsP" secondAttribute="trailing" id="Q3h-KC-Hrz"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="pQG-dn-HsP" secondAttribute="trailing" constant="20" id="Q3h-KC-Hrz"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="hPh-UK-V2U" secondAttribute="bottom" constant="50" id="Tg2-Z6-5Zv"/>
                 <constraint firstItem="ieO-zZ-dM1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="YyJ-M1-XXs"/>
                 <constraint firstItem="22q-Jo-lfS" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="15" id="bUR-Qy-BQY"/>

@@ -395,9 +395,9 @@ class ProfileViewController: UIViewController {
         // CollectionViewの高さ
         let height = view.bounds.height - y - tabHeight
         
-        collectionView = UICollectionView(frame: CGRect(x: 0,
+        collectionView = UICollectionView(frame: CGRect(x: 20,
                                                         y: y,
-                                                        width: view.bounds.width,
+                                                        width: view.bounds.width - 40,
                                                         height: height),
                                           collectionViewLayout: flowLayout)
         collectionView.delegate = self
