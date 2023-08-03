@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import GoogleMobileAds
 
 struct TodoRegistrationViewModelInputs {
     let titleTextFieldObserver: Observable<String?>
@@ -38,7 +39,26 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
     private let dismissRelay = PublishRelay<Void>()
     private let authService = FirebaseAuthService()
     private let firestoreService = FirebaseFirestoreService()
+    private(set) var interstitial: GADInterstitialAd?
     
+    init() {
+        guard let adUinitID = Bundle.main.object(forInfoDictionaryKey: "AD_UNIT_ID") as? String else {
+            assertionFailure("環境変数を取得できませんでした。")
+            return
+        }
+        
+        let request = GADRequest()
+        GADInterstitialAd.load(withAdUnitID: adUinitID,
+                               request: request,
+                               completionHandler: { [self] ad, error in
+            if let error = error {
+                print("Failed to load interstitial ad with error: \(error.localizedDescription)")
+                return
+            }
+            interstitial = ad
+        })
+    }
+        
     func setUp(inputs: TodoRegistrationViewModelInputs) {
         // Titleのバリデーションチェック
         inputs.titleTextFieldObserver

@@ -16,6 +16,8 @@ target 'WakeApp' do
   pod 'CropViewController'
   pod 'IQKeyboardManagerSwift'
   pod 'RxDataSources'
+  pod 'Google-Mobile-Ads-SDK'
+  pod 'Firebase/Analytics'
 
   # Pods for WakeApp
 

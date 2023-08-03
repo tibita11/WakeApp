@@ -148,6 +148,10 @@ class TodoRegistrationViewController: UIViewController {
         viewModel.outputs.dismissDriver
             .drive(onNext: { [weak self] in
                 guard let self else { return }
+                // 広告表示
+                if let interstitial = viewModel.interstitial{
+                    interstitial.present(fromRootViewController: self)
+                }
                 navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)

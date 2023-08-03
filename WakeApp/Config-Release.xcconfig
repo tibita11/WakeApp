@@ -1,0 +1,13 @@
+//
+//  Config-Release.xcconfig
+//  WakeApp
+//
+//  Created by 鈴木楓香 on 2023/08/03.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include "Pods/Target Support Files/Pods-WakeApp/Pods-WakeApp.release.xcconfig"
+
+#include "Config"
