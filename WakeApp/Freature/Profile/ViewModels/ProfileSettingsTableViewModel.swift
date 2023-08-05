@@ -8,11 +8,13 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import StoreKit
 
 protocol ProfileSettingsTableViewModelOutputs {
     var networkErrorAlertDriver: Driver<Void> { get }
     var errorAlertDriver: Driver<String> { get }
     var navigateToStartingViewDriver: Driver<Void> { get }
+    var reloadData: Driver<Void> { get }
 }
 
 protocol ProfileSettingsTableViewModelType {
@@ -26,6 +28,7 @@ class ProfileSettingsTableViewModel: ProfileSettingsTableViewModelType {
     private let networkErrorAlertRelay = PublishRelay<Void>()
     private let errorAlertRelay = PublishRelay<String>()
     private let navigateToStartingViewRelay = PublishRelay<Void>()
+    private let reloadDataTrigger = PublishRelay<Void>()
     
     func unsubscribe() {
         Task {
@@ -53,6 +56,53 @@ class ProfileSettingsTableViewModel: ProfileSettingsTableViewModelType {
             errorAlertRelay.accept(Const.errorText)
         }
     }
+    
+    func purchase() {
+        print("購入画面")
+        
+        guard let productId = Bundle.main.object(forInfoDictionaryKey: "PRODUCT_ID") as? String else {
+            assertionFailure("環境変数を取得できませんでした。")
+            return
+        }
+        
+        let productIdList = [productId]
+        
+        Task {
+            do {
+                let products = try await Product.products(for: productIdList)
+                guard let product = products.first else {
+                    assertionFailure("Failed to get product")
+                    return
+                }
+                
+                let result = try await product.purchase()
+                switch result {
+                case .success(let verificationResult):
+                    switch verificationResult {
+                    case .verified(let transaction):
+                        UserDefaults.standard.set(true, forKey: Const.userDefaultKeyForPurchase)
+                        reloadDataTrigger.accept(())
+ 
+                        await transaction.finish()
+                    case .unverified(_, let verificationError):
+                        print("Failed purchase: \(verificationError.localizedDescription)")
+                        errorAlertRelay.accept(Const.errorText)
+                    }
+                case .pending:
+                    // 保留中は何もしない
+                    break
+                case .userCancelled:
+                    let errorMassage = "購入がキャンセルされました。"
+                    errorAlertRelay.accept(errorMassage)
+                @unknown default:
+                    break
+                }
+
+            } catch {
+                errorAlertRelay.accept(error.localizedDescription)
+            }
+        }
+    }
 }
 
 
@@ -69,6 +119,10 @@ extension ProfileSettingsTableViewModel: ProfileSettingsTableViewModelOutputs {
     
     var navigateToStartingViewDriver: Driver<Void> {
         navigateToStartingViewRelay.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var reloadData: Driver<Void> {
+        reloadDataTrigger.asDriver(onErrorDriveWith: .empty())
     }
     
 }

@@ -58,6 +58,7 @@
 		A5C297F62A52B77A006FE376 /* GoalRegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C297F52A52B77A006FE376 /* GoalRegistrationViewModel.swift */; };
 		A5C297F92A52C4D4006FE376 /* GoalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C297F72A52C4D4006FE376 /* GoalCollectionViewCell.swift */; };
 		A5C297FA2A52C4D4006FE376 /* GoalCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5C297F82A52C4D4006FE376 /* GoalCollectionViewCell.xib */; };
+		A5C94D9F2A7CD4BD008E6E4D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5C94D9E2A7CD4BD008E6E4D /* StoreKit.framework */; };
 		A5CFBD9C2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */; };
 		A5D0574E2A723EE900164DBB /* ProfileSettingsTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0574D2A723EE900164DBB /* ProfileSettingsTableViewModel.swift */; };
 		A5D0AFEE2A666969002A64D8 /* SectionOfRecordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0AFED2A666969002A64D8 /* SectionOfRecordData.swift */; };
@@ -170,6 +171,7 @@
 		A5C297F52A52B77A006FE376 /* GoalRegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRegistrationViewModel.swift; sourceTree = "<group>"; };
 		A5C297F72A52C4D4006FE376 /* GoalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCollectionViewCell.swift; sourceTree = "<group>"; };
 		A5C297F82A52C4D4006FE376 /* GoalCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GoalCollectionViewCell.xib; sourceTree = "<group>"; };
+		A5C94D9E2A7CD4BD008E6E4D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountImageSettingsViewModel.swift; sourceTree = "<group>"; };
 		A5D0574D2A723EE900164DBB /* ProfileSettingsTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsTableViewModel.swift; sourceTree = "<group>"; };
 		A5D0AFED2A666969002A64D8 /* SectionOfRecordData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionOfRecordData.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FB70C7235AC381C3AF02C11 /* Pods_WakeApp.framework in Frameworks */,
+				A5C94D9F2A7CD4BD008E6E4D /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,6 +237,7 @@
 		117FB9A632A5ACC9C9C6A82E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A5C94D9E2A7CD4BD008E6E4D /* StoreKit.framework */,
 				3973B1E69132F0C9E7E4E424 /* Pods_WakeApp.framework */,
 				C0F249E367FA7C50AB45CD73 /* Pods_WakeApp_WakeAppUITests.framework */,
 				1CE85A533294DAC88DD51D73 /* Pods_WakeAppTests.framework */,

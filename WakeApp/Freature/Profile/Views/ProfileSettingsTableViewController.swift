@@ -11,6 +11,7 @@ import RxCocoa
 
 class ProfileSettingsTableViewController: UITableViewController {
     private let sections = [["プロフィールを編集する", "目標を編集する"],
+                            ["広告を非表示"],
                             ["サインアウト", "退会する"]]
     
     private let viewModel = ProfileSettingsTableViewModel()
@@ -47,6 +48,12 @@ class ProfileSettingsTableViewController: UITableViewController {
                 guard let self else { return }
                 let vc = StartingViewController()
                 navigationController?.viewControllers = [vc]
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.reloadData
+            .drive(onNext: { [weak self] in
+                self?.tableView.reloadData()
             })
             .disposed(by: disposeBag)
         
@@ -92,10 +99,18 @@ class ProfileSettingsTableViewController: UITableViewController {
         var config = cell.defaultContentConfiguration()
         config.text = sections[indexPath.section][indexPath.row]
         cell.contentConfiguration = config
+        cell.accessoryType = .none
+
+        if indexPath.section == 1 && UserDefaults.standard.bool(forKey: Const.userDefaultKeyForPurchase) {
+            cell.accessoryType = .checkmark
+        }
+        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
@@ -108,15 +123,29 @@ class ProfileSettingsTableViewController: UITableViewController {
             }
             
         } else if indexPath.section == 1 {
+            viewModel.purchase()
+        } else if indexPath.section == 2 {
             switch indexPath.row {
             case 0:
-                tableView.deselectRow(at: indexPath, animated: true)
                 present(createSignOutAlert(), animated: true)
             case 1:
-                tableView.deselectRow(at: indexPath, animated: true)
                 present(createUnsubscribeAlert(), animated: true)
             default: break
             }
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if indexPath.section == 1 && UserDefaults.standard.bool(forKey: Const.userDefaultKeyForPurchase) {
+            return nil
+        }
+        return indexPath
+    }
+    
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.section == 1 && UserDefaults.standard.bool(forKey: Const.userDefaultKeyForPurchase) {
+            return false
+        }
+        return true
     }
 }

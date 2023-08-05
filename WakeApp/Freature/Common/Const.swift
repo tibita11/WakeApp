@@ -25,4 +25,7 @@ class Const {
     
     static let errorText = "エラーが起きました。\nしばらくしてから再度お試しください。"
     static let reLogain = "エラーが起きました。\nアプリをサインアウトして再ログインをお願いします。"
+    
+    // UserDefault
+    static let userDefaultKeyForPurchase = "isPurchase"
 }
