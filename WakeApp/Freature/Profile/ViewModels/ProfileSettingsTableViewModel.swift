@@ -29,6 +29,13 @@ class ProfileSettingsTableViewModel: ProfileSettingsTableViewModelType {
     private let errorAlertRelay = PublishRelay<String>()
     private let navigateToStartingViewRelay = PublishRelay<Void>()
     private let reloadDataTrigger = PublishRelay<Void>()
+    private var observer: NSKeyValueObservation!
+    
+    init() {
+        observer = UserDefaults.standard.observe(\.isPurchase, options: [.initial, .new]) { [weak self] _, _ in
+            self?.reloadDataTrigger.accept(())
+        }
+    }
     
     func unsubscribe() {
         Task {
@@ -81,8 +88,6 @@ class ProfileSettingsTableViewModel: ProfileSettingsTableViewModelType {
                     switch verificationResult {
                     case .verified(let transaction):
                         UserDefaults.standard.set(true, forKey: Const.userDefaultKeyForPurchase)
-                        reloadDataTrigger.accept(())
- 
                         await transaction.finish()
                     case .unverified(_, let verificationError):
                         print("Failed purchase: \(verificationError.localizedDescription)")
@@ -125,4 +130,13 @@ extension ProfileSettingsTableViewModel: ProfileSettingsTableViewModelOutputs {
         reloadDataTrigger.asDriver(onErrorDriveWith: .empty())
     }
     
+}
+
+
+// MARK: - UserDefaults
+
+extension UserDefaults {
+    @objc dynamic var isPurchase: Bool {
+        return bool(forKey: Const.userDefaultKeyForPurchase)
+    }
 }
