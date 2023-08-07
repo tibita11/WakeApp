@@ -19,7 +19,7 @@ import StoreKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    private var transactionObserver: TransactionObserver!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -38,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             await refreshPurchasedProdunts()
         }
         
+        transactionObserver = TransactionObserver()
         //ST -テスト用
 //        Auth.auth().useEmulator(withHost: "localhost", port: 9099)
 //

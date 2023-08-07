@@ -11,7 +11,7 @@ import RxCocoa
 
 class ProfileSettingsTableViewController: UITableViewController {
     private let sections = [["プロフィールを編集する", "目標を編集する"],
-                            ["広告を非表示"],
+                            ["広告を非表示(300円)"],
                             ["サインアウト", "退会する"]]
     
     private let viewModel = ProfileSettingsTableViewModel()

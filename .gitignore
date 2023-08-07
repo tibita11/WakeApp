@@ -49,3 +49,4 @@ public/*
 functions/*
 
 WakeApp/Config.xcconfig
+WakeApp/StoreKitConfig.storekit

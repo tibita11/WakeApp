@@ -65,8 +65,6 @@ class ProfileSettingsTableViewModel: ProfileSettingsTableViewModelType {
     }
     
     func purchase() {
-        print("購入画面")
-        
         guard let productId = Bundle.main.object(forInfoDictionaryKey: "PRODUCT_ID") as? String else {
             assertionFailure("環境変数を取得できませんでした。")
             return

@@ -42,21 +42,23 @@ class TodoRegistrationViewModel: TodoRegistrationViewModelType {
     private(set) var interstitial: GADInterstitialAd?
     
     init() {
-        guard let adUinitID = Bundle.main.object(forInfoDictionaryKey: "AD_UNIT_ID") as? String else {
-            assertionFailure("環境変数を取得できませんでした。")
-            return
-        }
-        
-        let request = GADRequest()
-        GADInterstitialAd.load(withAdUnitID: adUinitID,
-                               request: request,
-                               completionHandler: { [self] ad, error in
-            if let error = error {
-                print("Failed to load interstitial ad with error: \(error.localizedDescription)")
+        if !UserDefaults.standard.bool(forKey: Const.userDefaultKeyForPurchase) {
+            guard let adUinitID = Bundle.main.object(forInfoDictionaryKey: "AD_UNIT_ID") as? String else {
+                assertionFailure("環境変数を取得できませんでした。")
                 return
             }
-            interstitial = ad
-        })
+            
+            let request = GADRequest()
+            GADInterstitialAd.load(withAdUnitID: adUinitID,
+                                   request: request,
+                                   completionHandler: { [self] ad, error in
+                if let error = error {
+                    print("Failed to load interstitial ad with error: \(error.localizedDescription)")
+                    return
+                }
+                interstitial = ad
+            })
+        }
     }
         
     func setUp(inputs: TodoRegistrationViewModelInputs) {

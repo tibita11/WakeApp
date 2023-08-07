@@ -59,6 +59,7 @@
 		A5C297F92A52C4D4006FE376 /* GoalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C297F72A52C4D4006FE376 /* GoalCollectionViewCell.swift */; };
 		A5C297FA2A52C4D4006FE376 /* GoalCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5C297F82A52C4D4006FE376 /* GoalCollectionViewCell.xib */; };
 		A5C94D9F2A7CD4BD008E6E4D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5C94D9E2A7CD4BD008E6E4D /* StoreKit.framework */; };
+		A5C94DA12A80755B008E6E4D /* TransactionObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C94DA02A80755B008E6E4D /* TransactionObserver.swift */; };
 		A5CFBD9C2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */; };
 		A5D0574E2A723EE900164DBB /* ProfileSettingsTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0574D2A723EE900164DBB /* ProfileSettingsTableViewModel.swift */; };
 		A5D0AFEE2A666969002A64D8 /* SectionOfRecordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0AFED2A666969002A64D8 /* SectionOfRecordData.swift */; };
@@ -172,6 +173,8 @@
 		A5C297F72A52C4D4006FE376 /* GoalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCollectionViewCell.swift; sourceTree = "<group>"; };
 		A5C297F82A52C4D4006FE376 /* GoalCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GoalCollectionViewCell.xib; sourceTree = "<group>"; };
 		A5C94D9E2A7CD4BD008E6E4D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		A5C94DA02A80755B008E6E4D /* TransactionObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionObserver.swift; sourceTree = "<group>"; };
+		A5C94DA22A807E94008E6E4D /* StoreKitConfig.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreKitConfig.storekit; sourceTree = "<group>"; };
 		A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountImageSettingsViewModel.swift; sourceTree = "<group>"; };
 		A5D0574D2A723EE900164DBB /* ProfileSettingsTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsTableViewModel.swift; sourceTree = "<group>"; };
 		A5D0AFED2A666969002A64D8 /* SectionOfRecordData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionOfRecordData.swift; sourceTree = "<group>"; };
@@ -275,6 +278,7 @@
 				A59EFD972A64D930008AA40F /* NetworkErrorView.swift */,
 				A59EFD992A658537008AA40F /* RecordData.swift */,
 				A5D0AFED2A666969002A64D8 /* SectionOfRecordData.swift */,
+				A5C94DA02A80755B008E6E4D /* TransactionObserver.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -362,6 +366,7 @@
 				A5B1C7DC2A7B7C8E009238AD /* Config.xcconfig */,
 				A5B1C7DD2A7B9C66009238AD /* Config-Debug.xcconfig */,
 				A5B1C7DE2A7B9C7D009238AD /* Config-Release.xcconfig */,
+				A5C94DA22A807E94008E6E4D /* StoreKitConfig.storekit */,
 			);
 			path = WakeApp;
 			sourceTree = "<group>";
@@ -855,6 +860,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5C94DA12A80755B008E6E4D /* TransactionObserver.swift in Sources */,
 				A5E14CF62A472D9800A8C547 /* WaveAnimationView.swift in Sources */,
 				A59EEE6A2A216A1200C60128 /* AppDelegate.swift in Sources */,
 				A512D5042A22F0910034D4D9 /* IntroductionViewController.swift in Sources */,
