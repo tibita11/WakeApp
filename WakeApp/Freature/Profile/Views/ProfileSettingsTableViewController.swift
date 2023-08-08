@@ -50,13 +50,6 @@ class ProfileSettingsTableViewController: UITableViewController {
                 navigationController?.viewControllers = [vc]
             })
             .disposed(by: disposeBag)
-        
-        viewModel.outputs.reloadData
-            .drive(onNext: { [weak self] in
-                self?.tableView.reloadData()
-            })
-            .disposed(by: disposeBag)
-        
     }
     
     private func createUnsubscribeAlert() -> UIAlertController {
@@ -99,12 +92,6 @@ class ProfileSettingsTableViewController: UITableViewController {
         var config = cell.defaultContentConfiguration()
         config.text = sections[indexPath.section][indexPath.row]
         cell.contentConfiguration = config
-        cell.accessoryType = .none
-
-        if indexPath.section == 1 && UserDefaults.standard.bool(forKey: Const.userDefaultKeyForPurchase) {
-            cell.accessoryType = .checkmark
-        }
-        
         return cell
     }
     
@@ -134,19 +121,5 @@ class ProfileSettingsTableViewController: UITableViewController {
             default: break
             }
         }
-    }
-    
-    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if indexPath.section == 1 && UserDefaults.standard.bool(forKey: Const.userDefaultKeyForPurchase) {
-            return nil
-        }
-        return indexPath
-    }
-    
-    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        if indexPath.section == 1 && UserDefaults.standard.bool(forKey: Const.userDefaultKeyForPurchase) {
-            return false
-        }
-        return true
     }
 }

@@ -13,7 +13,6 @@ protocol ProfileSettingsTableViewModelOutputs {
     var networkErrorAlertDriver: Driver<Void> { get }
     var errorAlertDriver: Driver<String> { get }
     var navigateToStartingViewDriver: Driver<Void> { get }
-    var reloadData: Driver<Void> { get }
 }
 
 protocol ProfileSettingsTableViewModelType {
@@ -27,14 +26,6 @@ class ProfileSettingsTableViewModel: ProfileSettingsTableViewModelType {
     private let networkErrorAlertRelay = PublishRelay<Void>()
     private let errorAlertRelay = PublishRelay<String>()
     private let navigateToStartingViewRelay = PublishRelay<Void>()
-    private let reloadDataTrigger = PublishRelay<Void>()
-    private var observer: NSKeyValueObservation!
-    
-    init() {
-        observer = UserDefaults.standard.observe(\.isPurchase, options: [.initial, .new]) { [weak self] _, _ in
-            self?.reloadDataTrigger.accept(())
-        }
-    }
     
     func unsubscribe() {
         Task {
@@ -78,19 +69,5 @@ extension ProfileSettingsTableViewModel: ProfileSettingsTableViewModelOutputs {
     
     var navigateToStartingViewDriver: Driver<Void> {
         navigateToStartingViewRelay.asDriver(onErrorDriveWith: .empty())
-    }
-    
-    var reloadData: Driver<Void> {
-        reloadDataTrigger.asDriver(onErrorDriveWith: .empty())
-    }
-    
-}
-
-
-// MARK: - UserDefaults
-
-extension UserDefaults {
-    @objc dynamic var isPurchase: Bool {
-        return bool(forKey: Const.userDefaultKeyForPurchase)
     }
 }

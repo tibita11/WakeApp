@@ -18,8 +18,6 @@ class SubscriptionCollectionViewCell: UICollectionViewCell {
     let discriptionLabel = UILabel()
     var purchaseButton: UIButton! {
         didSet {
-            purchaseButton.backgroundColor = Const.mainBlueColor
-            purchaseButton.setTitle("購入する", for: .normal)
             purchaseButton.tintColor = .white
             purchaseButton.layer.cornerRadius = Const.LargeBlueButtonCorner
             purchaseButton.addTarget(self, action: #selector(tapPurchaseButton), for: .touchUpInside)

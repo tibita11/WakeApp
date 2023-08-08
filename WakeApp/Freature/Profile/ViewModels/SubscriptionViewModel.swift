@@ -13,6 +13,7 @@ import StoreKit
 protocol SubscriptionViewModelOutputs {
     var collectionViewItems: Driver<[Product]> { get }
     var errorAlert: Driver<String> { get }
+    var collectionViewReload: Driver<Void> { get }
 }
 
 protocol SubscriptionViewModelType {
@@ -23,6 +24,14 @@ class SubscriptionViewModel: SubscriptionViewModelType {
     var outputs: SubscriptionViewModelOutputs { self }
     private let products = BehaviorRelay<[Product]>(value: [])
     private let errorText = PublishRelay<String>()
+    private let reload = PublishRelay<Void>()
+    private var observer: NSKeyValueObservation!
+    
+    init() {
+        observer = UserDefaults.standard.observe(\.isPurchase, options: [.initial, .new]) { [weak self] _, _ in
+            self?.reload.accept(())
+        }
+    }
     
     // MARK: - Action
     
@@ -87,4 +96,16 @@ extension SubscriptionViewModel: SubscriptionViewModelOutputs {
         self.errorText.asDriver(onErrorDriveWith: .empty())
     }
     
+    var collectionViewReload: Driver<Void> {
+        reload.asDriver(onErrorDriveWith: .empty())
+    }
+}
+
+
+// MARK: - UserDefaults
+
+extension UserDefaults {
+    @objc dynamic var isPurchase: Bool {
+        return bool(forKey: Const.userDefaultKeyForPurchase)
+    }
 }
