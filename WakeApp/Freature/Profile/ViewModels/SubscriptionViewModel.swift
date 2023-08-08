@@ -26,6 +26,9 @@ class SubscriptionViewModel: SubscriptionViewModelType {
     private let errorText = PublishRelay<String>()
     private let reload = PublishRelay<Void>()
     private var observer: NSKeyValueObservation!
+    private lazy var snsLinkManager: SNSLinkManager = {
+       return SNSLinkManager()
+    }()
     
     init() {
         observer = UserDefaults.standard.observe(\.isPurchase, options: [.initial, .new]) { [weak self] _, _ in
@@ -81,6 +84,10 @@ class SubscriptionViewModel: SubscriptionViewModelType {
                 self.errorText.accept(error.localizedDescription)
             }
         }
+    }
+    
+    func transitionToPrivacyPolicy() {
+        snsLinkManager.transitionToPrivacyPolicy()
     }
 }
 

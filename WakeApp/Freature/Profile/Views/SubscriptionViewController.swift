@@ -98,6 +98,10 @@ class SubscriptionViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
+    @objc private func tapPrivacyPolicyButton() {
+        viewModel.transitionToPrivacyPolicy()
+    }
+    
     // MARK: - Layout
     
     private func setUpLayout() {
@@ -236,6 +240,9 @@ class SubscriptionViewController: UIViewController {
         privacyPolicyButton.setTitle("プライバシーポリシー", for: .normal)
         privacyPolicyButton.setTitleColor(.systemGray, for: .normal)
         privacyPolicyButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        privacyPolicyButton.addTarget(self,
+                                      action: #selector(tapPrivacyPolicyButton),
+                                      for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             privacyPolicyButton.heightAnchor.constraint(equalToConstant: 20)

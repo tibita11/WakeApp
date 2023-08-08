@@ -63,6 +63,7 @@
 		A5C94DA42A812FA2008E6E4D /* SubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C94DA32A812FA2008E6E4D /* SubscriptionViewController.swift */; };
 		A5C94DA62A812FE4008E6E4D /* SubscriptionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C94DA52A812FE4008E6E4D /* SubscriptionCollectionViewCell.swift */; };
 		A5C94DA82A81CBAC008E6E4D /* SubscriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C94DA72A81CBAC008E6E4D /* SubscriptionViewModel.swift */; };
+		A5C94DAA2A827D8A008E6E4D /* SNSLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C94DA92A827D8A008E6E4D /* SNSLinkManager.swift */; };
 		A5CFBD9C2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */; };
 		A5D0574E2A723EE900164DBB /* ProfileSettingsTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0574D2A723EE900164DBB /* ProfileSettingsTableViewModel.swift */; };
 		A5D0AFEE2A666969002A64D8 /* SectionOfRecordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0AFED2A666969002A64D8 /* SectionOfRecordData.swift */; };
@@ -181,6 +182,7 @@
 		A5C94DA32A812FA2008E6E4D /* SubscriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewController.swift; sourceTree = "<group>"; };
 		A5C94DA52A812FE4008E6E4D /* SubscriptionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionCollectionViewCell.swift; sourceTree = "<group>"; };
 		A5C94DA72A81CBAC008E6E4D /* SubscriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewModel.swift; sourceTree = "<group>"; };
+		A5C94DA92A827D8A008E6E4D /* SNSLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SNSLinkManager.swift; sourceTree = "<group>"; };
 		A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountImageSettingsViewModel.swift; sourceTree = "<group>"; };
 		A5D0574D2A723EE900164DBB /* ProfileSettingsTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsTableViewModel.swift; sourceTree = "<group>"; };
 		A5D0AFED2A666969002A64D8 /* SectionOfRecordData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionOfRecordData.swift; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 				A59EFD992A658537008AA40F /* RecordData.swift */,
 				A5D0AFED2A666969002A64D8 /* SectionOfRecordData.swift */,
 				A5C94DA02A80755B008E6E4D /* TransactionObserver.swift */,
+				A5C94DA92A827D8A008E6E4D /* SNSLinkManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -874,6 +877,7 @@
 				A59EEE6A2A216A1200C60128 /* AppDelegate.swift in Sources */,
 				A512D5042A22F0910034D4D9 /* IntroductionViewController.swift in Sources */,
 				A5ECAA1C2A453416007FDEDF /* SplashViewController.swift in Sources */,
+				A5C94DAA2A827D8A008E6E4D /* SNSLinkManager.swift in Sources */,
 				A59EFD9A2A658537008AA40F /* RecordData.swift in Sources */,
 				A58BB0DE2A289D7700C834A3 /* AccountSettingsViewController.swift in Sources */,
 				A5FF51602A4BFB13000AEC7F /* ProfileSettingsTableViewController.swift in Sources */,
