@@ -57,7 +57,17 @@ class SubscriptionViewController: UIViewController {
                 cell.nameLabel.text = element.displayName
                 cell.priceLabel.text = element.displayPrice + "/無期限"
                 cell.discriptionLabel.text = element.description
+                // Cellタップ時の処理を委任するため
+                cell.delegate = self
+                cell.purchaseButton.tag = row
             }
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.errorAlert
+            .drive(onNext: { [weak self] error in
+                guard let self else { return }
+                present(createErrorAlert(title: error), animated: true)
+            })
             .disposed(by: disposeBag)
     }
     
@@ -80,5 +90,14 @@ class SubscriptionViewController: UIViewController {
         collectionView.register(SubscriptionCollectionViewCell.self,
                                 forCellWithReuseIdentifier: "SubscriptionCell")
         self.view.addSubview(collectionView)
+    }
+}
+
+
+// MARK: - SubscriptionCollectionViewCellDelegate
+
+extension SubscriptionViewController: SubscriptionCollectionViewCellDelegate {
+    func purchase(row: Int) {
+        self.viewModel.purchase(row: row)
     }
 }

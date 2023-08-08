@@ -7,21 +7,27 @@
 
 import UIKit
 
+protocol SubscriptionCollectionViewCellDelegate: AnyObject {
+    func purchase(row: Int)
+}
+
 class SubscriptionCollectionViewCell: UICollectionViewCell {
     
     let nameLabel = UILabel()
     let priceLabel = UILabel()
     let discriptionLabel = UILabel()
-    private var purchaseButton: UIButton! {
+    var purchaseButton: UIButton! {
         didSet {
             purchaseButton.backgroundColor = Const.mainBlueColor
             purchaseButton.setTitle("購入する", for: .normal)
             purchaseButton.tintColor = .white
             purchaseButton.layer.cornerRadius = Const.LargeBlueButtonCorner
+            purchaseButton.addTarget(self, action: #selector(tapPurchaseButton), for: .touchUpInside)
         }
     }
     private let largeStackView = UIStackView()
     private let mediumStackView = UIStackView()
+    weak var delegate: SubscriptionCollectionViewCellDelegate?
     
     
     // MARK: - View Life Cycle
@@ -34,6 +40,15 @@ class SubscriptionCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Action
+    
+    @objc func tapPurchaseButton() {
+        guard let delegate else {
+            return
+        }
+        delegate.purchase(row: purchaseButton.tag)
     }
     
     

@@ -12,6 +12,7 @@ import StoreKit
 
 protocol SubscriptionViewModelOutputs {
     var collectionViewItems: Driver<[Product]> { get }
+    var errorAlert: Driver<String> { get }
 }
 
 protocol SubscriptionViewModelType {
@@ -20,7 +21,8 @@ protocol SubscriptionViewModelType {
 
 class SubscriptionViewModel: SubscriptionViewModelType {
     var outputs: SubscriptionViewModelOutputs { self }
-    private let prducts = PublishRelay<[Product]>()
+    private let products = BehaviorRelay<[Product]>(value: [])
+    private let errorText = PublishRelay<String>()
     
     // MARK: - Action
     
@@ -32,8 +34,43 @@ class SubscriptionViewModel: SubscriptionViewModelType {
         let productIdList = [productId]
         // AppStoreConnect商品を取得
         Task {
-            let products = try await Product.products(for: productIdList)
-            self.prducts.accept(products)
+            do {
+                let products = try await Product.products(for: productIdList)
+                self.products.accept(products)
+            } catch {
+                self.errorText.accept(error.localizedDescription)
+            }
+        }
+    }
+    
+    func purchase(row: Int) {
+        let value = products.value
+        let product = value[row]
+        
+        Task {
+            do {
+                let result = try await product.purchase()
+                switch result {
+                case .success(let verificationResult):
+                    switch verificationResult {
+                    case .verified(let transaction):
+                        UserDefaults.standard.set(true, forKey: Const.userDefaultKeyForPurchase)
+                        await transaction.finish()
+                    case .unverified(_, let verificationError):
+                        print("Failed purchase: \(verificationError.localizedDescription)")
+                        self.errorText.accept(Const.errorText)
+                    }
+                case .pending:
+                    break
+                case .userCancelled:
+                    let errorText = "購入がキャンセルされました。"
+                    self.errorText.accept(errorText)
+                @unknown default:
+                    break
+                }
+            } catch {
+                self.errorText.accept(error.localizedDescription)
+            }
         }
     }
 }
@@ -43,6 +80,11 @@ class SubscriptionViewModel: SubscriptionViewModelType {
 
 extension SubscriptionViewModel: SubscriptionViewModelOutputs {
     var collectionViewItems: Driver<[Product]> {
-        self.prducts.asDriver(onErrorDriveWith: .empty())
+        self.products.asDriver(onErrorDriveWith: .empty())
     }
+    
+    var errorAlert: Driver<String> {
+        self.errorText.asDriver(onErrorDriveWith: .empty())
+    }
+    
 }

@@ -123,7 +123,6 @@ class ProfileSettingsTableViewController: UITableViewController {
             }
             
         } else if indexPath.section == 1 {
-//            viewModel.purchase()
             let vc = SubscriptionViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         } else if indexPath.section == 2 {
