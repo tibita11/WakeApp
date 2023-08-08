@@ -26,6 +26,9 @@ class ProfileSettingsTableViewModel: ProfileSettingsTableViewModelType {
     private let networkErrorAlertRelay = PublishRelay<Void>()
     private let errorAlertRelay = PublishRelay<String>()
     private let navigateToStartingViewRelay = PublishRelay<Void>()
+    private lazy var snsLinkManager: SNSLinkManager = {
+        return SNSLinkManager()
+    }()
     
     func unsubscribe() {
         Task {
@@ -52,6 +55,10 @@ class ProfileSettingsTableViewModel: ProfileSettingsTableViewModelType {
             print("Error: \(error.localizedDescription)")
             errorAlertRelay.accept(Const.errorText)
         }
+    }
+    
+    func transitionToTwitter() {
+        snsLinkManager.transitionToTwitter()
     }
 }
 

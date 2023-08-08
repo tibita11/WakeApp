@@ -11,7 +11,7 @@ import RxCocoa
 
 class ProfileSettingsTableViewController: UITableViewController {
     private let sections = [["プロフィールを編集する", "目標を編集する"],
-                            ["アップグレード"],
+                            ["アップグレード", "お問い合わせ"],
                             ["サインアウト", "退会する"]]
     
     private let viewModel = ProfileSettingsTableViewModel()
@@ -110,8 +110,15 @@ class ProfileSettingsTableViewController: UITableViewController {
             }
             
         } else if indexPath.section == 1 {
-            let vc = SubscriptionViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
+            switch indexPath.row {
+            case 0:
+                let vc = SubscriptionViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            case 1:
+                viewModel.transitionToTwitter()
+            default: break
+            }
+            
         } else if indexPath.section == 2 {
             switch indexPath.row {
             case 0:

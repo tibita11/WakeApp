@@ -10,6 +10,7 @@ import UIKit
 enum SNSPlatform {
     case notion
     case web
+    case twitter
     
     var scheme: String {
         switch self {
@@ -17,6 +18,8 @@ enum SNSPlatform {
             return "notion://"
         case .web:
             return "https://"
+        case .twitter:
+            return "twitter://"
         }
     }
 }
@@ -63,6 +66,29 @@ class SNSLinkManager {
                 return
             }
             UIApplication.shared.open(termsOfServiceURL)
+        }
+    }
+    
+    func transitionToTwitter() {
+        let twitterScheme = SNSPlatform.twitter.scheme
+        let webScheme = SNSPlatform.web.scheme
+        guard let url = URL(string: twitterScheme),
+              let twitterApp = Const.twitterApp,
+              let twitterWeb = Const.twitterWeb else {
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(url) {
+            guard let twitterURL = URL(string: twitterScheme + twitterApp) else {
+                return
+            }
+            UIApplication.shared.open(twitterURL)
+            
+        } else {
+            guard let twitterURL = URL(string: webScheme + twitterWeb) else {
+                return
+            }
+            UIApplication.shared.open(twitterURL)
         }
     }
 }

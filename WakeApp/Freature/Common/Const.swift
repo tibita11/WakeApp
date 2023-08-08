@@ -32,4 +32,6 @@ class Const {
     // 環境変数
     static let privacyPolicy = Bundle.main.object(forInfoDictionaryKey: "PRIVACY_POLICY") as? String
     static let termsOfService = Bundle.main.object(forInfoDictionaryKey: "TERMS_OF_SERVICE") as? String
+    static let twitterApp = Bundle.main.object(forInfoDictionaryKey: "TWITTER_APP") as? String
+    static let twitterWeb = Bundle.main.object(forInfoDictionaryKey: "TWITTER_WEB") as? String
 }
