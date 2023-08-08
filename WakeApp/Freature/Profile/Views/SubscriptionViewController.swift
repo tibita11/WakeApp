@@ -102,6 +102,10 @@ class SubscriptionViewController: UIViewController {
         viewModel.transitionToPrivacyPolicy()
     }
     
+    @objc private func tapTermsOfServiceButton() {
+        viewModel.transitionToTermsOfService()
+    }
+    
     // MARK: - Layout
     
     private func setUpLayout() {
@@ -254,6 +258,9 @@ class SubscriptionViewController: UIViewController {
         termsOfServiceButton.setTitle("利用規約", for: .normal)
         termsOfServiceButton.setTitleColor(.systemGray, for: .normal)
         termsOfServiceButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        termsOfServiceButton.addTarget(self,
+                                      action: #selector(tapTermsOfServiceButton),
+                                      for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             termsOfServiceButton.heightAnchor.constraint(equalToConstant: 20)

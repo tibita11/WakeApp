@@ -89,6 +89,10 @@ class SubscriptionViewModel: SubscriptionViewModelType {
     func transitionToPrivacyPolicy() {
         snsLinkManager.transitionToPrivacyPolicy()
     }
+    
+    func transitionToTermsOfService() {
+        snsLinkManager.transitionToTermsOfService()
+    }
 }
 
 

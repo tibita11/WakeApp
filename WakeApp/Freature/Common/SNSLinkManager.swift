@@ -26,7 +26,7 @@ class SNSLinkManager {
         let notionScheme = SNSPlatform.notion.scheme
         let webScheme = SNSPlatform.web.scheme
         guard let url = URL(string: notionScheme),
-              let privacyPolicy = Bundle.main.object(forInfoDictionaryKey: "PRIVACY_POLICY") as? String else {
+              let privacyPolicy = Const.privacyPolicy else {
             return
         }
 
@@ -41,6 +41,28 @@ class SNSLinkManager {
                 return
             }
             UIApplication.shared.open(privacyPoricyURL)
+        }
+    }
+    
+    func transitionToTermsOfService() {
+        let notionScheme = SNSPlatform.notion.scheme
+        let webScheme = SNSPlatform.web.scheme
+        guard let url = URL(string: notionScheme),
+              let termsOfService = Const.termsOfService else {
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(url) {
+            guard let termsOfServiceURL = URL(string: notionScheme + termsOfService) else {
+                return
+            }
+            UIApplication.shared.open(termsOfServiceURL)
+
+        } else {
+            guard let termsOfServiceURL = URL(string: webScheme + termsOfService) else {
+                return
+            }
+            UIApplication.shared.open(termsOfServiceURL)
         }
     }
 }

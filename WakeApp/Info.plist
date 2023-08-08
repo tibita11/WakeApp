@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>TERMS_OF_SERVICE</key>
+	<string>$(TERMS_OF_SERVICE)</string>
 	<key>PRIVACY_POLICY</key>
 	<string>$(PRIVACY_POLICY)</string>
 	<key>PRODUCT_ID</key>

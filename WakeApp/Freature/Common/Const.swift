@@ -28,4 +28,8 @@ class Const {
     
     // UserDefault
     static let userDefaultKeyForPurchase = "isPurchase"
+    
+    // 環境変数
+    static let privacyPolicy = Bundle.main.object(forInfoDictionaryKey: "PRIVACY_POLICY") as? String
+    static let termsOfService = Bundle.main.object(forInfoDictionaryKey: "TERMS_OF_SERVICE") as? String
 }
