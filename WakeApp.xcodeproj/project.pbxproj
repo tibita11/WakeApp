@@ -60,6 +60,9 @@
 		A5C297FA2A52C4D4006FE376 /* GoalCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5C297F82A52C4D4006FE376 /* GoalCollectionViewCell.xib */; };
 		A5C94D9F2A7CD4BD008E6E4D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5C94D9E2A7CD4BD008E6E4D /* StoreKit.framework */; };
 		A5C94DA12A80755B008E6E4D /* TransactionObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C94DA02A80755B008E6E4D /* TransactionObserver.swift */; };
+		A5C94DA42A812FA2008E6E4D /* SubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C94DA32A812FA2008E6E4D /* SubscriptionViewController.swift */; };
+		A5C94DA62A812FE4008E6E4D /* SubscriptionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C94DA52A812FE4008E6E4D /* SubscriptionCollectionViewCell.swift */; };
+		A5C94DA82A81CBAC008E6E4D /* SubscriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C94DA72A81CBAC008E6E4D /* SubscriptionViewModel.swift */; };
 		A5CFBD9C2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */; };
 		A5D0574E2A723EE900164DBB /* ProfileSettingsTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0574D2A723EE900164DBB /* ProfileSettingsTableViewModel.swift */; };
 		A5D0AFEE2A666969002A64D8 /* SectionOfRecordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D0AFED2A666969002A64D8 /* SectionOfRecordData.swift */; };
@@ -175,6 +178,9 @@
 		A5C94D9E2A7CD4BD008E6E4D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A5C94DA02A80755B008E6E4D /* TransactionObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionObserver.swift; sourceTree = "<group>"; };
 		A5C94DA22A807E94008E6E4D /* StoreKitConfig.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreKitConfig.storekit; sourceTree = "<group>"; };
+		A5C94DA32A812FA2008E6E4D /* SubscriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewController.swift; sourceTree = "<group>"; };
+		A5C94DA52A812FE4008E6E4D /* SubscriptionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionCollectionViewCell.swift; sourceTree = "<group>"; };
+		A5C94DA72A81CBAC008E6E4D /* SubscriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewModel.swift; sourceTree = "<group>"; };
 		A5CFBD9B2A2DCDAA00C63FCA /* AccountImageSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountImageSettingsViewModel.swift; sourceTree = "<group>"; };
 		A5D0574D2A723EE900164DBB /* ProfileSettingsTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsTableViewModel.swift; sourceTree = "<group>"; };
 		A5D0AFED2A666969002A64D8 /* SectionOfRecordData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionOfRecordData.swift; sourceTree = "<group>"; };
@@ -587,6 +593,7 @@
 				A5FF515C2A49D0E6000AEC7F /* ProfileViewModel.swift */,
 				A5E03C652A4C1FB3002148F1 /* ProfileEditingViewModel.swift */,
 				A5D0574D2A723EE900164DBB /* ProfileSettingsTableViewModel.swift */,
+				A5C94DA72A81CBAC008E6E4D /* SubscriptionViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -600,6 +607,8 @@
 				A5FF515F2A4BFB13000AEC7F /* ProfileSettingsTableViewController.xib */,
 				A5FF51622A4C000A000AEC7F /* ProfileEditingViewController.swift */,
 				A5FF51632A4C000A000AEC7F /* ProfileEditingViewController.xib */,
+				A5C94DA32A812FA2008E6E4D /* SubscriptionViewController.swift */,
+				A5C94DA52A812FE4008E6E4D /* SubscriptionCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -869,6 +878,7 @@
 				A58BB0DE2A289D7700C834A3 /* AccountSettingsViewController.swift in Sources */,
 				A5FF51602A4BFB13000AEC7F /* ProfileSettingsTableViewController.swift in Sources */,
 				A5E45C862A2DA891004EC86B /* AccountImageSettingsViewController.swift in Sources */,
+				A5C94DA62A812FE4008E6E4D /* SubscriptionCollectionViewCell.swift in Sources */,
 				A53468F52A2AE4F10097A9EB /* AccountSettingsViewModel.swift in Sources */,
 				A563A15B2A4D7E570017B545 /* Network.swift in Sources */,
 				A5E839F42A2721B8002D21FA /* Validation.swift in Sources */,
@@ -878,10 +888,12 @@
 				A58BB0CB2A28225000C834A3 /* FirebaseStorageService.swift in Sources */,
 				A59EFD982A64D930008AA40F /* NetworkErrorView.swift in Sources */,
 				A5FF515D2A49D0E6000AEC7F /* ProfileViewModel.swift in Sources */,
+				A5C94DA82A81CBAC008E6E4D /* SubscriptionViewModel.swift in Sources */,
 				A59EEEA02A21867000C60128 /* StartingViewController.swift in Sources */,
 				A5FF51642A4C000A000AEC7F /* ProfileEditingViewController.swift in Sources */,
 				A512D5012A22EFD70034D4D9 /* MainPageViewController.swift in Sources */,
 				A59EEE6C2A216A1200C60128 /* SceneDelegate.swift in Sources */,
+				A5C94DA42A812FA2008E6E4D /* SubscriptionViewController.swift in Sources */,
 				A56AB9FC2A612D79008BABF3 /* GradientView.swift in Sources */,
 				A5E45C822A2D7C5F004EC86B /* RecordViewController.swift in Sources */,
 				A555A7732A24ECD300B09B03 /* GoogleAuthenticator.swift in Sources */,

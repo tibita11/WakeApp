@@ -11,7 +11,7 @@ import RxCocoa
 
 class ProfileSettingsTableViewController: UITableViewController {
     private let sections = [["プロフィールを編集する", "目標を編集する"],
-                            ["広告を非表示(300円)"],
+                            ["広告非表示(¥300)"],
                             ["サインアウト", "退会する"]]
     
     private let viewModel = ProfileSettingsTableViewModel()
@@ -123,7 +123,9 @@ class ProfileSettingsTableViewController: UITableViewController {
             }
             
         } else if indexPath.section == 1 {
-            viewModel.purchase()
+//            viewModel.purchase()
+            let vc = SubscriptionViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
         } else if indexPath.section == 2 {
             switch indexPath.row {
             case 0:
