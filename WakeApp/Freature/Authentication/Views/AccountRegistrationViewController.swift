@@ -122,6 +122,14 @@ class AccountRegistrationViewController: UIViewController {
         viewModel.appleSignIn(withPresenting: self)
     }
     
+    @IBAction func tapTermsOfServiceButton(_ sender: Any) {
+        viewModel.transitionToTermsOfService()
+    }
+    
+    @IBAction func tapPrivacyPolicyButton(_ sender: Any) {
+        viewModel.transitionToPrivacyPolicy()
+    }
+    
     private func setUp() {
         // viewModel設定
         let input = AccountRegistrationViewModelInput(emailTextFieldObserver: emailTextField.rx.text.asObservable(),

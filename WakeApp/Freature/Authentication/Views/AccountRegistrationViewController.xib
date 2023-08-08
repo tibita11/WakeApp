@@ -256,6 +256,9 @@
                                                     <state key="normal" title="利用規約">
                                                         <color key="titleColor" red="0.074509803920000006" green="0.1843137255" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="tapTermsOfServiceButton:" destination="-1" eventType="touchUpInside" id="s1v-oa-f34"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="に同意し、" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uMx-dw-dJV">
                                                     <rect key="frame" x="197.33333333333337" y="0.0" width="61.333333333333314" height="27"/>
@@ -275,6 +278,9 @@
                                                     <state key="normal" title="個人情報保護方針">
                                                         <color key="titleColor" red="0.074509803920000006" green="0.1843137255" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="tapPrivacyPolicyButton:" destination="-1" eventType="touchUpInside" id="EzW-RH-zFM"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="を熟読して理解したことを認めます。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aaJ-nj-Tj9">
                                                     <rect key="frame" x="99.000000000000014" y="0.0" width="208.33333333333337" height="27"/>

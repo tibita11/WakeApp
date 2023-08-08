@@ -51,6 +51,9 @@ class AccountRegistrationViewModel: NSObject, AccountRegistrationViewModelType {
     private let accountSettings = PublishRelay<Void>()
     private let emailVerification = PublishRelay<String>()
     private let firebaseAuthService = FirebaseAuthService()
+    private lazy var snsLinkManager: SNSLinkManager = {
+       return SNSLinkManager()
+    }()
     
     func setUp(input: AccountRegistrationViewModelInput) {
         // Emailバリデーションチェック
@@ -164,6 +167,14 @@ class AccountRegistrationViewModel: NSObject, AccountRegistrationViewModelType {
                 errorMessage.accept(firebaseAuthService.getErrorMessage(error: error))
             }
         }
+    }
+    
+    func transitionToPrivacyPolicy() {
+        snsLinkManager.transitionToPrivacyPolicy()
+    }
+    
+    func transitionToTermsOfService() {
+        snsLinkManager.transitionToTermsOfService()
     }
     
 }
