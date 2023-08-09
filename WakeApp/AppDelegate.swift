@@ -14,7 +14,6 @@ import FirebaseStorage
 import FirebaseFunctions
 import IQKeyboardManagerSwift
 import GoogleMobileAds
-import StoreKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -35,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Network.shared.setUp()
         
         Task {
-            await refreshPurchasedProdunts()
+            await PurchaseManager().refreshPurchasedProdunts()
         }
         
         transactionObserver = TransactionObserver()
@@ -53,27 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //ED -テスト用
         
         return true
-    }
-    
-    func refreshPurchasedProdunts() async {
-        guard let productId = Bundle.main.object(forInfoDictionaryKey: "PRODUCT_ID") as? String else {
-            assertionFailure("環境変数を取得できませんでした。")
-            return
-        }
-        
-        let validSubscription = await findValidSubscription(for: productId)
-        let isPurchased = validSubscription != nil
-        
-        UserDefaults.standard.set(isPurchased, forKey: Const.userDefaultKeyForPurchase)
-    }
-    
-    func findValidSubscription(for productId: String) async -> StoreKit.Transaction? {
-        for await verificationResult in Transaction.currentEntitlements {
-            if case .verified(let transaction) = verificationResult, transaction.productID == productId {
-                return transaction
-            }
-        }
-        return nil
     }
     
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {

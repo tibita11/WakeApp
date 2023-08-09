@@ -14,6 +14,7 @@ protocol SubscriptionViewModelOutputs {
     var collectionViewItems: Driver<[Product]> { get }
     var errorAlert: Driver<String> { get }
     var collectionViewReload: Driver<Void> { get }
+    var isLoadingViewShown: Driver<Bool> { get }
 }
 
 protocol SubscriptionViewModelType {
@@ -25,6 +26,7 @@ class SubscriptionViewModel: SubscriptionViewModelType {
     private let products = BehaviorRelay<[Product]>(value: [])
     private let errorText = PublishRelay<String>()
     private let reload = PublishRelay<Void>()
+    private let isLoading = PublishRelay<Bool>()
     private var observer: NSKeyValueObservation!
     private lazy var snsLinkManager: SNSLinkManager = {
        return SNSLinkManager()
@@ -93,6 +95,22 @@ class SubscriptionViewModel: SubscriptionViewModelType {
     func transitionToTermsOfService() {
         snsLinkManager.transitionToTermsOfService()
     }
+    
+    func restore() {
+        Task {
+            do {
+                isLoading.accept(true)
+                try await AppStore.sync()
+                await PurchaseManager().refreshPurchasedProdunts()
+                isLoading.accept(false)
+                let text = "復元が完了しました。"
+                errorText.accept(text)
+            } catch {
+                print("restore failed: \(error.localizedDescription)")
+                isLoading.accept(false)
+            }
+        }
+    }
 }
 
 
@@ -110,6 +128,11 @@ extension SubscriptionViewModel: SubscriptionViewModelOutputs {
     var collectionViewReload: Driver<Void> {
         reload.asDriver(onErrorDriveWith: .empty())
     }
+    
+    var isLoadingViewShown: Driver<Bool> {
+        isLoading.asDriver(onErrorDriveWith: .empty())
+    }
+    
 }
 
 

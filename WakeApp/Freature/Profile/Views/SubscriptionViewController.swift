@@ -23,6 +23,10 @@ class SubscriptionViewController: UIViewController {
     private let privacyPolicyButton = UIButton()
     private let termsOfServiceButton = UIButton()
     private let lineView = UIView()
+    private lazy var loadingView: LoadingView = {
+        let view = LoadingView(frame: CGRect(x: 0, y: 0, width: self.navigationController?.view.bounds.width ?? 0, height: self.navigationController?.view.bounds.height ?? 0))
+        return view
+    }()
     
     private let viewModel = SubscriptionViewModel()
     private let disposeBag = DisposeBag()
@@ -96,6 +100,12 @@ class SubscriptionViewController: UIViewController {
                 self?.collectionView.reloadData()
             })
             .disposed(by: disposeBag)
+        
+        viewModel.outputs.isLoadingViewShown
+            .drive(onNext: { [weak self] bool in
+                self?.showLoadingView(bool)
+            })
+            .disposed(by: disposeBag)
     }
     
     @objc private func tapPrivacyPolicyButton() {
@@ -104,6 +114,20 @@ class SubscriptionViewController: UIViewController {
     
     @objc private func tapTermsOfServiceButton() {
         viewModel.transitionToTermsOfService()
+    }
+    
+    @objc private func tapRestoreButton() {
+        viewModel.restore()
+    }
+    
+    private func showLoadingView(_ bool: Bool) {
+        if bool {
+            loadingView.indicatorView.startAnimating()
+            self.navigationController?.view.addSubview(loadingView)
+        } else {
+            loadingView.indicatorView.stopAnimating()
+            loadingView.removeFromSuperview()
+        }
     }
     
     // MARK: - Layout
@@ -198,6 +222,7 @@ class SubscriptionViewController: UIViewController {
         restoreButton.backgroundColor = Const.mainBlueColor
         restoreButton.layer.cornerRadius = Const.LargeBlueButtonCorner
         restoreButton.layer.masksToBounds = true
+        restoreButton.addTarget(self, action: #selector(tapRestoreButton), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             restoreButton.widthAnchor.constraint(equalToConstant: 280),
