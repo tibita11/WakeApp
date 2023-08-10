@@ -18,6 +18,7 @@ target 'WakeApp' do
   pod 'RxDataSources'
   pod 'Google-Mobile-Ads-SDK'
   pod 'Firebase/Analytics'
+  pod 'LicensePlist'
 
   # Pods for WakeApp
 

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,6 +20,7 @@
 		A51CC1642A52B00A0039EA9A /* GoalsEditingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A51CC1622A52B00A0039EA9A /* GoalsEditingViewController.xib */; };
 		A51CC1672A52B2A00039EA9A /* GoalRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51CC1652A52B2A00039EA9A /* GoalRegistrationViewController.swift */; };
 		A51CC1682A52B2A00039EA9A /* GoalRegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A51CC1662A52B2A00039EA9A /* GoalRegistrationViewController.xib */; };
+		A51E995C2A84E6A70095A5F2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A51E995B2A84E6A70095A5F2 /* Settings.bundle */; };
 		A528E7622A7A989F00EE5FD5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A528E7612A7A989F00EE5FD5 /* GoogleService-Info.plist */; };
 		A53468F52A2AE4F10097A9EB /* AccountSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53468F42A2AE4F10097A9EB /* AccountSettingsViewModel.swift */; };
 		A54BD92C2A53B4D300FAF51C /* DoubleCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54BD92B2A53B4D300FAF51C /* DoubleCircleView.swift */; };
@@ -131,6 +132,7 @@
 		A51CC1622A52B00A0039EA9A /* GoalsEditingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GoalsEditingViewController.xib; sourceTree = "<group>"; };
 		A51CC1652A52B2A00039EA9A /* GoalRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRegistrationViewController.swift; sourceTree = "<group>"; };
 		A51CC1662A52B2A00039EA9A /* GoalRegistrationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GoalRegistrationViewController.xib; sourceTree = "<group>"; };
+		A51E995B2A84E6A70095A5F2 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		A528E7612A7A989F00EE5FD5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A53468F42A2AE4F10097A9EB /* AccountSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingsViewModel.swift; sourceTree = "<group>"; };
 		A54BD92B2A53B4D300FAF51C /* DoubleCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleCircleView.swift; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 				A5B1C7DD2A7B9C66009238AD /* Config-Debug.xcconfig */,
 				A5B1C7DE2A7B9C7D009238AD /* Config-Release.xcconfig */,
 				A5C94DA22A807E94008E6E4D /* StoreKitConfig.storekit */,
+				A51E995B2A84E6A70095A5F2 /* Settings.bundle */,
 			);
 			path = WakeApp;
 			sourceTree = "<group>";
@@ -632,6 +635,7 @@
 				A59EEE632A216A1200C60128 /* Frameworks */,
 				A59EEE642A216A1200C60128 /* Resources */,
 				EA9084CD9BE7F0046D9386A9 /* [CP] Embed Pods Frameworks */,
+				A51E995F2A84E73D0095A5F2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -709,7 +713,7 @@
 			developmentRegion = ja;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-                ja,
+				ja,
 				Base,
 			);
 			mainGroup = A59EEE5D2A216A1200C60128;
@@ -742,6 +746,7 @@
 				A5FF51612A4BFB13000AEC7F /* ProfileSettingsTableViewController.xib in Resources */,
 				A51CC1642A52B00A0039EA9A /* GoalsEditingViewController.xib in Resources */,
 				A59EEE732A216A1300C60128 /* Assets.xcassets in Resources */,
+				A51E995C2A84E6A70095A5F2 /* Settings.bundle in Resources */,
 				A5DDC7B42A551A2E007B5558 /* TodoView.xib in Resources */,
 				A58BB0D12A2839E200C834A3 /* LoadingView.xib in Resources */,
 				A5E45C872A2DA891004EC86B /* AccountImageSettingsViewController.xib in Resources */,
@@ -812,6 +817,23 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		A51E995F2A84E73D0095A5F2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ $CONFIGURATION = \"Debug\" ]; then\n    ${PODS_ROOT}/LicensePlist/license-plist --output-path $PROJECT_NAME/Settings.bundle\nfi\n";
 		};
 		C23094D4AA30B090C9422A2C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1112,6 +1134,7 @@
 				DEVELOPMENT_TEAM = RYNT79DTV4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WakeApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WAKE;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1145,6 +1168,7 @@
 				DEVELOPMENT_TEAM = RYNT79DTV4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WakeApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WAKE;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
