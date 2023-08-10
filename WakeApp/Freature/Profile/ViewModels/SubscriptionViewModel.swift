@@ -108,6 +108,8 @@ class SubscriptionViewModel: SubscriptionViewModelType {
             } catch {
                 print("restore failed: \(error.localizedDescription)")
                 isLoading.accept(false)
+                let text = "復元に失敗しました。"
+                errorText.accept(text)
             }
         }
     }

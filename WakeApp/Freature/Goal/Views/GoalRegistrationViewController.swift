@@ -57,6 +57,7 @@ class GoalRegistrationViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private var status: GoalRegistrationStatus!
     private var goalData: GoalData? = nil
+    private let calendar = Calendar(identifier: .gregorian)
     
     // MARK: - View Life Cycle
     
@@ -96,7 +97,9 @@ class GoalRegistrationViewController: UIViewController {
             endDatePicker.sendActions(for: .valueChanged)
             statusSegmentedControl.selectedSegmentIndex = goalData.status
         } else {
+            startDatePicker.date = Date()
             startDatePicker.sendActions(for: .valueChanged)
+            endDatePicker.date = Date()
             endDatePicker.sendActions(for: .valueChanged)
         }
     }
@@ -104,15 +107,17 @@ class GoalRegistrationViewController: UIViewController {
     private func setUpViewModel() {
         viewModel = GoalRegistrationViewModel()
         let startDatePickerObserver = startDatePicker.rx.controlEvent(.valueChanged)
-                    .map { [weak self] in
-                        self?.startDatePicker.date
-                    }
-                    .share()
+            .map { [weak self] _ -> Date? in
+                guard let self else { return nil }
+                return calendar.startOfDay(for: startDatePicker.date)
+            }
+            .share()
         let endDatePickerObserver = endDatePicker.rx.controlEvent(.valueChanged)
-                    .map { [weak self] in
-                        self?.endDatePicker.date
-                    }
-                    .share()
+            .map { [weak self] _ -> Date? in
+                guard let self else { return nil }
+                return calendar.startOfDay(for: endDatePicker.date)
+            }
+            .share()
         let inputs = GoalRegistrationViewModelInputs(startDatePickerObserver: startDatePickerObserver,
                                                      endDatePickerObserver: endDatePickerObserver,
                                                      titleTextFieldObserver: titleTextField.rx.text.asObservable())
@@ -155,8 +160,8 @@ class GoalRegistrationViewController: UIViewController {
     /// Firestoreに保存
     @objc private func tapRegistrationButton() {
         let goalData = GoalData(title: titleTextField.text!,
-                                startDate: startDatePicker.date,
-                                endDate: endDatePicker.date,
+                                startDate: calendar.startOfDay(for: startDatePicker.date),
+                                endDate: calendar.startOfDay(for: endDatePicker.date),
                                 status: statusSegmentedControl.selectedSegmentIndex)
         viewModel.saveGoalData(data: goalData)
     }
@@ -165,8 +170,8 @@ class GoalRegistrationViewController: UIViewController {
     @objc private func tapUpdateButton() {
         guard let goalData else { return }
         let newGoalData = GoalData(title: titleTextField.text!,
-                                startDate: startDatePicker.date,
-                                endDate: endDatePicker.date,
+                                startDate: calendar.startOfDay(for: startDatePicker.date),
+                                endDate: calendar.startOfDay(for: endDatePicker.date),
                                 status: statusSegmentedControl.selectedSegmentIndex)
         viewModel.updateGoalData(documentID: goalData.documentID, data: newGoalData)
     }

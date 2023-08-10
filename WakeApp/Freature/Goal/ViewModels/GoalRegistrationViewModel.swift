@@ -47,10 +47,9 @@ class GoalRegistrationViewModel: GoalRegistrationViewModelType {
         Observable.combineLatest(inputs.startDatePickerObserver,
                                  inputs.endDatePickerObserver)
         .map { startDate, endDate -> String in
-            if let startDate = startDate,
-               let endDate = endDate,
-               endDate < startDate {
-                return "開始日付は終了日より前でなければいけません。"
+            if let startDate, let endDate,
+                endDate < startDate {
+               return "開始日付は終了日より前でなければいけません。"
             }
             return ""
         }

@@ -48,6 +48,7 @@ class TodoRegistrationViewController: UIViewController {
     /// 更新のため、現在情報を保持
     private var todoData: TodoData? = nil
     private let actionType: ActionType!
+    private let calendar = Calendar(identifier: .gregorian)
     
     
     // MARK: - View Life Cycle
@@ -93,20 +94,24 @@ class TodoRegistrationViewController: UIViewController {
             statusSegmentedControl.selectedSegmentIndex = todoData.status
             focusSwitch.setOn(todoData.isFocus, animated: false)
         } else {
+            startDatePicker.date = Date()
             startDatePicker.sendActions(for: .valueChanged)
+            endDatePicker.date = Date()
             endDatePicker.sendActions(for: .valueChanged)
         }
     }
     
     private func setUpViewModel() {
         let startDateObserver = startDatePicker.rx.controlEvent(.valueChanged)
-            .map { [weak self] in
-                self?.startDatePicker.date
+            .map { [weak self] _ -> Date? in
+                guard let self else { return nil }
+                return calendar.startOfDay(for: startDatePicker.date)
             }
             .share()
         let endDateObserver = endDatePicker.rx.controlEvent(.valueChanged)
-            .map { [weak self] in
-                self?.endDatePicker.date
+            .map { [weak self] _ -> Date? in
+                guard let self else { return nil }
+                return calendar.startOfDay(for: endDatePicker.date)
             }
             .share()
         let inputs = TodoRegistrationViewModelInputs(
@@ -160,8 +165,8 @@ class TodoRegistrationViewController: UIViewController {
     @objc private func tapRegisterButton() {
         guard let parentDocumentID else { return }
         let todoData = TodoData(title: titleTextField.text!,
-                                startDate: startDatePicker.date,
-                                endDate: endDatePicker.date,
+                                startDate: calendar.startOfDay(for: startDatePicker.date),
+                                endDate: calendar.startOfDay(for: endDatePicker.date),
                                 status: statusSegmentedControl.selectedSegmentIndex)
         viewModel.saveTodoData(parentDocumentID: parentDocumentID, todoData: todoData, isFocus: focusSwitch.isOn)
     }
@@ -171,8 +176,8 @@ class TodoRegistrationViewController: UIViewController {
         
         let newData = TodoData(documentID: todoData.documentID,
                                title: titleTextField.text!,
-                               startDate: startDatePicker.date,
-                               endDate: endDatePicker.date,
+                               startDate: calendar.startOfDay(for: startDatePicker.date),
+                               endDate: calendar.startOfDay(for: endDatePicker.date),
                                status: statusSegmentedControl.selectedSegmentIndex,
                                isFocus: focusSwitch.isOn)
         
