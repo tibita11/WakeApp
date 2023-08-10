@@ -78,7 +78,7 @@ class AccountRegistrationViewController: UIViewController {
     }()
     /// 新規とサインインで処理を分けるため、値を保持する
     private let registrationStatus: RegistrationStatus
-    
+    private var passwordVisibilityButton: UIButton!
     
     // MARK: - View Life Cycle
     
@@ -95,6 +95,7 @@ class AccountRegistrationViewController: UIViewController {
         super.viewDidLoad()
         
         setUp()
+        setUpPasswordVisibilityButton()
     }
     
     
@@ -236,6 +237,27 @@ class AccountRegistrationViewController: UIViewController {
         alertController.addAction(noAction)
         alertController.addAction(yesAction)
         return alertController
+    }
+    
+    private func setUpPasswordVisibilityButton() {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        passwordVisibilityButton = UIButton(frame: CGRect(x: 5, y: 5, width: 30, height: 30))
+        passwordVisibilityButton.setImage(UIImage(systemName: "eye"), for: .normal)
+        passwordVisibilityButton.tintColor = UIColor.systemGray4
+        passwordVisibilityButton.contentMode = .scaleAspectFit
+        passwordVisibilityButton.addTarget(self, action: #selector(tapPasswordVisibilityButton),
+                                           for: .touchUpInside)
+        view.addSubview(passwordVisibilityButton)
+        passwordTextField.rightView = view
+        passwordTextField.rightViewMode = .always
+    }
+    
+    @objc private func tapPasswordVisibilityButton() {
+        let bool = !passwordTextField.isSecureTextEntry
+        passwordTextField.isSecureTextEntry = bool
+        
+        let systemName = bool ? "eye" : "eye.slash"
+        passwordVisibilityButton.setImage(UIImage(systemName: systemName), for: .normal)
     }
 
 }
