@@ -2,24 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>twitter</string>
-	</array>
-	<key>TWITTER_WEB</key>
-	<string>$(TWITTER_WEB)</string>
-	<key>TWITTER_APP</key>
-	<string>$(TWITTER_APP)</string>
-	<key>TERMS_OF_SERVICE</key>
-	<string>$(TERMS_OF_SERVICE)</string>
-	<key>PRIVACY_POLICY</key>
-	<string>$(PRIVACY_POLICY)</string>
-	<key>PRODUCT_ID</key>
-	<string>$(PRODUCT_ID)</string>
 	<key>AD_UNIT_ID</key>
 	<string>$(AD_UNIT_ID)</string>
-	<key>GADApplicationIdentifier</key>
-	<string>$(GAD_APP_IDENTIFIER)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -31,6 +15,22 @@
 			</array>
 		</dict>
 	</array>
+	<key>GADApplicationIdentifier</key>
+	<string>$(GAD_APP_IDENTIFIER)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>twitter</string>
+	</array>
+	<key>PRIVACY_POLICY</key>
+	<string>$(PRIVACY_POLICY)</string>
+	<key>PRODUCT_ID</key>
+	<string>$(PRODUCT_ID)</string>
+	<key>TERMS_OF_SERVICE</key>
+	<string>$(TERMS_OF_SERVICE)</string>
+	<key>TWITTER_APP</key>
+	<string>$(TWITTER_APP)</string>
+	<key>TWITTER_WEB</key>
+	<string>$(TWITTER_WEB)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
