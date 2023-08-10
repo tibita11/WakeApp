@@ -60,6 +60,14 @@ class ProfileSettingsTableViewModel: ProfileSettingsTableViewModelType {
     func transitionToTwitter() {
         snsLinkManager.transitionToTwitter()
     }
+    
+    func transitionToPrivacyPolicy() {
+        snsLinkManager.transitionToPrivacyPolicy()
+    }
+    
+    func transitionToTermsOfService() {
+        snsLinkManager.transitionToTermsOfService()
+    }
 }
 
 
