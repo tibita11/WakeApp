@@ -354,8 +354,10 @@ class ProfileViewController: UIViewController {
         introductionStackView.distribution = .fill
         let imageView = setUpIntroductionImageView()
         let label = setUpIntroductionLabel()
+        let view = setUpIntroductionView()
         introductionStackView.addArrangedSubview(imageView)
         introductionStackView.addArrangedSubview(label)
+        introductionStackView.addArrangedSubview(view)
         self.view.addSubview(introductionStackView)
         
         NSLayoutConstraint.activate([
@@ -363,14 +365,19 @@ class ProfileViewController: UIViewController {
             introductionStackView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
             introductionStackView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             introductionStackView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            introductionStackView.heightAnchor.constraint(equalToConstant: 200)
+            introductionStackView.heightAnchor.constraint(equalToConstant: 250)
+        ])
+        
+        NSLayoutConstraint.activate([
+            view.leftAnchor.constraint(equalTo: introductionStackView.leftAnchor, constant: 60),
+            view.rightAnchor.constraint(equalTo: introductionStackView.rightAnchor, constant: -60),
+            view.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
     private func setUpIntroductionImageView() -> UIImageView {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "Goal")
-        imageView.bounds.size = CGSize(width: 100, height: 100)
         imageView.contentMode = .scaleAspectFit
         return imageView
     }
@@ -405,6 +412,31 @@ class ProfileViewController: UIViewController {
         view.addSubview(collectionView)
     }
     
+    private func setUpIntroductionView() -> UIView {
+        let view = UIView()
+        view.backgroundColor = Const.pinkColor
+        view.layer.cornerRadius = 15
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.3
+        view.layer.shadowRadius = 3.0
+        view.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "※ 右上にあるボタンをタップして、\n「目標を編集をする」から設定してください。"
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12)
+        view.addSubview(label)
+
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: view.topAnchor),
+            label.leftAnchor.constraint(equalTo: view.leftAnchor),
+            label.rightAnchor.constraint(equalTo: view.rightAnchor),
+            label.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        return view
+    }
     
 }
 
