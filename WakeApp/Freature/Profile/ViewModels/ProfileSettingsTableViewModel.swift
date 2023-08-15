@@ -68,6 +68,10 @@ class ProfileSettingsTableViewModel: ProfileSettingsTableViewModelType {
     func transitionToTermsOfService() {
         snsLinkManager.transitionToTermsOfService()
     }
+    
+    func transitionToUsage() {
+        snsLinkManager.transitionToUsage()
+    }
 }
 
 

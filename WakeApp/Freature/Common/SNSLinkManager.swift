@@ -68,6 +68,28 @@ class SNSLinkManager {
             UIApplication.shared.open(termsOfServiceURL)
         }
     }
+
+    func transitionToUsage() {
+        let notionScheme = SNSPlatform.notion.scheme
+        let webScheme = SNSPlatform.web.scheme
+        guard let url = URL(string: notionScheme),
+              let usage = Const.usage else {
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(url) {
+            guard let usageURL = URL(string: notionScheme + usage) else {
+                return
+            }
+            UIApplication.shared.open(usageURL)
+
+        } else {
+            guard let usageURL = URL(string: webScheme + usage) else {
+                return
+            }
+            UIApplication.shared.open(usageURL)
+        }
+    }
     
     func transitionToTwitter() {
         let twitterScheme = SNSPlatform.twitter.scheme

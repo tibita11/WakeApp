@@ -10,8 +10,8 @@ import RxSwift
 import RxCocoa
 
 class ProfileSettingsTableViewController: UITableViewController {
-    private let sections = [["プロフィールを編集する", "目標を編集する"],
-                            ["アップグレード", "お問い合わせ", "プライバシーポリシー", "利用規約"],
+    private let sections = [["プロフィール編集", "目標編集"],
+                            ["使い方", "アップグレード", "お問い合わせ", "プライバシーポリシー", "利用規約"],
                             ["サインアウト", "退会する"]]
     
     private let viewModel = ProfileSettingsTableViewModel()
@@ -112,13 +112,15 @@ class ProfileSettingsTableViewController: UITableViewController {
         } else if indexPath.section == 1 {
             switch indexPath.row {
             case 0:
+                viewModel.transitionToUsage()
+            case 1:
                 let vc = SubscriptionViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
-            case 1:
-                viewModel.transitionToTwitter()
             case 2:
-                viewModel.transitionToPrivacyPolicy()
+                viewModel.transitionToTwitter()
             case 3:
+                viewModel.transitionToPrivacyPolicy()
+            case 4:
                 viewModel.transitionToTermsOfService()
             default: break
             }
